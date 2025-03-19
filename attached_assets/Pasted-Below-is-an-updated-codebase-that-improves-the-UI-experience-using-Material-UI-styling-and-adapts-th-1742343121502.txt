@@ -1,0 +1,429 @@
+Below is an updated codebase that improves the UI experience using Material‑UI styling and adapts the Tikitoki timeline view to mimic the modern, clean look of the Bible History Timeline (http://timeline.biblehistory.com/home). In this version, we add custom styling for the timeline container and refine the overall layout. You’ll need to adjust the Tikitoki initialization as needed for your integration.
+
+> **Note:** Replace the placeholders for Contentful credentials and ensure you include the Tikitoki script in your HTML.
+
+---
+
+### File: **index.js**
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider
+} from '@apollo/client';
+
+const SPACE_ID = 'YOUR_SPACE_ID';
+const ACCESS_TOKEN = 'YOUR_ACCESS_TOKEN';
+
+const client = new ApolloClient({
+  uri: `https://graphql.contentful.com/content/v1/spaces/${SPACE_ID}`,
+  cache: new InMemoryCache(),
+  headers: {
+    Authorization: `Bearer ${ACCESS_TOKEN}`
+  }
+});
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+);
+```
+
+---
+
+### File: **App.js**
+
+```jsx
+import React from 'react';
+import { AppBar, Tabs, Tab, Box, Container, makeStyles } from '@material-ui/core';
+import TimelineView from './TimelineView';
+import ToursView from './ToursView';
+import EmperorProfile from './EmperorProfile';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div role="tabpanel" hidden={value !== index} {...other}>
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: '#fafafa',
+    minHeight: '100vh'
+  },
+  appBar: {
+    backgroundColor: '#1a237e'
+  },
+  tabLabel: {
+    fontWeight: 'bold',
+    fontSize: '1rem'
+  }
+}));
+
+export default function App() {
+  const classes = useStyles();
+  const [tabValue, setTabValue] = React.useState(0);
+  const [selectedEmperor, setSelectedEmperor] = React.useState(null);
+
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
+  const handleEmperorSelect = (emperorData) => {
+    setSelectedEmperor(emperorData);
+    setTabValue(2);
+  };
+
+  return (
+    <div className={classes.root}>
+      <Container maxWidth="lg">
+        <AppBar position="static" className={classes.appBar}>
+          <Tabs value={tabValue} onChange={handleChange} centered>
+            <Tab label="Emperors Timeline" classes={{ root: classes.tabLabel }} />
+            <Tab label="Historical Tours" classes={{ root: classes.tabLabel }} />
+            <Tab label="Emperor Profile" classes={{ root: classes.tabLabel }} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={tabValue} index={0}>
+          <TimelineView onEmperorSelect={handleEmperorSelect} />
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <ToursView />
+        </TabPanel>
+        <TabPanel value={tabValue} index={2}>
+          {selectedEmperor ? (
+            <EmperorProfile emperor={selectedEmperor} />
+          ) : (
+            <p>Please select an emperor from the timeline above.</p>
+          )}
+        </TabPanel>
+      </Container>
+    </div>
+  );
+}
+```
+
+---
+
+### File: **TikitokiTimeline.js**
+
+This component now applies custom styling to mimic the clean, scrollable, modern UI seen on Bible History Timeline.
+
+```jsx
+import React, { useEffect, useRef } from 'react';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  timelineContainer: {
+    border: '1px solid #ddd',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    padding: theme.spacing(2),
+    boxShadow: '0px 2px 8px rgba(0,0,0,0.1)',
+    overflowX: 'auto',
+    height: '500px'
+  }
+}));
+
+export default function TikitokiTimeline({ items, onEventSelect }) {
+  const classes = useStyles();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (window.Tikitoki && containerRef.current) {
+      // Initialize Tikitoki timeline.
+      // Adjust the initTimeline function as per Tikitoki's API.
+      window.Tikitoki.initTimeline(items, containerRef.current, {
+        onEventClick: (eventData) => {
+          if (onEventSelect) onEventSelect(eventData);
+        },
+        // You can add additional options here to mimic the Bible History Timeline UI.
+        style: {
+          // Example: set colors and fonts to match the desired design.
+          backgroundColor: '#fff',
+          fontFamily: 'Roboto, sans-serif',
+          primaryColor: '#1a237e',
+          secondaryColor: '#f44336'
+        }
+      });
+    }
+  }, [items, onEventSelect]);
+
+  return <div ref={containerRef} className={classes.timelineContainer} />;
+}
+```
+
+---
+
+### File: **TimelineView.js**
+
+We query Contentful for the emperor timeline data and pass the data to the TikitokiTimeline component.
+
+```jsx
+import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+import { Typography } from '@material-ui/core';
+import TikitokiTimeline from './TikitokiTimeline';
+
+const EMPEROR_TIMELINE_QUERY = gql`
+  query {
+    emperorTimelineCollection {
+      items {
+        title
+        description
+        startDate
+        endDate
+        image {
+          url
+        }
+      }
+    }
+  }
+`;
+
+export default function TimelineView({ onEmperorSelect }) {
+  const { loading, error, data } = useQuery(EMPEROR_TIMELINE_QUERY);
+
+  if (loading) return <Typography>Loading timeline...</Typography>;
+  if (error) return <Typography>Error loading timeline.</Typography>;
+
+  const timelineData = data.emperorTimelineCollection.items.map(item => ({
+    title: item.title,
+    description: item.description,
+    start: item.startDate,
+    end: item.endDate,
+    image: item.image ? item.image.url : null
+  }));
+
+  return (
+    <div>
+      <Typography variant="h4" gutterBottom>
+        Emperors Timeline
+      </Typography>
+      <TikitokiTimeline items={timelineData} onEventSelect={onEmperorSelect} />
+    </div>
+  );
+}
+```
+
+---
+
+### File: **ToursView.js**
+
+No major UI changes here; we still display tour cards with modern Material‑UI design.
+
+```jsx
+import React from 'react';
+import { useQuery, gql } from '@apollo/client';
+import { Grid, Card, CardMedia, CardContent, Typography, Chip, makeStyles } from '@material-ui/core';
+
+const TOURS_QUERY = gql`
+  query {
+    tourCollection {
+      items {
+        title
+        era
+        description
+        hotelRecommendations
+        image {
+          url
+        }
+      }
+    }
+  }
+`;
+
+const useStyles = makeStyles((theme) => ({
+  card: {
+    borderRadius: '8px',
+    boxShadow: '0px 2px 8px rgba(0,0,0,0.1)',
+    backgroundColor: '#fff'
+  },
+  media: {
+    height: 200
+  },
+  chip: {
+    marginBottom: theme.spacing(1)
+  }
+}));
+
+export default function ToursView() {
+  const classes = useStyles();
+  const { loading, error, data } = useQuery(TOURS_QUERY);
+
+  if (loading) return <Typography>Loading tours...</Typography>;
+  if (error) return <Typography>Error loading tours.</Typography>;
+
+  return (
+    <Grid container spacing={3}>
+      {data.tourCollection.items.map((tour, index) => (
+        <Grid item xs={12} md={6} key={index}>
+          <Card className={classes.card}>
+            {tour.image && (
+              <CardMedia
+                className={classes.media}
+                image={tour.image.url}
+                title={tour.title}
+              />
+            )}
+            <CardContent>
+              <Typography variant="h5" gutterBottom>
+                {tour.title}
+              </Typography>
+              <Chip label={tour.era} color="secondary" className={classes.chip} />
+              <Typography variant="body2" color="textSecondary" gutterBottom>
+                {tour.description}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                <strong>Hotel Recommendations:</strong> {tour.hotelRecommendations}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  );
+}
+```
+
+---
+
+### File: **EmperorProfile.js**
+
+This page presents the detailed narrative of a selected emperor along with digital storytelling features and an AI‑powered “Virtual Historian” placeholder.
+
+```jsx
+import React from 'react';
+import { Container, Typography, Card, CardMedia, CardContent, Button, makeStyles } from '@material-ui/core';
+import VirtualHistorian from './VirtualHistorian';
+
+const useStyles = makeStyles((theme) => ({
+  profileImage: {
+    width: '100%',
+    maxHeight: 300,
+    objectFit: 'cover',
+    borderRadius: '8px'
+  },
+  contentCard: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2)
+  },
+  bookButton: {
+    marginTop: theme.spacing(2)
+  }
+}));
+
+export default function EmperorProfile({ emperor }) {
+  const classes = useStyles();
+  return (
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        {emperor.title}
+      </Typography>
+      {emperor.image && (
+        <img src={emperor.image} alt={emperor.title} className={classes.profileImage} />
+      )}
+      <Card className={classes.contentCard}>
+        <CardContent>
+          <Typography variant="subtitle1" color="textSecondary">
+            {emperor.start} – {emperor.end}
+          </Typography>
+          <Typography variant="body1" paragraph>
+            {emperor.description}
+          </Typography>
+          <Typography variant="h6" gutterBottom>
+            Behind the Story
+          </Typography>
+          <Typography variant="body2" color="textSecondary" paragraph>
+            Explore how {emperor.title} influenced history with remarkable reforms, battles, and cultural achievements. Dive into our immersive narrative to see how ancient events shape our world today.
+          </Typography>
+          <VirtualHistorian emperor={emperor} />
+          <Button variant="contained" color="primary" className={classes.bookButton}>
+            Book Now
+          </Button>
+        </CardContent>
+      </Card>
+      <Typography variant="h6" style={{ marginTop: '2rem' }}>
+        Tour Outline:
+      </Typography>
+      <Typography variant="body2" color="textSecondary">
+        Day 1: Arrival and Orientation – Explore local history and settle in at a boutique hotel. <br />
+        Day 2: Guided tours of significant historical sites. <br />
+        Day 3: Free exploration paired with cultural workshops. <br />
+        Day 4: Museum visits and storytelling sessions. <br />
+        Day 5: Optional premium add-ons for deeper insights.
+      </Typography>
+    </Container>
+  );
+}
+```
+
+---
+
+### File: **VirtualHistorian.js**
+
+A simple placeholder simulating an AI-powered virtual historian chat interface.
+
+```jsx
+import React from 'react';
+import { Paper, Typography, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  historianBox: {
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    backgroundColor: '#f1f1f1',
+    borderRadius: '8px'
+  },
+  chatPlaceholder: {
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(1),
+    backgroundColor: '#fff',
+    border: '1px solid #ccc',
+    borderRadius: '4px'
+  }
+}));
+
+export default function VirtualHistorian({ emperor }) {
+  const classes = useStyles();
+  return (
+    <Paper className={classes.historianBox}>
+      <Typography variant="subtitle1">
+        Ask our Virtual Historian:
+      </Typography>
+      <Typography variant="body2" color="textSecondary">
+        How did {emperor.title} shape the ancient world? Type your question below.
+      </Typography>
+      <div className={classes.chatPlaceholder}>
+        [Chatbot Interface Placeholder]
+      </div>
+    </Paper>
+  );
+}
+```
+
+---
+
+### Final Steps
+
+1. **Contentful Setup:** Ensure your Contentful space includes content types for the Emperor Timeline and Tours with fields matching the GraphQL queries.  
+2. **Tikitoki Script:** Include the Tikitoki script in your public/index.html (or equivalent) with a tag such as:
+   ```html
+   <script src="https://cdn.yourtikitoki.com/tikitoki-widget.js"></script>
+   ```
+3. **Further Customization:**  
+   - Adjust Material‑UI theme settings for colors and typography to further refine the look.  
+   - Expand the EmperorProfile page to include interactive maps or video embeds as desired.  
+   - Integrate your actual booking engine behind the “Book Now” buttons.
+4. **Deployment:** Use Create React App or Next.js and deploy to your preferred hosting platform (e.g. Vercel, Netlify).
+
+This updated code provides an improved, modern UI with a Tikitoki timeline view inspired by Bible History Timeline’s design. It marries digital storytelling with clear navigation and immersive historical tour information. Enjoy building your engaging historical travel experience!
