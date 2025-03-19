@@ -1,5 +1,5 @@
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { MapPin } from "lucide-react";
 import { Tour } from "@shared/schema";
 
@@ -8,11 +8,16 @@ interface TourCardProps {
 }
 
 export default function TourCard({ tour }: TourCardProps) {
+  const [, setLocation] = useLocation();
+
   return (
-    <Card>
+    <Card 
+      className="cursor-pointer transition-shadow hover:shadow-lg"
+      onClick={() => setLocation(`/tour/${tour.id}`)}
+    >
       <div className="aspect-video overflow-hidden">
         <img 
-          src={tour.imageUrl} 
+          src={tour.imageUrl || '/placeholder-tour.jpg'} 
           alt={tour.title}
           className="object-cover w-full h-full"
         />
@@ -37,7 +42,6 @@ export default function TourCard({ tour }: TourCardProps) {
               <p className="text-2xl font-bold">${tour.price}</p>
             </div>
           </div>
-          <Button className="w-full">Book Now</Button>
         </div>
       </CardContent>
     </Card>

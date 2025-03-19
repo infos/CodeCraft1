@@ -47,6 +47,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Tour itineraries route
+  app.get("/api/tours/:id/itineraries", async (req, res) => {
+    try {
+      const itineraries = await storage.getItinerariesForTour(parseInt(req.params.id));
+      res.json(itineraries);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch tour itineraries" });
+    }
+  });
+
+  // Tour hotels route
+  app.get("/api/tours/:id/hotels", async (req, res) => {
+    try {
+      const hotels = await storage.getHotelsForTour(parseInt(req.params.id));
+      res.json(hotels);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch tour hotels" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
