@@ -2,10 +2,20 @@ import { pgTable, text, serial, timestamp, integer, jsonb } from "drizzle-orm/pg
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+export const eras = pgTable("eras", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  keyFigures: text("key_figures").notNull(),
+  associatedTours: text("associated_tours").notNull(),
+  startYear: integer("start_year"),
+  endYear: integer("end_year"),
+  description: text("description")
+});
+
 export const emperors = pgTable("emperors", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  era: text("era"),  // Making this nullable first
+  era: text("era"),  
   startYear: integer("start_year").notNull(),
   endYear: integer("end_year").notNull(),
   description: text("description").notNull(),
@@ -21,7 +31,8 @@ export const tours = pgTable("tours", {
   duration: integer("duration").notNull(),
   price: integer("price").notNull(),
   locations: text("locations").notNull(),
-  imageUrl: text("image_url")
+  imageUrl: text("image_url"),
+  era: text("era")  
 });
 
 export const itineraries = pgTable("itineraries", {
@@ -38,11 +49,14 @@ export const hotelRecommendations = pgTable("hotel_recommendations", {
   name: text("name").notNull()
 });
 
+export const insertEraSchema = createInsertSchema(eras).omit({ id: true });
 export const insertEmperorSchema = createInsertSchema(emperors).omit({ id: true });
 export const insertTourSchema = createInsertSchema(tours).omit({ id: true });
 export const insertItinerarySchema = createInsertSchema(itineraries).omit({ id: true });
 export const insertHotelSchema = createInsertSchema(hotelRecommendations).omit({ id: true });
 
+export type Era = typeof eras.$inferSelect;
+export type InsertEra = z.infer<typeof insertEraSchema>;
 export type Emperor = typeof emperors.$inferSelect;
 export type InsertEmperor = z.infer<typeof insertEmperorSchema>;
 export type Tour = typeof tours.$inferSelect;

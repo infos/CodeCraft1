@@ -67,6 +67,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Add new era route
+  app.get("/api/eras", async (req, res) => {
+    try {
+      const eras = await storage.getAllEras();
+      res.json(eras);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch eras" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

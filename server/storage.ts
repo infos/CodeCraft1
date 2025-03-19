@@ -1,13 +1,13 @@
-import { emperors, tours, itineraries, hotelRecommendations, 
-  type Emperor, type InsertEmperor, 
-  type Tour, type InsertTour,
-  type Itinerary, type InsertItinerary,
-  type HotelRecommendation, type InsertHotelRecommendation 
-} from "@shared/schema";
+import { emperors, tours, itineraries, hotelRecommendations, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
+  // Era operations
+  getAllEras(): Promise<Era[]>;
+  getEra(id: number): Promise<Era | undefined>;
+  createEra(era: InsertEra): Promise<Era>;
+
   // Emperor operations
   getAllEmperors(): Promise<Emperor[]>;
   getEmperor(id: number): Promise<Emperor | undefined>;
@@ -28,6 +28,20 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  async getAllEras(): Promise<Era[]> {
+    return await db.select().from(eras);
+  }
+
+  async getEra(id: number): Promise<Era | undefined> {
+    const [era] = await db.select().from(eras).where(eq(eras.id, id));
+    return era;
+  }
+
+  async createEra(insertEra: InsertEra): Promise<Era> {
+    const [era] = await db.insert(eras).values(insertEra).returning();
+    return era;
+  }
+
   async getAllEmperors(): Promise<Emperor[]> {
     return await db.select().from(emperors);
   }
@@ -77,6 +91,57 @@ export class DatabaseStorage implements IStorage {
   }
 
   async initializeData() {
+    const historicalEras = [
+      {
+        name: "Ancient Near Eastern",
+        keyFigures: "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+        associatedTours: "Mesopotamian Marvels Tour",
+        startYear: -3200,
+        endYear: -539,
+        description: "The cradle of civilization, featuring the first cities and writing systems"
+      },
+      {
+        name: "Ancient Egypt",
+        keyFigures: "Old, Middle, and New Kingdom rulers; notable figures like Cleopatra, Ramses II, Tutankhamun",
+        associatedTours: "Egyptian Pharaohs and Temples; Egypt and the Nile Tour",
+        startYear: -3150,
+        endYear: -30,
+        description: "The mighty civilization along the Nile, known for pyramids and pharaohs"
+      },
+      {
+        name: "Ancient Greece",
+        keyFigures: "Alexander the Great, Pericles, and mythic characters",
+        associatedTours: "Greek Myths and Legends Tour; The Golden Age of Athens",
+        startYear: -800,
+        endYear: -146,
+        description: "The birthplace of democracy and Western philosophy"
+      },
+      {
+        name: "Ancient Rome",
+        keyFigures: "Julius Caesar, Emperor Augustus, Nero",
+        associatedTours: "The Rise of Rome; Imperial Rome Unveiled",
+        startYear: -753,
+        endYear: 476,
+        description: "The empire that shaped European civilization"
+      },
+      {
+        name: "Byzantine",
+        keyFigures: "Constantine the Great, Justinian I, Empress Theodora",
+        associatedTours: "Byzantine Legacy Tours",
+        startYear: 330,
+        endYear: 1453,
+        description: "The Eastern Roman Empire that preserved Classical culture"
+      }
+    ];
+
+    // Insert eras
+    for (const era of historicalEras) {
+      const existing = await db.select().from(eras).where(eq(eras.name, era.name));
+      if (existing.length === 0) {
+        await this.createEra(era);
+      }
+    }
+
     const historicalFigures = [
       {
         name: "Julius Caesar",
@@ -237,6 +302,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Initialize storage with sample data
 export const storage = new DatabaseStorage();
 storage.initializeData().catch(console.error);

@@ -1,0 +1,48 @@
+Below is a JSON representation of the eras, including key civilizations/figures and associated tour themes:
+
+```json
+{
+  "eras": [
+    {
+      "era": "Prehistoric & Protohistoric",
+      "keyFigures": "Early human settlements, cave art, megalithic structures (no specific emperors)",
+      "associatedTours": "Prehistoric Europe Explorations (optional, focused on ancient sites)"
+    },
+    {
+      "era": "Ancient Near Eastern (Mesopotamia)",
+      "keyFigures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+      "associatedTours": "Mesopotamian Marvels Tour – explore ziggurats, ancient tablets, ruins"
+    },
+    {
+      "era": "Ancient Egypt",
+      "keyFigures": "Old, Middle, and New Kingdom rulers; notable figures like Cleopatra, Ramses II, Tutankhamun",
+      "associatedTours": "Egyptian Pharaohs and Temples; Egypt and the Nile Tour"
+    },
+    {
+      "era": "Ancient Greece",
+      "keyFigures": "City-state heroes and leaders; figures such as Alexander the Great (Macedonian, but central to Greek heritage), Pericles, and mythic characters (Zeus, Athena)",
+      "associatedTours": "Greek Myths and Legends Tour; The Golden Age of Athens"
+    },
+    {
+      "era": "Ancient Rome",
+      "keyFigures": "Julius Caesar, Emperor Augustus, Nero, and other influential figures who shaped the Roman world",
+      "associatedTours": "The Rise of Rome; Imperial Rome Unveiled"
+    },
+    {
+      "era": "Late Antiquity & Byzantine",
+      "keyFigures": "Constantine the Great, Justinian I, Empress Theodora – key figures who bridged ancient and medieval eras",
+      "associatedTours": "Byzantine Legacy Tours (highlighting art, architecture, and early Christianity)"
+    },
+    {
+      "era": "Medieval Europe",
+      "keyFigures": "Charlemagne, William the Conqueror, Richard the Lionheart and other rulers during the feudal and crusader periods",
+      "associatedTours": "Medieval Europe: The Age of Kings"
+    },
+    {
+      "era": "Renaissance & Early Modern",
+      "keyFigures": "Figures like Leonardo da Vinci, Michelangelo, Elizabeth I, representing a rebirth of art, culture, and science",
+      "associatedTours": "Renaissance and Beyond: Cultural Rebirth Tours"
+    }
+  ]
+}
+```
