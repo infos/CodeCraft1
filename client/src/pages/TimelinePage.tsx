@@ -20,8 +20,9 @@ export default function TimelinePage() {
     return <div>Error loading emperors timeline</div>;
   }
 
+  // Filter emperors based on selected era
   const filteredEmperors = selectedEra
-    ? emperors.filter(emperor => emperor.era === selectedEra)
+    ? emperors.filter(emperor => emperor.era && emperor.era.toLowerCase() === selectedEra.toLowerCase())
     : emperors;
 
   return (
@@ -34,7 +35,7 @@ export default function TimelinePage() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            {selectedEra ? `${selectedEra} Emperors` : 'Roman Emperors Timeline'}
+            {selectedEra ? `${selectedEra} Emperors` : 'Historical Timeline'}
           </h2>
           <p className="text-muted-foreground">
             {selectedEra 
