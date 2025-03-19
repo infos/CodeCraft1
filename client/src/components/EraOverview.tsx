@@ -18,7 +18,7 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Historical Eras</h2>
         <p className="text-muted-foreground">
@@ -26,11 +26,11 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
         </p>
       </div>
 
-      <ScrollArea className="w-full whitespace-nowrap rounded-lg border">
-        <div className="flex p-4 gap-4">
+      <ScrollArea className="h-[300px] w-full rounded-lg border">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
           {selectedEra && (
             <Card 
-              className="w-[200px] shrink-0 cursor-pointer hover:bg-accent transition-colors bg-primary/5"
+              className="cursor-pointer hover:bg-accent transition-colors bg-primary/5"
               onClick={() => onEraSelect?.(null)}
             >
               <CardHeader className="p-4">
@@ -41,19 +41,19 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
           {eras?.map((era) => (
             <Card 
               key={era.id} 
-              className={`w-[300px] shrink-0 cursor-pointer hover:bg-accent transition-colors ${
+              className={`cursor-pointer hover:bg-accent transition-colors ${
                 selectedEra === era.name ? 'bg-primary/5' : ''
               }`}
               onClick={() => onEraSelect?.(era.name)}
             >
               <CardHeader className="p-4">
                 <CardTitle className="text-base">{era.name}</CardTitle>
-                <p className="text-sm text-muted-foreground line-clamp-2 whitespace-normal">
+                <p className="text-sm text-muted-foreground line-clamp-2">
                   {era.description}
                 </p>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-xs text-primary/80 whitespace-normal">
+                <p className="text-xs text-primary/80">
                   {era.associatedTours}
                 </p>
               </CardContent>
