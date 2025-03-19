@@ -329,6 +329,110 @@ export class DatabaseStorage implements IStorage {
           }
         ],
         hotels: ["Herodion Hotel", "AthensWas", "Electra Palace Athens"]
+      },
+      {
+        title: "Italy's Ancient Wonders",
+        description: "Journey through Italy's rich historical heritage, from Rome's imperial splendor to Florence's Renaissance treasures.",
+        duration: 8,
+        price: 2999,
+        locations: "Rome, Pompeii, Florence",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+        era: "Ancient Rome",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Rome & Welcome",
+            description: "Arrive in Rome and check into a boutique, historic hotel in the city center. Welcome dinner in a medieval quarter with local specialties."
+          },
+          {
+            day: 2,
+            title: "Ancient Rome Exploration",
+            description: "Guided tour of the Roman Forum, Palatine Hill, and Capitoline Hill. Lunch near the Forum in a traditional Roman trattoria."
+          },
+          {
+            day: 3,
+            title: "The Colosseum & Hidden Gems",
+            description: "Morning guided access tour of the Colosseum, including the underground chambers. Free time to explore nearby neighborhoods."
+          },
+          {
+            day: 4,
+            title: "Day Trip to Pompeii",
+            description: "Overland travel by train to Pompeii; guided tour of the ruins to explore the preserved ancient city. Lunch in Pompeii."
+          },
+          {
+            day: 5,
+            title: "Renaissance & Ancient Contrast in Florence",
+            description: "Early morning train to Florence. Check into a boutique hotel in a historic building. Guided walking tour through Florence's historic center."
+          },
+          {
+            day: 6,
+            title: "Cultural Deep Dive in Florence",
+            description: "Visit the Uffizi Gallery and the ancient Roman structures in the city. Afternoon free time for exploring local markets and artisan workshops."
+          },
+          {
+            day: 7,
+            title: "Leisure Day & Countryside Excursion",
+            description: "Relaxed morning exploring a local neighborhood. Optional half-day excursion into the Tuscan countryside for a wine tasting at a historic villa."
+          },
+          {
+            day: 8,
+            title: "Return & Departure",
+            description: "Return to Rome via train (or fly out from Florence, if convenient) and transfer to the airport."
+          }
+        ],
+        hotels: ["Hotel de Russie Rome", "Portrait Firenze", "Villa Cora Florence"]
+      },
+      {
+        title: "Egypt and the Nile",
+        description: "Embark on an epic journey through ancient Egypt, from the pyramids of Giza to the temples of Luxor.",
+        duration: 8,
+        price: 3499,
+        locations: "Cairo, Luxor, Nubian Village",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+        era: "Ancient Egypt",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Cairo & Orientation",
+            description: "Arrive in Cairo and check into a boutique hotel in the historic district. Evening welcome dinner in a traditional Egyptian restaurant."
+          },
+          {
+            day: 2,
+            title: "Giza Plateau Experience",
+            description: "Full-day guided tour of the Great Pyramids and Sphinx. Lunch with a view of the pyramids. Free time in the afternoon for a camel ride."
+          },
+          {
+            day: 3,
+            title: "Cairo's Ancient Treasures",
+            description: "Visit the Egyptian Museum and see pharaonic artifacts. Afternoon free for exploring Khan El Khalili or a local bazaar."
+          },
+          {
+            day: 4,
+            title: "Journey to Luxor",
+            description: "Morning overland transfer to Luxor. Check into a historic boutique hotel along the Nile. Evening leisure time along the riverfront."
+          },
+          {
+            day: 5,
+            title: "West Bank of Luxor",
+            description: "Guided tour of the Valley of the Kings, including hidden tombs and temple ruins. Lunch at a local eatery with Nile views."
+          },
+          {
+            day: 6,
+            title: "East Bank Exploration in Luxor",
+            description: "Visit Karnak and Luxor Temples with a knowledgeable guide. Free time for self-guided exploration in Luxor's historic streets."
+          },
+          {
+            day: 7,
+            title: "Cultural Immersion in a Nubian Village",
+            description: "Day trip to a nearby Nubian village: experience traditional life, art, and cuisine. Participate in a local artisan workshop."
+          },
+          {
+            day: 8,
+            title: "Reflection & Departure",
+            description: "Morning free for leisure, a final stroll along the Nile, or last-minute shopping. Check out and transfer to the airport."
+          }
+        ],
+        hotels: ["Marriott Mena House", "Hilton Luxor Resort & Spa", "Sofitel Winter Palace Luxor"]
       }
     ];
 
