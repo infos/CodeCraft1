@@ -145,7 +145,7 @@ export class DatabaseStorage implements IStorage {
     const historicalFigures = [
       {
         name: "Julius Caesar",
-        era: "Ancient Roman",
+        era: "Ancient Rome",
         startYear: -100,
         endYear: -44,
         description: "Gaius Julius Caesar was a Roman general, statesman, and author who transformed the Roman Republic through his military conquests and political reforms, setting the stage for the Roman Empire.",
@@ -155,7 +155,7 @@ export class DatabaseStorage implements IStorage {
       },
       {
         name: "Augustus",
-        era: "Ancient Roman",
+        era: "Ancient Rome",
         startYear: -63,
         endYear: 14,
         description: "Augustus was the first Roman emperor who established a period of relative peace known as the Pax Romana. His reign ushered in a golden age of art, literature, and monumental architecture.",
@@ -165,7 +165,7 @@ export class DatabaseStorage implements IStorage {
       },
       {
         name: "Alexander the Great",
-        era: "Ancient Greek",
+        era: "Ancient Greece",
         startYear: -356,
         endYear: -323,
         description: "Alexander the Great was king of Macedon and one of history's most successful military commanders. He created one of the largest empires of the ancient world by the age of thirty.",
@@ -175,7 +175,7 @@ export class DatabaseStorage implements IStorage {
       },
       {
         name: "Cleopatra VII",
-        era: "Ancient Egyptian",
+        era: "Ancient Egypt",
         startYear: -69,
         endYear: -30,
         description: "Cleopatra VII was the last active ruler of the Ptolemaic Kingdom of Egypt. Known for her intelligence, political acumen, and captivating charm, she remains one of history's most famous female rulers.",

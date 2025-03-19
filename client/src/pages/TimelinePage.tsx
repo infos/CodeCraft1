@@ -16,7 +16,7 @@ export default function TimelinePage() {
     return <Skeleton className="h-[600px] w-full" />;
   }
 
-  if (error) {
+  if (error || !emperors) {
     return <div>Error loading emperors timeline</div>;
   }
 
