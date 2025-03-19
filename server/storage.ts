@@ -97,6 +97,26 @@ export class DatabaseStorage implements IStorage {
         achievements: "Established Pax Romana, reformed administration, expanded empire",
         locations: ["Rome, Italy"],
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Augustus_of_Prima_Porta_%28inv._2290%29.jpg/800px-Augustus_of_Prima_Porta_%28inv._2290%29.jpg"
+      },
+      {
+        name: "Alexander the Great",
+        era: "Ancient Greek",
+        startYear: -356,
+        endYear: -323,
+        description: "Alexander the Great was king of Macedon and one of history's most successful military commanders. He created one of the largest empires of the ancient world by the age of thirty.",
+        achievements: "Created vast empire spanning three continents, founded numerous cities, spread Hellenistic culture",
+        locations: ["Pella, Greece", "Vergina, Greece"],
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alexander_the_Great_mosaic.jpg/800px-Alexander_the_Great_mosaic.jpg"
+      },
+      {
+        name: "Cleopatra VII",
+        era: "Ancient Egyptian",
+        startYear: -69,
+        endYear: -30,
+        description: "Cleopatra VII was the last active ruler of the Ptolemaic Kingdom of Egypt. Known for her intelligence, political acumen, and captivating charm, she remains one of history's most famous female rulers.",
+        achievements: "Preserved Egyptian independence, modernized kingdom, patronage of learning",
+        locations: ["Alexandria, Egypt"],
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Kleopatra-VII.-Altes-Museum-Berlin.jpg/800px-Kleopatra-VII.-Altes-Museum-Berlin.jpg"
       }
     ];
 
@@ -111,7 +131,7 @@ export class DatabaseStorage implements IStorage {
     const tourData = [
       {
         title: "The Rise of Rome",
-        description: "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders.",
+        description: "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled.",
         duration: 7,
         price: 2499,
         locations: "Rome, Forum Romanum, Palatine Hill",
@@ -134,6 +154,58 @@ export class DatabaseStorage implements IStorage {
           }
         ],
         hotels: ["Albergo del Senato", "Hotel Forum"]
+      },
+      {
+        title: "Greek Myths and Legends",
+        description: "Follow in the footsteps of Alexander the Great and discover the rich history of ancient Greece. Visit magnificent temples, ancient theaters, and historical museums.",
+        duration: 8,
+        price: 2799,
+        locations: "Athens, Delphi, Vergina",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/The_Parthenon_in_Athens.jpg/1280px-The_Parthenon_in_Athens.jpg",
+        itinerary: [
+          {
+            day: 1,
+            title: "Welcome to Athens",
+            description: "Arrive in Athens and check into the historic Herodion Hotel. Evening welcome dinner in Plaka."
+          },
+          {
+            day: 2,
+            title: "Acropolis and Ancient Agora",
+            description: "Full day exploring the Acropolis, Parthenon, and Ancient Agora with an expert guide."
+          },
+          {
+            day: 3,
+            title: "Delphi Oracle Tour",
+            description: "Day trip to the ancient sanctuary of Delphi, including the Temple of Apollo."
+          }
+        ],
+        hotels: ["Herodion Hotel", "Plaka Hotel"]
+      },
+      {
+        title: "Egyptian Pharaohs and Temples",
+        description: "Discover the world of Cleopatra and the Ptolemaic dynasty. Explore ancient temples, tombs, and the legendary city of Alexandria.",
+        duration: 10,
+        price: 3299,
+        locations: "Cairo, Alexandria, Luxor",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+        itinerary: [
+          {
+            day: 1,
+            title: "Cairo Arrival",
+            description: "Welcome to Cairo. Check-in at the historic Marriott Mena House overlooking the pyramids."
+          },
+          {
+            day: 2,
+            title: "Pyramids and Sphinx",
+            description: "Full day exploring the Giza pyramid complex and the Great Sphinx."
+          },
+          {
+            day: 3,
+            title: "Alexandria Day Trip",
+            description: "Visit Cleopatra's city, including the Bibliotheca Alexandrina and Pompey's Pillar."
+          }
+        ],
+        hotels: ["Marriott Mena House", "Four Seasons Alexandria"]
       }
     ];
 
