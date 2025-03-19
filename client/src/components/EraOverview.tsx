@@ -53,9 +53,14 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
                 </p>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-xs text-primary/80">
-                  {era.associatedTours}
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-medium">Key Figures:</span> {era.keyFigures}
+                  </p>
+                  <p className="text-xs text-primary/80">
+                    {era.associatedTours}
+                  </p>
+                </div>
               </CardContent>
             </Card>
           ))}
