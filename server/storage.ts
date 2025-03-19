@@ -1,4 +1,9 @@
-import { emperors, tours, type Emperor, type InsertEmperor, type Tour, type InsertTour } from "@shared/schema";
+import { emperors, tours, itineraries, hotelRecommendations, 
+  type Emperor, type InsertEmperor, 
+  type Tour, type InsertTour,
+  type Itinerary, type InsertItinerary,
+  type HotelRecommendation, type InsertHotelRecommendation 
+} from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
@@ -12,6 +17,14 @@ export interface IStorage {
   getAllTours(): Promise<Tour[]>;
   getTour(id: number): Promise<Tour | undefined>;
   createTour(tour: InsertTour): Promise<Tour>;
+
+  // Itinerary operations
+  getItinerariesForTour(tourId: number): Promise<Itinerary[]>;
+  createItinerary(itinerary: InsertItinerary): Promise<Itinerary>;
+
+  // Hotel operations
+  getHotelsForTour(tourId: number): Promise<HotelRecommendation[]>;
+  createHotelRecommendation(hotel: InsertHotelRecommendation): Promise<HotelRecommendation>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -43,58 +56,110 @@ export class DatabaseStorage implements IStorage {
     return tour;
   }
 
+  async getItinerariesForTour(tourId: number): Promise<Itinerary[]> {
+    return await db.select().from(itineraries).where(eq(itineraries.tourId, tourId));
+  }
+
+  async createItinerary(insertItinerary: InsertItinerary): Promise<Itinerary> {
+    const [itinerary] = await db.insert(itineraries).values(insertItinerary).returning();
+    return itinerary;
+  }
+
+  async getHotelsForTour(tourId: number): Promise<HotelRecommendation[]> {
+    return await db.select()
+      .from(hotelRecommendations)
+      .where(eq(hotelRecommendations.tourId, tourId));
+  }
+
+  async createHotelRecommendation(insertHotel: InsertHotelRecommendation): Promise<HotelRecommendation> {
+    const [hotel] = await db.insert(hotelRecommendations).values(insertHotel).returning();
+    return hotel;
+  }
+
   async initializeData() {
-    const sampleEmperors: InsertEmperor[] = [
+    const historicalFigures = [
+      {
+        name: "Julius Caesar",
+        era: "Ancient Roman",
+        startYear: -100,
+        endYear: -44,
+        description: "Gaius Julius Caesar was a Roman general, statesman, and author who transformed the Roman Republic through his military conquests and political reforms, setting the stage for the Roman Empire.",
+        achievements: "Military conquests, political reforms, calendar reform, expansion of Roman citizenship",
+        locations: ["Rome, Italy"],
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Julius_Caesar_Coustou_Louvre_MR1798.jpg/800px-Julius_Caesar_Coustou_Louvre_MR1798.jpg"
+      },
       {
         name: "Augustus",
-        startYear: -27,
+        era: "Ancient Roman",
+        startYear: -63,
         endYear: 14,
-        description: "First Roman Emperor who established the Principate. Augustus transformed Rome from a republic into an empire during his 40-year reign, ushering in an era of unprecedented peace and prosperity known as the Pax Romana.",
-        achievements: "Established Pax Romana, reformed Roman administration and military, initiated major building projects, secured Roman borders, created efficient postal service, and developed road networks.",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Augustus_of_Prima_Porta_%28inv._2290%29.jpg"
-      },
-      {
-        name: "Marcus Aurelius",
-        startYear: 161,
-        endYear: 180,
-        description: "Known as the Philosopher Emperor and the last of the Five Good Emperors. Marcus Aurelius was a practitioner of Stoicism and wrote 'Meditations', a series of personal writings reflecting on his life, leadership, and philosophical ideals.",
-        achievements: "Wrote Meditations, successfully defended empire's borders against Parthians and Germanic tribes, handled the Antonine Plague crisis, promoted philosophy and education.",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/41/Marcus_Aurelius_Metropolitan_Museum.png"
+        description: "Augustus was the first Roman emperor who established a period of relative peace known as the Pax Romana. His reign ushered in a golden age of art, literature, and monumental architecture.",
+        achievements: "Established Pax Romana, reformed administration, expanded empire",
+        locations: ["Rome, Italy"],
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Augustus_of_Prima_Porta_%28inv._2290%29.jpg/800px-Augustus_of_Prima_Porta_%28inv._2290%29.jpg"
       }
     ];
 
-    const sampleTours: InsertTour[] = [
-      {
-        title: "Imperial Rome Experience",
-        description: "Walk in the footsteps of emperors through ancient Rome. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled. Experience the grandeur of Imperial Rome through its most iconic monuments.",
-        duration: 5,
-        price: 1299,
-        locations: "Rome (41.8902, 12.4922), Ostia Antica (41.7556, 12.2883), Tivoli (41.9633, 12.7955)",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg"
-      },
-      {
-        title: "Augustus Path",
-        description: "Explore the legacy of Rome's first emperor through the monuments and cities he transformed. Visit his mausoleum, the remains of his Forum, and his villa at Prima Porta. Experience the architectural revolution Augustus initiated.",
-        duration: 3,
-        price: 899,
-        locations: "Rome (41.8902, 12.4922), Naples (40.8518, 14.2681), Capri (40.5532, 14.2222)",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/66/Forum_of_Augustus_4.jpg"
-      }
-    ];
-
-    // Insert sample emperors
-    for (const emperor of sampleEmperors) {
-      const existing = await db.select().from(emperors).where(eq(emperors.name, emperor.name));
+    // Insert historical figures
+    for (const figure of historicalFigures) {
+      const existing = await db.select().from(emperors).where(eq(emperors.name, figure.name));
       if (existing.length === 0) {
-        await this.createEmperor(emperor);
+        await this.createEmperor(figure);
       }
     }
 
-    // Insert sample tours
-    for (const tour of sampleTours) {
-      const existing = await db.select().from(tours).where(eq(tours.title, tour.title));
+    const tourData = [
+      {
+        title: "The Rise of Rome",
+        description: "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders.",
+        duration: 7,
+        price: 2499,
+        locations: "Rome, Forum Romanum, Palatine Hill",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival & Orientation in Rome",
+            description: "Arrive in Rome and settle into a boutique hotel near the historic center."
+          },
+          {
+            day: 2,
+            title: "Roman Forum Experience",
+            description: "Guided tour of the Roman Forum and Palatine Hill, with insights into Caesar's era."
+          },
+          {
+            day: 3,
+            title: "Colosseum and Hidden Ruins",
+            description: "Visit the Colosseum with an exclusive behind-the-scenes tour."
+          }
+        ],
+        hotels: ["Albergo del Senato", "Hotel Forum"]
+      }
+    ];
+
+    // Insert tour data
+    for (const tour of tourData) {
+      const { itinerary, hotels, ...tourInfo } = tour;
+      const existing = await db.select().from(tours).where(eq(tours.title, tourInfo.title));
+
       if (existing.length === 0) {
-        await this.createTour(tour);
+        const createdTour = await this.createTour(tourInfo);
+
+        // Add itinerary
+        for (const day of itinerary) {
+          await this.createItinerary({
+            tourId: createdTour.id,
+            ...day
+          });
+        }
+
+        // Add hotel recommendations
+        for (const hotel of hotels) {
+          await this.createHotelRecommendation({
+            tourId: createdTour.id,
+            name: hotel
+          });
+        }
       }
     }
   }

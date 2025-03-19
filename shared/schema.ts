@@ -1,15 +1,17 @@
-import { pgTable, text, serial, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, integer, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const emperors = pgTable("emperors", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
+  era: text("era"),  // Making this nullable first
   startYear: integer("start_year").notNull(),
   endYear: integer("end_year").notNull(),
   description: text("description").notNull(),
   achievements: text("achievements").notNull(),
-  imageUrl: text("image_url")
+  imageUrl: text("image_url"),
+  locations: text("locations").array()
 });
 
 export const tours = pgTable("tours", {
@@ -22,10 +24,30 @@ export const tours = pgTable("tours", {
   imageUrl: text("image_url")
 });
 
+export const itineraries = pgTable("itineraries", {
+  id: serial("id").primaryKey(),
+  tourId: integer("tour_id").notNull(),
+  day: integer("day").notNull(),
+  title: text("title").notNull(),
+  description: text("description").notNull()
+});
+
+export const hotelRecommendations = pgTable("hotel_recommendations", {
+  id: serial("id").primaryKey(),
+  tourId: integer("tour_id").notNull(),
+  name: text("name").notNull()
+});
+
 export const insertEmperorSchema = createInsertSchema(emperors).omit({ id: true });
 export const insertTourSchema = createInsertSchema(tours).omit({ id: true });
+export const insertItinerarySchema = createInsertSchema(itineraries).omit({ id: true });
+export const insertHotelSchema = createInsertSchema(hotelRecommendations).omit({ id: true });
 
 export type Emperor = typeof emperors.$inferSelect;
 export type InsertEmperor = z.infer<typeof insertEmperorSchema>;
 export type Tour = typeof tours.$inferSelect;
 export type InsertTour = z.infer<typeof insertTourSchema>;
+export type Itinerary = typeof itineraries.$inferSelect;
+export type InsertItinerary = z.infer<typeof insertItinerarySchema>;
+export type HotelRecommendation = typeof hotelRecommendations.$inferSelect;
+export type InsertHotelRecommendation = z.infer<typeof insertHotelSchema>;
