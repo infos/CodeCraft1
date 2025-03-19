@@ -199,78 +199,136 @@ export class DatabaseStorage implements IStorage {
         description: "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled.",
         duration: 7,
         price: 2499,
-        locations: "Rome, Forum Romanum, Palatine Hill",
+        locations: "Rome, Tivoli",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+        era: "Ancient Rome",
         itinerary: [
           {
             day: 1,
-            title: "Arrival & Orientation in Rome",
-            description: "Arrive in Rome and settle into a boutique hotel near the historic center."
+            title: "Arrival & Orientation",
+            description: "Arrive in Rome by train or flight. Check into a boutique hotel housed in a historic palazzo near the city center. Evening welcome dinner in a traditional trattoria in the Monti neighborhood."
           },
           {
             day: 2,
-            title: "Roman Forum Experience",
-            description: "Guided tour of the Roman Forum and Palatine Hill, with insights into Caesar's era."
+            title: "Ancient Rome Immersion",
+            description: "Morning guided walking tour of the Roman Forum and Palatine Hill. Lunch in a local osteria. Afternoon free time to explore Piazza Venezia or the nearby markets. Evening visit to a small museum focusing on early Roman history."
           },
           {
             day: 3,
-            title: "Colosseum and Hidden Ruins",
-            description: "Visit the Colosseum with an exclusive behind-the-scenes tour."
-          }
-        ],
-        hotels: ["Albergo del Senato", "Hotel Forum"]
-      },
-      {
-        title: "Greek Myths and Legends",
-        description: "Follow in the footsteps of Alexander the Great and discover the rich history of ancient Greece. Visit magnificent temples, ancient theaters, and historical museums.",
-        duration: 8,
-        price: 2799,
-        locations: "Athens, Delphi, Vergina",
-        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/The_Parthenon_in_Athens.jpg/1280px-The_Parthenon_in_Athens.jpg",
-        itinerary: [
-          {
-            day: 1,
-            title: "Welcome to Athens",
-            description: "Arrive in Athens and check into the historic Herodion Hotel. Evening welcome dinner in Plaka."
+            title: "The Colosseum & Hidden Ruins",
+            description: "Guided tour of the Colosseum with exclusive access to lesser-known passages. Explore underground tunnels and hear stories of gladiators. Free afternoon stroll in the surrounding ancient neighborhoods."
           },
           {
-            day: 2,
-            title: "Acropolis and Ancient Agora",
-            description: "Full day exploring the Acropolis, Parthenon, and Ancient Agora with an expert guide."
+            day: 4,
+            title: "Art, Architecture & History",
+            description: "Morning visit to the Capitoline Museums. Lunch near the Roman Forum. Free time to wander through cobblestone streets and piazzas. Evening cultural performance at a historic theatre."
           },
           {
-            day: 3,
-            title: "Delphi Oracle Tour",
-            description: "Day trip to the ancient sanctuary of Delphi, including the Temple of Apollo."
+            day: 5,
+            title: "Day Trip to Tivoli",
+            description: "Overland excursion to Tivoli to see Hadrian's Villa and Villa d'Este. Guided tour highlighting the blend of Roman architecture and nature. Return to Rome in the late afternoon."
+          },
+          {
+            day: 6,
+            title: "Local Life & Culinary History",
+            description: "Morning guided market tour to sample local ingredients and learn about ancient Roman food traditions. Afternoon visit to a small workshop on ancient Roman cooking techniques."
+          },
+          {
+            day: 7,
+            title: "Reflection & Departure",
+            description: "Optional morning stroll through a local park or a short visit to a nearby museum. Check out and transfer to the train station or airport."
           }
         ],
-        hotels: ["Herodion Hotel", "Plaka Hotel"]
+        hotels: ["Hotel de la Ville", "Hotel Forum", "Palazzo Manfredi"]
       },
       {
         title: "Egyptian Pharaohs and Temples",
-        description: "Discover the world of Cleopatra and the Ptolemaic dynasty. Explore ancient temples, tombs, and the legendary city of Alexandria.",
-        duration: 10,
-        price: 3299,
-        locations: "Cairo, Alexandria, Luxor",
+        description: "Discover the world of Cleopatra and ancient Egyptian civilization. From the mighty pyramids to the treasures of Tutankhamun, immerse yourself in the world of the pharaohs.",
+        duration: 6,
+        price: 2899,
+        locations: "Cairo, Giza, Saqqara",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+        era: "Ancient Egypt",
         itinerary: [
           {
             day: 1,
-            title: "Cairo Arrival",
-            description: "Welcome to Cairo. Check-in at the historic Marriott Mena House overlooking the pyramids."
+            title: "Arrival in Cairo & Check-In",
+            description: "Arrive in Cairo and settle into a boutique hotel in the historic downtown area. Evening dinner featuring traditional Egyptian cuisine in a restored historic building."
           },
           {
             day: 2,
-            title: "Pyramids and Sphinx",
-            description: "Full day exploring the Giza pyramid complex and the Great Sphinx."
+            title: "The Great Pyramids & Sphinx",
+            description: "Full-day guided tour of the Giza Plateau, including the Great Pyramids and Sphinx. Lunch with a view of the pyramids. Free afternoon for personal exploration or a camel ride around the site."
           },
           {
             day: 3,
-            title: "Alexandria Day Trip",
-            description: "Visit Cleopatra's city, including the Bibliotheca Alexandrina and Pompey's Pillar."
+            title: "Cairo's Ancient Heritage",
+            description: "Visit the Egyptian Museum to see treasures of Tutankhamun and artifacts from the pharaonic era. Free time in Khan El Khalili market in the afternoon. Evening stroll along the Nile Corniche."
+          },
+          {
+            day: 4,
+            title: "Day Trip to Saqqara and Memphis",
+            description: "Overland excursion to Saqqara (Step Pyramid) and the open-air museum of Memphis. Guided insights into early dynastic Egypt and monumental architecture."
+          },
+          {
+            day: 5,
+            title: "Cultural Immersion in Old Cairo",
+            description: "Explore Coptic Cairo: churches, ancient bazaars, and narrow streets rich with history. Free afternoon for visiting local artisan workshops."
+          },
+          {
+            day: 6,
+            title: "Reflection & Departure",
+            description: "Morning free time – relax at a boutique café or take a short walk in a historic district. Check out and transfer to the airport."
           }
         ],
-        hotels: ["Marriott Mena House", "Four Seasons Alexandria"]
+        hotels: ["Marriott Mena House", "Four Seasons Cairo", "Le Meridien Pyramids"]
+      },
+      {
+        title: "Greek Myths and Legends",
+        description: "Journey through ancient Greece, from the Acropolis to the Temple of Apollo at Delphi. Experience the birthplace of democracy and discover the stories behind Greek mythology.",
+        duration: 7,
+        price: 2699,
+        locations: "Athens, Delphi, Epidaurus, Nafplio",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/The_Parthenon_in_Athens.jpg/1280px-The_Parthenon_in_Athens.jpg",
+        era: "Ancient Greece",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Athens",
+            description: "Arrive in Athens and check into a restored boutique hotel near Plaka. Evening welcome dinner with local specialties in a scenic, historic neighborhood."
+          },
+          {
+            day: 2,
+            title: "The Acropolis and Ancient Agora",
+            description: "Guided tour of the Acropolis, including the Parthenon and Erechtheion. Visit the Ancient Agora, hearing legends of Greek gods and everyday life in ancient Athens."
+          },
+          {
+            day: 3,
+            title: "Mythical Landscapes",
+            description: "Day trip to Delphi: overland journey with scenic views, guided tour of the Temple of Apollo and the ancient theater. Lunch in Delphi with panoramic mountain views."
+          },
+          {
+            day: 4,
+            title: "Cultural Workshops & Museum Visit",
+            description: "Morning visit to the National Archaeological Museum. Optional add-on: A hands-on workshop on ancient Greek pottery or sculpture."
+          },
+          {
+            day: 5,
+            title: "Explore Ancient Epidaurus and Nafplio",
+            description: "Overland trip to Epidaurus to see the ancient theater renowned for its acoustics, then continue to Nafplio. Enjoy free exploration time in Nafplio's charming old town."
+          },
+          {
+            day: 6,
+            title: "Neighborhood Exploration & Leisure",
+            description: "Day at leisure: choose between revisiting favorite sites or enjoying a relaxed café day with scenic views. Evening cultural performance featuring traditional Greek music."
+          },
+          {
+            day: 7,
+            title: "Reflection & Departure",
+            description: "Morning farewell stroll and brunch at a café with views of the Acropolis. Check out and transfer to the airport."
+          }
+        ],
+        hotels: ["Herodion Hotel", "AthensWas", "Electra Palace Athens"]
       }
     ];
 
