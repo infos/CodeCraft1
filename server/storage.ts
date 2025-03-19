@@ -239,7 +239,11 @@ export class DatabaseStorage implements IStorage {
             description: "Optional morning stroll through a local park or a short visit to a nearby museum. Check out and transfer to the train station or airport."
           }
         ],
-        hotels: ["Hotel de la Ville", "Hotel Forum", "Palazzo Manfredi"]
+        hotels: [
+          "Hotel de la Ville",
+          "Hotel Forum",
+          "Palazzo Manfredi"
+        ]
       },
       {
         title: "Egyptian Pharaohs and Temples",
@@ -281,7 +285,11 @@ export class DatabaseStorage implements IStorage {
             description: "Morning free time – relax at a boutique café or take a short walk in a historic district. Check out and transfer to the airport."
           }
         ],
-        hotels: ["Marriott Mena House", "Four Seasons Cairo", "Le Meridien Pyramids"]
+        hotels: [
+          "Marriott Mena House",
+          "Four Seasons Cairo",
+          "Le Meridien Pyramids"
+        ]
       },
       {
         title: "Greek Myths and Legends",
@@ -328,7 +336,11 @@ export class DatabaseStorage implements IStorage {
             description: "Morning farewell stroll and brunch at a café with views of the Acropolis. Check out and transfer to the airport."
           }
         ],
-        hotels: ["Herodion Hotel", "AthensWas", "Electra Palace Athens"]
+        hotels: [
+          "Herodion Hotel",
+          "AthensWas",
+          "Electra Palace Athens"
+        ]
       },
       {
         title: "Italy's Ancient Wonders",
@@ -380,7 +392,11 @@ export class DatabaseStorage implements IStorage {
             description: "Return to Rome via train (or fly out from Florence, if convenient) and transfer to the airport."
           }
         ],
-        hotels: ["Hotel de Russie Rome", "Portrait Firenze", "Villa Cora Florence"]
+        hotels: [
+          "Hotel de Russie Rome",
+          "Portrait Firenze",
+          "Villa Cora Florence"
+        ]
       },
       {
         title: "Egypt and the Nile",
@@ -432,7 +448,11 @@ export class DatabaseStorage implements IStorage {
             description: "Morning free for leisure, a final stroll along the Nile, or last-minute shopping. Check out and transfer to the airport."
           }
         ],
-        hotels: ["Marriott Mena House", "Hilton Luxor Resort & Spa", "Sofitel Winter Palace Luxor"]
+        hotels: [
+          "Marriott Mena House",
+          "Hilton Luxor Resort & Spa",
+          "Sofitel Winter Palace Luxor"
+        ]
       }
     ];
 
