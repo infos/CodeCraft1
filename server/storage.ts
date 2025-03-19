@@ -1,35 +1,50 @@
-import { type Emperor, type InsertEmperor, type Tour, type InsertTour } from "@shared/schema";
+import { emperors, tours, type Emperor, type InsertEmperor, type Tour, type InsertTour } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Emperor operations
   getAllEmperors(): Promise<Emperor[]>;
   getEmperor(id: number): Promise<Emperor | undefined>;
   createEmperor(emperor: InsertEmperor): Promise<Emperor>;
-  
+
   // Tour operations
   getAllTours(): Promise<Tour[]>;
   getTour(id: number): Promise<Tour | undefined>;
   createTour(tour: InsertTour): Promise<Tour>;
 }
 
-export class MemStorage implements IStorage {
-  private emperors: Map<number, Emperor>;
-  private tours: Map<number, Tour>;
-  private emperorId: number;
-  private tourId: number;
-
-  constructor() {
-    this.emperors = new Map();
-    this.tours = new Map();
-    this.emperorId = 1;
-    this.tourId = 1;
-    
-    // Add some initial data
-    this.initializeData();
+export class DatabaseStorage implements IStorage {
+  async getAllEmperors(): Promise<Emperor[]> {
+    return await db.select().from(emperors);
   }
 
-  private initializeData() {
-    // Add sample emperors
+  async getEmperor(id: number): Promise<Emperor | undefined> {
+    const [emperor] = await db.select().from(emperors).where(eq(emperors.id, id));
+    return emperor;
+  }
+
+  async createEmperor(insertEmperor: InsertEmperor): Promise<Emperor> {
+    const [emperor] = await db.insert(emperors).values(insertEmperor).returning();
+    return emperor;
+  }
+
+  async getAllTours(): Promise<Tour[]> {
+    return await db.select().from(tours);
+  }
+
+  async getTour(id: number): Promise<Tour | undefined> {
+    const [tour] = await db.select().from(tours).where(eq(tours.id, id));
+    return tour;
+  }
+
+  async createTour(insertTour: InsertTour): Promise<Tour> {
+    const [tour] = await db.insert(tours).values(insertTour).returning();
+    return tour;
+  }
+
+  // Add some initial data
+  async initializeData() {
     const sampleEmperors: InsertEmperor[] = [
       {
         name: "Augustus",
@@ -49,9 +64,6 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    sampleEmperors.forEach(emperor => this.createEmperor(emperor));
-
-    // Add sample tours
     const sampleTours: InsertTour[] = [
       {
         title: "Imperial Rome Experience",
@@ -71,38 +83,24 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    sampleTours.forEach(tour => this.createTour(tour));
-  }
+    // Insert sample emperors
+    for (const emperor of sampleEmperors) {
+      const existing = await db.select().from(emperors).where(eq(emperors.name, emperor.name));
+      if (existing.length === 0) {
+        await this.createEmperor(emperor);
+      }
+    }
 
-  async getAllEmperors(): Promise<Emperor[]> {
-    return Array.from(this.emperors.values());
-  }
-
-  async getEmperor(id: number): Promise<Emperor | undefined> {
-    return this.emperors.get(id);
-  }
-
-  async createEmperor(insertEmperor: InsertEmperor): Promise<Emperor> {
-    const id = this.emperorId++;
-    const emperor: Emperor = { id, ...insertEmperor };
-    this.emperors.set(id, emperor);
-    return emperor;
-  }
-
-  async getAllTours(): Promise<Tour[]> {
-    return Array.from(this.tours.values());
-  }
-
-  async getTour(id: number): Promise<Tour | undefined> {
-    return this.tours.get(id);
-  }
-
-  async createTour(insertTour: InsertTour): Promise<Tour> {
-    const id = this.tourId++;
-    const tour: Tour = { id, ...insertTour };
-    this.tours.set(id, tour);
-    return tour;
+    // Insert sample tours
+    for (const tour of sampleTours) {
+      const existing = await db.select().from(tours).where(eq(tours.title, tour.title));
+      if (existing.length === 0) {
+        await this.createTour(tour);
+      }
+    }
   }
 }
 
-export const storage = new MemStorage();
+// Initialize storage with sample data
+export const storage = new DatabaseStorage();
+storage.initializeData().catch(console.error);
