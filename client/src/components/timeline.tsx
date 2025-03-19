@@ -1,0 +1,4 @@
+/* 
+This file is no longer needed since we have EmperorTimeline.tsx
+which provides the same functionality with better styling and integration.
+*/
