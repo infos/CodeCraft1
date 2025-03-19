@@ -43,43 +43,42 @@ export class DatabaseStorage implements IStorage {
     return tour;
   }
 
-  // Add some initial data
   async initializeData() {
     const sampleEmperors: InsertEmperor[] = [
       {
         name: "Augustus",
         startYear: -27,
         endYear: 14,
-        description: "First Roman Emperor who established the Principate",
-        achievements: "Pax Romana, reformed administration, expanded empire",
-        imageUrl: "https://example.com/augustus.jpg"
+        description: "First Roman Emperor who established the Principate. Augustus transformed Rome from a republic into an empire during his 40-year reign, ushering in an era of unprecedented peace and prosperity known as the Pax Romana.",
+        achievements: "Established Pax Romana, reformed Roman administration and military, initiated major building projects, secured Roman borders, created efficient postal service, and developed road networks.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/eb/Augustus_of_Prima_Porta_%28inv._2290%29.jpg"
       },
       {
         name: "Marcus Aurelius",
         startYear: 161,
         endYear: 180,
-        description: "Philosopher Emperor and last of the Five Good Emperors",
-        achievements: "Wrote Meditations, defended empire's borders",
-        imageUrl: "https://example.com/marcus.jpg"
+        description: "Known as the Philosopher Emperor and the last of the Five Good Emperors. Marcus Aurelius was a practitioner of Stoicism and wrote 'Meditations', a series of personal writings reflecting on his life, leadership, and philosophical ideals.",
+        achievements: "Wrote Meditations, successfully defended empire's borders against Parthians and Germanic tribes, handled the Antonine Plague crisis, promoted philosophy and education.",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/41/Marcus_Aurelius_Metropolitan_Museum.png"
       }
     ];
 
     const sampleTours: InsertTour[] = [
       {
         title: "Imperial Rome Experience",
-        description: "Walk in the footsteps of emperors through ancient Rome",
+        description: "Walk in the footsteps of emperors through ancient Rome. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled. Experience the grandeur of Imperial Rome through its most iconic monuments.",
         duration: 5,
         price: 1299,
-        locations: "Rome, Ostia Antica, Tivoli",
-        imageUrl: "https://example.com/rome-tour.jpg"
+        locations: "Rome (41.8902, 12.4922), Ostia Antica (41.7556, 12.2883), Tivoli (41.9633, 12.7955)",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg"
       },
       {
         title: "Augustus Path",
-        description: "Explore the legacy of Rome's first emperor",
+        description: "Explore the legacy of Rome's first emperor through the monuments and cities he transformed. Visit his mausoleum, the remains of his Forum, and his villa at Prima Porta. Experience the architectural revolution Augustus initiated.",
         duration: 3,
         price: 899,
-        locations: "Rome, Naples, Capri",
-        imageUrl: "https://example.com/augustus-tour.jpg"
+        locations: "Rome (41.8902, 12.4922), Naples (40.8518, 14.2681), Capri (40.5532, 14.2222)",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/6/66/Forum_of_Augustus_4.jpg"
       }
     ];
 
