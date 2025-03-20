@@ -1,0 +1,81 @@
+{
+  "itineraries": [
+    {
+      "id": 30,
+      "tourId": 1,
+      "day": 1,
+      "title": "Arrival & Orientation in Baghdad",
+      "description": "Arrive in Baghdad, settle in at your hotel, and enjoy a welcome dinner featuring traditional Mesopotamian cuisine."
+    },
+    {
+      "id": 31,
+      "tourId": 1,
+      "day": 2,
+      "title": "Exploring Ancient Uruk",
+      "description": "Guided tour of the ancient city of Uruk, visiting monumental ruins and learning about early writing systems."
+    },
+    {
+      "id": 32,
+      "tourId": 1,
+      "day": 3,
+      "title": "Discovering Ur",
+      "description": "Visit the historic city of Ur to explore its temples and archaeological treasures."
+    },
+    {
+      "id": 33,
+      "tourId": 2,
+      "day": 1,
+      "title": "Arrival in Cairo & Welcome Dinner",
+      "description": "Arrive in Cairo and enjoy a traditional Egyptian dinner as you settle in for your journey."
+    },
+    {
+      "id": 34,
+      "tourId": 2,
+      "day": 2,
+      "title": "Pyramids & Great Sphinx Tour",
+      "description": "Explore the Pyramids of Giza and the Great Sphinx with a guided tour that delves into ancient pharaonic history."
+    },
+    {
+      "id": 35,
+      "tourId": 3,
+      "day": 1,
+      "title": "Arrival in Athens & Acropolis Visit",
+      "description": "Arrive in Athens, check into your hotel, and take a guided tour of the Acropolis, finishing with a traditional Greek dinner."
+    },
+    {
+      "id": 36,
+      "tourId": 3,
+      "day": 2,
+      "title": "Delphi Oracle Exploration",
+      "description": "A day trip to Delphi to explore the ancient oracle site and immerse yourself in Greek mythology."
+    },
+    {
+      "id": 37,
+      "tourId": 4,
+      "day": 1,
+      "title": "Arrival & Orientation in Rome",
+      "description": "Arrive in Rome by train or flight. Check into a boutique hotel in a historic palazzo and enjoy an evening welcome dinner in a traditional trattoria."
+    },
+    {
+      "id": 38,
+      "tourId": 4,
+      "day": 2,
+      "title": "Ancient Rome Immersion",
+      "description": "Morning guided walking tour of the Roman Forum and Palatine Hill. Lunch at a local osteria followed by an afternoon museum visit focusing on early Roman history."
+    },
+    {
+      "id": 39,
+      "tourId": 5,
+      "day": 1,
+      "title": "Arrival in Istanbul & Historical Overview",
+      "description": "Arrive in Istanbul, settle into a centrally located hotel, and enjoy an evening briefing on Byzantine history and culture."
+    },
+    {
+      "id": 40,
+      "tourId": 5,
+      "day": 2,
+      "title": "Hagia Sophia & Basilica Cistern Tour",
+      "description": "Take a guided tour of Hagia Sophia and the Basilica Cistern to explore Byzantine art, architecture, and engineering marvels."
+    }
+  ]
+}

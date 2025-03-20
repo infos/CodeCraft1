@@ -1,0 +1,99 @@
+{
+  "hotel_recommendations": [
+    {
+      "id": 31,
+      "tourId": 7,
+      "name": "Hotel de la Ville"
+    },
+    {
+      "id": 32,
+      "tourId": 7,
+      "name": "Hotel Forum"
+    },
+    {
+      "id": 33,
+      "tourId": 7,
+      "name": "Palazzo Manfredi"
+    },
+    {
+      "id": 70,
+      "tourId": 7,
+      "name": "Roma Antica Hotel"
+    },
+    {
+      "id": 71,
+      "tourId": 7,
+      "name": "Imperial Palace Suites"
+    },
+    {
+      "id": 34,
+      "tourId": 8,
+      "name": "Marriott Mena House"
+    },
+    {
+      "id": 35,
+      "tourId": 8,
+      "name": "Four Seasons Cairo"
+    },
+    {
+      "id": 36,
+      "tourId": 8,
+      "name": "Le Meridien Pyramids"
+    },
+    {
+      "id": 72,
+      "tourId": 8,
+      "name": "Cairo Ritz"
+    },
+    {
+      "id": 73,
+      "tourId": 8,
+      "name": "Nile River Suites"
+    },
+    {
+      "id": 37,
+      "tourId": 9,
+      "name": "Herodion Hotel"
+    },
+    {
+      "id": 38,
+      "tourId": 9,
+      "name": "AthensWas"
+    },
+    {
+      "id": 39,
+      "tourId": 9,
+      "name": "Electra Palace Athens"
+    },
+    {
+      "id": 74,
+      "tourId": 9,
+      "name": "Acropolis View Hotel"
+    },
+    {
+      "id": 75,
+      "tourId": 9,
+      "name": "Athens Heritage Inn"
+    },
+    {
+      "id": 76,
+      "tourId": 10,
+      "name": "Istanbul Historic Hotel"
+    },
+    {
+      "id": 77,
+      "tourId": 10,
+      "name": "Byzantine Charm Inn"
+    },
+    {
+      "id": 78,
+      "tourId": 12,
+      "name": "Babylon Boutique Hotel"
+    },
+    {
+      "id": 79,
+      "tourId": 12,
+      "name": "Sumerian Inn"
+    }
+  ]
+}
