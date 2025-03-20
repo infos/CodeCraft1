@@ -8,7 +8,10 @@ neonConfig.webSocketConstructor = ws;
 
 if (!process.env.DATABASE_URL) {
   console.error("Database connection error: DATABASE_URL environment variable is not set");
-  console.error("Please add DATABASE_URL to your deployment secrets");
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error("DATABASE_URL environment variable is required for production");
+  }
+  // In development, we'll exit
   process.exit(1);
 }
 
