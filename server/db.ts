@@ -12,15 +12,15 @@ if (!process.env.DATABASE_URL) {
   process.exit(1);
 }
 
-// Create connection pool with proper SSL configuration
+// Create connection pool with proper SSL configuration for both dev and prod
 export const pool = new Pool({ 
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: true, // Ensure SSL certificate validation
+    rejectUnauthorized: true, // Required for Neon database
     maxVersion: "TLSv1.3",    // Use latest TLS version
   },
   connectionTimeoutMillis: 5000, // Add timeout
-  max: 20 // Maximum number of clients in the pool
+  max: process.env.NODE_ENV === 'production' ? 50 : 20 // Increase pool size for production
 });
 
 // Initialize Drizzle ORM with the pool
@@ -30,4 +30,9 @@ export const db = drizzle(pool, { schema });
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
+});
+
+// Add connection status check
+pool.on('connect', () => {
+  console.log('Connected to database successfully');
 });
