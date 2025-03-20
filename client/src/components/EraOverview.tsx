@@ -17,6 +17,9 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
     return <div className="h-[150px] animate-pulse bg-muted rounded-lg" />;
   }
 
+  // Sort eras by startYear from oldest to newest
+  const sortedEras = [...(eras || [])].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-baseline">
@@ -33,7 +36,7 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
 
       <ScrollArea className="w-full whitespace-nowrap rounded-md border">
         <div className="flex w-max space-x-4 p-4">
-          {eras?.map((era) => (
+          {sortedEras.map((era) => (
             <Card 
               key={era.id}
               className={`w-[280px] cursor-pointer hover:bg-accent transition-colors ${
