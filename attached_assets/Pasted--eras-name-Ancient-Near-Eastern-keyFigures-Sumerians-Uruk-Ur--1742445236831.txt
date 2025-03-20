@@ -1,0 +1,84 @@
+{
+  "eras": [
+    {
+      "name": "Ancient Near Eastern",
+      "keyFigures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+      "associatedTours": "Mesopotamian Marvels Tour",
+      "startYear": -3200,
+      "endYear": -539,
+      "description": "The cradle of civilization, featuring the first cities and writing systems"
+    },
+    {
+      "name": "Ancient Egypt",
+      "keyFigures": "Old, Middle, and New Kingdom rulers; notable figures like Cleopatra, Ramses II, Tutankhamun",
+      "associatedTours": "Egyptian Pharaohs and Temples; Egypt and the Nile Tour",
+      "startYear": -3150,
+      "endYear": -30,
+      "description": "The mighty civilization along the Nile, known for pyramids and pharaohs"
+    },
+    {
+      "name": "Ancient Greece",
+      "keyFigures": "Alexander the Great, Pericles, and mythic characters",
+      "associatedTours": "Greek Myths and Legends Tour; The Golden Age of Athens",
+      "startYear": -800,
+      "endYear": -146,
+      "description": "The birthplace of democracy and Western philosophy"
+    },
+    {
+      "name": "Ancient Rome",
+      "keyFigures": "Julius Caesar, Emperor Augustus, Nero",
+      "associatedTours": "The Rise of Rome; Imperial Rome Unveiled",
+      "startYear": -753,
+      "endYear": 476,
+      "description": "The empire that shaped European civilization"
+    },
+    {
+      "name": "Byzantine",
+      "keyFigures": "Constantine the Great, Justinian I, Empress Theodora",
+      "associatedTours": "Byzantine Legacy Tours",
+      "startYear": 330,
+      "endYear": 1453,
+      "description": "The Eastern Roman Empire that preserved Classical culture"
+    },
+    {
+      "name": "Medieval Europe",
+      "keyFigures": "Charlemagne, William the Conqueror, Eleanor of Aquitaine",
+      "associatedTours": "Medieval Castles and Cathedrals Tour",
+      "startYear": 476,
+      "endYear": 1453,
+      "description": "A period of feudal kingdoms, crusades, and cultural transformation that laid the groundwork for modern Europe"
+    },
+    {
+      "name": "Neo-Babylonian",
+      "keyFigures": "Nebuchadnezzar II, Nabopolassar, Belshazzar",
+      "associatedTours": "Babylon Reborn Tour",
+      "startYear": -626,
+      "endYear": -539,
+      "description": "A resurgence of Babylonian power marked by monumental construction and cultural achievements in Mesopotamia"
+    },
+    {
+      "name": "Silk Road Trade Era",
+      "keyFigures": "Genghis Khan, Marco Polo, Timur (Tamerlane)",
+      "associatedTours": "Silk Road Treasures Tour",
+      "startYear": -200,
+      "endYear": 1450,
+      "description": "An era defined by extensive trade networks linking East and West, fostering cultural exchange and economic growth"
+    },
+    {
+      "name": "Ancient India (Mauryan and Gupta Periods)",
+      "keyFigures": "Chandragupta Maurya, Ashoka, Chandragupta II, Kalidasa",
+      "associatedTours": "Indian Empires Tour",
+      "startYear": -322,
+      "endYear": 550,
+      "description": "A golden age of Indian civilization characterized by political unity, flourishing arts, and significant advancements in science and philosophy"
+    },
+    {
+      "name": "Imperial China",
+      "keyFigures": "Qin Shi Huang, Confucius, Emperor Wu of Han",
+      "associatedTours": "Dynasties of China Tour; The Great Wall Expedition",
+      "startYear": -221,
+      "endYear": 1912,
+      "description": "A vast and enduring civilization known for its dynastic cycles, innovations, and cultural legacies spanning over two millennia"
+    }
+  ]
+}
