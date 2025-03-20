@@ -1,0 +1,103 @@
+{
+  "tours": [
+    {
+      "id": 7,
+      "title": "The Rise of Rome",
+      "description": "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled.",
+      "duration": 7,
+      "price": 2499,
+      "locations": "Rome, Tivoli",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+      "era": "Ancient Rome",
+      "itineraries": [
+        {
+          "day": 1,
+          "title": "Arrival & Orientation",
+          "description": "Arrive in Rome by train or flight. Check into a boutique hotel housed in a historic palazzo near the city center. Evening welcome dinner in a traditional trattoria in the Monti neighborhood."
+        },
+        {
+          "day": 2,
+          "title": "Ancient Rome Immersion",
+          "description": "Morning guided walking tour of the Roman Forum and Palatine Hill. Lunch in a local osteria. Afternoon free time to explore Piazza Venezia or the nearby markets. Evening visit to a small museum focusing on early Roman history."
+        },
+        {
+          "day": 3,
+          "title": "The Colosseum & Hidden Ruins",
+          "description": "Guided tour of the Colosseum with exclusive access to lesser-known passages. Explore underground tunnels and hear stories of gladiators. Free afternoon stroll in the surrounding ancient neighborhoods."
+        },
+        {
+          "day": 4,
+          "title": "Art, Architecture & History",
+          "description": "Morning visit to the Capitoline Museums. Lunch near the Roman Forum. Free time to wander through cobblestone streets and piazzas. Evening cultural performance at a historic theatre."
+        },
+        {
+          "day": 5,
+          "title": "Day Trip to Tivoli",
+          "description": "Overland excursion to Tivoli to see Hadrian's Villa and Villa d'Este. Guided tour highlighting the blend of Roman architecture and nature. Return to Rome in the late afternoon."
+        },
+        {
+          "day": 6,
+          "title": "Local Life & Culinary History",
+          "description": "Morning guided market tour to sample local ingredients and learn about ancient Roman food traditions. Afternoon visit to a small workshop on ancient Roman cooking techniques."
+        },
+        {
+          "day": 7,
+          "title": "Reflection & Departure",
+          "description": "Optional morning stroll through a local park or a short visit to a nearby museum. Check out and transfer to the train station or airport."
+        }
+      ],
+      "hotels": [
+        "Hotel de la Ville",
+        "Hotel Forum",
+        "Palazzo Manfredi"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Egyptian Pharaohs and Temples",
+      "description": "Discover the world of Cleopatra and ancient Egyptian civilization. From the mighty pyramids to the treasures of Tutankhamun, immerse yourself in the world of the pharaohs.",
+      "duration": 6,
+      "price": 2899,
+      "locations": "Cairo, Giza, Saqqara",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+      "era": "Ancient Egypt",
+      "itineraries": [
+        {
+          "day": 1,
+          "title": "Arrival in Cairo & Check-In",
+          "description": "Arrive in Cairo and settle into a boutique hotel in the historic downtown area. Evening dinner featuring traditional Egyptian cuisine in a restored historic building."
+        },
+        {
+          "day": 2,
+          "title": "The Great Pyramids & Sphinx",
+          "description": "Full-day guided tour of the Giza Plateau, including the Great Pyramids and Sphinx. Lunch with a view of the pyramids. Free afternoon for personal exploration or a camel ride around the site."
+        },
+        {
+          "day": 3,
+          "title": "Cairo's Ancient Heritage",
+          "description": "Visit the Egyptian Museum to see treasures of Tutankhamun and artifacts from the pharaonic era. Free time in Khan El Khalili market in the afternoon. Evening stroll along the Nile Corniche."
+        },
+        {
+          "day": 4,
+          "title": "Day Trip to Saqqara and Memphis",
+          "description": "Overland excursion to Saqqara (Step Pyramid) and the open-air museum of Memphis. Guided insights into early dynastic Egypt and monumental architecture."
+        },
+        {
+          "day": 5,
+          "title": "Cultural Immersion in Old Cairo",
+          "description": "Explore Coptic Cairo: churches, ancient bazaars, and narrow streets rich with history. Free afternoon for visiting local artisan workshops."
+        },
+        {
+          "day": 6,
+          "title": "Reflection & Departure",
+          "description": "Morning free time – relax at a boutique café or take a short walk in a historic district. Check out and transfer to the airport."
+        }
+      ],
+      "hotels": [
+        "Marriott Mena House",
+        "Four Seasons Cairo",
+        "Le Meridien Pyramids"
+      ]
+    }
+  ]
+}
