@@ -1,0 +1,159 @@
+{
+  "eras": [
+    {
+      "name": "Ancient Near Eastern",
+      "keyFigures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+      "associatedTours": "Mesopotamian Marvels Tour",
+      "startYear": -3200,
+      "endYear": -539,
+      "description": "The cradle of civilization, featuring the first cities and writing systems",
+      "tours": [
+        {
+          "tourName": "Mesopotamian Marvels Tour",
+          "durationDays": 7,
+          "priceUSD": 2500,
+          "highlights": ["Uruk", "Ur", "Akkadian ruins"],
+          "startingLocation": "Baghdad, Iraq"
+        },
+        {
+          "tourName": "Uruk Exploration Expedition",
+          "durationDays": 5,
+          "priceUSD": 2000,
+          "highlights": ["Ancient temples", "Cuneiform tablets"],
+          "startingLocation": "Erbil, Iraq"
+        },
+        {
+          "tourName": "Babylonian Legacy Journey",
+          "durationDays": 8,
+          "priceUSD": 2700,
+          "highlights": ["Hanging Gardens", "Babylon ruins"],
+          "startingLocation": "Hillah, Iraq"
+        }
+      ]
+    },
+    {
+      "name": "Ancient Egypt",
+      "keyFigures": "Old, Middle, and New Kingdom rulers; notable figures like Cleopatra, Ramses II, Tutankhamun",
+      "associatedTours": "Egyptian Pharaohs and Temples; Egypt and the Nile Tour",
+      "startYear": -3150,
+      "endYear": -30,
+      "description": "The mighty civilization along the Nile, known for pyramids and pharaohs",
+      "tours": [
+        {
+          "tourName": "Egyptian Pharaohs and Temples",
+          "durationDays": 6,
+          "priceUSD": 2200,
+          "highlights": ["Pyramids of Giza", "Valley of the Kings"],
+          "startingLocation": "Cairo, Egypt"
+        },
+        {
+          "tourName": "Nile River Discovery",
+          "durationDays": 5,
+          "priceUSD": 1800,
+          "highlights": ["Cruise on the Nile", "Aswan"],
+          "startingLocation": "Luxor, Egypt"
+        },
+        {
+          "tourName": "Ancient Egyptian Wonders",
+          "durationDays": 7,
+          "priceUSD": 2400,
+          "highlights": ["Great Sphinx", "Karnak Temple"],
+          "startingLocation": "Cairo, Egypt"
+        }
+      ]
+    },
+    {
+      "name": "Ancient Greece",
+      "keyFigures": "Alexander the Great, Pericles, and mythic characters",
+      "associatedTours": "Greek Myths and Legends Tour; The Golden Age of Athens",
+      "startYear": -800,
+      "endYear": -146,
+      "description": "The birthplace of democracy and Western philosophy",
+      "tours": [
+        {
+          "tourName": "Greek Myths and Legends Tour",
+          "durationDays": 7,
+          "priceUSD": 2300,
+          "highlights": ["Acropolis", "Delphi Oracle"],
+          "startingLocation": "Athens, Greece"
+        },
+        {
+          "tourName": "The Golden Age of Athens",
+          "durationDays": 6,
+          "priceUSD": 2100,
+          "highlights": ["Parthenon", "Agora"],
+          "startingLocation": "Athens, Greece"
+        },
+        {
+          "tourName": "Classical Greece Odyssey",
+          "durationDays": 8,
+          "priceUSD": 2500,
+          "highlights": ["Sparta", "Olympia"],
+          "startingLocation": "Athens, Greece"
+        }
+      ]
+    },
+    {
+      "name": "Ancient Rome",
+      "keyFigures": "Julius Caesar, Emperor Augustus, Nero",
+      "associatedTours": "The Rise of Rome; Imperial Rome Unveiled",
+      "startYear": -753,
+      "endYear": 476,
+      "description": "The empire that shaped European civilization",
+      "tours": [
+        {
+          "tourName": "The Rise of Rome",
+          "durationDays": 7,
+          "priceUSD": 2400,
+          "highlights": ["Roman Forum", "Colosseum"],
+          "startingLocation": "Rome, Italy"
+        },
+        {
+          "tourName": "Imperial Rome Unveiled",
+          "durationDays": 8,
+          "priceUSD": 2600,
+          "highlights": ["Pantheon", "Appian Way"],
+          "startingLocation": "Rome, Italy"
+        },
+        {
+          "tourName": "Roman Empire Adventure",
+          "durationDays": 9,
+          "priceUSD": 2800,
+          "highlights": ["Hadrian's Wall", "Ostia Antica"],
+          "startingLocation": "Rome, Italy"
+        }
+      ]
+    },
+    {
+      "name": "Byzantine",
+      "keyFigures": "Constantine the Great, Justinian I, Empress Theodora",
+      "associatedTours": "Byzantine Legacy Tours",
+      "startYear": 330,
+      "endYear": 1453,
+      "description": "The Eastern Roman Empire that preserved Classical culture",
+      "tours": [
+        {
+          "tourName": "Byzantine Legacy Tours",
+          "durationDays": 7,
+          "priceUSD": 2500,
+          "highlights": ["Hagia Sophia", "Basilica Cistern"],
+          "startingLocation": "Istanbul, Turkey"
+        },
+        {
+          "tourName": "Empire of Byzantium",
+          "durationDays": 6,
+          "priceUSD": 2300,
+          "highlights": ["Topkapi Palace", "Chora Church"],
+          "startingLocation": "Istanbul, Turkey"
+        },
+        {
+          "tourName": "Byzantine Art and Architecture",
+          "durationDays": 8,
+          "priceUSD": 2700,
+          "highlights": ["Constantinople", "Historic mosaics"],
+          "startingLocation": "Istanbul, Turkey"
+        }
+      ]
+    }
+  ]
+}
