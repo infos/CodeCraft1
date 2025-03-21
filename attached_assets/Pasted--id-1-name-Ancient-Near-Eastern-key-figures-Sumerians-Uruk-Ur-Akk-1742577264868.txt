@@ -1,0 +1,191 @@
+[
+  {
+    "id": 1,
+    "name": "Ancient Near Eastern",
+    "key_figures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+    "associated_tours": "Mesopotamian Marvels Tour",
+    "start_year": -3200,
+    "end_year": -539,
+    "description": "The cradle of civilization, featuring the first cities and writing systems"
+  },
+  {
+    "id": 2,
+    "name": "Ancient Egypt",
+    "key_figures": "Old, Middle, and New Kingdom rulers; notable figures like Cleopatra, Ramesses II, Tutankhamun",
+    "associated_tours": "Egyptian Pharaohs and Temples; Egypt and the Nile Tour",
+    "start_year": -3150,
+    "end_year": -30,
+    "description": "The mighty civilization along the Nile, known for pyramids and pharaohs"
+  },
+  {
+    "id": 3,
+    "name": "Ancient Greece",
+    "key_figures": "Alexander the Great, Pericles, and mythic characters",
+    "associated_tours": "Greek Myths and Legends Tour; The Golden Age of Athens",
+    "start_year": -800,
+    "end_year": -146,
+    "description": "The birthplace of democracy and Western philosophy"
+  },
+  {
+    "id": 4,
+    "name": "Ancient Rome",
+    "key_figures": "Julius Caesar, Emperor Augustus, Nero",
+    "associated_tours": "The Rise of Rome; Imperial Rome Unveiled",
+    "start_year": -753,
+    "end_year": 476,
+    "description": "The empire that shaped European civilization"
+  },
+  {
+    "id": 5,
+    "name": "Byzantine",
+    "key_figures": "Constantine the Great, Justinian I, Empress Theodora",
+    "associated_tours": "Byzantine Legacy Tours",
+    "start_year": 330,
+    "end_year": 1453,
+    "description": "The Eastern Roman Empire that preserved Classical culture"
+  },
+  {
+    "id": 6,
+    "name": "Medieval Europe",
+    "key_figures": "Charlemagne, William the Conqueror, Eleanor of Aquitaine",
+    "associated_tours": "Medieval Castles and Cathedrals Tour",
+    "start_year": 476,
+    "end_year": 1453,
+    "description": "A period of feudal kingdoms, crusades, and cultural transformation that laid the groundwork for modern Europe"
+  },
+  {
+    "id": 7,
+    "name": "Neo-Babylonian",
+    "key_figures": "Nebuchadnezzar II, Nabopolassar, Belshazzar",
+    "associated_tours": "Babylon Reborn Tour",
+    "start_year": -626,
+    "end_year": -539,
+    "description": "A resurgence of Babylonian power marked by monumental construction and cultural achievements in Mesopotamia"
+  },
+  {
+    "id": 8,
+    "name": "Silk Road Trade Era",
+    "key_figures": "Genghis Khan, Marco Polo, Timur (Tamerlane)",
+    "associated_tours": "Silk Road Treasures Tour",
+    "start_year": -200,
+    "end_year": 1450,
+    "description": "An era defined by extensive trade networks linking East and West, fostering cultural exchange and economic growth"
+  },
+  {
+    "id": 9,
+    "name": "Ancient India (Mauryan and Gupta Periods)",
+    "key_figures": "Chandragupta Maurya, Ashoka, Chandragupta II, Kalidasa",
+    "associated_tours": "Indian Empires Tour",
+    "start_year": -322,
+    "end_year": 550,
+    "description": "A golden age of Indian civilization characterized by political unity, flourishing arts, and significant advancements in science and philosophy"
+  },
+  {
+    "id": 10,
+    "name": "Imperial China",
+    "key_figures": "Qin Shi Huang, Confucius, Emperor Wu of Han",
+    "associated_tours": "Dynasties of China Tour; The Great Wall Expedition",
+    "start_year": -221,
+    "end_year": 1912,
+    "description": "A vast and enduring civilization known for its dynastic cycles, innovations, and cultural legacies spanning over two millennia"
+  },
+  {
+    "id": 11,
+    "name": "Israel's Patriarchal Period",
+    "key_figures": "Abraham, Isaac, Jacob",
+    "associated_tours": "Foundations of Faith Tour",
+    "start_year": -2000,
+    "end_year": -1700,
+    "description": "The formative period of ancient Israel that laid the religious and cultural foundations for future generations"
+  },
+  {
+    "id": 12,
+    "name": "Middle Kingdom of Egypt",
+    "key_figures": "Amenemhat I, Senwosret III",
+    "associated_tours": "Egyptian Renaissance Tour",
+    "start_year": -2055,
+    "end_year": -1650,
+    "description": "A period of reunification and cultural resurgence in ancient Egypt following a time of disunity"
+  },
+  {
+    "id": 13,
+    "name": "New Kingdom of Egypt",
+    "key_figures": "Hatshepsut, Thutmose III, Akhenaten",
+    "associated_tours": "Pharaohs of Power Tour",
+    "start_year": -1570,
+    "end_year": -1085,
+    "description": "The zenith of Egyptian imperial power marked by expansive reigns and monumental building projects"
+  },
+  {
+    "id": 14,
+    "name": "Achaemenid Empire",
+    "key_figures": "Cyrus the Great, Darius I, Xerxes I",
+    "associated_tours": "Persian Empire Expedition",
+    "start_year": -550,
+    "end_year": -330,
+    "description": "The first Persian Empire known for its vast territorial expansion, administrative innovations, and cultural tolerance"
+  },
+  {
+    "id": 15,
+    "name": "Hellenistic Period",
+    "key_figures": "Seleucus I Nicator, Ptolemy I Soter",
+    "associated_tours": "Hellenistic Heritage Tour",
+    "start_year": -323,
+    "end_year": -30,
+    "description": "The era following Alexander the Great’s conquests, characterized by the spread of Greek culture across the Eastern Mediterranean and Near East"
+  },
+  {
+    "id": 16,
+    "name": "Parthian Empire",
+    "key_figures": "Mithridates I, Orodes II",
+    "associated_tours": "Silk Road Conquest Tour",
+    "start_year": -247,
+    "end_year": 224,
+    "description": "A major power bridging Eastern and Western cultures along the Silk Road, known for its clashes with Rome"
+  },
+  {
+    "id": 17,
+    "name": "Sasanian Empire",
+    "key_figures": "Ardashir I, Shapur I",
+    "associated_tours": "Persian Splendor Tour",
+    "start_year": 224,
+    "end_year": 651,
+    "description": "The last pre-Islamic Persian empire, renowned for its centralized administration and artistic achievements"
+  },
+  {
+    "id": 18,
+    "name": "Renaissance",
+    "key_figures": "Leonardo da Vinci, Michelangelo, Raphael",
+    "associated_tours": "Renaissance Art & Culture Tour",
+    "start_year": 1300,
+    "end_year": 1699,
+    "description": "A period of cultural rebirth in Europe marked by revolutionary developments in art, science, and philosophy"
+  },
+  {
+    "id": 19,
+    "name": "Age of Exploration",
+    "key_figures": "Queen Isabella I, King Ferdinand II",
+    "associated_tours": "Global Discovery Tour",
+    "start_year": 1400,
+    "end_year": 1799,
+    "description": "An era of maritime exploration that transformed global trade, navigation, and cross-cultural exchange"
+  },
+  {
+    "id": 20,
+    "name": "Enlightenment",
+    "key_figures": "Voltaire, Rousseau, Kant",
+    "associated_tours": "Intellectual Revolution Tour",
+    "start_year": 1650,
+    "end_year": 1800,
+    "description": "A period emphasizing reason, individualism, and scientific progress which reshaped Western thought"
+  },
+  {
+    "id": 21,
+    "name": "Georgian Era",
+    "key_figures": "King George III",
+    "associated_tours": "British Heritage Tour",
+    "start_year": 1714,
+    "end_year": 1837,
+    "description": "A period in Britain marked by political stability, cultural refinement, and the dawn of industrialization"
+  }
+]

@@ -1,0 +1,212 @@
+[
+  {
+    "id": 7,
+    "title": "The Rise of Rome",
+    "description": "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled.",
+    "duration": 7,
+    "price": 2499,
+    "locations": "Rome, Tivoli",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+    "era": "Ancient Rome"
+  },
+  {
+    "id": 8,
+    "title": "Egyptian Pharaohs and Temples",
+    "description": "Discover the world of Cleopatra and ancient Egyptian civilization. From the mighty pyramids to the treasures of Tutankhamun, immerse yourself in the world of the pharaohs.",
+    "duration": 6,
+    "price": 2899,
+    "locations": "Cairo, Giza, Saqqara",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+    "era": "Ancient Egypt"
+  },
+  {
+    "id": 9,
+    "title": "Greek Myths and Legends",
+    "description": "Journey through ancient Greece, from the Acropolis to the Temple of Apollo at Delphi. Experience the birthplace of democracy and discover the stories behind Greek mythology.",
+    "duration": 7,
+    "price": 2699,
+    "locations": "Athens, Delphi, Epidaurus, Nafplio",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/The_Parthenon_in_Athens.jpg/1280px-The_Parthenon_in_Athens.jpg",
+    "era": "Ancient Greece"
+  },
+  {
+    "id": 10,
+    "title": "Italy's Ancient Wonders",
+    "description": "Journey through Italy's rich historical heritage, from Rome's imperial splendor to Florence's Renaissance treasures.",
+    "duration": 8,
+    "price": 2999,
+    "locations": "Rome, Pompeii, Florence",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+    "era": "Ancient Rome"
+  },
+  {
+    "id": 11,
+    "title": "Egypt and the Nile",
+    "description": "Embark on an epic journey through ancient Egypt, from the pyramids of Giza to the temples of Luxor.",
+    "duration": 8,
+    "price": 3499,
+    "locations": "Cairo, Luxor, Nubian Village",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+    "era": "Ancient Egypt"
+  },
+  {
+    "id": 12,
+    "title": "Mesopotamian Marvels Tour",
+    "description": "Explore the birthplace of civilization through ancient Mesopotamian sites.",
+    "duration": 7,
+    "price": 2500,
+    "locations": "Baghdad, Iraq",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Babylon_ishtar_gate.jpg/1280px-Babylon_ishtar_gate.jpg",
+    "era": "Ancient Near Eastern"
+  },
+  {
+    "id": 13,
+    "title": "Uruk Exploration Expedition",
+    "description": "Journey through the ancient temples and discover cuneiform tablets.",
+    "duration": 5,
+    "price": 2000,
+    "locations": "Erbil, Iraq",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Uruk_Archaeaological_site_at_Warka,_Iraq_MOD_45158744.jpg/1280px-Uruk_Archaeaological_site_at_Warka,_Iraq_MOD_45158744.jpg",
+    "era": "Ancient Near Eastern"
+  },
+  {
+    "id": 14,
+    "title": "Babylonian Legacy Journey",
+    "description": "Experience the grandeur of ancient Babylon and its architectural wonders.",
+    "duration": 8,
+    "price": 2700,
+    "locations": "Hillah, Iraq",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Babylon,_1932.jpg/1280px-Babylon,_1932.jpg",
+    "era": "Ancient Near Eastern"
+  },
+  {
+    "id": 15,
+    "title": "Medieval Castles and Cathedrals Tour",
+    "description": "Journey through Europe's magnificent medieval architecture.",
+    "duration": 10,
+    "price": 3000,
+    "locations": "Paris, France",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Chateau_de_Chambord.jpg/1280px-Chateau_de_Chambord.jpg",
+    "era": "Medieval Europe"
+  },
+  {
+    "id": 16,
+    "title": "Silk Road Treasures Tour",
+    "description": "Travel the ancient trade routes connecting East and West.",
+    "duration": 14,
+    "price": 4500,
+    "locations": "Xi'an, China",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Silk_route.jpg/1280px-Silk_route.jpg",
+    "era": "Silk Road Trade Era"
+  },
+  {
+    "id": 17,
+    "title": "Indian Empires Tour",
+    "description": "Discover the golden age of Indian civilization.",
+    "duration": 12,
+    "price": 3500,
+    "locations": "Delhi, India",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Sanchi_Gate.jpg/1280px-Sanchi_Gate.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)"
+  },
+  {
+    "id": 18,
+    "title": "Dynasties of China Tour",
+    "description": "Experience the grandeur of Imperial China.",
+    "duration": 10,
+    "price": 3200,
+    "locations": "Beijing, China",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090529_Great_Wall_8185.jpg/1280px-20090529_Great_Wall_8185.jpg",
+    "era": "Imperial China"
+  },
+  {
+    "id": 19,
+    "title": "The Great Wall Expedition",
+    "description": "Journey along the most impressive structure of ancient China.",
+    "duration": 8,
+    "price": 2800,
+    "locations": "Beijing, China",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/1280px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+    "era": "Imperial China"
+  },
+  {
+    "id": 20,
+    "title": "Foundations of Faith Tour",
+    "description": "Explore the early narratives of the Israelite people by visiting key sites associated with Abraham, Isaac, and Jacob.",
+    "duration": 7,
+    "price": 2300,
+    "locations": "Jerusalem, Hebron",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Jerusalem_City.jpg/1280px-Jerusalem_City.jpg",
+    "era": "Israel's Patriarchal Period"
+  },
+  {
+    "id": 21,
+    "title": "Egyptian Renaissance Tour",
+    "description": "Discover the resurgence of power during Egypt's Middle Kingdom through visits to monumental sites and museums.",
+    "duration": 6,
+    "price": 2600,
+    "locations": "Memphis, Egypt",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Memphis_Ancient_City.jpg/1280px-Memphis_Ancient_City.jpg",
+    "era": "Middle Kingdom of Egypt"
+  },
+  {
+    "id": 22,
+    "title": "Pharaohs of Power Tour",
+    "description": "Experience the apex of Egyptian civilization during the New Kingdom with visits to Thebes and iconic monuments.",
+    "duration": 7,
+    "price": 2800,
+    "locations": "Thebes, Egypt",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Temple_of_Hatshepsut.jpg/1280px-Temple_of_Hatshepsut.jpg",
+    "era": "New Kingdom of Egypt"
+  },
+  {
+    "id": 23,
+    "title": "Persian Empire Expedition",
+    "description": "Trace the legacy of the Achaemenid Empire from the palaces of Persepolis to the tombs of ancient Persian kings.",
+    "duration": 8,
+    "price": 3100,
+    "locations": "Pasargadae, Iran",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Persepolis.jpg/1280px-Persepolis.jpg",
+    "era": "Achaemenid Empire"
+  },
+  {
+    "id": 24,
+    "title": "Hellenistic Heritage Tour",
+    "description": "Journey into the world shaped by Alexander’s legacy with stops at ancient cities that blend Greek and Eastern influences.",
+    "duration": 7,
+    "price": 2700,
+    "locations": "Alexandria, Egypt",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Alexandria_City.jpg/1280px-Alexandria_City.jpg",
+    "era": "Hellenistic Period"
+  },
+  {
+    "id": 25,
+    "title": "Persian Splendor Tour",
+    "description": "Explore the rich cultural legacy of the Sasanian Empire with visits to archaeological sites and museums in ancient Persia.",
+    "duration": 7,
+    "price": 3000,
+    "locations": "Ctesiphon, Iraq",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Ctesiphon.jpg/1280px-Ctesiphon.jpg",
+    "era": "Sasanian Empire"
+  },
+  {
+    "id": 26,
+    "title": "British Heritage Tour",
+    "description": "Delve into the cultural and architectural legacy of the Georgian Era in Britain with visits to historic landmarks.",
+    "duration": 6,
+    "price": 2400,
+    "locations": "London, United Kingdom",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Westminster_Abbey%2C_London.jpg/1280px-Westminster_Abbey%2C_London.jpg",
+    "era": "Georgian Era"
+  },
+  {
+    "id": 27,
+    "title": "Intellectual Revolution Tour",
+    "description": "Explore the centers of Enlightenment thought in Europe with guided visits to historic academies, libraries, and cultural sites.",
+    "duration": 7,
+    "price": 2600,
+    "locations": "Paris, France",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Paris_Library.jpg/1280px-Paris_Library.jpg",
+    "era": "Enlightenment"
+  }
+]
