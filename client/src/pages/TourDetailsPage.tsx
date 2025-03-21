@@ -6,18 +6,22 @@ import { MapPin, Calendar, Hotel } from "lucide-react";
 import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailsPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const tourId = params.id;
 
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
-    queryKey: [`/api/tours/${id}`]
+    queryKey: ['/api/tours', tourId],
+    enabled: !!tourId
   });
 
   const { data: itineraries, isLoading: itinerariesLoading } = useQuery<Itinerary[]>({
-    queryKey: [`/api/tours/${id}/itineraries`]
+    queryKey: ['/api/tours', tourId, 'itineraries'],
+    enabled: !!tourId
   });
 
   const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
-    queryKey: [`/api/tours/${id}/hotels`]
+    queryKey: ['/api/tours', tourId, 'hotels'],
+    enabled: !!tourId
   });
 
   if (tourLoading || itinerariesLoading || hotelsLoading) {
