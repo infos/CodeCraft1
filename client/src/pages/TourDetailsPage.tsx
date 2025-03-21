@@ -7,7 +7,7 @@ import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailsPage() {
   const { id } = useParams();
-  
+
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
     queryKey: [`/api/tours/${id}`]
   });
@@ -38,11 +38,11 @@ export default function TourDetailsPage() {
         </div>
       </div>
 
-      <div className="aspect-video rounded-lg overflow-hidden">
+      <div className="w-1/2 mx-auto rounded-lg overflow-hidden">
         <img 
           src={tour.imageUrl || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className="object-cover w-full h-full"
+          className="w-full h-auto"
         />
       </div>
 

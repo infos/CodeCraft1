@@ -43,6 +43,15 @@ export default function EmperorTimeline({ emperors, selectedEra }: EmperorTimeli
                     className="p-4 rounded-lg border bg-card hover:bg-accent cursor-pointer transition-colors"
                     onClick={() => setLocation(`/emperor/${emperor.id}`)}
                   >
+                    {emperor.imageUrl && (
+                      <div className="w-1/2 mx-auto mb-4">
+                        <img
+                          src={emperor.imageUrl}
+                          alt={emperor.name}
+                          className="w-full h-auto rounded-lg"
+                        />
+                      </div>
+                    )}
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <h3 className="font-semibold">{emperor.name}</h3>

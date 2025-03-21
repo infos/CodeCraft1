@@ -14,12 +14,14 @@ export default function TourCard({ tour }: TourCardProps) {
       onClick={() => setLocation(`/tour/${tour.id}`)}
       data-era={tour.era?.toLowerCase().replace(/\s+/g, '-')}
     >
-      <div className="aspect-video overflow-hidden rounded-md mb-4">
-        <img 
-          src={tour.imageUrl || '/placeholder-tour.jpg'} 
-          alt={tour.title}
-          className="object-cover w-full h-full"
-        />
+      <div className="w-1/2 mx-auto mb-4">
+        <div className="aspect-video overflow-hidden rounded-md">
+          <img 
+            src={tour.imageUrl || '/placeholder-tour.jpg'} 
+            alt={tour.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
       <h2 className="text-xl font-semibold mb-2">{tour.title}</h2>
       <p className="text-gray-600 mb-4">{tour.description}</p>
