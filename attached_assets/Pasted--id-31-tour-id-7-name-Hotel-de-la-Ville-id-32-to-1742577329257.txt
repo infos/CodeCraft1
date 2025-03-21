@@ -1,0 +1,287 @@
+[
+  {
+    "id": 31,
+    "tour_id": 7,
+    "name": "Hotel de la Ville"
+  },
+  {
+    "id": 32,
+    "tour_id": 7,
+    "name": "Hotel Forum"
+  },
+  {
+    "id": 33,
+    "tour_id": 7,
+    "name": "Palazzo Manfredi"
+  },
+  {
+    "id": 34,
+    "tour_id": 8,
+    "name": "Marriott Mena House"
+  },
+  {
+    "id": 35,
+    "tour_id": 8,
+    "name": "Four Seasons Cairo"
+  },
+  {
+    "id": 36,
+    "tour_id": 8,
+    "name": "Le Meridien Pyramids"
+  },
+  {
+    "id": 37,
+    "tour_id": 9,
+    "name": "Herodion Hotel"
+  },
+  {
+    "id": 38,
+    "tour_id": 9,
+    "name": "AthensWas"
+  },
+  {
+    "id": 39,
+    "tour_id": 9,
+    "name": "Electra Palace Athens"
+  },
+  {
+    "id": 40,
+    "tour_id": 11,
+    "name": "Sofitel Winter Palace Luxor"
+  },
+  {
+    "id": 41,
+    "tour_id": 11,
+    "name": "Hilton Luxor Resort & Spa"
+  },
+  {
+    "id": 42,
+    "tour_id": 11,
+    "name": "Old Cataract Hotel Aswan"
+  },
+  {
+    "id": 43,
+    "tour_id": 17,
+    "name": "Taj Mahal Palace Mumbai"
+  },
+  {
+    "id": 44,
+    "tour_id": 17,
+    "name": "The Imperial New Delhi"
+  },
+  {
+    "id": 45,
+    "tour_id": 17,
+    "name": "Taj Lake Palace Udaipur"
+  },
+  {
+    "id": 46,
+    "tour_id": 14,
+    "name": "Babylon Rotana Baghdad"
+  },
+  {
+    "id": 47,
+    "tour_id": 14,
+    "name": "Coral Baghdad Hotel"
+  },
+  {
+    "id": 48,
+    "tour_id": 14,
+    "name": "Royal Tulip Al Rasheed Baghdad"
+  },
+  {
+    "id": 49,
+    "tour_id": 12,
+    "name": "Erbil Rotana Hotel"
+  },
+  {
+    "id": 50,
+    "tour_id": 12,
+    "name": "Divan Erbil Hotel"
+  },
+  {
+    "id": 51,
+    "tour_id": 12,
+    "name": "Grand Swiss-Belhotel Erbil"
+  },
+  {
+    "id": 52,
+    "tour_id": 13,
+    "name": "Basra Sheraton Hotel"
+  },
+  {
+    "id": 53,
+    "tour_id": 13,
+    "name": "Coral Basra Hotel"
+  },
+  {
+    "id": 54,
+    "tour_id": 13,
+    "name": "Grand Babylos Hotel"
+  },
+  {
+    "id": 55,
+    "tour_id": 10,
+    "name": "Hotel Artemide Rome"
+  },
+  {
+    "id": 56,
+    "tour_id": 10,
+    "name": "Portrait Firenze"
+  },
+  {
+    "id": 57,
+    "tour_id": 10,
+    "name": "Hotel de la Ville Florence"
+  },
+  {
+    "id": 58,
+    "tour_id": 18,
+    "name": "Aman Summer Palace Beijing"
+  },
+  {
+    "id": 59,
+    "tour_id": 18,
+    "name": "Peninsula Shanghai"
+  },
+  {
+    "id": 60,
+    "tour_id": 18,
+    "name": "Waldorf Astoria Xian"
+  },
+  {
+    "id": 61,
+    "tour_id": 19,
+    "name": "Commune by the Great Wall"
+  },
+  {
+    "id": 62,
+    "tour_id": 19,
+    "name": "Brickyard Retreat at Mutianyu"
+  },
+  {
+    "id": 63,
+    "tour_id": 19,
+    "name": "Shan Li Resort & Spa"
+  },
+  {
+    "id": 64,
+    "tour_id": 20,
+    "name": "Jerusalem Grand Hotel"
+  },
+  {
+    "id": 65,
+    "tour_id": 20,
+    "name": "Old City Inn"
+  },
+  {
+    "id": 66,
+    "tour_id": 20,
+    "name": "Hebron Heritage Suites"
+  },
+  {
+    "id": 67,
+    "tour_id": 21,
+    "name": "Memphis Boutique Hotel"
+  },
+  {
+    "id": 68,
+    "tour_id": 21,
+    "name": "Nile View Residence"
+  },
+  {
+    "id": 69,
+    "tour_id": 21,
+    "name": "Pharaoh's Retreat"
+  },
+  {
+    "id": 70,
+    "tour_id": 22,
+    "name": "Thebes Luxury Hotel"
+  },
+  {
+    "id": 71,
+    "tour_id": 22,
+    "name": "Pharaoh Palace Inn"
+  },
+  {
+    "id": 72,
+    "tour_id": 22,
+    "name": "Deir el-Bahri Resort"
+  },
+  {
+    "id": 73,
+    "tour_id": 23,
+    "name": "Persepolis Grand Hotel"
+  },
+  {
+    "id": 74,
+    "tour_id": 23,
+    "name": "Royal Persian Suites"
+  },
+  {
+    "id": 75,
+    "tour_id": 23,
+    "name": "Achaemenid Retreat"
+  },
+  {
+    "id": 76,
+    "tour_id": 24,
+    "name": "Alexandria Seaside Hotel"
+  },
+  {
+    "id": 77,
+    "tour_id": 24,
+    "name": "Hellenistic Heritage Inn"
+  },
+  {
+    "id": 78,
+    "tour_id": 24,
+    "name": "Mediterranean View Resort"
+  },
+  {
+    "id": 79,
+    "tour_id": 25,
+    "name": "Ctesiphon Royal Hotel"
+  },
+  {
+    "id": 80,
+    "tour_id": 25,
+    "name": "Sasanian Splendor Suites"
+  },
+  {
+    "id": 81,
+    "tour_id": 25,
+    "name": "Persian Palace Inn"
+  },
+  {
+    "id": 82,
+    "tour_id": 26,
+    "name": "London Landmark Hotel"
+  },
+  {
+    "id": 83,
+    "tour_id": 26,
+    "name": "Georgian Grand Inn"
+  },
+  {
+    "id": 84,
+    "tour_id": 26,
+    "name": "Westminster Regency"
+  },
+  {
+    "id": 85,
+    "tour_id": 27,
+    "name": "Paris Enlightenment Hotel"
+  },
+  {
+    "id": 86,
+    "tour_id": 27,
+    "name": "Louvre Residence"
+  },
+  {
+    "id": 87,
+    "tour_id": 27,
+    "name": "Seine River Suites"
+  }
+]
