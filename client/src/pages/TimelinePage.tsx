@@ -20,13 +20,16 @@ export default function TimelinePage() {
     return <div>Error loading emperors timeline</div>;
   }
 
-  // Filter emperors based on selected era
+  // Filter and sort emperors based on selected era
   const filteredEmperors = selectedEra
-    ? emperors.filter(emperor => emperor.era && emperor.era.toLowerCase() === selectedEra.toLowerCase())
-    : emperors;
+    ? emperors.filter(emperor => 
+        emperor.era && 
+        emperor.era.trim().toLowerCase() === selectedEra.trim().toLowerCase()
+      ).sort((a, b) => (a.startYear || 0) - (b.startYear || 0))
+    : emperors.sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
 
   return (
-    <div className="space-y-10">
+    <div className="container mx-auto px-4 space-y-10 py-8">
       <EraOverview 
         onEraSelect={setSelectedEra}
         selectedEra={selectedEra}
@@ -35,16 +38,19 @@ export default function TimelinePage() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            {selectedEra ? `${selectedEra} Emperors` : 'Historical Timeline'}
+            {selectedEra ? `${selectedEra} Timeline` : 'Historical Timeline'}
           </h2>
           <p className="text-muted-foreground">
             {selectedEra 
-              ? `Explore the rulers of the ${selectedEra} era`
-              : 'Explore the rich history of emperors through our interactive timeline'
+              ? `Explore the rulers and influential figures of the ${selectedEra} era`
+              : 'Explore the rich history of civilizations through our interactive timeline'
             }
           </p>
         </div>
-        <EmperorTimeline emperors={filteredEmperors} />
+        <EmperorTimeline 
+          emperors={filteredEmperors} 
+          selectedEra={selectedEra}
+        />
       </div>
     </div>
   );

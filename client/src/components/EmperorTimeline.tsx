@@ -2,13 +2,30 @@ import { useLocation } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Emperor } from "@shared/schema";
+import { Badge } from "@/components/ui/badge";
 
 interface EmperorTimelineProps {
   emperors: Emperor[];
+  selectedEra: string | null;
 }
 
-export default function EmperorTimeline({ emperors }: EmperorTimelineProps) {
+export default function EmperorTimeline({ emperors, selectedEra }: EmperorTimelineProps) {
   const [, setLocation] = useLocation();
+
+  if (emperors.length === 0) {
+    return (
+      <Card>
+        <CardContent className="p-6 text-center">
+          <p className="text-muted-foreground">
+            {selectedEra 
+              ? `No rulers found for the ${selectedEra} era`
+              : 'No historical figures found'
+            }
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -27,12 +44,19 @@ export default function EmperorTimeline({ emperors }: EmperorTimelineProps) {
                     onClick={() => setLocation(`/emperor/${emperor.id}`)}
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold">{emperor.name}</h3>
-                      <span className="text-sm text-muted-foreground">
-                        {emperor.startYear} - {emperor.endYear} CE
+                      <div>
+                        <h3 className="font-semibold">{emperor.name}</h3>
+                        {emperor.era && !selectedEra && (
+                          <Badge variant="outline" className="mt-1">
+                            {emperor.era}
+                          </Badge>
+                        )}
+                      </div>
+                      <span className="text-sm text-muted-foreground whitespace-nowrap">
+                        {emperor.startYear} - {emperor.endYear} BCE
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
+                    <p className="text-sm text-muted-foreground line-clamp-2 mt-2">
                       {emperor.description}
                     </p>
                   </div>
