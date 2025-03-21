@@ -50,7 +50,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Tour itineraries route
   app.get("/api/tours/:id/itineraries", async (req, res) => {
     try {
-      const itineraries = await storage.getItinerariesForTour(parseInt(req.params.id));
+      const tourId = parseInt(req.params.id);
+      if (isNaN(tourId)) {
+        return res.status(400).json({ message: "Invalid tour ID" });
+      }
+      const itineraries = await storage.getItinerariesForTour(tourId);
       res.json(itineraries);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch tour itineraries" });

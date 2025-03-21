@@ -71,7 +71,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getItinerariesForTour(tourId: number): Promise<Itinerary[]> {
-    return await db.select().from(itineraries).where(eq(itineraries.tourId, tourId));
+    return await db.select().from(itineraries)
+      .where(eq(itineraries.tourId, tourId))
+      .orderBy(itineraries.day);
   }
 
   async createItinerary(insertItinerary: InsertItinerary): Promise<Itinerary> {
