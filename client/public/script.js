@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   // Select all filter links
   const filters = document.querySelectorAll('.filter');
-  
+
   filters.forEach(filter => {
     filter.addEventListener('click', function(e) {
       e.preventDefault();
       // Remove 'active' from all filters and add to current filter
       filters.forEach(f => f.classList.remove('active'));
       this.classList.add('active');
-      
+
       const filterValue = this.getAttribute('data-filter');
       filterTours(filterValue);
     });
@@ -26,14 +26,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Sample tour data
+  // Sample tour data updated with Medieval Europe
   const toursSection = document.getElementById('tours');
   const sampleTours = [
     { id: 1, title: 'Mesopotamian Marvels Tour', era: 'ancient-near-eastern' },
     { id: 2, title: 'Egyptian Pharaohs and Temples', era: 'ancient-egypt' },
     { id: 3, title: 'Greek Myths and Legends Tour', era: 'ancient-greece' },
     { id: 4, title: 'The Rise of Rome', era: 'ancient-rome' },
-    { id: 5, title: 'Byzantine Legacy Tours', era: 'byzantine' }
+    { id: 5, title: 'Byzantine Legacy Tours', era: 'byzantine' },
+    { id: 6, title: 'Medieval Castles and Kings', era: 'medieval-europe' }
   ];
 
   // Render sample tour items
