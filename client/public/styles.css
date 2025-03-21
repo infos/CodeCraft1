@@ -1,0 +1,70 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Header and Navigation */
+header {
+  background: #333;
+  color: #fff;
+  padding: 1rem 0;
+}
+
+.top-nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.top-nav li {
+  margin: 0 1rem;
+}
+
+.top-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.top-nav a:hover,
+.top-nav a.active {
+  background: #555;
+}
+
+/* Main Content */
+main {
+  padding: 2rem;
+}
+
+/* Tour Item Cards */
+.tour-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tour-item h2 {
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .top-nav li {
+    margin: 0.5rem;
+  }
+}
