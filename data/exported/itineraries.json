@@ -1,0 +1,28 @@
+{
+  "itineraries": [
+    {
+      "tourId": 1,
+      "day": 1,
+      "title": "Arrival & Orientation",
+      "description": "Arrive in Rome by train or flight. Check into a boutique hotel housed in a historic palazzo near the city center. Evening welcome dinner in a traditional trattoria in the Monti neighborhood."
+    },
+    {
+      "tourId": 1,
+      "day": 2,
+      "title": "Ancient Rome Immersion",
+      "description": "Morning guided walking tour of the Roman Forum and Palatine Hill. Lunch in a local osteria. Afternoon free time to explore Piazza Venezia or the nearby markets. Evening visit to a small museum focusing on early Roman history."
+    },
+    {
+      "tourId": 2,
+      "day": 1,
+      "title": "Arrival in Cairo & Check-In",
+      "description": "Arrive in Cairo and settle into a boutique hotel in the historic downtown area. Evening dinner featuring traditional Egyptian cuisine in a restored historic building."
+    },
+    {
+      "tourId": 2,
+      "day": 2,
+      "title": "The Great Pyramids & Sphinx",
+      "description": "Full-day guided tour of the Giza Plateau, including the Great Pyramids and Sphinx. Lunch with a view of the pyramids. Free afternoon for personal exploration or a camel ride around the site."
+    }
+  ]
+}

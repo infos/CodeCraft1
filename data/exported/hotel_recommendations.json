@@ -1,0 +1,28 @@
+{
+  "hotel_recommendations": [
+    {
+      "tourId": 1,
+      "name": "Hotel de la Ville"
+    },
+    {
+      "tourId": 1,
+      "name": "Hotel Forum"
+    },
+    {
+      "tourId": 1,
+      "name": "Palazzo Manfredi"
+    },
+    {
+      "tourId": 2,
+      "name": "Marriott Mena House"
+    },
+    {
+      "tourId": 2,
+      "name": "Four Seasons Cairo"
+    },
+    {
+      "tourId": 2,
+      "name": "Le Meridien Pyramids"
+    }
+  ]
+}

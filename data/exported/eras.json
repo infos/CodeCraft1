@@ -1,0 +1,44 @@
+{
+  "eras": [
+    {
+      "name": "Ancient Near Eastern",
+      "keyFigures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+      "associatedTours": "Mesopotamian Marvels Tour",
+      "startYear": -3200,
+      "endYear": -539,
+      "description": "The cradle of civilization, featuring the first cities and writing systems"
+    },
+    {
+      "name": "Ancient Egypt",
+      "keyFigures": "Old, Middle, and New Kingdom rulers; notable figures like Cleopatra, Ramses II, Tutankhamun",
+      "associatedTours": "Egyptian Pharaohs and Temples; Egypt and the Nile Tour",
+      "startYear": -3150,
+      "endYear": -30,
+      "description": "The mighty civilization along the Nile, known for pyramids and pharaohs"
+    },
+    {
+      "name": "Ancient Greece",
+      "keyFigures": "Alexander the Great, Pericles, and mythic characters",
+      "associatedTours": "Greek Myths and Legends Tour; The Golden Age of Athens",
+      "startYear": -800,
+      "endYear": -146,
+      "description": "The birthplace of democracy and Western philosophy"
+    },
+    {
+      "name": "Ancient Rome",
+      "keyFigures": "Julius Caesar, Emperor Augustus, Nero",
+      "associatedTours": "The Rise of Rome; Imperial Rome Unveiled",
+      "startYear": -753,
+      "endYear": 476,
+      "description": "The empire that shaped European civilization"
+    },
+    {
+      "name": "Byzantine",
+      "keyFigures": "Constantine the Great, Justinian I, Empress Theodora",
+      "associatedTours": "Byzantine Legacy Tours",
+      "startYear": 330,
+      "endYear": 1453,
+      "description": "The Eastern Roman Empire that preserved Classical culture"
+    }
+  ]
+}

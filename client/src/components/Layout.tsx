@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="border-b">
         <nav className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Imperial Tours</h1>
+            <h1 className="text-2xl font-bold">&nbsp;</h1>
             <div className="space-x-6">
               <Link href="/">
                 <a className={cn(

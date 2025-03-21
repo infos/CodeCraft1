@@ -1,0 +1,44 @@
+{
+  "emperors": [
+    {
+      "name": "Julius Caesar",
+      "era": "Ancient Rome",
+      "startYear": -100,
+      "endYear": -44,
+      "description": "Gaius Julius Caesar was a Roman general, statesman, and author who transformed the Roman Republic through his military conquests and political reforms, setting the stage for the Roman Empire.",
+      "achievements": "Military conquests, political reforms, calendar reform, expansion of Roman citizenship",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Julius_Caesar_Coustou_Louvre_MR1798.jpg/800px-Julius_Caesar_Coustou_Louvre_MR1798.jpg",
+      "locations": ["Rome, Italy"]
+    },
+    {
+      "name": "Augustus",
+      "era": "Ancient Rome",
+      "startYear": -63,
+      "endYear": 14,
+      "description": "Augustus was the first Roman emperor who established a period of relative peace known as the Pax Romana. His reign ushered in a golden age of art, literature, and monumental architecture.",
+      "achievements": "Established Pax Romana, reformed administration, expanded empire",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Augustus_of_Prima_Porta_%28inv._2290%29.jpg/800px-Augustus_of_Prima_Porta_%28inv._2290%29.jpg",
+      "locations": ["Rome, Italy"]
+    },
+    {
+      "name": "Alexander the Great",
+      "era": "Ancient Greece",
+      "startYear": -356,
+      "endYear": -323,
+      "description": "Alexander the Great was king of Macedon and one of history's most successful military commanders. He created one of the largest empires of the ancient world by the age of thirty.",
+      "achievements": "Created vast empire spanning three continents, founded numerous cities, spread Hellenistic culture",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alexander_the_Great_mosaic.jpg/800px-Alexander_the_Great_mosaic.jpg",
+      "locations": ["Pella, Greece", "Vergina, Greece"]
+    },
+    {
+      "name": "Cleopatra VII",
+      "era": "Ancient Egypt",
+      "startYear": -69,
+      "endYear": -30,
+      "description": "Cleopatra VII was the last active ruler of the Ptolemaic Kingdom of Egypt. Known for her intelligence, political acumen, and captivating charm, she remains one of history's most famous female rulers.",
+      "achievements": "Preserved Egyptian independence, modernized kingdom, patronage of learning",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Kleopatra-VII.-Altes-Museum-Berlin.jpg/800px-Kleopatra-VII.-Altes-Museum-Berlin.jpg",
+      "locations": ["Alexandria, Egypt"]
+    }
+  ]
+}
