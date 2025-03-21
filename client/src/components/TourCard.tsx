@@ -1,6 +1,4 @@
 import { useLocation } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin } from "lucide-react";
 import { Tour } from "@shared/schema";
 
 interface TourCardProps {
@@ -11,39 +9,24 @@ export default function TourCard({ tour }: TourCardProps) {
   const [, setLocation] = useLocation();
 
   return (
-    <Card 
-      className="cursor-pointer transition-shadow hover:shadow-lg"
+    <div 
+      className="bg-white border border-[#ddd] p-4 mb-4 rounded-md shadow-[0_2px_5px_rgba(0,0,0,0.1)] cursor-pointer"
       onClick={() => setLocation(`/tour/${tour.id}`)}
+      data-era={tour.era?.toLowerCase().replace(/\s+/g, '-')}
     >
-      <div className="aspect-video overflow-hidden">
+      <div className="aspect-video overflow-hidden rounded-md mb-4">
         <img 
           src={tour.imageUrl || '/placeholder-tour.jpg'} 
           alt={tour.title}
           className="object-cover w-full h-full"
         />
       </div>
-      <CardHeader>
-        <CardTitle>{tour.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <p className="text-muted-foreground">{tour.description}</p>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4" />
-            <span>{tour.locations}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">Duration</p>
-              <p className="text-2xl font-bold">{tour.duration} days</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-medium">Price</p>
-              <p className="text-2xl font-bold">${tour.price}</p>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+      <h2 className="text-xl font-semibold mb-2">{tour.title}</h2>
+      <p className="text-gray-600 mb-4">{tour.description}</p>
+      <div className="flex justify-between items-center text-sm">
+        <span className="font-medium">Duration: {tour.duration} days</span>
+        <span className="font-bold">${tour.price}</span>
+      </div>
+    </div>
   );
 }
