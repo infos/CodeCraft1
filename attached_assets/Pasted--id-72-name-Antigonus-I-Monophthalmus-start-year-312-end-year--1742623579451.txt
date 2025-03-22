@@ -1,0 +1,46 @@
+[
+  {
+    "id": 72,
+    "name": "Antigonus I Monophthalmus",
+    "start_year": -312,
+    "end_year": -301,
+    "description": "A general under Alexander the Great who emerged as one of the Diadochi and ruled parts of Asia Minor, laying the foundation for Hellenistic power in the region.",
+    "achievements": "Fought in the Wars of the Diadochi, established control in Asia Minor, promoted cultural fusion",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Antigonus_I_Monophthalmus.jpg/800px-Antigonus_I_Monophthalmus.jpg",
+    "era": "Hellenistic Period",
+    "locations": ["Antigonia, Turkey"]
+  },
+  {
+    "id": 73,
+    "name": "Cassander",
+    "start_year": -305,
+    "end_year": -297,
+    "description": "A Macedonian general who rose to power after Alexander the Great’s death and secured the leadership of Macedon, playing a key role in the subsequent Wars of the Diadochi.",
+    "achievements": "Consolidated Macedonian power, secured the kingdom, and influenced the political landscape of Hellenistic Greece",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Cassander.jpg/800px-Cassander.jpg",
+    "era": "Hellenistic Period",
+    "locations": ["Macedon, Greece"]
+  },
+  {
+    "id": 74,
+    "name": "Harsha (Harshavardhana)",
+    "start_year": 606,
+    "end_year": 647,
+    "description": "Harsha was an Indian emperor who united large parts of northern India and presided over a period of cultural renaissance, patronizing arts and literature.",
+    "achievements": "Unified northern India, promoted Buddhism and Hindu culture, and fostered economic and cultural prosperity",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Harsha.jpg/800px-Harsha.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": ["Kanauj, India"]
+  },
+  {
+    "id": 75,
+    "name": "Krishnadevaraya",
+    "start_year": 1509,
+    "end_year": 1529,
+    "description": "Krishnadevaraya was a celebrated ruler of the Vijayanagara Empire known for his military conquests, patronage of Telugu literature, and fostering a cultural renaissance in South India.",
+    "achievements": "Expanded the Vijayanagara Empire, supported the arts and literature, and enhanced administrative efficiency",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Krishnadevaraya.jpg/800px-Krishnadevaraya.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": ["Hampi, India"]
+  }
+]
