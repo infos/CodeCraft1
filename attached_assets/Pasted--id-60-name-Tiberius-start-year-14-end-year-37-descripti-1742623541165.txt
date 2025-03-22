@@ -1,0 +1,134 @@
+[
+  {
+    "id": 60,
+    "name": "Tiberius",
+    "start_year": 14,
+    "end_year": 37,
+    "description": "Tiberius, the second Roman emperor, was known for his military skills and later reclusive, controversial reign.",
+    "achievements": "Maintained imperial stability, expanded territory, and reformed administrative systems",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Tiberius_bust.jpg/800px-Tiberius_bust.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 61,
+    "name": "Caligula",
+    "start_year": 37,
+    "end_year": 41,
+    "description": "Caligula is remembered for his eccentric and often tyrannical behavior during his brief reign as Roman emperor.",
+    "achievements": "Known for extravagant and controversial rule that left a lasting infamy",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Caligula.jpg/800px-Caligula.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 62,
+    "name": "Claudius",
+    "start_year": 41,
+    "end_year": 54,
+    "description": "Claudius expanded the Roman Empire and implemented key administrative reforms despite initial skepticism due to his perceived disabilities.",
+    "achievements": "Conquered Britain, reformed bureaucracy, and enhanced imperial efficiency",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claudius_Museo_Nazionale_Romano.jpg/800px-Claudius_Museo_Nazionale_Romano.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 63,
+    "name": "Domitian",
+    "start_year": 81,
+    "end_year": 96,
+    "description": "Domitian ruled with an authoritarian style and is noted for his significant building projects and efforts to maintain order in the empire.",
+    "achievements": "Strengthened Rome's infrastructure and military discipline",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Domitian_bust.jpg/800px-Domitian_bust.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 64,
+    "name": "Marcus Aurelius",
+    "start_year": 161,
+    "end_year": 180,
+    "description": "Marcus Aurelius was not only a respected emperor but also a Stoic philosopher whose writings continue to inspire.",
+    "achievements": "Wrote the 'Meditations', led the empire through military challenges, and is celebrated for his wisdom",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Marcus_Aurelius_Glyptothek_Munich.jpg/800px-Marcus_Aurelius_Glyptothek_Munich.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 65,
+    "name": "Commodus",
+    "start_year": 180,
+    "end_year": 192,
+    "description": "Commodus is known for his self-indulgent rule and is often seen as marking the beginning of the Roman Empire's decline.",
+    "achievements": "His controversial reign is remembered more for its excesses than administrative successes",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Commodus.jpg/800px-Commodus.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 66,
+    "name": "Septimius Severus",
+    "start_year": 193,
+    "end_year": 211,
+    "description": "Septimius Severus consolidated and expanded the Roman Empire, particularly in Africa and the Eastern provinces.",
+    "achievements": "Reformed the military and administration, expanded the empire's borders",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Septimius_Severus.jpg/800px-Septimius_Severus.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 67,
+    "name": "Caracalla",
+    "start_year": 198,
+    "end_year": 217,
+    "description": "Caracalla is noted for his edict granting Roman citizenship to all free inhabitants of the empire, along with his military initiatives.",
+    "achievements": "Extended citizenship, reformed the military, and influenced Roman law",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Caracalla_Medici.jpg/800px-Caracalla_Medici.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 68,
+    "name": "Diocletian",
+    "start_year": 284,
+    "end_year": 305,
+    "description": "Diocletian reorganized the vast Roman Empire through his Tetrarchy system, aiming to bring stability to a fractious realm.",
+    "achievements": "Established the Tetrarchy, reformed administrative and economic structures",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Diocletian.jpg/800px-Diocletian.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  },
+  {
+    "id": 69,
+    "name": "Constantine the Great",
+    "start_year": 306,
+    "end_year": 337,
+    "description": "Constantine the Great was the first Roman emperor to convert to Christianity and established Constantinople as a new capital.",
+    "achievements": "Christianized the empire, reformed military and administration, and founded Constantinople",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Constantine_the_Great_Mosaic.jpg/800px-Constantine_the_Great_Mosaic.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Constantinople, Turkey"]
+  },
+  {
+    "id": 70,
+    "name": "Julian the Apostate",
+    "start_year": 361,
+    "end_year": 363,
+    "description": "Julian the Apostate attempted to reverse the Christianization of the Roman Empire by restoring traditional pagan practices.",
+    "achievements": "Promoted paganism, reorganized military forces, and sought cultural reform",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Julian_the_Apostate.jpg/800px-Julian_the_Apostate.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Constantinople, Turkey"]
+  },
+  {
+    "id": 71,
+    "name": "Aurelian",
+    "start_year": 270,
+    "end_year": 275,
+    "description": "Aurelian is credited with reuniting a fractured empire and securing its borders, earning the title 'Restorer of the World'.",
+    "achievements": "Reunited the Roman Empire, reformed the military, and secured critical frontiers",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aurelian.jpg/800px-Aurelian.jpg",
+    "era": "Ancient Rome",
+    "locations": ["Rome, Italy"]
+  }
+]
