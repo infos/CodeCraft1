@@ -59,7 +59,9 @@ export default function TourDetailsPage() {
               <Calendar className="h-5 w-5" />
               <span>{tour.duration} days</span>
             </div>
-            <div className="font-bold">${tour.price.toLocaleString()}</div>
+            <div className="font-bold">
+              ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}
+            </div>
           </div>
         </CardContent>
       </Card>
