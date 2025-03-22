@@ -133,6 +133,46 @@ export class DatabaseStorage implements IStorage {
         startYear: 330,
         endYear: 1453,
         description: "The Eastern Roman Empire that preserved Classical culture"
+      },
+      {
+        name: "Ancient India (Mauryan and Gupta Periods)",
+        keyFigures: "Chandragupta Maurya, Ashoka the Great",
+        associatedTours: "Ancient India Tour",
+        startYear: -321,
+        endYear: 550,
+        description: "A period of significant empires and cultural development"
+      },
+      {
+        name: "Imperial China",
+        keyFigures: "Emperor Kangxi",
+        associatedTours: "Imperial China Tour",
+        startYear: 1644,
+        endYear: 1912,
+        description: "The Qing Dynasty and its influence"
+      },
+      {
+        name: "Hellenistic Period",
+        keyFigures: "Seleucus I Nicator, Ptolemy I Soter",
+        associatedTours: "Hellenistic World Tour",
+        startYear: -323,
+        endYear: -30,
+        description: "The era of Greek cultural influence across the Mediterranean and Near East"
+      },
+      {
+        name: "Parthian Empire",
+        keyFigures: "Mithridates I, Orodes II",
+        associatedTours: "Persian Empires Tour",
+        startYear: -247,
+        endYear: 224,
+        description: "A major Iranian political and cultural power"
+      },
+      {
+        name: "Sasanian Empire",
+        keyFigures: "Ardashir I",
+        associatedTours: "Persian Heritage Tour",
+        startYear: 224,
+        endYear: 651,
+        description: "The last Iranian empire before the rise of Islam"
       }
     ];
 
@@ -186,6 +226,46 @@ export class DatabaseStorage implements IStorage {
         locations: ["Alexandria, Egypt"]
       },
       {
+        name: "Hammurabi",
+        era: "Ancient Near Eastern",
+        startYear: -1792,
+        endYear: -1750,
+        description: "Hammurabi, the sixth king of Babylon, is best known for his comprehensive legal code which laid the foundation for future legal systems.",
+        achievements: "Established one of the first written legal codes; expanded Babylonian power",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Hammurabi.jpg/800px-Hammurabi.jpg",
+        locations: ["Babylon, Iraq"]
+      },
+      {
+        name: "Chandragupta Maurya",
+        era: "Ancient India (Mauryan and Gupta Periods)",
+        startYear: -321,
+        endYear: -297,
+        description: "Founder of the Mauryan Empire, Chandragupta Maurya established one of the largest empires in ancient India.",
+        achievements: "Unified North India, established strong central administration, built extensive trade networks",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Chandragupta_Maurya.jpg/800px-Chandragupta_Maurya.jpg",
+        locations: ["Pataliputra, India", "Taxila, Pakistan"]
+      },
+      {
+        name: "Ashoka the Great",
+        era: "Ancient India (Mauryan and Gupta Periods)",
+        startYear: -268,
+        endYear: -232,
+        description: "Ashoka was the third emperor of the Mauryan Empire and one of India's greatest rulers, known for spreading Buddhism.",
+        achievements: "Spread Buddhism, established pillars of law, promoted non-violence and social welfare",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Ashoka_the_Great.jpg/800px-Ashoka_the_Great.jpg",
+        locations: ["Pataliputra, India", "Sanchi, India"]
+      },
+      {
+        name: "Justinian I",
+        era: "Byzantine",
+        startYear: 527,
+        endYear: 565,
+        description: "Justinian I, also known as Justinian the Great, was one of the most important rulers of the Byzantine Empire, known for his legal reforms and architectural achievements.",
+        achievements: "Codified Roman law (Corpus Juris Civilis), built Hagia Sophia, reconquered territories",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Justinian_I.jpg/800px-Justinian_I.jpg",
+        locations: ["Constantinople (Istanbul), Turkey"]
+      },
+      {
         name: "Emperor Kangxi",
         era: "Imperial China",
         startYear: 1661,
@@ -194,6 +274,17 @@ export class DatabaseStorage implements IStorage {
         achievements: "Expanded and consolidated the Qing Empire, promoted cultural and scientific progress",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Kangxi_portrait.jpg/800px-Kangxi_portrait.jpg",
         locations: ["Beijing, China"]
+      },
+      // Adding more emperors from the file
+      {
+        name: "Sargon of Akkad",
+        era: "Ancient Near Eastern",
+        startYear: -2340,
+        endYear: -2284,
+        description: "Sargon of Akkad was the first ruler of the Akkadian Empire, creating one of the first empires in history.",
+        achievements: "United Mesopotamian city-states, created first professional army, established first empire",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Sargon_of_Akkad.jpg/800px-Sargon_of_Akkad.jpg",
+        locations: ["Akkad, Iraq"]
       }
     ];
 
