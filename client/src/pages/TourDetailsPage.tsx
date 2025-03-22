@@ -53,14 +53,21 @@ export default function TourDetailsPage() {
           <CardTitle>Tour Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-lg leading-relaxed mb-4">{tour.description}</p>
-          <div className="flex items-center justify-between text-lg border-t pt-4 mt-4">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              <span>{tour.duration} days</span>
-            </div>
-            <div className="font-bold">
-              ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}
+          <div className="space-y-4">
+            <p className="text-lg leading-relaxed">{tour.description}</p>
+            {tour.era && (
+              <p className="text-muted-foreground">
+                Historical Era: <span className="font-medium">{tour.era}</span>
+              </p>
+            )}
+            <div className="flex items-center justify-between text-lg border-t pt-4">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                <span>{tour.duration} days</span>
+              </div>
+              <div className="font-bold">
+                ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}
+              </div>
             </div>
           </div>
         </CardContent>
