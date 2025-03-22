@@ -561,6 +561,603 @@ export class DatabaseStorage implements IStorage {
           "Hilton Luxor Resort & Spa",
           "Sofitel Winter Palace Luxor"
         ]
+      },
+      {
+        title: "Persian Empire Tour",
+        description: "Journey through the mighty Achaemenid Empire, exploring the legacy of Darius I, Xerxes I, and Cyrus the Great. Experience the grandeur of ancient Persia and its administrative innovations.",
+        duration: 7,
+        price: 2899,
+        locations: "Persepolis, Pasargadae, Susa",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Persepolis_stairs_of_the_Apadana_relief.jpg/1280px-Persepolis_stairs_of_the_Apadana_relief.jpg",
+        era: "Achaemenid Empire",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Shiraz",
+            description: "Arrive in Shiraz, the gateway to ancient Persia. Evening welcome dinner featuring traditional Persian cuisine."
+          },
+          {
+            day: 2,
+            title: "Persepolis Exploration",
+            description: "Full day exploring the magnificent ruins of Persepolis, the ceremonial capital of the Achaemenid Empire."
+          }
+        ],
+        hotels: ["Shiraz Grand Hotel", "Persepolis Hotel", "Zandiyeh Hotel"]
+      },
+      {
+        title: "Age of Discovery Tour",
+        description: "Trace the routes of famous explorers like Christopher Columbus and Vasco da Gama. Experience the age of maritime exploration and discovery.",
+        duration: 8,
+        price: 3199,
+        locations: "Lisbon, Sagres, Barcelona",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Vasco_da_Gama_-_1838.png/800px-Vasco_da_Gama_-_1838.png",
+        era: "Age of Exploration",
+        itinerary: [
+          {
+            day: 1,
+            title: "Lisbon Arrival",
+            description: "Begin your journey in Lisbon, the launching point of many historic voyages."
+          },
+          {
+            day: 2,
+            title: "Sagres Exploration",
+            description: "Explore Sagres, a key point in the Age of Discovery."
+          },
+          {
+            day: 3,
+            title: "Barcelona Arrival",
+            description: "Continue your journey to Barcelona."
+          },
+          {
+            day: 4,
+            title: "Barcelona Exploration",
+            description: "Explore Barcelona's historical sites."
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Day 7",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 8,
+            title: "Departure",
+            description: "Departure from Barcelona."
+          }
+        ],
+        hotels: ["Heritage Avenida Liberdade", "Pousada de Sagres", "Hotel 1898 Barcelona"]
+      },
+      {
+        title: "Egyptian Pharaohs and Temples",
+        description: "Experience the majesty of ancient Egypt, from the pyramids of Giza to the Valley of the Kings. Follow in the footsteps of pharaohs and queens who shaped this remarkable civilization.",
+        duration: 8,
+        price: 2999,
+        locations: "Cairo, Luxor, Aswan",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+        era: "Ancient Egypt",
+        itinerary: [
+          {
+            day: 1,
+            title: "Cairo Welcome",
+            description: "Arrive in Cairo and settle into your hotel with views of the pyramids. Evening orientation and welcome dinner."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Day 7",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 8,
+            title: "Departure",
+            description: "Departure from Aswan."
+          }
+        ],
+        hotels: ["Mena House Hotel", "Winter Palace Luxor", "Sofitel Legend Old Cataract Aswan"]
+      },
+      {
+        title: "Greek Myths and Legends Tour",
+        description: "Discover the birthplace of democracy and Western philosophy. Visit ancient sites where myths and legends came to life.",
+        duration: 7,
+        price: 2799,
+        locations: "Athens, Delphi, Olympia",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/The_Parthenon_in_Athens.jpg/1280px-The_Parthenon_in_Athens.jpg",
+        era: "Ancient Greece",
+        itinerary: [
+          {
+            day: 1,
+            title: "Athens Arrival",
+            description: "Begin your journey in Athens, the cradle of Western civilization."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Departure",
+            description: "Departure from Olympia."
+          }
+        ],
+        hotels: ["Hotel Grande Bretagne", "Delphi Palace", "Europa Hotel Olympia"]
+      },
+      {
+        title: "Ancient India Tour",
+        description: "Journey through the golden age of Indian civilization, exploring the legacy of the Mauryan and Gupta Empires.",
+        duration: 8,
+        price: 2899,
+        locations: "Delhi, Patna, Varanasi",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Sanchi_Stupa.jpg/1280px-Sanchi_Stupa.jpg",
+        era: "Ancient India (Mauryan and Gupta Periods)",
+        itinerary: [
+          {
+            day: 1,
+            title: "Delhi Arrival",
+            description: "Welcome to Delhi, gateway to ancient Indian civilizations."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Day 7",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 8,
+            title: "Departure",
+            description: "Departure from Varanasi."
+          }
+        ],
+        hotels: ["The Imperial New Delhi", "Patna Residency", "Taj Ganges Varanasi"]
+      },
+      {
+        title: "Mesopotamian Marvels Tour",
+        description: "Explore the cradle of civilization, featuring the first cities and writing systems. Visit ancient sites of the Sumerians, Akkadians, and Babylonians.",
+        duration: 7,
+        price: 2999,
+        locations: "Baghdad, Ur, Babylon",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Babylon_Iraq.jpg/1280px-Babylon_Iraq.jpg",
+        era: "Ancient Near Eastern",
+        itinerary: [
+          {
+            day: 1,
+            title: "Baghdad Arrival",
+            description: "Begin your journey in Baghdad, gateway to ancient Mesopotamia."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Departure",
+            description: "Departure from Babylon."
+          }
+        ],
+        hotels: ["Babylon Rotana Baghdad", "Ur Archaeological Resort", "Babylon Hotel"]
+      },
+      {
+        title: "Imperial Rome Unveiled",
+        description: "Experience the grandeur of the Roman Empire through its most powerful emperors and magnificent monuments.",
+        duration: 8,
+        price: 3099,
+        locations: "Rome, Pompeii, Tivoli",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+        era: "Ancient Rome",
+        itinerary: [
+          {
+            day: 1,
+            title: "Rome Arrival",
+            description: "Welcome to the Eternal City, heart of the Roman Empire."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Day 7",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 8,
+            title: "Departure",
+            description: "Departure from Tivoli."
+          }
+        ],
+        hotels: ["Hotel de Russie", "Hotel Forum", "Villa d'Este"]
+      },
+      {
+        title: "Byzantine Legacy Tours",
+        description: "Discover the splendor of the Eastern Roman Empire, from Constantinople to the great churches and palaces.",
+        duration: 7,
+        price: 2899,
+        locations: "Istanbul, Thessaloniki, Ravenna",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Hagia_Sophia_from_the_top.jpg/1280px-Hagia_Sophia_from_the_top.jpg",
+        era: "Byzantine",
+        itinerary: [
+          {
+            day: 1,
+            title: "Istanbul Welcome",
+            description: "Arrive in Istanbul, the former Constantinople and capital of the Byzantine Empire."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Departure",
+            description: "Departure from Ravenna."
+          }
+        ],
+        hotels: ["Four Seasons Sultanahmet", "Electra Palace Thessaloniki", "Palazzo Bezzi Ravenna"]
+      },
+      {
+        title: "Age of Reason Tour",
+        description: "Experience the Enlightenment period through the lens of great thinkers and rulers who shaped modern Europe.",
+        duration: 7,
+        price: 2799,
+        locations: "Paris, Berlin, Vienna",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Chateau_de_Versailles.jpg/1280px-Chateau_de_Versailles.jpg",
+        era: "Enlightenment",
+        itinerary: [
+          {
+            day: 1,
+            title: "Paris Arrival",
+            description: "Begin your journey in Paris, center of Enlightenment thought."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Departure",
+            description: "Departure from Vienna."
+          }
+        ],
+        hotels: ["Le Meurice Paris", "Hotel Adlon Berlin", "Hotel Sacher Vienna"]
+      },
+      {
+        title: "Georgian Britain Tour",
+        description: "Explore the elegance of Georgian Britain through its architecture, culture, and royal heritage.",
+        duration: 6,
+        price: 2699,
+        locations: "London, Bath, Edinburgh",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Bath_Royal_Crescent.jpg/1280px-Bath_Royal_Crescent.jpg",
+        era: "Georgian Era",
+        itinerary: [
+          {
+            day: 1,
+            title: "London Welcome",
+            description: "Arrive in London, heart of Georgian Britain."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Departure",
+            description: "Departure from Edinburgh."
+          }
+        ],
+        hotels: ["The Ritz London", "Royal Crescent Hotel Bath", "The Balmoral Edinburgh"]
+      },
+      {
+        title: "Hellenistic World Tour",
+        description: "Follow the spread of Greek culture across the ancient world in the wake of Alexander's conquests.",
+        duration: 8,
+        price: 3199,
+        locations: "Alexandria, Pergamon, Rhodes",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Pergamon_Museum_Berlin_2007.jpg/1280px-Pergamon_Museum_Berlin_2007.jpg",
+        era: "Hellenistic Period",
+        itinerary: [
+          {
+            day: 1,
+            title: "Alexandria Arrival",
+            description: "Begin in Alexandria, the greatest Hellenistic city."
+          },
+          {
+            day: 2,
+            title: "Day 2",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 3,
+            title: "Day 3",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 4,
+            title: "Day 4",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 5,
+            title: "Day 5",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 6,
+            title: "Day 6",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 7,
+            title: "Day 7",
+            description: "Placeholder itinerary item"
+          },
+          {
+            day: 8,
+            title: "Departure",
+            description: "Departure from Rhodes."
+          }
+        ],
+        hotels: ["Four Seasons Alexandria", "Pergamon Boutique Hotel", "Rodos Palace"]
+      },
+      {
+        title: "Imperial China Tour",
+        description: "Experience the grandeur of Imperial China through its dynasties, architecture, and cultural achievements.",
+        duration: 9,
+        price: 3299,
+        locations: "Beijing, Xi'an, Nanjing",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/20090528_Great_Wall_8185.jpg/1280px-20090528_Great_Wall_8185.jpg",
+        era: "Imperial China",
+        itinerary: [
+          {
+            day: 1,
+            title: "Beijing Welcome",
+            description: "Arrive in Beijing, historical capital of Imperial China."
+          }
+        ],
+        hotels: ["Aman Summer Palace", "Sofitel Xi'an", "InterContinental Nanjing"]
+      },
+      {
+        title: "Biblical Heritage Tour",
+        description: "Journey through the lands of the patriarchs, exploring the foundations of Biblical history.",
+        duration: 7,
+        price: 2899,
+        locations: "Jerusalem, Hebron, Beersheba",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Jerusalem_Old_City_1.jpg/1280px-Jerusalem_Old_City_1.jpg",
+        era: "Israel's Patriarchal Period",
+        itinerary: [
+          {
+            day: 1,
+            title: "Jerusalem Arrival",
+            description: "Begin your journey in Jerusalem, city of ancient faith."
+          }
+        ],
+        hotels: ["King David Jerusalem", "American Colony Hotel", "Beresheet Hotel"]
+      },
+      {
+        title: "Medieval Heritage Tour",
+        description: "Explore the castles, cathedrals, and culture of Medieval Europe.",
+        duration: 8,
+        price: 2999,
+        locations: "Paris, Carcassonne, Mont Saint-Michel",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Carcassonne_cite.jpg/1280px-Carcassonne_cite.jpg",
+        era: "Medieval Europe",
+        itinerary: [
+          {
+            day: 1,
+            title: "Paris Welcome",
+            description: "Arrive in Paris, gateway to medieval France."
+          }
+        ],
+        hotels: ["Château d'Artigny", "Hotel de la Cite Carcassonne", "Le Relais Saint-Michel"]
+      },
+      {
+        title: "Middle Kingdom Tour",
+        description: "Discover the cultural flowering and architectural marvels of Egypt's Middle Kingdom.",
+        duration: 7,
+        price: 2899,
+        locations: "Luxor, Aswan, Fayoum",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Karnak_Temple.jpg/1280px-Karnak_Temple.jpg",
+        era: "Middle Kingdom of Egypt",
+        itinerary: [
+          {
+            day: 1,
+            title: "Luxor Arrival",
+            description: "Begin your journey in Luxor, ancient Thebes."
+          }
+        ],
+        hotels: ["Hilton Luxor", "Movenpick Aswan", "Helnan Auberge Fayoum"]
+      },
+      {
+        title: "Silk Road Journey",
+        description: "Travel the legendary Silk Road, experiencing the exchange of goods, ideas, and cultures.",
+        duration: 10,
+        price: 3499,
+        locations: "Xi'an, Dunhuang, Samarkand",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Silk_route.jpg/1280px-Silk_route.jpg",
+        era: "Silk Road Trade Era",
+        itinerary: [
+          {
+            day: 1,
+            title: "Xi'an Welcome",
+            description: "Begin your Silk Road journey in Xi'an, eastern terminus of the ancient route."
+          }
+        ],
+        hotels: ["Shangri-La Xi'an", "Silk Road Dunhuang Hotel", "Registan Plaza Samarkand"]
       }
     ];
 
