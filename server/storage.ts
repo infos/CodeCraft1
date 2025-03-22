@@ -184,6 +184,16 @@ export class DatabaseStorage implements IStorage {
         achievements: "Preserved Egyptian independence, modernized kingdom, patronage of learning",
         imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Kleopatra-VII.-Altes-Museum-Berlin.jpg/800px-Kleopatra-VII.-Altes-Museum-Berlin.jpg",
         locations: ["Alexandria, Egypt"]
+      },
+      {
+        name: "Emperor Kangxi",
+        era: "Imperial China",
+        startYear: 1661,
+        endYear: 1722,
+        description: "Emperor Kangxi of the Qing Dynasty was one of China's longest-reigning and most capable emperors, known for consolidating imperial power and fostering cultural achievements.",
+        achievements: "Expanded and consolidated the Qing Empire, promoted cultural and scientific progress",
+        imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Kangxi_portrait.jpg/800px-Kangxi_portrait.jpg",
+        locations: ["Beijing, China"]
       }
     ];
 
