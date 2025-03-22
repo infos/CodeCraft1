@@ -1,12 +1,20 @@
 {
   "eras": [
     {
-      "name": "Ancient Near Eastern",
-      "keyFigures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
-      "associatedTours": "Mesopotamian Marvels Tour",
-      "startYear": -3200,
-      "endYear": -539,
-      "description": "The cradle of civilization, featuring the first cities and writing systems"
+      "name": "Achaemenid Empire",
+      "keyFigures": "Darius I, Xerxes I, Cyrus the Great",
+      "associatedTours": "Persian Empire Tour",
+      "startYear": -550,
+      "endYear": -330,
+      "description": "The first Persian Empire, characterized by military conquest and administrative innovation"
+    },
+    {
+      "name": "Age of Exploration",
+      "keyFigures": "Christopher Columbus, Vasco da Gama",
+      "associatedTours": "Age of Discovery Tour",
+      "startYear": 1400,
+      "endYear": 1700,
+      "description": "Period of extensive overseas exploration and discovery by European powers"
     },
     {
       "name": "Ancient Egypt",
@@ -25,6 +33,22 @@
       "description": "The birthplace of democracy and Western philosophy"
     },
     {
+      "name": "Ancient India (Mauryan and Gupta Periods)",
+      "keyFigures": "Chandragupta Maurya, Ashoka the Great, Samudragupta",
+      "associatedTours": "Ancient India Tour",
+      "startYear": -321,
+      "endYear": 550,
+      "description": "Golden age of Indian civilization"
+    },
+    {
+      "name": "Ancient Near Eastern",
+      "keyFigures": "Sumerians (Uruk, Ur), Akkadians (Sargon), Babylonians (Hammurabi), Assyrians (Ashurbanipal)",
+      "associatedTours": "Mesopotamian Marvels Tour",
+      "startYear": -3200,
+      "endYear": -539,
+      "description": "The cradle of civilization, featuring the first cities and writing systems"
+    },
+    {
       "name": "Ancient Rome",
       "keyFigures": "Julius Caesar, Emperor Augustus, Nero",
       "associatedTours": "The Rise of Rome; Imperial Rome Unveiled",
@@ -38,7 +62,111 @@
       "associatedTours": "Byzantine Legacy Tours",
       "startYear": 330,
       "endYear": 1453,
-      "description": "The Eastern Roman Empire that preserved Classical culture"
+      "description": "Eastern Roman Empire continuation"
+    },
+    {
+      "name": "Enlightenment",
+      "keyFigures": "Frederick II of Prussia",
+      "associatedTours": "Age of Reason Tour",
+      "startYear": 1685,
+      "endYear": 1815,
+      "description": "Age of reason and individualism"
+    },
+    {
+      "name": "Georgian Era",
+      "keyFigures": "King George II, King George III",
+      "associatedTours": "Georgian Britain Tour",
+      "startYear": 1714,
+      "endYear": 1830,
+      "description": "Period of British history under four successive Kings named George"
+    },
+    {
+      "name": "Hellenistic Period",
+      "keyFigures": "Seleucus I Nicator, Ptolemy I Soter",
+      "associatedTours": "Hellenistic World Tour",
+      "startYear": -323,
+      "endYear": -30,
+      "description": "Greek cultural influence spread across conquered territories"
+    },
+    {
+      "name": "Imperial China",
+      "keyFigures": "Emperor Kangxi, Emperor Qianlong, Empress Dowager Cixi",
+      "associatedTours": "Imperial China Tour",
+      "startYear": -221,
+      "endYear": 1912,
+      "description": "Various imperial dynasties ruling China"
+    },
+    {
+      "name": "Israel's Patriarchal Period",
+      "keyFigures": "Abraham, Isaac, Jacob",
+      "associatedTours": "Biblical Heritage Tour",
+      "startYear": -2000,
+      "endYear": -1700,
+      "description": "Foundation period of Biblical history"
+    },
+    {
+      "name": "Medieval Europe",
+      "keyFigures": "Charlemagne",
+      "associatedTours": "Medieval Heritage Tour",
+      "startYear": 476,
+      "endYear": 1500,
+      "description": "European history between classical and modern periods"
+    },
+    {
+      "name": "Middle Kingdom of Egypt",
+      "keyFigures": "Amenemhat I, Senwosret III",
+      "associatedTours": "Middle Kingdom Tour",
+      "startYear": -2055,
+      "endYear": -1650,
+      "description": "Period of reunification and cultural flowering in ancient Egypt"
+    },
+    {
+      "name": "Neo-Babylonian",
+      "keyFigures": "Nebuchadnezzar II",
+      "associatedTours": "Babylonian Empire Tour",
+      "startYear": -626,
+      "endYear": -539,
+      "description": "Revival of Babylonian power in Mesopotamia"
+    },
+    {
+      "name": "New Kingdom of Egypt",
+      "keyFigures": "Thutmose III, Hatshepsut, Akhenaten",
+      "associatedTours": "New Kingdom Glory Tour",
+      "startYear": -1550,
+      "endYear": -1070,
+      "description": "Imperial phase of ancient Egyptian civilization"
+    },
+    {
+      "name": "Parthian Empire",
+      "keyFigures": "Mithridates I, Orodes II",
+      "associatedTours": "Parthian Legacy Tour",
+      "startYear": -247,
+      "endYear": 224,
+      "description": "Major Iranian political and cultural power"
+    },
+    {
+      "name": "Renaissance",
+      "keyFigures": "Henry VIII",
+      "associatedTours": "Renaissance Art Tour",
+      "startYear": 1300,
+      "endYear": 1700,
+      "description": "Cultural rebirth and innovation in Europe"
+    },
+    {
+      "name": "Sasanian Empire",
+      "keyFigures": "Ardashir I",
+      "associatedTours": "Persian Heritage Tour",
+      "startYear": 224,
+      "endYear": 651,
+      "description": "Last Iranian empire before Islamic conquest"
+    },
+    {
+      "name": "Silk Road Trade Era",
+      "keyFigures": "Emperor Wu of Han, Kublai Khan, Marco Polo",
+      "associatedTours": "Silk Road Journey",
+      "startYear": -130,
+      "endYear": 1453,
+      "description": "Period of extensive trade network connecting East and West"
     }
   ]
 }
