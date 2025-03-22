@@ -11,12 +11,12 @@ export default function TourDetailsPage() {
   const tourId = params.id;
 
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
-    queryKey: ['/api/tours', tourId],
+    queryKey: [`/api/tours/${tourId}`],
     enabled: !!tourId
   });
 
   const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
-    queryKey: ['/api/tours', tourId, 'hotels'],
+    queryKey: [`/api/tours/${tourId}/hotels`],
     enabled: !!tourId
   });
 
