@@ -18,9 +18,10 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
   }
 
   // Sort eras by startYear from oldest to newest
-  const sortedEras = [...(eras || [])].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+  const sortedEras = [...(eras || [])].sort((a, b) => a.startYear - b.startYear);
 
-  const formatYear = (year: number) => {
+  const formatYear = (year: number | null | undefined) => {
+    if (year === null || year === undefined) return "Unknown";
     const absYear = Math.abs(year);
     return year < 0 ? `${absYear} BCE` : `${year} CE`;
   };
