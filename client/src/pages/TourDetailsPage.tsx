@@ -29,7 +29,7 @@ export default function TourDetailsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 py-8 space-y-6">
       <div className="space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">{tour.title}</h2>
         <div className="flex items-center gap-2 text-muted-foreground">
@@ -38,26 +38,28 @@ export default function TourDetailsPage() {
         </div>
       </div>
 
-      <div className="w-1/2 mx-auto rounded-lg overflow-hidden">
-        <img 
-          src={tour.imageUrl || '/placeholder-tour.jpg'}
-          alt={tour.title}
-          className="w-full h-auto"
-        />
-      </div>
+      {tour.imageUrl && (
+        <div className="w-full max-w-3xl mx-auto rounded-lg overflow-hidden">
+          <img 
+            src={tour.imageUrl}
+            alt={tour.title}
+            className="w-full h-auto"
+          />
+        </div>
+      )}
 
       <Card>
         <CardHeader>
-          <CardTitle>Tour Description</CardTitle>
+          <CardTitle>Tour Overview</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="leading-relaxed">{tour.description}</p>
-          <div className="mt-4 flex items-center justify-between text-lg">
+          <p className="text-lg leading-relaxed mb-4">{tour.description}</p>
+          <div className="flex items-center justify-between text-lg border-t pt-4 mt-4">
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5" />
               <span>{tour.duration} days</span>
             </div>
-            <div className="font-bold">${tour.price}</div>
+            <div className="font-bold">${tour.price.toLocaleString()}</div>
           </div>
         </CardContent>
       </Card>
@@ -81,7 +83,7 @@ export default function TourDetailsPage() {
         <CardContent>
           <ul className="list-disc list-inside space-y-2">
             {hotels.map((hotel) => (
-              <li key={hotel.id}>{hotel.name}</li>
+              <li key={hotel.id} className="text-lg">{hotel.name}</li>
             ))}
           </ul>
         </CardContent>
