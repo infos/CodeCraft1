@@ -296,6 +296,11 @@ export class DatabaseStorage implements IStorage {
       }
     }
 
+    // First clear existing tour-related data
+    await db.delete(hotelRecommendations);
+    await db.delete(itineraries);
+    await db.delete(tours);
+
     const tourData = [
       {
         title: "The Rise of Rome",
@@ -562,12 +567,13 @@ export class DatabaseStorage implements IStorage {
     // Insert tour data
     for (const tour of tourData) {
       const { itinerary, hotels, ...tourInfo } = tour;
-      const existing = await db.select().from(tours).where(eq(tours.title, tourInfo.title));
+      const [existingTour] = await db.select().from(tours).where(eq(tours.title, tourInfo.title));
 
-      if (existing.length === 0) {
+      if (!existingTour) {
+        // Create new tour
         const createdTour = await this.createTour(tourInfo);
 
-        // Add itinerary
+        // Add itinerary days
         for (const day of itinerary) {
           await this.createItinerary({
             tourId: createdTour.id,
@@ -582,63 +588,6 @@ export class DatabaseStorage implements IStorage {
             name: hotel
           });
         }
-      }
-    }
-    const itineraryData = [
-      {
-        tourId: 7,
-        day: 1,
-        title: "Arrival & Orientation",
-        description: "Arrive in Rome by train or flight. Check into a boutique hotel housed in a historic palazzo near the city center. Evening welcome dinner in a traditional trattoria in the Monti neighborhood."
-      },
-      {
-        tourId: 7,
-        day: 2,
-        title: "Ancient Rome Immersion",
-        description: "Morning guided walking tour of the Roman Forum and Palatine Hill. Lunch in a local osteria. Afternoon free time to explore Piazza Venezia or the nearby markets. Evening visit to a small museum focusing on early Roman history."
-      },
-      {
-        tourId: 7,
-        day: 3,
-        title: "The Colosseum & Hidden Ruins",
-        description: "Guided tour of the Colosseum with exclusive access to lesser-known passages. Explore underground tunnels and hear stories of gladiators. Free afternoon stroll in the surrounding ancient neighborhoods."
-      },
-      {
-        tourId: 7,
-        day: 4,
-        title: "Art, Architecture & History",
-        description: "Morning visit to the Capitoline Museums. Lunch near the Roman Forum. Free time to wander through cobblestone streets and piazzas. Evening cultural performance at a historic theatre."
-      },
-      {
-        tourId: 7,
-        day: 5,
-        title: "Day Trip to Tivoli",
-        description: "Overland excursion to Tivoli to see Hadrian's Villa and Villa d'Este. Guided tour highlighting the blend of Roman architecture and nature. Return to Rome in the late afternoon."
-      },
-      {
-        tourId: 7,
-        day: 6,
-        title: "Local Life & Culinary History",
-        description: "Morning guided market tour to sample local ingredients and learn about ancient Roman food traditions. Afternoon visit to a small workshop on ancient Roman cooking techniques."
-      },
-      {
-        tourId: 7,
-        day: 7,
-        title: "Reflection & Departure",
-        description: "Optional morning stroll through a local park or a short visit to a nearby museum. Check out and transfer to the train station or airport."
-      }
-    ];
-
-    // Add itineraries using the storage interface
-    for (const itinerary of itineraryData) {
-      const existing = await db
-        .select()
-        .from(itineraries)
-        .where(eq(itineraries.tourId, itinerary.tourId))
-        .where(eq(itineraries.day, itinerary.day));
-
-      if (existing.length === 0) {
-        await this.createItinerary(itinerary);
       }
     }
   }
