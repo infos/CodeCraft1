@@ -20,6 +20,11 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
   // Sort eras by startYear from oldest to newest
   const sortedEras = [...(eras || [])].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
 
+  const formatYear = (year: number) => {
+    const absYear = Math.abs(year);
+    return year < 0 ? `${absYear} BCE` : `${year} CE`;
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-baseline">
@@ -47,7 +52,7 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
               <CardContent className="p-4">
                 <h3 className="font-semibold mb-1">{era.name}</h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  {era.startYear} - {era.endYear} CE
+                  {formatYear(era.startYear)} - {formatYear(era.endYear)}
                 </p>
                 <p className="text-xs text-muted-foreground line-clamp-2">
                   {era.description}
