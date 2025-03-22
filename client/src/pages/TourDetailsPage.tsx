@@ -3,7 +3,8 @@ import { useParams } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MapPin, Calendar, Hotel } from "lucide-react";
-import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
+import TourItinerary from "@/components/TourItinerary";
+import type { Tour, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailsPage() {
   const params = useParams();
@@ -14,21 +15,16 @@ export default function TourDetailsPage() {
     enabled: !!tourId
   });
 
-  const { data: itineraries, isLoading: itinerariesLoading } = useQuery<Itinerary[]>({
-    queryKey: ['/api/tours', tourId, 'itineraries'],
-    enabled: !!tourId
-  });
-
   const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
     queryKey: ['/api/tours', tourId, 'hotels'],
     enabled: !!tourId
   });
 
-  if (tourLoading || itinerariesLoading || hotelsLoading) {
+  if (tourLoading || hotelsLoading) {
     return <Skeleton className="h-[600px] w-full" />;
   }
 
-  if (!tour || !itineraries || !hotels) {
+  if (!tour || !hotels) {
     return <div>Tour not found</div>;
   }
 
@@ -71,15 +67,7 @@ export default function TourDetailsPage() {
           <CardTitle>Daily Itinerary</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
-            {itineraries.map((day) => (
-              <div key={day.id} className="relative pl-6 pb-6 border-l border-border last:pb-0">
-                <div className="absolute left-0 -translate-x-1/2 w-3 h-3 rounded-full bg-primary" />
-                <h3 className="font-semibold mb-2">Day {day.day}: {day.title}</h3>
-                <p className="text-muted-foreground">{day.description}</p>
-              </div>
-            ))}
-          </div>
+          <TourItinerary tourId={Number(tourId)} />
         </CardContent>
       </Card>
 
