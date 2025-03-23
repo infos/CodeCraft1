@@ -39,7 +39,7 @@ export default function TimelinePage() {
         <div className="space-y-6">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tight">
-              {selectedEra} Historical Figures
+              Historical Timeline
             </h2>
             <p className="text-muted-foreground">
               Explore the rulers and influential figures of the {selectedEra} era
