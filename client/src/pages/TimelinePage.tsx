@@ -26,7 +26,7 @@ export default function TimelinePage() {
         emperor.era && 
         emperor.era.trim().toLowerCase() === selectedEra.trim().toLowerCase()
       ).sort((a, b) => (a.startYear || 0) - (b.startYear || 0))
-    : emperors.sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
+    : [];
 
   return (
     <div className="container mx-auto px-4 space-y-10 py-8">
@@ -35,23 +35,22 @@ export default function TimelinePage() {
         selectedEra={selectedEra}
       />
 
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">
-            {selectedEra ? `${selectedEra} Timeline` : 'Historical Timeline'}
-          </h2>
-          <p className="text-muted-foreground">
-            {selectedEra 
-              ? `Explore the rulers and influential figures of the ${selectedEra} era`
-              : 'Explore the rich history of civilizations through our interactive timeline'
-            }
-          </p>
+      {selectedEra && (
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight">
+              {selectedEra} Historical Figures
+            </h2>
+            <p className="text-muted-foreground">
+              Explore the rulers and influential figures of the {selectedEra} era
+            </p>
+          </div>
+          <EmperorTimeline 
+            emperors={filteredEmperors} 
+            selectedEra={selectedEra}
+          />
         </div>
-        <EmperorTimeline 
-          emperors={filteredEmperors} 
-          selectedEra={selectedEra}
-        />
-      </div>
+      )}
     </div>
   );
 }
