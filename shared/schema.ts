@@ -32,7 +32,9 @@ export const tours = pgTable("tours", {
   price: integer("price").notNull(),
   locations: text("locations").notNull(),
   imageUrl: text("image_url"),
-  era: text("era")  
+  era: text("era"),
+  wikipediaUrl: text("wikipedia_url"),
+  imageAttribution: text("image_attribution")
 });
 
 export const itineraries = pgTable("itineraries", {
