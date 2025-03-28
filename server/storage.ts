@@ -1,6 +1,8 @@
 import { emperors, tours, itineraries, hotelRecommendations, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface IStorage {
   // Era operations
@@ -301,6 +303,34 @@ export class DatabaseStorage implements IStorage {
     await db.delete(itineraries);
     await db.delete(tours);
 
+    // Read tour data from JSON file
+    const toursFilePath = path.join(process.cwd(), 'data', 'tours.json');
+    const toursFileContent = fs.readFileSync(toursFilePath, 'utf-8');
+    const { tours: tourData } = JSON.parse(toursFileContent);
+    
+    // Transform the data to match the expected format
+    const transformedTourData = tourData.map((tour: any) => {
+      return {
+        title: tour.title,
+        description: tour.description,
+        duration: tour.duration,
+        price: tour.price,
+        locations: tour.locations,
+        imageUrl: tour.imageUrl,
+        era: tour.era,
+        wikipediaUrl: tour.wikipediaUrl,
+        imageAttribution: tour.imageAttribution,
+        itinerary: tour.itineraries.map((item: any) => ({
+          day: item.day,
+          title: item.title,
+          description: item.description
+        })),
+        hotels: tour.hotels
+      };
+    });
+
+    // Previously hardcoded tour data, now read from file
+    /*
     const tourData = [
       {
         title: "The Rise of Rome",
@@ -1160,9 +1190,10 @@ export class DatabaseStorage implements IStorage {
         hotels: ["Shangri-La Xi'an", "Silk Road Dunhuang Hotel", "Registan Plaza Samarkand"]
       }
     ];
+    */
 
     // Insert tour data
-    for (const tour of tourData) {
+    for (const tour of transformedTourData) {
       const { itinerary, hotels, ...tourInfo } = tour;
       const [existingTour] = await db.select().from(tours).where(eq(tours.title, tourInfo.title));
 
