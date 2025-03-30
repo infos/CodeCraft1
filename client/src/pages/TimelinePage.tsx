@@ -42,7 +42,7 @@ export default function TimelinePage() {
               Historical Timeline
             </h2>
             <p className="text-muted-foreground">
-              Explore the rulers and influential figures of the {selectedEra} era
+              Explore the rulers and influential figures of the {selectedEra} era and age
             </p>
           </div>
           <EmperorTimeline 

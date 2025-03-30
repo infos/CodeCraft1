@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   "px-4 py-2 rounded-md transition-colors hover:bg-[#555]",
                   location === "/" ? "bg-[#555]" : ""
                 )}>
-                  Rulers
+                  Eras and Ages
                 </a>
               </Link>
             </li>

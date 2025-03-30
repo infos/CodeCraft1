@@ -18,7 +18,7 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
   }
 
   // Sort eras by startYear from oldest to newest
-  const sortedEras = [...(eras || [])].sort((a, b) => a.startYear - b.startYear);
+  const sortedEras = [...(eras || [])].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
 
   const formatYear = (year: number | null | undefined) => {
     if (year === null || year === undefined) return "Unknown";
@@ -29,7 +29,7 @@ export default function EraOverview({ onEraSelect, selectedEra }: EraOverviewPro
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-baseline">
-        <h2 className="text-2xl font-bold tracking-tight">Historical Eras</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Historical Eras and Ages</h2>
         {selectedEra && (
           <button 
             onClick={() => onEraSelect?.(null)}
