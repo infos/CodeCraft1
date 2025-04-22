@@ -1,22 +1,26 @@
-{
-  "tours": [
-    {
-      "title": "The Rise of Rome",
-      "description": "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled.",
-      "duration": 7,
-      "price": 2499,
-      "locations": "Rome, Tivoli",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
-      "era": "Ancient Rome"
-    },
-    {
-      "title": "Egyptian Pharaohs and Temples",
-      "description": "Discover the world of Cleopatra and ancient Egyptian civilization. From the mighty pyramids to the treasures of Tutankhamun, immerse yourself in the world of the pharaohs.",
-      "duration": 6,
-      "price": 2899,
-      "locations": "Cairo, Giza, Saqqara",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
-      "era": "Ancient Egypt"
-    }
-  ]
-}
+[
+  {
+    "id": 726,
+    "title": "The Rise of Rome",
+    "description": "Experience the grandeur of ancient Rome through the eyes of its most powerful leaders. Visit the magnificent Colosseum, Roman Forum, and Palatine Hill where emperors once ruled.",
+    "duration": 7,
+    "price": 2499,
+    "locations": "Rome, Tivoli",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1280px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+    "era": "Ancient Rome",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Roman_Empire",
+    "image_attribution": "Colosseum by Diliff, CC BY-SA 3.0"
+  },
+  {
+    "id": 727,
+    "title": "Egyptian Pharaohs and Temples",
+    "description": "Discover the world of Cleopatra and ancient Egyptian civilization. From the mighty pyramids to the treasures of Tutankhamun, immerse yourself in the world of the pharaohs.",
+    "duration": 6,
+    "price": 2899,
+    "locations": "Cairo, Giza, Saqqara",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Great_Sphinx_of_Giza_-_20080716a.jpg/1280px-Great_Sphinx_of_Giza_-_20080716a.jpg",
+    "era": "Ancient Egypt",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Ancient_Egypt",
+    "image_attribution": "Great Sphinx of Giza by Louis Tytgadt, Public Domain"
+  }
+]

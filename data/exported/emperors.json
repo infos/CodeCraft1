@@ -1,44 +1,870 @@
-{
-  "emperors": [
-    {
-      "name": "Julius Caesar",
-      "era": "Ancient Rome",
-      "startYear": -100,
-      "endYear": -44,
-      "description": "Gaius Julius Caesar was a Roman general, statesman, and author who transformed the Roman Republic through his military conquests and political reforms, setting the stage for the Roman Empire.",
-      "achievements": "Military conquests, political reforms, calendar reform, expansion of Roman citizenship",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Julius_Caesar_Coustou_Louvre_MR1798.jpg/800px-Julius_Caesar_Coustou_Louvre_MR1798.jpg",
-      "locations": ["Rome, Italy"]
-    },
-    {
-      "name": "Augustus",
-      "era": "Ancient Rome",
-      "startYear": -63,
-      "endYear": 14,
-      "description": "Augustus was the first Roman emperor who established a period of relative peace known as the Pax Romana. His reign ushered in a golden age of art, literature, and monumental architecture.",
-      "achievements": "Established Pax Romana, reformed administration, expanded empire",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Augustus_of_Prima_Porta_%28inv._2290%29.jpg/800px-Augustus_of_Prima_Porta_%28inv._2290%29.jpg",
-      "locations": ["Rome, Italy"]
-    },
-    {
-      "name": "Alexander the Great",
-      "era": "Ancient Greece",
-      "startYear": -356,
-      "endYear": -323,
-      "description": "Alexander the Great was king of Macedon and one of history's most successful military commanders. He created one of the largest empires of the ancient world by the age of thirty.",
-      "achievements": "Created vast empire spanning three continents, founded numerous cities, spread Hellenistic culture",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alexander_the_Great_mosaic.jpg/800px-Alexander_the_Great_mosaic.jpg",
-      "locations": ["Pella, Greece", "Vergina, Greece"]
-    },
-    {
-      "name": "Cleopatra VII",
-      "era": "Ancient Egypt",
-      "startYear": -69,
-      "endYear": -30,
-      "description": "Cleopatra VII was the last active ruler of the Ptolemaic Kingdom of Egypt. Known for her intelligence, political acumen, and captivating charm, she remains one of history's most famous female rulers.",
-      "achievements": "Preserved Egyptian independence, modernized kingdom, patronage of learning",
-      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Kleopatra-VII.-Altes-Museum-Berlin.jpg/800px-Kleopatra-VII.-Altes-Museum-Berlin.jpg",
-      "locations": ["Alexandria, Egypt"]
-    }
-  ]
-}
+[
+  {
+    "id": 97,
+    "name": "Julius Caesar",
+    "start_year": -100,
+    "end_year": -44,
+    "description": "Gaius Julius Caesar was a Roman general, statesman, and author who transformed the Roman Republic through his military conquests and political reforms, setting the stage for the Roman Empire.",
+    "achievements": "Military conquests, political reforms, calendar reform, expansion of Roman citizenship",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Julius_Caesar_Coustou_Louvre_MR1798.jpg/800px-Julius_Caesar_Coustou_Louvre_MR1798.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 98,
+    "name": "Augustus",
+    "start_year": -63,
+    "end_year": 14,
+    "description": "Augustus was the first Roman emperor who established a period of relative peace known as the Pax Romana. His reign ushered in a golden age of art, literature, and monumental architecture.",
+    "achievements": "Established Pax Romana, reformed administration, expanded empire",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Augustus_of_Prima_Porta_%28inv._2290%29.jpg/800px-Augustus_of_Prima_Porta_%28inv._2290%29.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 99,
+    "name": "Alexander the Great",
+    "start_year": -356,
+    "end_year": -323,
+    "description": "Alexander the Great was king of Macedon and one of history's most successful military commanders. He created one of the largest empires of the ancient world by the age of thirty.",
+    "achievements": "Created vast empire spanning three continents, founded numerous cities, spread Hellenistic culture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alexander_the_Great_mosaic.jpg/800px-Alexander_the_Great_mosaic.jpg",
+    "era": "Ancient Greece",
+    "locations": [
+      "Pella, Greece",
+      "Vergina, Greece"
+    ]
+  },
+  {
+    "id": 100,
+    "name": "Cleopatra VII",
+    "start_year": -69,
+    "end_year": -30,
+    "description": "Cleopatra VII was the last active ruler of the Ptolemaic Kingdom of Egypt. Known for her intelligence, political acumen, and captivating charm, she remains one of history's most famous female rulers.",
+    "achievements": "Preserved Egyptian independence, modernized kingdom, patronage of learning",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Kleopatra-VII.-Altes-Museum-Berlin.jpg/800px-Kleopatra-VII.-Altes-Museum-Berlin.jpg",
+    "era": "Ancient Egypt",
+    "locations": [
+      "Alexandria, Egypt"
+    ]
+  },
+  {
+    "id": 101,
+    "name": "Hammurabi",
+    "start_year": -1792,
+    "end_year": -1750,
+    "description": "Hammurabi, the sixth king of Babylon, is best known for his comprehensive legal code which laid the foundation for future legal systems.",
+    "achievements": "Established one of the first written legal codes; expanded Babylonian power",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Hammurabi.jpg/800px-Hammurabi.jpg",
+    "era": "Ancient Near Eastern",
+    "locations": [
+      "Babylon, Iraq"
+    ]
+  },
+  {
+    "id": 102,
+    "name": "Chandragupta Maurya",
+    "start_year": -321,
+    "end_year": -297,
+    "description": "Founder of the Mauryan Empire, Chandragupta Maurya established one of the largest empires in ancient India.",
+    "achievements": "Unified North India, established strong central administration, built extensive trade networks",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Chandragupta_Maurya.jpg/800px-Chandragupta_Maurya.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Pataliputra, India",
+      "Taxila, Pakistan"
+    ]
+  },
+  {
+    "id": 103,
+    "name": "Ashoka the Great",
+    "start_year": -268,
+    "end_year": -232,
+    "description": "Ashoka was the third emperor of the Mauryan Empire and one of India's greatest rulers, known for spreading Buddhism.",
+    "achievements": "Spread Buddhism, established pillars of law, promoted non-violence and social welfare",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Ashoka_the_Great.jpg/800px-Ashoka_the_Great.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Pataliputra, India",
+      "Sanchi, India"
+    ]
+  },
+  {
+    "id": 104,
+    "name": "Chandragupta I",
+    "start_year": 320,
+    "end_year": 335,
+    "description": "Founder of the Gupta Empire, which marked India's Golden Age.",
+    "achievements": "Established Gupta dynasty, expanded territory through strategic alliances, promoted arts and culture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Chandragupta_I.jpg/800px-Chandragupta_I.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Pataliputra, India",
+      "Prayagraj, India"
+    ]
+  },
+  {
+    "id": 105,
+    "name": "Samudragupta",
+    "start_year": 335,
+    "end_year": 380,
+    "description": "Known as the \"Napoleon of India\", Samudragupta greatly expanded the Gupta Empire through military conquests.",
+    "achievements": "Military conquests, patronage of arts and literature, established strong administration",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Samudragupta.jpg/800px-Samudragupta.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Pataliputra, India",
+      "Ujjain, India"
+    ]
+  },
+  {
+    "id": 106,
+    "name": "Justinian I",
+    "start_year": 527,
+    "end_year": 565,
+    "description": "Justinian I, also known as Justinian the Great, was one of the most important rulers of the Byzantine Empire, known for his legal reforms and architectural achievements.",
+    "achievements": "Codified Roman law (Corpus Juris Civilis), built Hagia Sophia, reconquered territories",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Justinian_I.jpg/800px-Justinian_I.jpg",
+    "era": "Byzantine",
+    "locations": [
+      "Constantinople (Istanbul), Turkey"
+    ]
+  },
+  {
+    "id": 107,
+    "name": "Sargon of Akkad",
+    "start_year": -2340,
+    "end_year": -2284,
+    "description": "Sargon of Akkad was the first ruler of the Akkadian Empire, creating one of the first empires in history.",
+    "achievements": "United Mesopotamian city-states, created first professional army, established first empire",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Sargon_of_Akkad.jpg/800px-Sargon_of_Akkad.jpg",
+    "era": "Ancient Near Eastern",
+    "locations": [
+      "Akkad, Iraq"
+    ]
+  },
+  {
+    "id": 108,
+    "name": "Cyrus the Great",
+    "start_year": -559,
+    "end_year": -530,
+    "description": "Cyrus II of Persia, known as Cyrus the Great, founded the Achaemenid Empire, the first Persian Empire.",
+    "achievements": "Founded the Persian Empire, conquered Babylon, established religious tolerance",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Cyrus_cylinder.jpg/800px-Cyrus_cylinder.jpg",
+    "era": "Ancient Near Eastern",
+    "locations": [
+      "Pasargadae, Iran"
+    ]
+  },
+  {
+    "id": 109,
+    "name": "Ramesses II",
+    "start_year": -1279,
+    "end_year": -1213,
+    "description": "Ramesses II, also known as Ramesses the Great, was the third pharaoh of the Nineteenth Dynasty of Egypt.",
+    "achievements": "Built numerous monuments, fought the Hittites, signed first known peace treaty",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Ramesses_II_Luxor.jpg/800px-Ramesses_II_Luxor.jpg",
+    "era": "Ancient Egypt",
+    "locations": [
+      "Pi-Ramesses, Egypt",
+      "Thebes, Egypt"
+    ]
+  },
+  {
+    "id": 110,
+    "name": "Emperor Wu of Han",
+    "start_year": -141,
+    "end_year": -87,
+    "description": "Emperor Wu of Han was one of the most powerful emperors of the Han dynasty, known for expanding the Silk Road trade.",
+    "achievements": "Expanded Han territory, developed Silk Road trade routes, promoted Confucianism",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Emperor_Wu_of_Han_Dynasty.jpg/800px-Emperor_Wu_of_Han_Dynasty.jpg",
+    "era": "Silk Road Trade Era",
+    "locations": [
+      "Chang'an, China"
+    ]
+  },
+  {
+    "id": 111,
+    "name": "Kublai Khan",
+    "start_year": 1260,
+    "end_year": 1294,
+    "description": "Kublai Khan was the fifth Khagan of the Mongol Empire and the founder of the Yuan Dynasty in China.",
+    "achievements": "United China under Mongol rule, promoted international trade, established new capital at Xanadu",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Kubilai_Khan.jpg/800px-Kubilai_Khan.jpg",
+    "era": "Silk Road Trade Era",
+    "locations": [
+      "Xanadu, China",
+      "Beijing, China"
+    ]
+  },
+  {
+    "id": 112,
+    "name": "Emperor Xuanzong",
+    "start_year": 712,
+    "end_year": 756,
+    "description": "Emperor Xuanzong of Tang presided over the golden age of the Tang Dynasty and Silk Road prosperity.",
+    "achievements": "Promoted arts and culture, expanded trade networks, strengthened imperial administration",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Tang_Xuanzong.jpg/800px-Tang_Xuanzong.jpg",
+    "era": "Silk Road Trade Era",
+    "locations": [
+      "Chang'an, China",
+      "Luoyang, China"
+    ]
+  },
+  {
+    "id": 113,
+    "name": "Pericles",
+    "start_year": -495,
+    "end_year": -429,
+    "description": "Pericles was the prominent Greek statesman, orator, and general of Athens during its Golden Age.",
+    "achievements": "Built the Parthenon, promoted democracy and arts, led Athens during its height",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Pericles_Pio-Clementino_Inv269.jpg/800px-Pericles_Pio-Clementino_Inv269.jpg",
+    "era": "Ancient Greece",
+    "locations": [
+      "Athens, Greece"
+    ]
+  },
+  {
+    "id": 114,
+    "name": "Philip II of Macedon",
+    "start_year": -382,
+    "end_year": -336,
+    "description": "Philip II was the king of Macedon who transformed his kingdom into a powerful military state and laid the groundwork for Alexander the Great's conquests.",
+    "achievements": "United Greek city-states, reformed the army, expanded Macedonian influence",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Filip_II_Macedonian.jpg/800px-Filip_II_Macedonian.jpg",
+    "era": "Ancient Greece",
+    "locations": [
+      "Pella, Greece",
+      "Vergina, Greece"
+    ]
+  },
+  {
+    "id": 115,
+    "name": "Abraham",
+    "start_year": -2000,
+    "end_year": -1900,
+    "description": "Patriarch of the Israelites and a foundational figure in Judaism, Christianity, and Islam.",
+    "achievements": "Established the covenant with God; progenitor of the Israelite people",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Abraham.jpg/800px-Abraham.jpg",
+    "era": "Israel's Patriarchal Period",
+    "locations": [
+      "Hebron, Israel"
+    ]
+  },
+  {
+    "id": 116,
+    "name": "Amenemhat I",
+    "start_year": -1991,
+    "end_year": -1962,
+    "description": "Founder of the Middle Kingdom of Egypt, credited with reunifying the country after a period of disunity.",
+    "achievements": "Laid the foundations of Egypt's Middle Kingdom, initiated administrative reforms",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Amenemhat_I.jpg/800px-Amenemhat_I.jpg",
+    "era": "Middle Kingdom of Egypt",
+    "locations": [
+      "Memphis, Egypt"
+    ]
+  },
+  {
+    "id": 117,
+    "name": "Senwosret III",
+    "start_year": -1878,
+    "end_year": -1839,
+    "description": "One of the most powerful pharaohs of the Middle Kingdom, renowned for military prowess and extensive building projects.",
+    "achievements": "Expanded Egypt's borders, strengthened central authority, promoted monumental architecture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Senwosret_III.jpg/800px-Senwosret_III.jpg",
+    "era": "Middle Kingdom of Egypt",
+    "locations": [
+      "Thebes, Egypt"
+    ]
+  },
+  {
+    "id": 118,
+    "name": "Hatshepsut",
+    "start_year": -1479,
+    "end_year": -1458,
+    "description": "One of the few female pharaohs of Egypt, known for her prosperous reign and impressive mortuary temple at Deir el-Bahri.",
+    "achievements": "Expanded trade networks, commissioned monumental architecture, established a peaceful reign",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Hatshepsut_Temple.jpg/800px-Hatshepsut_Temple.jpg",
+    "era": "New Kingdom of Egypt",
+    "locations": [
+      "Thebes, Egypt"
+    ]
+  },
+  {
+    "id": 119,
+    "name": "Thutmose III",
+    "start_year": -1479,
+    "end_year": -1425,
+    "description": "Often referred to as the Napoleon of Egypt, Thutmose III expanded Egypt's empire to its greatest extent.",
+    "achievements": "Led successful military campaigns, consolidated power, promoted arts and culture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Thutmose_III.jpg/800px-Thutmose_III.jpg",
+    "era": "New Kingdom of Egypt",
+    "locations": [
+      "Thebes, Egypt"
+    ]
+  },
+  {
+    "id": 120,
+    "name": "Akhenaten",
+    "start_year": -1353,
+    "end_year": -1336,
+    "description": "Known for his religious revolution, Akhenaten attempted to shift Egypt's polytheistic traditions to the worship of a single deity, Aten.",
+    "achievements": "Introduced monotheistic elements, reformed artistic conventions, left a lasting cultural impact",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Akhenaten.jpg/800px-Akhenaten.jpg",
+    "era": "New Kingdom of Egypt",
+    "locations": [
+      "Amarna, Egypt"
+    ]
+  },
+  {
+    "id": 121,
+    "name": "Darius I",
+    "start_year": -522,
+    "end_year": -486,
+    "description": "Darius I expanded the Achaemenid Empire and implemented administrative reforms that standardized currency, weights, and measures.",
+    "achievements": "Expanded Persian territory, established satrapies, commissioned monumental architecture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Darius_I.jpg/800px-Darius_I.jpg",
+    "era": "Achaemenid Empire",
+    "locations": [
+      "Persepolis, Iran"
+    ]
+  },
+  {
+    "id": 122,
+    "name": "Xerxes I",
+    "start_year": -486,
+    "end_year": -465,
+    "description": "Xerxes I is best known for his massive invasion of Greece and his role in the Greco-Persian Wars.",
+    "achievements": "Launched ambitious military campaigns, oversaw grand building projects",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Xerxes_I.jpg/800px-Xerxes_I.jpg",
+    "era": "Achaemenid Empire",
+    "locations": [
+      "Persepolis, Iran"
+    ]
+  },
+  {
+    "id": 123,
+    "name": "Seleucus I Nicator",
+    "start_year": -312,
+    "end_year": -281,
+    "description": "A general under Alexander the Great who went on to found the Seleucid Empire, spreading Greek culture across the Near East.",
+    "achievements": "Established a vast Hellenistic empire, promoted cultural fusion",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Seleucus_I_Nicator.jpg/800px-Seleucus_I_Nicator.jpg",
+    "era": "Hellenistic Period",
+    "locations": [
+      "Antioch, Turkey"
+    ]
+  },
+  {
+    "id": 124,
+    "name": "Ptolemy I Soter",
+    "start_year": -305,
+    "end_year": -283,
+    "description": "Founder of the Ptolemaic Kingdom in Egypt following Alexander's death, Ptolemy established a dynasty that lasted nearly 300 years.",
+    "achievements": "Laid the foundation for Hellenistic rule in Egypt, fostered a blend of Greek and Egyptian culture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Ptolemy_I_Soter.jpg/800px-Ptolemy_I_Soter.jpg",
+    "era": "Hellenistic Period",
+    "locations": [
+      "Alexandria, Egypt"
+    ]
+  },
+  {
+    "id": 125,
+    "name": "Mithridates I",
+    "start_year": -171,
+    "end_year": -132,
+    "description": "A powerful ruler of the Parthian Empire, Mithridates I expanded his kingdom significantly and laid the groundwork for future Parthian power.",
+    "achievements": "Expanded Parthian territory, established Parthia as a major regional power",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Mithridates_I.jpg/800px-Mithridates_I.jpg",
+    "era": "Parthian Empire",
+    "locations": [
+      "Ecbatana, Iran"
+    ]
+  },
+  {
+    "id": 126,
+    "name": "Orodes II",
+    "start_year": -57,
+    "end_year": -38,
+    "description": "Orodes II ruled during a turbulent period of Parthian history and is noted for his conflicts with Rome.",
+    "achievements": "Maintained Parthian independence against Roman advances",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Orodes_II.jpg/800px-Orodes_II.jpg",
+    "era": "Parthian Empire",
+    "locations": [
+      "Ecbatana, Iran"
+    ]
+  },
+  {
+    "id": 127,
+    "name": "Ardashir I",
+    "start_year": 224,
+    "end_year": 241,
+    "description": "Founder of the Sasanian Empire, Ardashir I unified Persia after the fall of the Parthian Empire.",
+    "achievements": "Laid the foundations for Sasanian rule, reformed administration and military",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Ardashir_I.jpg/800px-Ardashir_I.jpg",
+    "era": "Sasanian Empire",
+    "locations": [
+      "Ctesiphon, Iraq"
+    ]
+  },
+  {
+    "id": 128,
+    "name": "King George III",
+    "start_year": 1760,
+    "end_year": 1820,
+    "description": "King George III presided over a transformative period in British history, marked by cultural refinement and political challenges including the American Revolution.",
+    "achievements": "Oversaw expansion of the British Empire, navigated political upheaval, patronized arts and sciences",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/George_III_by_Thomas_Payne.jpg/800px-George_III_by_Thomas_Payne.jpg",
+    "era": "Georgian Era",
+    "locations": [
+      "London, United Kingdom"
+    ]
+  },
+  {
+    "id": 129,
+    "name": "Emperor Kangxi",
+    "start_year": 1661,
+    "end_year": 1722,
+    "description": "Emperor Kangxi of the Qing Dynasty was one of China's longest-reigning and most capable emperors, known for consolidating imperial power and fostering cultural achievements.",
+    "achievements": "Expanded and consolidated the Qing Empire, promoted cultural and scientific progress",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Kangxi_portrait.jpg/800px-Kangxi_portrait.jpg",
+    "era": "Imperial China",
+    "locations": [
+      "Beijing, China"
+    ]
+  },
+  {
+    "id": 130,
+    "name": "Ashurbanipal",
+    "start_year": -668,
+    "end_year": -627,
+    "description": "The last great king of the Neo-Assyrian Empire, Ashurbanipal is renowned for his vast library at Nineveh and his military campaigns.",
+    "achievements": "Expanded the empire, promoted scholarship, and left a lasting cultural legacy",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Ashurbanipal.jpg/800px-Ashurbanipal.jpg",
+    "era": "Ancient Near Eastern",
+    "locations": [
+      "Nineveh, Iraq"
+    ]
+  },
+  {
+    "id": 131,
+    "name": "Narmer",
+    "start_year": -3100,
+    "end_year": -3050,
+    "description": "Traditionally regarded as the first pharaoh to unify Upper and Lower Egypt, Narmer is a seminal figure in Egyptian history.",
+    "achievements": "Unified Egypt, established early dynastic rule",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Narmer.png/800px-Narmer.png",
+    "era": "Ancient Egypt",
+    "locations": [
+      "Memphis, Egypt"
+    ]
+  },
+  {
+    "id": 132,
+    "name": "Leonidas I",
+    "start_year": -540,
+    "end_year": -480,
+    "description": "Leonidas I was the legendary Spartan king known for his heroic stand against the Persian invasion at Thermopylae.",
+    "achievements": "Defended Greece against overwhelming odds, symbol of courage and sacrifice",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Leonidas_Statue.jpg/800px-Leonidas_Statue.jpg",
+    "era": "Ancient Greece",
+    "locations": [
+      "Sparta, Greece"
+    ]
+  },
+  {
+    "id": 134,
+    "name": "Trajan",
+    "start_year": 98,
+    "end_year": 117,
+    "description": "Trajan was one of Rome's greatest emperors, known for his military conquests and ambitious public works that expanded the empire to its greatest territorial extent.",
+    "achievements": "Expanded the Roman Empire, initiated extensive public infrastructure projects",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Trajan_Son_of_Decimus.jpg/800px-Trajan_Son_of_Decimus.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 135,
+    "name": "Basil II",
+    "start_year": 976,
+    "end_year": 1025,
+    "description": "Basil II, known as the 'Bulgar Slayer', was a Byzantine emperor celebrated for his military prowess and administrative reforms.",
+    "achievements": "Expanded and stabilized the Byzantine Empire, reformed governance and military systems",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Basil_II.jpg/800px-Basil_II.jpg",
+    "era": "Byzantine",
+    "locations": [
+      "Constantinople, Turkey"
+    ]
+  },
+  {
+    "id": 136,
+    "name": "Charlemagne",
+    "start_year": 768,
+    "end_year": 814,
+    "description": "Charlemagne, King of the Franks, was crowned Emperor and united much of Western and Central Europe, laying the foundations for modern Europe.",
+    "achievements": "United disparate European territories, promoted learning and culture, established a legacy of imperial rule",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Charlemagne_Louvre.jpg/800px-Charlemagne_Louvre.jpg",
+    "era": "Medieval Europe",
+    "locations": [
+      "Frankish Empire, Europe"
+    ]
+  },
+  {
+    "id": 137,
+    "name": "Nebuchadnezzar II",
+    "start_year": -605,
+    "end_year": -562,
+    "description": "Nebuchadnezzar II was a powerful Babylonian king known for his military conquests and monumental building projects, including the legendary Hanging Gardens.",
+    "achievements": "Expanded Babylonian power, initiated grand construction projects, and left a lasting legacy in architecture",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Nebuchadnezzar.jpg/800px-Nebuchadnezzar.jpg",
+    "era": "Neo-Babylonian",
+    "locations": [
+      "Babylon, Iraq"
+    ]
+  },
+  {
+    "id": 138,
+    "name": "Genghis Khan",
+    "start_year": 1162,
+    "end_year": 1227,
+    "description": "Genghis Khan founded the Mongol Empire and revolutionized warfare while opening and securing vast Silk Road trade routes.",
+    "achievements": "Founded the largest contiguous empire in history, reformed military strategies, united nomadic tribes",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Genghis_Khan.jpg/800px-Genghis_Khan.jpg",
+    "era": "Silk Road Trade Era",
+    "locations": [
+      "Mongolia",
+      "Central Asia"
+    ]
+  },
+  {
+    "id": 139,
+    "name": "Bindusara",
+    "start_year": -297,
+    "end_year": -273,
+    "description": "Bindusara, successor to Chandragupta Maurya, expanded the Mauryan Empire further into the Indian subcontinent.",
+    "achievements": "Consolidated Mauryan rule and extended the empire's reach",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Bindusara.jpg/800px-Bindusara.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Pataliputra, India"
+    ]
+  },
+  {
+    "id": 140,
+    "name": "Qin Shi Huang",
+    "start_year": -259,
+    "end_year": -210,
+    "description": "Qin Shi Huang was the first emperor of a unified China, known for initiating the construction of the Great Wall and his massive tomb guarded by terracotta warriors.",
+    "achievements": "Unified China, standardized writing, currency, and measures, launched Great Wall construction",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Qin_Shi_Huang.jpg/800px-Qin_Shi_Huang.jpg",
+    "era": "Imperial China",
+    "locations": [
+      "Xian, China"
+    ]
+  },
+  {
+    "id": 141,
+    "name": "Emperor Hongwu",
+    "start_year": 1368,
+    "end_year": 1398,
+    "description": "Emperor Hongwu founded the Ming Dynasty, reforming the government after expelling the Mongols and consolidating imperial authority.",
+    "achievements": "Founded the Ming Dynasty, implemented significant administrative reforms, strengthened central power",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Hongwu_Empire.jpg/800px-Hongwu_Empire.jpg",
+    "era": "Imperial China",
+    "locations": [
+      "Nanjing, China"
+    ]
+  },
+  {
+    "id": 142,
+    "name": "Isaac",
+    "start_year": -1900,
+    "end_year": -1800,
+    "description": "Isaac, son of Abraham, is a key patriarch in the early narratives of the Israelite people, whose life and legacy form part of the foundational traditions.",
+    "achievements": "Continued the covenant established by Abraham, fathered Esau and Jacob",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Isaac.jpg/800px-Isaac.jpg",
+    "era": "Israel's Patriarchal Period",
+    "locations": [
+      "Hebron, Israel"
+    ]
+  },
+  {
+    "id": 143,
+    "name": "Henry VIII",
+    "start_year": 1509,
+    "end_year": 1547,
+    "description": "Henry VIII was a powerful English monarch known for his six marriages and for initiating the English Reformation.",
+    "achievements": "Established the Church of England, patronized the arts, and reformed royal administration",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Henry_VIII_of_England.jpg/800px-Henry_VIII_of_England.jpg",
+    "era": "Renaissance",
+    "locations": [
+      "London, United Kingdom"
+    ]
+  },
+  {
+    "id": 144,
+    "name": "Queen Isabella I",
+    "start_year": 1474,
+    "end_year": 1504,
+    "description": "Queen Isabella I of Castile sponsored Christopher Columbus' voyage, leading to the European discovery of the Americas.",
+    "achievements": "Unified Spain, promoted maritime exploration, expanded global influence",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Isabel_I_de_Castilla.jpg/800px-Isabel_I_de_Castilla.jpg",
+    "era": "Age of Exploration",
+    "locations": [
+      "Toledo, Spain"
+    ]
+  },
+  {
+    "id": 145,
+    "name": "Frederick II of Prussia",
+    "start_year": 1740,
+    "end_year": 1786,
+    "description": "Frederick the Great was a Prussian monarch renowned for his military prowess and enlightened policies that modernized his state.",
+    "achievements": "Modernized the Prussian military, promoted arts and education, expanded Prussian territory",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Frederick_the_Great.jpg/800px-Frederick_the_Great.jpg",
+    "era": "Enlightenment",
+    "locations": [
+      "Berlin, Germany"
+    ]
+  },
+  {
+    "id": 146,
+    "name": "King George II",
+    "start_year": 1727,
+    "end_year": 1760,
+    "description": "King George II was a monarch of Great Britain during the early Georgian Era, overseeing important developments in colonial expansion and cultural patronage.",
+    "achievements": "Supported colonial expansion, patronized the arts, and contributed to the early foundations of modern Britain",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/George_II_of_Great_Britain.jpg/800px-George_II_of_Great_Britain.jpg",
+    "era": "Georgian Era",
+    "locations": [
+      "London, United Kingdom"
+    ]
+  },
+  {
+    "id": 147,
+    "name": "Tiberius",
+    "start_year": 14,
+    "end_year": 37,
+    "description": "Tiberius, the second Roman emperor, was known for his military skills and later reclusive, controversial reign.",
+    "achievements": "Maintained imperial stability, expanded territory, and reformed administrative systems",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Tiberius_bust.jpg/800px-Tiberius_bust.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 148,
+    "name": "Caligula",
+    "start_year": 37,
+    "end_year": 41,
+    "description": "Caligula is remembered for his eccentric and often tyrannical behavior during his brief reign as Roman emperor.",
+    "achievements": "Known for extravagant and controversial rule that left a lasting infamy",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Caligula.jpg/800px-Caligula.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 149,
+    "name": "Claudius",
+    "start_year": 41,
+    "end_year": 54,
+    "description": "Claudius expanded the Roman Empire and implemented key administrative reforms despite initial skepticism due to his perceived disabilities.",
+    "achievements": "Conquered Britain, reformed bureaucracy, and enhanced imperial efficiency",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Claudius_Museo_Nazionale_Romano.jpg/800px-Claudius_Museo_Nazionale_Romano.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 150,
+    "name": "Domitian",
+    "start_year": 81,
+    "end_year": 96,
+    "description": "Domitian ruled with an authoritarian style and is noted for his significant building projects and efforts to maintain order in the empire.",
+    "achievements": "Strengthened Rome's infrastructure and military discipline",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Domitian_bust.jpg/800px-Domitian_bust.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 151,
+    "name": "Marcus Aurelius",
+    "start_year": 161,
+    "end_year": 180,
+    "description": "Marcus Aurelius was not only a respected emperor but also a Stoic philosopher whose writings continue to inspire.",
+    "achievements": "Wrote the 'Meditations', led the empire through military challenges, and is celebrated for his wisdom",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Marcus_Aurelius_Glyptothek_Munich.jpg/800px-Marcus_Aurelius_Glyptothek_Munich.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 152,
+    "name": "Commodus",
+    "start_year": 180,
+    "end_year": 192,
+    "description": "Commodus is known for his self-indulgent rule and is often seen as marking the beginning of the Roman Empire's decline.",
+    "achievements": "His controversial reign is remembered more for its excesses than administrative successes",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Commodus.jpg/800px-Commodus.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 154,
+    "name": "Caracalla",
+    "start_year": 198,
+    "end_year": 217,
+    "description": "Caracalla is noted for his edict granting Roman citizenship to all free inhabitants of the empire, along with his military initiatives.",
+    "achievements": "Extended citizenship, reformed the military, and influenced Roman law",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Caracalla_Medici.jpg/800px-Caracalla_Medici.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 155,
+    "name": "Diocletian",
+    "start_year": 284,
+    "end_year": 305,
+    "description": "Diocletian reorganized the vast Roman Empire through his Tetrarchy system, aiming to bring stability to a fractious realm.",
+    "achievements": "Established the Tetrarchy, reformed administrative and economic structures",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Diocletian.jpg/800px-Diocletian.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 156,
+    "name": "Constantine the Great",
+    "start_year": 306,
+    "end_year": 337,
+    "description": "Constantine the Great was the first Roman emperor to convert to Christianity and established Constantinople as a new capital.",
+    "achievements": "Christianized the empire, reformed military and administration, and founded Constantinople",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Constantine_the_Great_Mosaic.jpg/800px-Constantine_the_Great_Mosaic.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Constantinople, Turkey"
+    ]
+  },
+  {
+    "id": 157,
+    "name": "Julian the Apostate",
+    "start_year": 361,
+    "end_year": 363,
+    "description": "Julian the Apostate attempted to reverse the Christianization of the Roman Empire by restoring traditional pagan practices.",
+    "achievements": "Promoted paganism, reorganized military forces, and sought cultural reform",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Julian_the_Apostate.jpg/800px-Julian_the_Apostate.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Constantinople, Turkey"
+    ]
+  },
+  {
+    "id": 158,
+    "name": "Aurelian",
+    "start_year": 270,
+    "end_year": 275,
+    "description": "Aurelian is credited with reuniting a fractured empire and securing its borders, earning the title 'Restorer of the World'.",
+    "achievements": "Reunited the Roman Empire, reformed the military, and secured critical frontiers",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Aurelian.jpg/800px-Aurelian.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 159,
+    "name": "Antigonus I Monophthalmus",
+    "start_year": -312,
+    "end_year": -301,
+    "description": "A general under Alexander the Great who emerged as one of the Diadochi and ruled parts of Asia Minor, laying the foundation for Hellenistic power in the region.",
+    "achievements": "Fought in the Wars of the Diadochi, established control in Asia Minor, promoted cultural fusion",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Antigonus_I_Monophthalmus.jpg/800px-Antigonus_I_Monophthalmus.jpg",
+    "era": "Hellenistic Period",
+    "locations": [
+      "Antigonia, Turkey"
+    ]
+  },
+  {
+    "id": 160,
+    "name": "Cassander",
+    "start_year": -305,
+    "end_year": -297,
+    "description": "A Macedonian general who rose to power after Alexander the Great's death and secured the leadership of Macedon, playing a key role in the subsequent Wars of the Diadochi.",
+    "achievements": "Consolidated Macedonian power, secured the kingdom, and influenced the political landscape of Hellenistic Greece",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Cassander.jpg/800px-Cassander.jpg",
+    "era": "Hellenistic Period",
+    "locations": [
+      "Macedon, Greece"
+    ]
+  },
+  {
+    "id": 161,
+    "name": "Harsha (Harshavardhana)",
+    "start_year": 606,
+    "end_year": 647,
+    "description": "Harsha was an Indian emperor who united large parts of northern India and presided over a period of cultural renaissance, patronizing arts and literature.",
+    "achievements": "Unified northern India, promoted Buddhism and Hindu culture, and fostered economic and cultural prosperity",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Harsha.jpg/800px-Harsha.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Kanauj, India"
+    ]
+  },
+  {
+    "id": 162,
+    "name": "Krishnadevaraya",
+    "start_year": 1509,
+    "end_year": 1529,
+    "description": "Krishnadevaraya was a celebrated ruler of the Vijayanagara Empire known for his military conquests, patronage of Telugu literature, and fostering a cultural renaissance in South India.",
+    "achievements": "Expanded the Vijayanagara Empire, supported the arts and literature, and enhanced administrative efficiency",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Krishnadevaraya.jpg/800px-Krishnadevaraya.jpg",
+    "era": "Ancient India (Mauryan and Gupta Periods)",
+    "locations": [
+      "Hampi, India"
+    ]
+  },
+  {
+    "id": 165,
+    "name": "Septimius Severus",
+    "start_year": 193,
+    "end_year": 211,
+    "description": "Septimius Severus consolidated and expanded the Roman Empire, particularly in Africa and the Eastern provinces.",
+    "achievements": "Reformed the military and administration, expanded the empire's borders",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Septimius_Severus.jpg/800px-Septimius_Severus.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  },
+  {
+    "id": 133,
+    "name": "Nero",
+    "start_year": 54,
+    "end_year": 68,
+    "description": "Nero was a Roman emperor remembered for his artistic pursuits and controversial reign marked by extravagance and misrule.",
+    "achievements": "Patronage of the arts, major public building projects, and notorious legacy",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Nero.jpg/800px-Nero.jpg",
+    "era": "Ancient Rome",
+    "locations": [
+      "Rome, Italy"
+    ]
+  }
+]

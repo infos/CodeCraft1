@@ -1,28 +1,32 @@
-{
-  "hotel_recommendations": [
-    {
-      "tourId": 1,
-      "name": "Hotel de la Ville"
-    },
-    {
-      "tourId": 1,
-      "name": "Hotel Forum"
-    },
-    {
-      "tourId": 1,
-      "name": "Palazzo Manfredi"
-    },
-    {
-      "tourId": 2,
-      "name": "Marriott Mena House"
-    },
-    {
-      "tourId": 2,
-      "name": "Four Seasons Cairo"
-    },
-    {
-      "tourId": 2,
-      "name": "Le Meridien Pyramids"
-    }
-  ]
-}
+[
+  {
+    "id": 2170,
+    "tour_id": 726,
+    "name": "Hotel de la Ville"
+  },
+  {
+    "id": 2171,
+    "tour_id": 726,
+    "name": "Hotel Forum"
+  },
+  {
+    "id": 2172,
+    "tour_id": 726,
+    "name": "Palazzo Manfredi"
+  },
+  {
+    "id": 2173,
+    "tour_id": 727,
+    "name": "Marriott Mena House"
+  },
+  {
+    "id": 2174,
+    "tour_id": 727,
+    "name": "Four Seasons Cairo"
+  },
+  {
+    "id": 2175,
+    "tour_id": 727,
+    "name": "Le Meridien Pyramids"
+  }
+]
