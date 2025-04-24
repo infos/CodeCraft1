@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   location === "/cuisine-example" ? "bg-[#555]" : ""
                 )}
               >
-                Cuisine Examples
+                Era Preferences
               </Link>
             </li>
           </ul>

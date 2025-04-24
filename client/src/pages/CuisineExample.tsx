@@ -4,44 +4,44 @@ import CuisineSelector from '@/components/CuisineSelector';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function CuisineExample() {
-  // Common cuisine types for historical tours
-  const cuisineOptions = [
-    'Roman', 'Greek', 'Egyptian', 'Medieval', 'Renaissance',
-    'Ottoman', 'Persian', 'Chinese', 'Byzantine', 'Mesopotamian'
+  // Historical eras options
+  const eraOptions = [
+    'Ancient Rome', 'Classical Greece', 'Ancient Egypt', 'Medieval Europe', 'Renaissance Italy',
+    'Ottoman Empire', 'Persian Empire', 'Imperial China', 'Byzantine Empire', 'Mesopotamia'
   ];
   
-  // For multiple selection example
-  const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
+  // For multiple selection of eras
+  const [selectedEras, setSelectedEras] = useState<string[]>([]);
 
   return (
     <Layout>
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold mb-4">Cuisine & Dining Filters</h1>
+          <h1 className="text-3xl font-bold mb-4">Historical Era Preferences</h1>
           <p className="text-muted-foreground mb-8">
-            Filter historical tours by cuisine and dining experiences
+            Select the historical periods you're most interested in exploring
           </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Historical Cuisine Selection</CardTitle>
+            <CardTitle>What are your favorite eras?</CardTitle>
             <CardDescription>
-              Select multiple cuisine experiences for your historical journey
+              Select multiple historical eras you're interested in exploring
             </CardDescription>
           </CardHeader>
           <CardContent>
             <CuisineSelector 
-              options={cuisineOptions} 
-              selected={selectedCuisines}
-              onChange={setSelectedCuisines}
+              options={eraOptions} 
+              selected={selectedEras}
+              onChange={setSelectedEras}
             />
             
-            {selectedCuisines.length > 0 && (
+            {selectedEras.length > 0 && (
               <div className="mt-4 p-4 bg-muted rounded-md">
-                <p className="font-medium">Selected cuisines: {selectedCuisines.join(', ')}</p>
+                <p className="font-medium">Selected eras: {selectedEras.join(', ')}</p>
                 <p className="text-sm text-muted-foreground">
-                  Your tour will feature {selectedCuisines.length} different historical dining experiences.
+                  Your tour will feature {selectedEras.length} different historical eras.
                 </p>
               </div>
             )}
