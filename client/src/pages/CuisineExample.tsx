@@ -17,12 +17,18 @@ export default function CuisineExample() {
     <Layout>
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold mb-4">What are your favorite eras?</h1>
+          <h1 className="text-3xl font-bold mb-4">Historical Era Preferences</h1>
+          <p className="text-muted-foreground mb-8">
+            Select the historical periods you're most interested in exploring
+          </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Select your preferences</CardTitle>
+            <CardTitle>What are your favorite eras?</CardTitle>
+            <CardDescription>
+              Select multiple historical eras you're interested in exploring
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <CuisineSelector 
