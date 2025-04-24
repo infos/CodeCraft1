@@ -49,12 +49,6 @@ export default function CuisineExample() {
               selected={selectedEras}
               onChange={setSelectedEras}
             />
-            
-            {selectedEras.length > 0 && (
-              <div className="mt-4 p-4 bg-muted rounded-md">
-                <p className="font-medium">Selected eras: {selectedEras.join(', ')}</p>
-              </div>
-            )}
           </CardContent>
         </Card>
         
