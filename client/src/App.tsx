@@ -7,6 +7,7 @@ import TimelinePage from "./pages/TimelinePage";
 import ToursPage from "./pages/ToursPage";
 import TourDetailsPage from "./pages/TourDetailsPage";
 import EmperorPage from "./pages/EmperorPage";
+import CuisineExample from "./pages/CuisineExample";
 import NotFound from "./pages/not-found";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/tours" component={ToursPage} />
           <Route path="/tour/:id" component={TourDetailsPage} />
           <Route path="/emperor/:id" component={EmperorPage} />
+          <Route path="/cuisine-example" component={CuisineExample} />
           <Route component={NotFound} />
         </Switch>
       </Layout>

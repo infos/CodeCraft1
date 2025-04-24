@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 export interface CuisineSelectorProps {
   /** List of cuisines (or categories) to display */
@@ -9,6 +10,8 @@ export interface CuisineSelectorProps {
   onChange?: (selected: string[]) => void;
   /** Allow multiple selections? Default `true` */
   multiple?: boolean;
+  /** Optional custom CSS class */
+  className?: string;
 }
 
 const CuisineSelector: React.FC<CuisineSelectorProps> = ({
@@ -16,6 +19,7 @@ const CuisineSelector: React.FC<CuisineSelectorProps> = ({
   selected = [],
   onChange,
   multiple = true,
+  className,
 }) => {
   const [current, setCurrent] = useState<string[]>(selected);
 
@@ -40,7 +44,7 @@ const CuisineSelector: React.FC<CuisineSelectorProps> = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className={cn("flex flex-wrap gap-2", className)}>
       {options.map(option => {
         const isSelected = current.includes(option);
         return (
@@ -48,12 +52,12 @@ const CuisineSelector: React.FC<CuisineSelectorProps> = ({
             key={option}
             type="button"
             onClick={() => toggle(option)}
-            className={`
-              px-4 py-2 rounded-full text-sm font-medium transition
-              ${isSelected
-                ? 'bg-blue-600 text-white border border-blue-600'
-                : 'bg-white text-gray-800 border border-gray-300 hover:bg-gray-100'}
-            `}
+            className={cn(
+              "px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200",
+              isSelected
+                ? "bg-primary text-primary-foreground border border-primary" 
+                : "bg-background text-foreground border border-input hover:bg-accent hover:text-accent-foreground"
+            )}
           >
             {option}
           </button>
