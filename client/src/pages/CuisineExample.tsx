@@ -7,11 +7,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tour } from '@shared/schema';
 
 export default function CuisineExample() {
-  // Historical eras options
-  const eraOptions = [
-    'Ancient Rome', 'Classical Greece', 'Ancient Egypt', 'Medieval Europe', 'Renaissance Italy',
-    'Ottoman Empire', 'Persian Empire', 'Imperial China', 'Byzantine Empire', 'Mesopotamia'
-  ];
+  // Fetch all eras from the database
+  const { data: eras } = useQuery({
+    queryKey: ['/api/eras'],
+    select: (data) => data as { id: number; name: string }[]
+  });
+  
+  // Extract era names for the selector
+  const eraOptions = eras?.map(era => era.name) || [];
   
   // For multiple selection of eras
   const [selectedEras, setSelectedEras] = useState<string[]>([]);
