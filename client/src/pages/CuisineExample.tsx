@@ -44,11 +44,28 @@ export default function CuisineExample() {
 
         <Card>
           <CardContent className="pt-6">
-            <CuisineSelector 
-              options={eraOptions} 
-              selected={selectedEras}
-              onChange={setSelectedEras}
-            />
+            <div className="space-y-4">
+              <CuisineSelector 
+                options={eraOptions} 
+                selected={selectedEras}
+                onChange={setSelectedEras}
+              />
+              
+              {selectedEras.length > 0 && (
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => setSelectedEras([])}
+                    className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x">
+                      <path d="M18 6 6 18"/>
+                      <path d="m6 6 12 12"/>
+                    </svg>
+                    Clear selection
+                  </button>
+                </div>
+              )}
+            </div>
           </CardContent>
         </Card>
         
