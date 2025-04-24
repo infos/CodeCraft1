@@ -24,13 +24,7 @@ export default function CuisineExample() {
         </div>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Choose Historical Periods</CardTitle>
-            <CardDescription>
-              Select multiple historical eras you're interested in exploring
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <CuisineSelector 
               options={eraOptions} 
               selected={selectedEras}
@@ -40,9 +34,6 @@ export default function CuisineExample() {
             {selectedEras.length > 0 && (
               <div className="mt-4 p-4 bg-muted rounded-md">
                 <p className="font-medium">Selected eras: {selectedEras.join(', ')}</p>
-                <p className="text-sm text-muted-foreground">
-                  Your tour will feature {selectedEras.length} different historical eras.
-                </p>
               </div>
             )}
           </CardContent>
