@@ -5,11 +5,12 @@ import { z } from "zod";
 export const eras = pgTable("eras", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  keyFigures: text("key_figures").notNull(),
+  keyFigures: text("key_figures").array(),
   associatedTours: text("associated_tours").notNull(),
   startYear: integer("start_year"),
   endYear: integer("end_year"),
-  description: text("description")
+  description: text("description"),
+  period: text("period")
 });
 
 export const emperors = pgTable("emperors", {
@@ -21,7 +22,11 @@ export const emperors = pgTable("emperors", {
   description: text("description").notNull(),
   achievements: text("achievements").notNull(),
   imageUrl: text("image_url"),
-  locations: text("locations").array()
+  locations: text("locations").array(),
+  region: text("region"),               // Geographic region (e.g., Mesopotamia, Egypt)
+  dynasty: text("dynasty"),             // e.g., Old Babylonian, Neo-Babylonian
+  modernCountry: text("modern_country"), // Present-day country where they ruled
+  wikipediaUrl: text("wikipedia_url")    // Link to their Wikipedia page
 });
 
 export const tours = pgTable("tours", {
