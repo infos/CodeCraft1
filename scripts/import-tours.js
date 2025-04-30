@@ -288,33 +288,58 @@ async function importTours() {
         imageAttribution: tour.image_attribution
       };
       
-      const query = `
-        INSERT INTO tours 
-        (title, description, duration, price, locations, image_url, era, wikipedia_url, image_attribution) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-        ON CONFLICT (title) DO UPDATE SET
-          description = $2,
-          duration = $3,
-          price = $4,
-          locations = $5,
-          image_url = $6,
-          era = $7,
-          wikipedia_url = $8,
-          image_attribution = $9
-        RETURNING id;
+      // First check if a tour with this title already exists
+      const checkQuery = `
+        SELECT id FROM tours WHERE title = $1
       `;
       
-      const values = [
-        dbTour.title,
-        dbTour.description,
-        dbTour.duration,
-        dbTour.price,
-        dbTour.locations,
-        dbTour.imageUrl,
-        dbTour.era,
-        dbTour.wikipediaUrl,
-        dbTour.imageAttribution
-      ];
+      const checkResult = await pool.query(checkQuery, [dbTour.title]);
+      
+      let query;
+      let values;
+      
+      if (checkResult.rows.length > 0) {
+        // Update existing tour
+        const tourId = checkResult.rows[0].id;
+        query = `
+          UPDATE tours 
+          SET description = $1, duration = $2, price = $3, locations = $4, 
+              image_url = $5, era = $6, wikipedia_url = $7, image_attribution = $8
+          WHERE id = $9
+          RETURNING id;
+        `;
+        values = [
+          dbTour.description,
+          dbTour.duration,
+          dbTour.price,
+          dbTour.locations,
+          dbTour.imageUrl,
+          dbTour.era,
+          dbTour.wikipediaUrl,
+          dbTour.imageAttribution,
+          tourId
+        ];
+      } else {
+        // Insert new tour
+        query = `
+          INSERT INTO tours 
+          (title, description, duration, price, locations, image_url, era, wikipedia_url, image_attribution) 
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          RETURNING id;
+        `;
+        
+        values = [
+          dbTour.title,
+          dbTour.description,
+          dbTour.duration,
+          dbTour.price,
+          dbTour.locations,
+          dbTour.imageUrl,
+          dbTour.era,
+          dbTour.wikipediaUrl,
+          dbTour.imageAttribution
+        ];
+      }
       
       try {
         const result = await pool.query(query, values);
