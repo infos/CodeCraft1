@@ -97,10 +97,10 @@ export class DatabaseStorage implements IStorage {
   async initializeData() {
     // Initialize historical eras
     const historicalEras = [
-      { name: "Ancient Near Eastern", keyFigures: "Sumerians, Akkadians, Babylonians", associatedTours: "Mesopotamian Tour", startYear: -3200, endYear: -539, description: "Cradle of civilization" },
-      { name: "Ancient Egypt", keyFigures: "Pharaohs, Cleopatra", associatedTours: "Egyptian Tour", startYear: -3150, endYear: -30, description: "Civilization along the Nile" },
-      { name: "Ancient Greece", keyFigures: "Alexander the Great", associatedTours: "Greek Tour", startYear: -800, endYear: -146, description: "Birthplace of democracy" },
-      { name: "Ancient Rome", keyFigures: "Caesar, Augustus", associatedTours: "Roman Tour", startYear: -753, endYear: 476, description: "Empire that shaped Europe" }
+      { name: "Ancient Near Eastern", keyFigures: ["Sumerians", "Akkadians", "Babylonians"], associatedTours: "Mesopotamian Tour", startYear: -3200, endYear: -539, description: "Cradle of civilization" },
+      { name: "Ancient Egypt", keyFigures: ["Pharaohs", "Cleopatra"], associatedTours: "Egyptian Tour", startYear: -3150, endYear: -30, description: "Civilization along the Nile" },
+      { name: "Ancient Greece", keyFigures: ["Alexander the Great"], associatedTours: "Greek Tour", startYear: -800, endYear: -146, description: "Birthplace of democracy" },
+      { name: "Ancient Rome", keyFigures: ["Caesar", "Augustus"], associatedTours: "Roman Tour", startYear: -753, endYear: 476, description: "Empire that shaped Europe" }
     ];
 
     for (const era of historicalEras) {
