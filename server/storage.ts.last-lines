@@ -1,0 +1,3 @@
+// Create a clean file
+export const storage = new DatabaseStorage();
+storage.initializeData().catch(console.error);
