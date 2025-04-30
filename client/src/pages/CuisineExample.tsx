@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import Layout from '@/components/Layout';
-import CuisineSelector from '@/components/CuisineSelector';
+import EraChipSelector from '@/components/EraChipSelector';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Tour } from '@shared/schema';
+import { XIcon } from 'lucide-react';
 
 export default function CuisineExample() {
   // Fetch all eras from the database
@@ -48,24 +50,26 @@ export default function CuisineExample() {
         <Card>
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <CuisineSelector 
-                options={eraOptions} 
-                selected={selectedEras}
-                onChange={setSelectedEras}
-              />
+              <div className="space-y-6">
+                <h3 className="text-lg font-medium">Choose your preferred historical eras</h3>
+                <EraChipSelector 
+                  options={eraOptions} 
+                  selected={selectedEras}
+                  onChange={setSelectedEras}
+                />
+              </div>
               
               {selectedEras.length > 0 && (
-                <div className="flex justify-end">
-                  <button
+                <div className="flex justify-end mt-4">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
                     onClick={() => setSelectedEras([])}
-                    className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1 transition-colors"
+                    className="text-sm flex items-center gap-1.5"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x">
-                      <path d="M18 6 6 18"/>
-                      <path d="m6 6 12 12"/>
-                    </svg>
+                    <XIcon className="h-4 w-4" />
                     Clear selection
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>
