@@ -14,18 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 href="/"
                 className={cn(
                   "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/" ? "bg-[#555]" : ""
-                )}
-              >
-                Emperors
-              </Link>
-            </li>
-            <li className="mx-4">
-              <Link 
-                href="/cuisine-example"
-                className={cn(
-                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/cuisine-example" ? "bg-[#555]" : ""
+                  location === "/" || location === "/cuisine-example" ? "bg-[#555]" : ""
                 )}
               >
                 Era Preferences
