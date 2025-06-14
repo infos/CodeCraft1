@@ -17,18 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   location === "/" ? "bg-[#555]" : ""
                 )}
               >
-                Eras and Ages
-              </Link>
-            </li>
-            <li className="mx-4">
-              <Link 
-                href="/tours"
-                className={cn(
-                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/tours" ? "bg-[#555]" : ""
-                )}
-              >
-                Tours
+                Emperors
               </Link>
             </li>
             <li className="mx-4">
