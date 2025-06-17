@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import Layout from '@/components/Layout';
 import EraChipSelector from '@/components/EraChipSelector';
@@ -107,9 +108,9 @@ export default function CuisineExample() {
                         <span className="text-sm font-medium">{tour.duration} days</span>
                         <span className="font-bold">${tour.price}</span>
                       </div>
-                      <div className="mt-4 block text-center bg-gray-400 text-white py-2 px-4 rounded-md">
-                        {tour.locations}
-                      </div>
+                      <Link href={`/tour/${tour.id}`} className="mt-4 block text-center bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-md transition-colors">
+                        View Details
+                      </Link>
                     </CardContent>
                   </Card>
                 ))}
