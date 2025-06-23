@@ -31,7 +31,7 @@ export default function EmperorPage() {
 
     // Filter emperors based on selected eras
     const filteredEmperors = emperors?.filter(emperor => 
-      selectedEras.length === 0 || (emperor.era !== null && selectedEras.includes(emperor.era))
+      selectedEras.length === 0 || selectedEras.includes(emperor.era)
     ) || [];
 
     if (emperorsLoading || erasLoading) {
