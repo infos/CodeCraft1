@@ -2,12 +2,38 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 import { Emperor } from "@shared/schema";
 import VirtualHistorian from "@/components/VirtualHistorian";
+import EmperorTimeline from "@/components/EmperorTimeline";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function EmperorPage() {
   const { id } = useParams();
+  
+  // If no ID, show the emperor timeline
+  if (!id) {
+    const { data: emperors, isLoading } = useQuery<Emperor[]>({ 
+      queryKey: ['/api/emperors']
+    });
+
+    if (isLoading) {
+      return <Skeleton className="h-[800px] w-full" />;
+    }
+
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold mb-4">Historical Emperors Timeline</h1>
+          <p className="text-muted-foreground mb-8">
+            Explore the lives and reigns of history's most influential emperors
+          </p>
+        </div>
+        <EmperorTimeline emperors={emperors || []} selectedEra={null} />
+      </div>
+    );
+  }
+
+  // If ID provided, show individual emperor details
   const { data: emperor, isLoading, error } = useQuery<Emperor>({ 
     queryKey: [`/api/emperors/${id}`]
   });
