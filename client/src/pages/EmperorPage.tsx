@@ -1,22 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
+import { useState } from "react";
 import { Emperor } from "@shared/schema";
 import VirtualHistorian from "@/components/VirtualHistorian";
 import EmperorTimeline from "@/components/EmperorTimeline";
+import EraChipSelector from "@/components/EraChipSelector";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { XIcon } from "lucide-react";
 
 export default function EmperorPage() {
   const { id } = useParams();
   
   // If no ID, show the emperor timeline
   if (!id) {
-    const { data: emperors, isLoading } = useQuery<Emperor[]>({ 
+    const [selectedEras, setSelectedEras] = useState<string[]>([]);
+    
+    const { data: emperors, isLoading: emperorsLoading } = useQuery<Emperor[]>({ 
       queryKey: ['/api/emperors']
     });
 
-    if (isLoading) {
+    const { data: eras, isLoading: erasLoading } = useQuery({
+      queryKey: ['/api/eras'],
+      select: (data) => data as { id: number; name: string }[]
+    });
+
+    const eraOptions = eras?.map(era => era.name) || [];
+
+    // Filter emperors based on selected eras
+    const filteredEmperors = emperors?.filter(emperor => 
+      selectedEras.length === 0 || selectedEras.includes(emperor.era)
+    ) || [];
+
+    if (emperorsLoading || erasLoading) {
       return <Skeleton className="h-[800px] w-full" />;
     }
 
@@ -28,7 +46,37 @@ export default function EmperorPage() {
             Explore the lives and reigns of history's most influential emperors
           </p>
         </div>
-        <EmperorTimeline emperors={emperors || []} selectedEra={null} />
+
+        <Card>
+          <CardContent className="pt-6">
+            <div className="space-y-4">
+              <div className="space-y-6">
+                <h3 className="text-lg font-medium">Filter by Historical Era</h3>
+                <EraChipSelector 
+                  options={eraOptions} 
+                  selected={selectedEras}
+                  onChange={setSelectedEras}
+                />
+              </div>
+              
+              {selectedEras.length > 0 && (
+                <div className="flex justify-end mt-4">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setSelectedEras([])}
+                    className="text-sm flex items-center gap-1.5"
+                  >
+                    <XIcon className="h-4 w-4" />
+                    Clear selection
+                  </Button>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <EmperorTimeline emperors={filteredEmperors} selectedEra={selectedEras.length > 0 ? selectedEras[0] : null} />
       </div>
     );
   }
