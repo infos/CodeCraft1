@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#333]">
-      <header className="bg-[#333] text-white py-4">
+      <header className="bg-[#333] text-white py-4" style={{ display: 'none' }}>
         <nav className="container mx-auto px-4">
           <div className="text-center">
             <h1 className="text-xl font-semibold">Historical Tourism</h1>
