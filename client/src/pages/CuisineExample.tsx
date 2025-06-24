@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
-import Layout from '@/components/Layout';
 import EraChipSelector from '@/components/EraChipSelector';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -38,8 +37,7 @@ export default function CuisineExample() {
   );
 
   return (
-    <Layout>
-      <div className="space-y-8">
+    <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold mb-4">What are your favorite eras?</h1>
           <p className="text-muted-foreground mb-8">
@@ -124,7 +122,6 @@ export default function CuisineExample() {
             )}
           </div>
         )}
-      </div>
-    </Layout>
+    </div>
   );
 }
