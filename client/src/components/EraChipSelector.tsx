@@ -99,9 +99,9 @@ const EraChipSelector: React.FC<EraChipSelectorProps> = ({
                 </div>
               </TooltipTrigger>
               {timePeriod && (
-                <TooltipContent>
+                <TooltipContent className="bg-yellow-100 border-yellow-200 text-yellow-900">
                   <p className="font-medium">{option}</p>
-                  <p className="text-sm text-muted-foreground">{timePeriod}</p>
+                  <p className="text-sm text-yellow-700">{timePeriod}</p>
                 </TooltipContent>
               )}
             </Tooltip>
