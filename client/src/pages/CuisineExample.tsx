@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import EraChipSelector from '@/components/EraChipSelector';
+import EraTimeline from '@/components/EraTimeline';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tour } from '@shared/schema';
@@ -38,6 +39,16 @@ export default function CuisineExample() {
 
   return (
     <div className="space-y-8">
+        {/* Era Timeline at the top */}
+        <EraTimeline 
+          onEraSelect={(era) => {
+            if (era) {
+              setSelectedEras(prev => prev.includes(era) ? prev : [...prev, era]);
+            }
+          }}
+          selectedEra={selectedEras.length > 0 ? selectedEras[0] : null}
+        />
+        
         <div>
           <h1 className="text-3xl font-bold mb-4">What are your favorite eras?</h1>
           <p className="text-muted-foreground mb-8">
