@@ -24,7 +24,21 @@ export default function EraTimeline({ onEraSelect, selectedEra }: EraTimelinePro
     select: (data) => data as Era[]
   });
 
-  // Sort eras chronologically
+  // Sort eras chronologically with approximate years
+  const eraYears = {
+    'Ancient Near Eastern': '3500-539 BCE',
+    'Ancient Egyptian': '3100-30 BCE', 
+    'Classical Antiquity': '800-600 CE',
+    'Hellenistic': '323-146 BCE',
+    'Roman Republic': '509-27 BCE',
+    'Roman Empire': '27 BCE-476 CE',
+    'Byzantine': '330-1453 CE',
+    'Medieval': '476-1453 CE',
+    'Renaissance': '1400-1600 CE',
+    'Early Modern': '1450-1800 CE',
+    'Enlightenment': '1685-1815 CE'
+  };
+
   const sortedEras = eras?.sort((a, b) => {
     const eraOrder = {
       'Ancient Near Eastern': 1,
@@ -180,20 +194,26 @@ export default function EraTimeline({ onEraSelect, selectedEra }: EraTimelinePro
               <a
                 href={`#${era.name}`}
                 style={{
-                  lineHeight: '38px',
+                  lineHeight: '20px',
                   paddingBottom: '10px',
                   color: index === currentIndex ? '#ffcc00' : '#ffffcc',
                   textDecoration: 'none',
                   transition: '0.5s',
-                  fontSize: index === currentIndex ? '38px' : '24px',
-                  display: 'block'
+                  fontSize: index === currentIndex ? '16px' : '12px',
+                  display: 'block',
+                  textAlign: 'center'
                 }}
                 onClick={(e) => {
                   e.preventDefault();
                   selectEra(index, era.name);
                 }}
               >
-                {era.name.split(' ')[0]}
+                <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>
+                  {eraYears[era.name as keyof typeof eraYears] || ''}
+                </div>
+                <div style={{ fontSize: index === currentIndex ? '14px' : '10px' }}>
+                  {era.name.split(' ')[0]}
+                </div>
               </a>
             </li>
           ))}
@@ -212,8 +232,8 @@ export default function EraTimeline({ onEraSelect, selectedEra }: EraTimelinePro
             >
               <h1 style={{
                 color: '#ffcc00',
-                fontSize: '48px',
-                margin: '20px 0',
+                fontSize: '32px',
+                margin: '15px 0',
                 textShadow: '#000 1px 1px 2px',
                 textAlign: 'left',
                 paddingLeft: '70px'
@@ -221,11 +241,11 @@ export default function EraTimeline({ onEraSelect, selectedEra }: EraTimelinePro
                 {era.name}
               </h1>
               <p style={{
-                fontSize: '14px',
+                fontSize: '12px',
                 marginRight: '70px',
                 marginLeft: '70px',
                 fontWeight: 'normal',
-                lineHeight: '22px',
+                lineHeight: '18px',
                 textShadow: '#000 1px 1px 2px'
               }}>
                 {era.keyFigures ? (
