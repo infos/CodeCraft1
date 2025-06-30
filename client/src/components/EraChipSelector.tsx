@@ -62,7 +62,7 @@ const EraChipSelector: React.FC<EraChipSelectorProps> = ({
   };
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={300}>
       <div className={cn("flex flex-wrap gap-2", className)}>
         {options.map(option => {
           const isSelected = current.includes(option);
@@ -71,30 +71,32 @@ const EraChipSelector: React.FC<EraChipSelectorProps> = ({
           return (
             <Tooltip key={option}>
               <TooltipTrigger asChild>
-                <Badge
-                  variant={isSelected ? "default" : "outline"}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium cursor-pointer transition-all",
-                    isSelected 
-                      ? "bg-primary text-primary-foreground hover:bg-primary/80" 
-                      : "hover:bg-muted hover:text-foreground"
-                  )}
-                  onClick={() => toggle(option)}
-                >
-                  {isSelected && (
-                    <CheckIcon className="mr-1 h-3 w-3" />
-                  )}
-                  {option}
-                  {isSelected && (
-                    <XIcon 
-                      className="ml-1 h-3 w-3 opacity-70 hover:opacity-100" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggle(option);
-                      }}
-                    />
-                  )}
-                </Badge>
+                <div>
+                  <Badge
+                    variant={isSelected ? "default" : "outline"}
+                    className={cn(
+                      "rounded-full px-4 py-2 text-sm font-medium cursor-pointer transition-all",
+                      isSelected 
+                        ? "bg-primary text-primary-foreground hover:bg-primary/80" 
+                        : "hover:bg-muted hover:text-foreground"
+                    )}
+                    onClick={() => toggle(option)}
+                  >
+                    {isSelected && (
+                      <CheckIcon className="mr-1 h-3 w-3" />
+                    )}
+                    {option}
+                    {isSelected && (
+                      <XIcon 
+                        className="ml-1 h-3 w-3 opacity-70 hover:opacity-100" 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggle(option);
+                        }}
+                      />
+                    )}
+                  </Badge>
+                </div>
               </TooltipTrigger>
               {timePeriod && (
                 <TooltipContent>
