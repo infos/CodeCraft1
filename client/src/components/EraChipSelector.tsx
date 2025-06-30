@@ -29,16 +29,26 @@ const EraChipSelector: React.FC<EraChipSelectorProps> = ({
   // Era time periods for tooltips
   const eraYears: Record<string, string> = {
     'Ancient Near Eastern': '3500-539 BCE',
-    'Ancient Egyptian': '3100-30 BCE', 
-    'Classical Antiquity': '800 BCE-600 CE',
-    'Hellenistic': '323-146 BCE',
-    'Roman Republic': '509-27 BCE',
-    'Roman Empire': '27 BCE-476 CE',
+    'Ancient Egypt': '3100-30 BCE',
+    'Ancient Greece': '800-146 BCE',
+    'Ancient Rome': '753 BCE-476 CE',
     'Byzantine': '330-1453 CE',
-    'Medieval': '476-1453 CE',
+    'Medieval Europe': '476-1453 CE',
+    'Neo-Babylonian': '626-539 BCE',
+    'Silk Road Trade Era': '130 BCE-1453 CE',
+    'Ancient India (Mauryan and Gupta Periods)': '321 BCE-550 CE',
+    'Imperial China': '221 BCE-1912 CE',
+    'Israel\'s Patriarchal Period': '2000-1600 BCE',
+    'Middle Kingdom of Egypt': '2055-1650 BCE',
+    'New Kingdom of Egypt': '1550-1077 BCE',
+    'Achaemenid Empire': '550-330 BCE',
+    'Hellenistic Period': '323-146 BCE',
+    'Parthian Empire': '247 BCE-224 CE',
+    'Sasanian Empire': '224-651 CE',
     'Renaissance': '1400-1600 CE',
-    'Early Modern': '1450-1800 CE',
-    'Enlightenment': '1685-1815 CE'
+    'Age of Exploration': '1400-1700 CE',
+    'Enlightenment': '1685-1815 CE',
+    'Georgian Era': '1714-1830 CE'
   };
 
   // keep local state in sync if `selected` prop changes
