@@ -109,51 +109,59 @@ export default function TourDetailPage() {
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Day-by-Day Itinerary</h2>
           
-          {tour.itinerary.map((day) => (
-            <Card key={day.day} className="shadow-lg">
-              <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-500 text-white">
-                <CardTitle className="flex items-center gap-2">
-                  <div className="bg-white text-amber-600 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
-                    {day.day}
-                  </div>
-                  {day.title}
-                </CardTitle>
-              </CardHeader>
-              
-              <CardContent className="p-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  {/* Sites */}
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-amber-600" />
-                      Sites to Visit
-                    </h4>
-                    <div className="space-y-3">
-                      {day.sites.map((site, index) => (
-                        <div key={index} className="border-l-2 border-amber-200 pl-4">
-                          <h5 className="font-medium text-gray-800">{site.name}</h5>
-                          <p className="text-sm text-gray-600 mt-1">{site.description}</p>
+          {tour.itinerary && tour.itinerary.length > 0 ? (
+            tour.itinerary.map((day) => (
+              <Card key={day.day} className="shadow-lg">
+                <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-500 text-white">
+                  <CardTitle className="flex items-center gap-2">
+                    <div className="bg-white text-amber-600 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
+                      {day.day}
+                    </div>
+                    {day.title}
+                  </CardTitle>
+                </CardHeader>
+                
+                <CardContent className="p-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Sites */}
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-amber-600" />
+                        Sites to Visit
+                      </h4>
+                      <div className="space-y-3">
+                        {day.sites && day.sites.map((site, index) => (
+                          <div key={index} className="border-l-2 border-amber-200 pl-4">
+                            <h5 className="font-medium text-gray-800">{site.name}</h5>
+                            <p className="text-sm text-gray-600 mt-1">{site.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Hotel */}
+                    <div>
+                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                        <Users className="w-4 h-4 text-amber-600" />
+                        Accommodation
+                      </h4>
+                      {day.hotel && (
+                        <div className="bg-amber-50 rounded-lg p-4">
+                          <h5 className="font-medium text-gray-800">{day.hotel.name}</h5>
+                          <p className="text-sm text-amber-600 font-medium mt-1">{day.hotel.location}</p>
+                          <p className="text-sm text-gray-600 mt-2">{day.hotel.description}</p>
                         </div>
-                      ))}
+                      )}
                     </div>
                   </div>
-                  
-                  {/* Hotel */}
-                  <div>
-                    <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                      <Users className="w-4 h-4 text-amber-600" />
-                      Accommodation
-                    </h4>
-                    <div className="bg-amber-50 rounded-lg p-4">
-                      <h5 className="font-medium text-gray-800">{day.hotel.name}</h5>
-                      <p className="text-sm text-amber-600 font-medium mt-1">{day.hotel.location}</p>
-                      <p className="text-sm text-gray-600 mt-2">{day.hotel.description}</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <div className="text-center text-gray-500 py-8">
+              <p>No detailed itinerary available for this tour.</p>
+            </div>
+          )}
         </div>
 
         {/* Call to Action */}
