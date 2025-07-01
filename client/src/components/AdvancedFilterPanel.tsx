@@ -27,11 +27,11 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
   const [activeFilterTags, setActiveFilterTags] = useState<Array<{type: string, value: string, label: string}>>([]);
 
   const timeOptions = [
-    { value: 'ancient', label: 'Ancient Times' },
-    { value: 'classical', label: 'Classical Period' },
-    { value: 'medieval', label: 'Medieval Era' },
-    { value: 'renaissance', label: 'Renaissance' },
-    { value: 'modern', label: 'Modern Era' },
+    { value: 'ancient', label: 'Ancient Times (3500-500 BCE)' },
+    { value: 'classical', label: 'Classical Period (500 BCE-500 CE)' },
+    { value: 'medieval', label: 'Medieval Era (500-1450 CE)' },
+    { value: 'renaissance', label: 'Renaissance (1400-1600 CE)' },
+    { value: 'modern', label: 'Modern Era (1600-1900 CE)' },
     { value: 'custom', label: 'Custom Period' }
   ];
 
