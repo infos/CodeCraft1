@@ -3,7 +3,7 @@ import { Calendar, Globe, BarChart3, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface FilterState {
-  timeFilter: string | null;
+  selectedPeriods: string[];
   selectedEras: string[];
   selectedLocations: string[];
   customDateFrom?: string;
@@ -18,7 +18,7 @@ interface AdvancedFilterPanelProps {
 
 export default function AdvancedFilterPanel({ eras, onFiltersChange, className }: AdvancedFilterPanelProps) {
   const [filters, setFilters] = useState<FilterState>({
-    timeFilter: null,
+    selectedPeriods: [],
     selectedEras: [],
     selectedLocations: []
   });
@@ -46,15 +46,18 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
     { value: 'india', label: 'India' }
   ];
 
-  const handleTimeFilterChange = (value: string) => {
-    // Clear selected eras when time filter changes to prevent invalid selections
+  const handlePeriodToggle = (period: string) => {
+    const newSelectedPeriods = filters.selectedPeriods.includes(period)
+      ? filters.selectedPeriods.filter(p => p !== period)
+      : [...filters.selectedPeriods, period];
+    
     const newFilters = { 
       ...filters, 
-      timeFilter: value,
-      selectedEras: [] // Clear eras when time period changes
+      selectedPeriods: newSelectedPeriods,
+      selectedEras: [] // Clear eras when periods change
     };
     setFilters(newFilters);
-    setShowCustomDate(value === 'custom');
+    setShowCustomDate(newSelectedPeriods.includes('custom'));
   };
 
   const handleEraToggle = (era: string) => {
@@ -76,8 +79,8 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
   };
 
   const applyFilters = () => {
-    if (!filters.timeFilter) {
-      alert('Please select a time period');
+    if (filters.selectedPeriods.length === 0) {
+      alert('Please select at least one time period');
       return;
     }
     
@@ -94,11 +97,13 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
     // Create filter tags
     const tags: Array<{type: string, value: string, label: string}> = [];
     
-    // Time filter tag
-    const timeOption = timeOptions.find(opt => opt.value === filters.timeFilter);
-    if (timeOption) {
-      tags.push({ type: 'time', value: filters.timeFilter!, label: `Time: ${timeOption.label}` });
-    }
+    // Period filter tags
+    filters.selectedPeriods.forEach(period => {
+      const periodOption = timeOptions.find(opt => opt.value === period);
+      if (periodOption) {
+        tags.push({ type: 'time', value: period, label: `Period: ${periodOption.label}` });
+      }
+    });
     
     // Era tags
     filters.selectedEras.forEach(era => {
@@ -119,7 +124,7 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
 
   const resetFilters = () => {
     const resetState = {
-      timeFilter: null,
+      selectedPeriods: [],
       selectedEras: [],
       selectedLocations: []
     };
@@ -133,8 +138,8 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
     let newFilters = { ...filters };
     
     if (tagToRemove.type === 'time') {
-      newFilters.timeFilter = null;
-      setShowCustomDate(false);
+      newFilters.selectedPeriods = newFilters.selectedPeriods.filter(period => period !== tagToRemove.value);
+      setShowCustomDate(newFilters.selectedPeriods.includes('custom'));
     } else if (tagToRemove.type === 'era') {
       newFilters.selectedEras = newFilters.selectedEras.filter(era => era !== tagToRemove.value);
     } else if (tagToRemove.type === 'location') {
@@ -162,10 +167,10 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
             {timeOptions.map(option => (
               <button
                 key={option.value}
-                onClick={() => handleTimeFilterChange(option.value)}
+                onClick={() => handlePeriodToggle(option.value)}
                 className={cn(
                   "px-3 py-2 rounded-md text-xs font-medium transition-all duration-300 border",
-                  filters.timeFilter === option.value
+                  filters.selectedPeriods.includes(option.value)
                     ? "bg-cyan-500/20 text-cyan-400 border-cyan-400 shadow-lg shadow-cyan-400/20"
                     : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
                 )}
