@@ -24,9 +24,9 @@ export default function CopyOfEras() {
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState<any>(null);
   
-  // Filter eras based on selected time period
-  const getFilteredEras = (timeFilter: string | null) => {
-    if (!timeFilter) return eraOptions;
+  // Filter eras based on selected time periods
+  const getFilteredEras = (selectedPeriods: string[]) => {
+    if (!selectedPeriods || selectedPeriods.length === 0) return eraOptions;
     
     const erasByPeriod: Record<string, string[]> = {
       'ancient': [
@@ -62,13 +62,19 @@ export default function CopyOfEras() {
       ]
     };
     
-    const periodEras = erasByPeriod[timeFilter] || [];
-    // Only return eras that exist in our database
-    return periodEras.filter(era => eraOptions.includes(era));
+    // Collect all eras from selected periods
+    const allSelectedEras = selectedPeriods.reduce((acc, period) => {
+      const periodEras = erasByPeriod[period] || [];
+      return [...acc, ...periodEras];
+    }, [] as string[]);
+    
+    // Remove duplicates and only return eras that exist in our database  
+    const uniqueEras = allSelectedEras.filter((era, index) => allSelectedEras.indexOf(era) === index);
+    return uniqueEras.filter(era => eraOptions.includes(era));
   };
   
   // Get filtered eras based on current advanced filters
-  const filteredEraOptions = getFilteredEras(advancedFilters?.timeFilter);
+  const filteredEraOptions = getFilteredEras(advancedFilters?.selectedPeriods || []);
   
   // Fetch all tours
   const { data: tours, isLoading } = useQuery({
@@ -93,9 +99,12 @@ export default function CopyOfEras() {
   
   // Handle advanced filter changes
   const handleAdvancedFiltersChange = (filters: any) => {
-    // If time filter changed, clear selected eras that are no longer valid
-    if (advancedFilters?.timeFilter !== filters.timeFilter) {
-      const validEras = getFilteredEras(filters.timeFilter);
+    // If period selection changed, clear selected eras that are no longer valid
+    const prevPeriods = advancedFilters?.selectedPeriods || [];
+    const currentPeriods = filters.selectedPeriods || [];
+    
+    if (JSON.stringify(prevPeriods) !== JSON.stringify(currentPeriods)) {
+      const validEras = getFilteredEras(currentPeriods);
       const filteredSelectedEras = (filters.selectedEras || []).filter((era: string) => 
         validEras.includes(era)
       );
