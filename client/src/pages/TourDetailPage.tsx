@@ -41,11 +41,7 @@ export default function TourDetailPage() {
     enabled: !!tourId,
   });
 
-  // Debug logging
-  console.log("TourDetailPage - tourId:", tourId);
-  console.log("TourDetailPage - tour data:", tour);
-  console.log("TourDetailPage - isLoading:", isLoading);
-  console.log("TourDetailPage - error:", error);
+
 
   if (isLoading) {
     return (

@@ -317,10 +317,95 @@ const tourTemplates = {
         itinerary: [
           {
             day: 1,
-            title: "Acropolis and Ancient Athens",
+            title: "Arrival in Athens - Ancient Agora",
+            sites: [
+              { name: "Ancient Agora", description: "Center of political and commercial life in ancient Athens" },
+              { name: "Stoa of Attalos", description: "Reconstructed ancient Greek covered walkway" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 2,
+            title: "Acropolis and Parthenon",
             sites: [
               { name: "Parthenon", description: "Temple dedicated to Athena on the Acropolis" },
-              { name: "Ancient Agora", description: "Center of political and commercial life" }
+              { name: "Erechtheion", description: "Ancient Greek temple with the Caryatids" },
+              { name: "Acropolis Museum", description: "Modern museum housing Parthenon sculptures" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 3,
+            title: "National Archaeological Museum",
+            sites: [
+              { name: "National Archaeological Museum", description: "World's finest collection of ancient Greek artifacts" },
+              { name: "Ancient Cemetery of Kerameikos", description: "Ancient burial ground with sculpted tombstones" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 4,
+            title: "Day Trip to Delphi",
+            sites: [
+              { name: "Oracle of Delphi", description: "Sacred site where Pythia delivered prophecies" },
+              { name: "Temple of Apollo", description: "Ruins of the temple where the Oracle resided" },
+              { name: "Delphi Archaeological Museum", description: "Treasures from the sanctuary including the Charioteer" }
+            ],
+            hotel: { name: "Amalia Hotel Delphi", location: "Delphi", description: "Mountain hotel with panoramic views" }
+          },
+          {
+            day: 5,
+            title: "Delphi to Athens - Ancient Theater",
+            sites: [
+              { name: "Ancient Theater of Delphi", description: "Well-preserved theater with mountain views" },
+              { name: "Tholos of Athena Pronaia", description: "Circular temple in the sanctuary of Athena" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 6,
+            title: "Temple of Poseidon at Sounion",
+            sites: [
+              { name: "Temple of Poseidon", description: "Clifftop temple overlooking the Aegean Sea" },
+              { name: "Cape Sounion", description: "Dramatic headland where Byron carved his name" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 7,
+            title: "Ancient Olympia Day Trip",
+            sites: [
+              { name: "Ancient Olympia", description: "Birthplace of the Olympic Games" },
+              { name: "Temple of Zeus", description: "Ruins of the temple that housed the statue of Zeus" },
+              { name: "Archaeological Museum of Olympia", description: "Sculptures from the Temple of Zeus" }
+            ],
+            hotel: { name: "Amalia Hotel Olympia", location: "Olympia", description: "Peaceful hotel near the ancient site" }
+          },
+          {
+            day: 8,
+            title: "Mycenae and Epidaurus",
+            sites: [
+              { name: "Mycenae", description: "Bronze Age citadel of Agamemnon" },
+              { name: "Lion Gate", description: "Massive entrance to the Mycenaean palace" },
+              { name: "Theater of Epidaurus", description: "Best-preserved ancient Greek theater" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 9,
+            title: "Aegina Island - Temple of Aphaia",
+            sites: [
+              { name: "Temple of Aphaia", description: "Well-preserved Doric temple on Aegina Island" },
+              { name: "Aegina Town", description: "Charming port town with neoclassical buildings" }
+            ],
+            hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
+          },
+          {
+            day: 10,
+            title: "Marathon and Departure",
+            sites: [
+              { name: "Marathon Battlefield", description: "Site of the famous battle against the Persians" },
+              { name: "Tumulus of Marathon", description: "Burial mound of Athenian warriors" }
             ],
             hotel: { name: "Hotel Grande Bretagne", location: "Syntagma Square", description: "Historic luxury hotel since 1874" }
           }
@@ -359,21 +444,93 @@ const tourTemplates = {
         itinerary: [
           {
             day: 1,
-            title: "Beijing - Forbidden City",
+            title: "Arrival in Beijing - Forbidden City",
             sites: [
               { name: "Forbidden City", description: "Imperial palace complex of the Ming and Qing dynasties" },
-              { name: "Temple of Heaven", description: "Sacred complex where emperors prayed for good harvests" }
+              { name: "Tiananmen Square", description: "Historic square at the heart of Beijing" }
             ],
             hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
           },
           {
             day: 2,
+            title: "Temple of Heaven and Summer Palace",
+            sites: [
+              { name: "Temple of Heaven", description: "Sacred complex where emperors prayed for good harvests" },
+              { name: "Summer Palace", description: "Imperial garden and palace with Kunming Lake" }
+            ],
+            hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
+          },
+          {
+            day: 3,
             title: "Great Wall of China",
             sites: [
               { name: "Mutianyu Section", description: "Best-preserved section of the Great Wall" },
               { name: "Ming Tombs", description: "Burial site of 13 Ming Dynasty emperors" }
             ],
             hotel: { name: "Commune by the Great Wall", location: "Badaling", description: "Architectural resort near the Great Wall" }
+          },
+          {
+            day: 4,
+            title: "Travel to Xi'an - Ancient City Wall",
+            sites: [
+              { name: "Xi'an City Wall", description: "Best-preserved ancient city wall in China" },
+              { name: "Muslim Quarter", description: "Historic Islamic district with traditional architecture" }
+            ],
+            hotel: { name: "Shangri-La Hotel Xi'an", location: "Xi'an", description: "Luxury hotel near the city center" }
+          },
+          {
+            day: 5,
+            title: "Terracotta Warriors",
+            sites: [
+              { name: "Terracotta Army", description: "Thousands of life-sized clay soldiers guarding Emperor Qin's tomb" },
+              { name: "Emperor Qin Shi Huang's Mausoleum", description: "Tomb of China's first emperor" }
+            ],
+            hotel: { name: "Shangri-La Hotel Xi'an", location: "Xi'an", description: "Luxury hotel near the city center" }
+          },
+          {
+            day: 6,
+            title: "Big Wild Goose Pagoda and Shaanxi Museum",
+            sites: [
+              { name: "Big Wild Goose Pagoda", description: "Ancient Buddhist pagoda from the Tang Dynasty" },
+              { name: "Shaanxi History Museum", description: "Premier museum of Chinese ancient history" }
+            ],
+            hotel: { name: "Shangri-La Hotel Xi'an", location: "Xi'an", description: "Luxury hotel near the city center" }
+          },
+          {
+            day: 7,
+            title: "Return to Beijing - Hutongs",
+            sites: [
+              { name: "Hutong Neighborhoods", description: "Traditional narrow alleys with courtyard houses" },
+              { name: "Lama Temple", description: "Largest Tibetan Buddhist temple in Beijing" }
+            ],
+            hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
+          },
+          {
+            day: 8,
+            title: "Beijing National Museum and Departure",
+            sites: [
+              { name: "National Museum of China", description: "Comprehensive collection of Chinese artifacts" },
+              { name: "Wangfujing Street", description: "Historic shopping street with traditional snacks" }
+            ],
+            hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
+          },
+          {
+            day: 9,
+            title: "Temple of Confucius and Ancient Observatory",
+            sites: [
+              { name: "Temple of Confucius", description: "Sacred temple dedicated to the great philosopher" },
+              { name: "Ancient Observatory", description: "Ming Dynasty astronomical instruments" }
+            ],
+            hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
+          },
+          {
+            day: 10,
+            title: "Jingshan Park and Final Exploration",
+            sites: [
+              { name: "Jingshan Park", description: "Hill park with panoramic views of the Forbidden City" },
+              { name: "Beihai Park", description: "Imperial garden with White Pagoda" }
+            ],
+            hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
           }
         ]
       }
@@ -389,21 +546,93 @@ const tourTemplates = {
         itinerary: [
           {
             day: 1,
-            title: "Delhi - Imperial Capital",
+            title: "Arrival in Delhi - Red Fort",
             sites: [
               { name: "Red Fort", description: "Mughal fortress and palace complex" },
-              { name: "Humayun's Tomb", description: "Precursor to the Taj Mahal architecture" }
+              { name: "Jama Masjid", description: "Largest mosque in India built by Shah Jahan" }
             ],
             hotel: { name: "The Imperial New Delhi", location: "Connaught Place", description: "Colonial-era luxury hotel from 1936" }
           },
           {
             day: 2,
-            title: "Agra - Taj Mahal",
+            title: "Old Delhi and Mughal Heritage",
+            sites: [
+              { name: "Humayun's Tomb", description: "Precursor to the Taj Mahal architecture" },
+              { name: "Qutub Minar", description: "Medieval minaret and UNESCO World Heritage site" }
+            ],
+            hotel: { name: "The Imperial New Delhi", location: "Connaught Place", description: "Colonial-era luxury hotel from 1936" }
+          },
+          {
+            day: 3,
+            title: "Travel to Agra - Taj Mahal",
             sites: [
               { name: "Taj Mahal", description: "Iconic marble mausoleum and UNESCO World Heritage site" },
-              { name: "Agra Fort", description: "Red sandstone Mughal fortress" }
+              { name: "Mehtab Bagh", description: "Garden complex with views of the Taj Mahal" }
             ],
             hotel: { name: "The Oberoi Amarvilas", location: "Agra", description: "Luxury hotel with Taj Mahal views" }
+          },
+          {
+            day: 4,
+            title: "Agra Fort and Local Crafts",
+            sites: [
+              { name: "Agra Fort", description: "Red sandstone Mughal fortress" },
+              { name: "Tomb of Itimad-ud-Daulah", description: "Baby Taj built before the Taj Mahal" }
+            ],
+            hotel: { name: "The Oberoi Amarvilas", location: "Agra", description: "Luxury hotel with Taj Mahal views" }
+          },
+          {
+            day: 5,
+            title: "Fatehpur Sikri - Ghost City",
+            sites: [
+              { name: "Fatehpur Sikri", description: "Abandoned Mughal city built by Akbar" },
+              { name: "Buland Darwaza", description: "Magnificent gateway to the imperial city" }
+            ],
+            hotel: { name: "The Oberoi Amarvilas", location: "Agra", description: "Luxury hotel with Taj Mahal views" }
+          },
+          {
+            day: 6,
+            title: "Travel to Jaipur - Pink City",
+            sites: [
+              { name: "City Palace", description: "Royal residence of the Maharaja of Jaipur" },
+              { name: "Jantar Mantar", description: "18th-century astronomical observatory" }
+            ],
+            hotel: { name: "Taj Rambagh Palace", location: "Jaipur", description: "Former royal palace converted to luxury hotel" }
+          },
+          {
+            day: 7,
+            title: "Amber Fort and Hawa Mahal",
+            sites: [
+              { name: "Amber Fort", description: "Hilltop fortress with mirror palace" },
+              { name: "Hawa Mahal", description: "Palace of Winds with intricate latticework" }
+            ],
+            hotel: { name: "Taj Rambagh Palace", location: "Jaipur", description: "Former royal palace converted to luxury hotel" }
+          },
+          {
+            day: 8,
+            title: "Pushkar and Ajmer",
+            sites: [
+              { name: "Pushkar Lake", description: "Sacred lake with 52 ghats" },
+              { name: "Brahma Temple", description: "One of the few temples dedicated to Lord Brahma" }
+            ],
+            hotel: { name: "Taj Rambagh Palace", location: "Jaipur", description: "Former royal palace converted to luxury hotel" }
+          },
+          {
+            day: 9,
+            title: "Udaipur - Venice of the East",
+            sites: [
+              { name: "City Palace Udaipur", description: "Largest palace complex in Rajasthan" },
+              { name: "Lake Pichola", description: "Artificial freshwater lake with palace views" }
+            ],
+            hotel: { name: "Taj Lake Palace", location: "Lake Pichola", description: "Palace hotel floating on the lake" }
+          },
+          {
+            day: 10,
+            title: "Temples and Gardens",
+            sites: [
+              { name: "Jagdish Temple", description: "Large Hindu temple dedicated to Vishnu" },
+              { name: "Saheliyon Ki Bari", description: "Garden of the Maidens with fountains" }
+            ],
+            hotel: { name: "Taj Lake Palace", location: "Lake Pichola", description: "Palace hotel floating on the lake" }
           }
         ]
       }
@@ -419,7 +648,7 @@ const tourTemplates = {
         itinerary: [
           {
             day: 1,
-            title: "Chichen Itza - El Castillo",
+            title: "Arrival in Cancun - Chichen Itza",
             sites: [
               { name: "El Castillo Pyramid", description: "Iconic stepped pyramid dedicated to Kukulkan" },
               { name: "Great Ball Court", description: "Largest ball court in ancient Mesoamerica" }
@@ -428,12 +657,84 @@ const tourTemplates = {
           },
           {
             day: 2,
-            title: "Palenque - Temple of Inscriptions",
+            title: "Chichen Itza - Observatory and Cenote",
+            sites: [
+              { name: "El Caracol Observatory", description: "Ancient Maya astronomical observatory" },
+              { name: "Sacred Cenote", description: "Natural well where Maya conducted ceremonies" }
+            ],
+            hotel: { name: "Mayaland Hotel & Bungalows", location: "Chichen Itza", description: "Historic hotel within the archaeological zone" }
+          },
+          {
+            day: 3,
+            title: "Travel to Palenque - Jungle Temples",
             sites: [
               { name: "Temple of Inscriptions", description: "Tomb of Pakal the Great with hieroglyphic texts" },
               { name: "Palace Complex", description: "Administrative center with unique tower" }
             ],
             hotel: { name: "Chan-Kah Resort Village", location: "Palenque", description: "Eco-resort in the Chiapas jungle" }
+          },
+          {
+            day: 4,
+            title: "Palenque - Temple of the Cross",
+            sites: [
+              { name: "Temple of the Cross", description: "Sacred temple with creation mythology reliefs" },
+              { name: "Temple of the Sun", description: "Smaller temple with jaguar throne" }
+            ],
+            hotel: { name: "Chan-Kah Resort Village", location: "Palenque", description: "Eco-resort in the Chiapas jungle" }
+          },
+          {
+            day: 5,
+            title: "Uxmal - Pyramid of the Magician",
+            sites: [
+              { name: "Pyramid of the Magician", description: "Oval-based pyramid unique in Maya architecture" },
+              { name: "Nunnery Quadrangle", description: "Complex with intricate stone mosaics" }
+            ],
+            hotel: { name: "Hacienda Uxmal Plantation & Museum", location: "Uxmal", description: "Colonial hacienda near the ruins" }
+          },
+          {
+            day: 6,
+            title: "Coba - Jungle Pyramids",
+            sites: [
+              { name: "Nohoch Mul Pyramid", description: "Tallest Maya pyramid that can still be climbed" },
+              { name: "Ball Court of Coba", description: "Ancient ball court surrounded by jungle" }
+            ],
+            hotel: { name: "Coco Tulum", location: "Tulum", description: "Beachfront eco-resort" }
+          },
+          {
+            day: 7,
+            title: "Tulum - Cliff Castle",
+            sites: [
+              { name: "El Castillo Tulum", description: "Maya fortress overlooking the Caribbean Sea" },
+              { name: "Temple of the Frescoes", description: "Temple with original Maya murals" }
+            ],
+            hotel: { name: "Coco Tulum", location: "Tulum", description: "Beachfront eco-resort" }
+          },
+          {
+            day: 8,
+            title: "Tikal, Guatemala - Lost City",
+            sites: [
+              { name: "Temple of the Grand Jaguar", description: "Towering temple in Guatemala jungle" },
+              { name: "Temple of the Mask", description: "Another major pyramid at Tikal" }
+            ],
+            hotel: { name: "Jungle Lodge Tikal", location: "Tikal National Park", description: "Lodge within the biosphere reserve" }
+          },
+          {
+            day: 9,
+            title: "Yaxha - Sunrise Temple",
+            sites: [
+              { name: "Yaxha Ruins", description: "Maya city with lake views" },
+              { name: "Structure 216", description: "Temple offering panoramic jungle views" }
+            ],
+            hotel: { name: "Jungle Lodge Tikal", location: "Tikal National Park", description: "Lodge within the biosphere reserve" }
+          },
+          {
+            day: 10,
+            title: "Maya Museum and Departure",
+            sites: [
+              { name: "Museo Nacional de Arqueología", description: "Guatemala's premier Maya artifact collection" },
+              { name: "Jade Museum", description: "Ancient Maya jade craftsmanship" }
+            ],
+            hotel: { name: "Hotel Casa Santo Domingo", location: "Antigua Guatemala", description: "Colonial hotel in historic city" }
           }
         ]
       }
