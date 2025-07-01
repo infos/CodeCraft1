@@ -22,6 +22,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </li>
             <li className="mx-4">
               <Link 
+                href="/copy-of-eras"
+                className={cn(
+                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
+                  location === "/copy-of-eras" ? "bg-[#555]" : ""
+                )}
+              >
+                Copy of Eras
+              </Link>
+            </li>
+            <li className="mx-4">
+              <Link 
                 href="/emperors"
                 className={cn(
                   "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
