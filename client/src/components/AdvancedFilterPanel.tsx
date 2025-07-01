@@ -11,13 +11,11 @@ interface FilterState {
 }
 
 interface AdvancedFilterPanelProps {
-  eras: string[];
-  allEras: string[];
   onFiltersChange: (filters: FilterState) => void;
   className?: string;
 }
 
-export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, className }: AdvancedFilterPanelProps) {
+export default function AdvancedFilterPanel({ onFiltersChange, className }: AdvancedFilterPanelProps) {
   const [filters, setFilters] = useState<FilterState>({
     selectedPeriods: [],
     selectedEras: [],
@@ -182,8 +180,6 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
     if (tagToRemove.type === 'time') {
       newFilters.selectedPeriods = newFilters.selectedPeriods.filter(period => period !== tagToRemove.value);
       setShowCustomDate(newFilters.selectedPeriods.includes('custom'));
-    } else if (tagToRemove.type === 'era') {
-      newFilters.selectedEras = newFilters.selectedEras.filter(era => era !== tagToRemove.value);
     } else if (tagToRemove.type === 'location') {
       newFilters.selectedLocations = newFilters.selectedLocations.filter(location => location !== tagToRemove.value);
     }
@@ -304,7 +300,6 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
                   className={cn(
                     "flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border animate-[fadeIn_0.3s_ease-in-out]",
                     tag.type === 'time' && "bg-cyan-500/20 text-cyan-400 border-cyan-400",
-                    tag.type === 'era' && "bg-purple-500/20 text-purple-400 border-purple-400",
                     tag.type === 'location' && "bg-pink-500/20 text-pink-400 border-pink-400"
                   )}
                 >
