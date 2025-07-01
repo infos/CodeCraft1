@@ -9,9 +9,100 @@ const tourTemplates = {
     locations: ["egypt", "cairo", "luxor", "giza"],
     tours: [
       {
+        id: 1001,
+        title: "Cairo Essentials",
+        duration: "3 days",
+        description: "Quick exploration of Cairo's most iconic sites including the pyramids and Egyptian Museum.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Cairo - Ancient Wonders",
+            sites: [
+              { name: "Egyptian Museum", description: "World's largest collection of ancient Egyptian artifacts including Tutankhamun's treasures" },
+              { name: "Khan el-Khalili Bazaar", description: "Historic marketplace dating back to the 14th century" }
+            ],
+            hotel: { name: "Steigenberger Hotel El Tahrir", location: "Downtown Cairo", description: "Historic hotel overlooking the Nile River" }
+          },
+          {
+            day: 2,
+            title: "Giza Plateau - Pyramid Complex",
+            sites: [
+              { name: "Great Pyramid of Giza", description: "The only surviving Wonder of the Ancient World" },
+              { name: "Great Sphinx", description: "Mysterious limestone statue with the body of a lion" },
+              { name: "Solar Boat Museum", description: "Ancient cedar boat buried beside the Great Pyramid" }
+            ],
+            hotel: { name: "Mena House Hotel", location: "Giza", description: "Luxury hotel with pyramid views since 1869" }
+          },
+          {
+            day: 3,
+            title: "Islamic Cairo & Departure",
+            sites: [
+              { name: "Citadel of Saladin", description: "Medieval Islamic fortification with panoramic city views" },
+              { name: "Mosque of Muhammad Ali", description: "Ottoman-style mosque within the Citadel" }
+            ],
+            hotel: { name: "Four Seasons Hotel Cairo at Nile Plaza", location: "Garden City", description: "Luxury hotel on the Nile with modern amenities" }
+          }
+        ]
+      },
+      {
+        id: 1002,
+        title: "Valley of the Kings Expedition",
+        duration: "5 days",
+        description: "Discover the royal tombs and temples of ancient Thebes, including the tomb of Tutankhamun and the magnificent Temple of Karnak.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Luxor - East Bank",
+            sites: [
+              { name: "Karnak Temple", description: "Vast temple complex dedicated to Amun-Ra, built over 2000 years" },
+              { name: "Luxor Temple", description: "Ancient temple in the heart of modern Luxor, connected to Karnak by sphinx avenue" }
+            ],
+            hotel: { name: "Winter Palace Hotel", location: "Luxor", description: "Historic Victorian hotel on the Nile, hosted royalty since 1886" }
+          },
+          {
+            day: 2,
+            title: "Valley of the Kings - Royal Tombs",
+            sites: [
+              { name: "Tomb of Tutankhamun", description: "Most famous pharaoh's tomb with original burial chamber" },
+              { name: "Tomb of Ramesses VI", description: "Elaborate tomb with well-preserved astronomical ceiling" },
+              { name: "Valley of the Queens", description: "Burial site of royal wives including Nefertari's tomb" }
+            ],
+            hotel: { name: "Sofitel Winter Palace Luxor", location: "East Bank", description: "Renovated wing of the historic Winter Palace" }
+          },
+          {
+            day: 3,
+            title: "West Bank Temples",
+            sites: [
+              { name: "Temple of Hatshepsut", description: "Mortuary temple of Egypt's most successful female pharaoh" },
+              { name: "Colossi of Memnon", description: "Twin statues of Amenhotep III, once guarded his temple" }
+            ],
+            hotel: { name: "Al Moudira Hotel", location: "West Bank", description: "Boutique hotel built in traditional Nubian style" }
+          },
+          {
+            day: 4,
+            title: "Edfu and Kom Ombo Temples",
+            sites: [
+              { name: "Temple of Horus at Edfu", description: "Best-preserved temple in Egypt dedicated to falcon god" },
+              { name: "Kom Ombo Temple", description: "Unique double temple dedicated to Sobek and Horus" }
+            ],
+            hotel: { name: "Movenpick Resort Aswan", location: "Elephantine Island", description: "Resort on Nile island with Nubian cultural center" }
+          },
+          {
+            day: 5,
+            title: "Aswan - Philae Temple",
+            sites: [
+              { name: "Philae Temple", description: "Temple of Isis relocated to Agilkia Island to save from flooding" },
+              { name: "Aswan High Dam", description: "Modern engineering marvel that created Lake Nasser" }
+            ],
+            hotel: { name: "Old Cataract Hotel", location: "Aswan", description: "Legendary hotel where Agatha Christie wrote Death on the Nile" }
+          }
+        ]
+      },
+      {
+        id: 1003,
         title: "Pharaohs and Pyramids Discovery",
-        duration: "6 days",
-        description: "Journey through the land of pharaohs, exploring the magnificent pyramids of Giza, the treasures of the Egyptian Museum, and the ancient temples of Luxor.",
+        duration: "7 days",
+        description: "Comprehensive journey through Egypt's greatest monuments from Cairo to Aswan, including pyramids, temples, and royal tombs.",
         itinerary: [
           {
             day: 1,
@@ -27,25 +118,159 @@ const tourTemplates = {
             title: "Giza Plateau - Pyramid Complex",
             sites: [
               { name: "Great Pyramid of Giza", description: "The only surviving Wonder of the Ancient World" },
-              { name: "Great Sphinx", description: "Mysterious limestone statue with the body of a lion" }
+              { name: "Great Sphinx", description: "Mysterious limestone statue with the body of a lion" },
+              { name: "Pyramid of Khafre", description: "Second-largest pyramid at Giza with intact capstone" }
             ],
             hotel: { name: "Mena House Hotel", location: "Giza", description: "Luxury hotel with pyramid views since 1869" }
-          }
-        ]
-      },
-      {
-        title: "Valley of the Kings Expedition",
-        duration: "5 days",
-        description: "Discover the royal tombs and temples of ancient Thebes, including the tomb of Tutankhamun and the magnificent Temple of Karnak.",
-        itinerary: [
+          },
           {
-            day: 1,
-            title: "Luxor East Bank - Temple Complex",
+            day: 3,
+            title: "Memphis and Saqqara",
+            sites: [
+              { name: "Step Pyramid of Djoser", description: "World's oldest stone building and first pyramid" },
+              { name: "Tomb of Ti", description: "Mastaba tomb with detailed reliefs of daily life" },
+              { name: "Memphis Museum", description: "Open-air museum at ancient Egypt's first capital" }
+            ],
+            hotel: { name: "Four Seasons Hotel Cairo at Nile Plaza", location: "Garden City", description: "Luxury hotel on the Nile with modern amenities" }
+          },
+          {
+            day: 4,
+            title: "Flight to Luxor - East Bank",
             sites: [
               { name: "Karnak Temple", description: "Vast temple complex dedicated to Amun-Ra" },
               { name: "Luxor Temple", description: "Ancient temple in the heart of modern Luxor" }
             ],
             hotel: { name: "Winter Palace Hotel", location: "Luxor", description: "Historic Victorian hotel on the Nile" }
+          },
+          {
+            day: 5,
+            title: "Valley of the Kings",
+            sites: [
+              { name: "Tomb of Tutankhamun", description: "Most famous pharaoh's tomb with original burial chamber" },
+              { name: "Tomb of Ramesses VI", description: "Elaborate tomb with astronomical ceiling" },
+              { name: "Temple of Hatshepsut", description: "Mortuary temple of Egypt's female pharaoh" }
+            ],
+            hotel: { name: "Sofitel Winter Palace Luxor", location: "East Bank", description: "Renovated historic palace hotel" }
+          },
+          {
+            day: 6,
+            title: "Edfu Temple",
+            sites: [
+              { name: "Temple of Horus at Edfu", description: "Best-preserved temple in Egypt" },
+              { name: "Traditional Felucca Ride", description: "Sail the Nile in traditional wooden boat" }
+            ],
+            hotel: { name: "Movenpick Resort Aswan", location: "Elephantine Island", description: "Island resort with Nubian village" }
+          },
+          {
+            day: 7,
+            title: "Aswan - Philae Temple",
+            sites: [
+              { name: "Philae Temple", description: "Temple of Isis on Agilkia Island" },
+              { name: "Unfinished Obelisk", description: "Ancient granite quarry with incomplete obelisk" }
+            ],
+            hotel: { name: "Old Cataract Hotel", location: "Aswan", description: "Historic luxury hotel on the Nile" }
+          }
+        ]
+      },
+      {
+        id: 1004,
+        title: "Complete Egypt Explorer",
+        duration: "10 days",
+        description: "Ultimate Egyptian adventure covering all major sites from Alexandria to Abu Simbel, including Nile cruise and desert oases.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Cairo",
+            sites: [
+              { name: "Egyptian Museum", description: "Comprehensive introduction to Egyptian civilization" },
+              { name: "Khan el-Khalili Bazaar", description: "Traditional shopping and cultural immersion" }
+            ],
+            hotel: { name: "Four Seasons Hotel Cairo at Nile Plaza", location: "Garden City", description: "Luxury base for Cairo exploration" }
+          },
+          {
+            day: 2,
+            title: "Giza and Memphis",
+            sites: [
+              { name: "Great Pyramid Complex", description: "All three pyramids and the Sphinx" },
+              { name: "Solar Boat Museum", description: "Pharaoh's celestial boat" },
+              { name: "Memphis and Saqqara", description: "Ancient capital and step pyramid complex" }
+            ],
+            hotel: { name: "Mena House Hotel", location: "Giza", description: "Historic hotel with pyramid views" }
+          },
+          {
+            day: 3,
+            title: "Alexandria Day Trip",
+            sites: [
+              { name: "Bibliotheca Alexandrina", description: "Modern tribute to ancient Library of Alexandria" },
+              { name: "Catacombs of Kom el Shoqafa", description: "Greco-Roman burial chambers" },
+              { name: "Qaitbay Citadel", description: "15th-century fortress on site of ancient lighthouse" }
+            ],
+            hotel: { name: "Four Seasons Hotel Alexandria", location: "Mediterranean Coast", description: "Beachfront luxury hotel" }
+          },
+          {
+            day: 4,
+            title: "Flight to Luxor - Karnak",
+            sites: [
+              { name: "Karnak Temple Complex", description: "Largest religious complex ever built" },
+              { name: "Luxor Temple", description: "Temple connected to Karnak by sphinx avenue" }
+            ],
+            hotel: { name: "Winter Palace Hotel", location: "Luxor", description: "Victorian elegance on the Nile" }
+          },
+          {
+            day: 5,
+            title: "Valley of the Kings & Queens",
+            sites: [
+              { name: "Tomb of Tutankhamun", description: "Boy king's intact burial chamber" },
+              { name: "Tomb of Nefertari", description: "Most beautiful tomb in Egypt" },
+              { name: "Temple of Hatshepsut", description: "Female pharaoh's architectural masterpiece" }
+            ],
+            hotel: { name: "Al Moudira Hotel", location: "West Bank", description: "Boutique hotel in traditional Nubian style" }
+          },
+          {
+            day: 6,
+            title: "Begin Nile Cruise to Edfu",
+            sites: [
+              { name: "Temple of Horus at Edfu", description: "Best-preserved Ptolemaic temple" },
+              { name: "Traditional Felucca Sailing", description: "Sunset sail on the Nile" }
+            ],
+            hotel: { name: "Sonesta St. George Nile Cruise", location: "Nile River", description: "Luxury cruise ship with panoramic views" }
+          },
+          {
+            day: 7,
+            title: "Kom Ombo and Aswan",
+            sites: [
+              { name: "Kom Ombo Temple", description: "Unique double temple for crocodile and falcon gods" },
+              { name: "Nubian Village", description: "Cultural visit to traditional Nubian community" }
+            ],
+            hotel: { name: "Movenpick Resort Aswan", location: "Elephantine Island", description: "Island resort with cultural programs" }
+          },
+          {
+            day: 8,
+            title: "Abu Simbel Excursion",
+            sites: [
+              { name: "Abu Simbel Temples", description: "Ramesses II's colossal temples relocated from flooding" },
+              { name: "Sound and Light Show", description: "Evening illumination of the temples" }
+            ],
+            hotel: { name: "Seti Abu Simbel Lake Resort", location: "Lake Nasser", description: "Desert resort near the temples" }
+          },
+          {
+            day: 9,
+            title: "Aswan - Philae Temple",
+            sites: [
+              { name: "Philae Temple", description: "Temple of Isis on picturesque island" },
+              { name: "Aswan High Dam", description: "Engineering marvel creating Lake Nasser" },
+              { name: "Unfinished Obelisk", description: "Ancient granite quarrying techniques" }
+            ],
+            hotel: { name: "Old Cataract Hotel", location: "Aswan", description: "Historic hotel where Death on the Nile was written" }
+          },
+          {
+            day: 10,
+            title: "Return to Cairo",
+            sites: [
+              { name: "Coptic Cairo", description: "Christian heritage including Hanging Church" },
+              { name: "Islamic Cairo", description: "Medieval Islamic architecture and madrasas" }
+            ],
+            hotel: { name: "Four Seasons Hotel Cairo at Nile Plaza", location: "Garden City", description: "Final night in luxury" }
           }
         ]
       }
@@ -55,6 +280,7 @@ const tourTemplates = {
     locations: ["rome", "italy", "pompeii"],
     tours: [
       {
+        id: 2001,
         title: "Imperial Rome and Gladiators",
         duration: "7 days",
         description: "Walk in the footsteps of emperors through the Colosseum, Roman Forum, and Palatine Hill, then explore the preserved city of Pompeii.",
@@ -468,6 +694,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error details:", error?.message, error?.stack);
       res.status(500).json({ 
         message: "Failed to generate tours. Please try again.",
+        error: error?.message || "Unknown error"
+      });
+    }
+  });
+
+  // Get detailed tour by ID
+  app.get("/api/tours/:id/details", async (req, res) => {
+    try {
+      const tourId = parseInt(req.params.id);
+      console.log("Getting tour details for ID:", tourId);
+      
+      // Search through all tour templates for the specific tour
+      let foundTour = null;
+      for (const civilization of Object.values(tourTemplates)) {
+        const tour = civilization.tours.find((t: any) => t.id === tourId);
+        if (tour) {
+          foundTour = tour;
+          break;
+        }
+      }
+      
+      if (!foundTour) {
+        return res.status(404).json({ message: "Tour not found" });
+      }
+      
+      res.json(foundTour);
+    } catch (error: any) {
+      console.error("Tour details error:", error);
+      res.status(500).json({ 
+        message: "Failed to get tour details",
         error: error?.message || "Unknown error"
       });
     }
