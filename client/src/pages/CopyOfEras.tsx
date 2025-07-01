@@ -25,6 +25,37 @@ export default function CopyOfEras() {
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState<any>(null);
   
+  // Tour generation state
+  const [generatedTours, setGeneratedTours] = useState<any[]>([]);
+  const [showGeneratedTours, setShowGeneratedTours] = useState(false);
+  const queryClient = useQueryClient();
+  
+  // Tour generation mutation
+  const generateToursMutation = useMutation({
+    mutationFn: async (filterData: any) => {
+      const response = await fetch("/api/generate-tours", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(filterData),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Tour generation failed');
+      }
+      
+      return response.json();
+    },
+    onSuccess: (data: any) => {
+      setGeneratedTours(Array.isArray(data) ? data : data.tours || []);
+      setShowGeneratedTours(true);
+    },
+    onError: (error) => {
+      console.error("Tour generation failed:", error);
+      alert(`Tour generation failed: ${error.message}`);
+    },
+  });
+  
   // Filter eras based on selected time periods
   const getFilteredEras = (selectedPeriods: string[]) => {
     if (!selectedPeriods || selectedPeriods.length === 0) return eraOptions;
@@ -117,6 +148,25 @@ export default function CopyOfEras() {
     setSelectedEras(filters.selectedEras || []);
   };
 
+  // Handle tour generation
+  const handleGenerateTours = () => {
+    const filterData = {
+      selectedPeriods: advancedFilters?.selectedPeriods || [],
+      selectedEras: advancedFilters?.selectedEras || selectedEras,
+      selectedLocations: advancedFilters?.selectedLocations || []
+    };
+    
+    // Check if any filters are selected
+    if (filterData.selectedPeriods.length === 0 && 
+        filterData.selectedEras.length === 0 && 
+        filterData.selectedLocations.length === 0) {
+      alert("Please select at least one historical period, era, or location to generate tours.");
+      return;
+    }
+    
+    generateToursMutation.mutate(filterData);
+  };
+
   return (
     <div className="space-y-8">
         <div>
@@ -132,6 +182,27 @@ export default function CopyOfEras() {
           allEras={eraOptions}
           onFiltersChange={handleAdvancedFiltersChange}
         />
+
+        {/* Generate Tours Button */}
+        <div className="flex justify-center">
+          <Button
+            onClick={handleGenerateTours}
+            disabled={generateToursMutation.isPending}
+            className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+          >
+            {generateToursMutation.isPending ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Generating Tours...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-5 h-5 mr-2" />
+                Generate AI Tours
+              </>
+            )}
+          </Button>
+        </div>
         
         {/* Fallback Simple Filter - Hidden when advanced filters are active */}
         {!advancedFilters && (
@@ -211,6 +282,66 @@ export default function CopyOfEras() {
                 </CardContent>
               </Card>
             )}
+          </div>
+        )}
+
+        {/* Generated Tours Section */}
+        {showGeneratedTours && generatedTours.length > 0 && (
+          <div className="mt-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">AI Generated Tours</h2>
+              <Button
+                variant="outline"
+                onClick={() => setShowGeneratedTours(false)}
+                className="text-sm"
+              >
+                <XIcon className="w-4 h-4 mr-2" />
+                Hide Generated Tours
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {generatedTours.map((tour, index) => (
+                <Card key={index} className="overflow-hidden">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{tour.title}</CardTitle>
+                    <CardDescription>
+                      <span className="font-medium">{tour.duration}</span>
+                      {tour.description && ` • ${tour.description}`}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {tour.itinerary && tour.itinerary.length > 0 && (
+                      <div className="space-y-3">
+                        <h4 className="font-semibold text-sm text-muted-foreground">ITINERARY</h4>
+                        {tour.itinerary.slice(0, 3).map((day: any, dayIndex: number) => (
+                          <div key={dayIndex} className="border-l-2 border-purple-200 pl-4">
+                            <div className="font-medium text-sm">Day {day.day}: {day.title}</div>
+                            {day.sites && day.sites.length > 0 && (
+                              <div className="mt-1 text-xs text-muted-foreground">
+                                {day.sites.map((site: any, siteIndex: number) => (
+                                  <div key={siteIndex}>• {site.name}</div>
+                                ))}
+                              </div>
+                            )}
+                            {day.hotel && (
+                              <div className="mt-1 text-xs text-blue-600">
+                                🏨 {day.hotel.name}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                        {tour.itinerary.length > 3 && (
+                          <div className="text-xs text-muted-foreground">
+                            ... and {tour.itinerary.length - 3} more days
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         )}
     </div>
