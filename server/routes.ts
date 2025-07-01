@@ -122,6 +122,216 @@ const tourTemplates = {
         ]
       }
     ]
+  },
+  "Ancient China": {
+    locations: ["china", "beijing", "xian"],
+    tours: [
+      {
+        title: "Imperial China and Terracotta Warriors",
+        duration: "8 days",
+        description: "Journey through China's imperial past from the Forbidden City to the Terracotta Army, exploring temples, palaces, and ancient traditions.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Beijing - Forbidden City",
+            sites: [
+              { name: "Forbidden City", description: "Imperial palace complex of the Ming and Qing dynasties" },
+              { name: "Temple of Heaven", description: "Sacred complex where emperors prayed for good harvests" }
+            ],
+            hotel: { name: "Hotel Éclat Beijing", location: "Chaoyang District", description: "Luxury hotel blending traditional and contemporary design" }
+          },
+          {
+            day: 2,
+            title: "Great Wall of China",
+            sites: [
+              { name: "Mutianyu Section", description: "Best-preserved section of the Great Wall" },
+              { name: "Ming Tombs", description: "Burial site of 13 Ming Dynasty emperors" }
+            ],
+            hotel: { name: "Commune by the Great Wall", location: "Badaling", description: "Architectural resort near the Great Wall" }
+          }
+        ]
+      }
+    ]
+  },
+  "Ancient India": {
+    locations: ["india", "delhi", "agra", "rajasthan"],
+    tours: [
+      {
+        title: "Mughal Empire and Rajput Kingdoms",
+        duration: "7 days",
+        description: "Discover India's rich heritage through magnificent palaces, temples, and the iconic Taj Mahal, exploring the legacy of the Mughal Empire.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Delhi - Imperial Capital",
+            sites: [
+              { name: "Red Fort", description: "Mughal fortress and palace complex" },
+              { name: "Humayun's Tomb", description: "Precursor to the Taj Mahal architecture" }
+            ],
+            hotel: { name: "The Imperial New Delhi", location: "Connaught Place", description: "Colonial-era luxury hotel from 1936" }
+          },
+          {
+            day: 2,
+            title: "Agra - Taj Mahal",
+            sites: [
+              { name: "Taj Mahal", description: "Iconic marble mausoleum and UNESCO World Heritage site" },
+              { name: "Agra Fort", description: "Red sandstone Mughal fortress" }
+            ],
+            hotel: { name: "The Oberoi Amarvilas", location: "Agra", description: "Luxury hotel with Taj Mahal views" }
+          }
+        ]
+      }
+    ]
+  },
+  "Maya Civilization": {
+    locations: ["mexico", "guatemala", "yucatan"],
+    tours: [
+      {
+        title: "Maya Temples and Codices",
+        duration: "6 days",
+        description: "Explore the sophisticated Maya civilization through jungle temples, astronomical observatories, and hieroglyphic inscriptions.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Chichen Itza - El Castillo",
+            sites: [
+              { name: "El Castillo Pyramid", description: "Iconic stepped pyramid dedicated to Kukulkan" },
+              { name: "Great Ball Court", description: "Largest ball court in ancient Mesoamerica" }
+            ],
+            hotel: { name: "Mayaland Hotel & Bungalows", location: "Chichen Itza", description: "Historic hotel within the archaeological zone" }
+          },
+          {
+            day: 2,
+            title: "Palenque - Temple of Inscriptions",
+            sites: [
+              { name: "Temple of Inscriptions", description: "Tomb of Pakal the Great with hieroglyphic texts" },
+              { name: "Palace Complex", description: "Administrative center with unique tower" }
+            ],
+            hotel: { name: "Chan-Kah Resort Village", location: "Palenque", description: "Eco-resort in the Chiapas jungle" }
+          }
+        ]
+      }
+    ]
+  },
+  "Inca Empire": {
+    locations: ["peru", "cusco", "machu-picchu"],
+    tours: [
+      {
+        title: "Inca Trail to Machu Picchu",
+        duration: "5 days",
+        description: "Follow ancient Inca paths to the lost city of Machu Picchu, exploring terraced temples and sophisticated stonework.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Cusco - Imperial Capital",
+            sites: [
+              { name: "Qorikancha Temple", description: "Temple of the Sun with Spanish colonial overlay" },
+              { name: "Sacsayhuamán", description: "Massive stone fortress overlooking Cusco" }
+            ],
+            hotel: { name: "Belmond Hotel Monasterio", location: "Cusco", description: "16th-century monastery converted to luxury hotel" }
+          },
+          {
+            day: 2,
+            title: "Sacred Valley",
+            sites: [
+              { name: "Ollantaytambo", description: "Living Inca town with original urban planning" },
+              { name: "Pisac Market", description: "Traditional Andean market and ruins" }
+            ],
+            hotel: { name: "Belmond Hotel Rio Sagrado", location: "Sacred Valley", description: "Riverside hotel in the heart of the Sacred Valley" }
+          }
+        ]
+      }
+    ]
+  },
+  "Ancient Japan": {
+    locations: ["japan", "kyoto", "nara"],
+    tours: [
+      {
+        title: "Imperial Japan and Samurai Heritage",
+        duration: "6 days",
+        description: "Experience Japan's ancient culture through imperial palaces, Buddhist temples, and traditional gardens from the Heian period.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Kyoto - Golden Pavilion",
+            sites: [
+              { name: "Kinkaku-ji (Golden Pavilion)", description: "Iconic gold-covered Zen temple" },
+              { name: "Fushimi Inari Shrine", description: "Thousands of vermillion torii gates" }
+            ],
+            hotel: { name: "The Ritz-Carlton Kyoto", location: "Kamogawa River", description: "Luxury hotel blending traditional and modern Japanese design" }
+          },
+          {
+            day: 2,
+            title: "Nara - Ancient Capital",
+            sites: [
+              { name: "Todai-ji Temple", description: "Massive wooden temple housing giant bronze Buddha" },
+              { name: "Kasuga Taisha", description: "Shinto shrine famous for stone lanterns" }
+            ],
+            hotel: { name: "Nara Hotel", location: "Nara Park", description: "Historic hotel from 1909 near deer park" }
+          }
+        ]
+      }
+    ]
+  },
+  "Viking Age": {
+    locations: ["norway", "sweden", "iceland"],
+    tours: [
+      {
+        title: "Viking Explorers and Norse Mythology",
+        duration: "7 days",
+        description: "Trace the footsteps of Viking explorers through fjords, ancient settlements, and archaeological sites across Scandinavia.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Oslo - Viking Ship Museum",
+            sites: [
+              { name: "Viking Ship Museum", description: "World's best-preserved Viking ships" },
+              { name: "Norwegian Folk Museum", description: "Stave churches and traditional buildings" }
+            ],
+            hotel: { name: "Hotel Continental Oslo", location: "Central Oslo", description: "Historic luxury hotel from 1900" }
+          },
+          {
+            day: 2,
+            title: "Bergen - Medieval Hanseatic League",
+            sites: [
+              { name: "Bryggen", description: "UNESCO World Heritage Hanseatic wharf" },
+              { name: "Bergenhus Fortress", description: "Medieval fortress and royal residence" }
+            ],
+            hotel: { name: "Hotel Norge by Scandic", location: "Bergen Center", description: "Historic hotel in the heart of Bergen" }
+          }
+        ]
+      }
+    ]
+  },
+  "Celtic Civilization": {
+    locations: ["ireland", "scotland", "wales"],
+    tours: [
+      {
+        title: "Celtic Druids and Ancient Ireland",
+        duration: "6 days",
+        description: "Explore Celtic heritage through ancient stone circles, medieval monasteries, and mythical landscapes of Ireland and Scotland.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Dublin - Celtic Heritage",
+            sites: [
+              { name: "Trinity College Library", description: "Book of Kells and ancient Irish manuscripts" },
+              { name: "National Museum of Ireland", description: "Celtic gold artifacts and bog bodies" }
+            ],
+            hotel: { name: "The Shelbourne", location: "St. Stephen's Green", description: "Historic hotel from 1824" }
+          },
+          {
+            day: 2,
+            title: "Newgrange - Neolithic Monument",
+            sites: [
+              { name: "Newgrange", description: "5,000-year-old passage tomb older than Stonehenge" },
+              { name: "Hill of Tara", description: "Ancient seat of the High Kings of Ireland" }
+            ],
+            hotel: { name: "Bellinter House", location: "County Meath", description: "Georgian manor house hotel" }
+          }
+        ]
+      }
+    ]
   }
 };
 
@@ -156,10 +366,49 @@ function generateTours(selectedPeriods: string[], selectedEras: string[], select
   if (availableTours.length === 0) {
     for (const period of selectedPeriods) {
       if (period === "ancient") {
-        // Add some tours from ancient civilizations
+        // Add tours from ancient civilizations based on location
         if (selectedLocations.includes("egypt")) {
           availableTours.push(...tourTemplates["Ancient Egypt"].tours);
         }
+        if (selectedLocations.includes("rome") || selectedLocations.includes("italy")) {
+          availableTours.push(...tourTemplates["Ancient Rome"].tours);
+        }
+        if (selectedLocations.includes("greece")) {
+          availableTours.push(...tourTemplates["Ancient Greece"].tours);
+        }
+        if (selectedLocations.includes("china") || selectedLocations.includes("beijing")) {
+          availableTours.push(...tourTemplates["Ancient China"].tours);
+        }
+        if (selectedLocations.includes("india") || selectedLocations.includes("delhi")) {
+          availableTours.push(...tourTemplates["Ancient India"].tours);
+        }
+        if (selectedLocations.includes("japan") || selectedLocations.includes("kyoto")) {
+          availableTours.push(...tourTemplates["Ancient Japan"].tours);
+        }
+        if (selectedLocations.includes("peru") || selectedLocations.includes("cusco")) {
+          availableTours.push(...tourTemplates["Inca Empire"].tours);
+        }
+        if (selectedLocations.includes("mexico") || selectedLocations.includes("yucatan")) {
+          availableTours.push(...tourTemplates["Maya Civilization"].tours);
+        }
+        if (selectedLocations.includes("norway") || selectedLocations.includes("sweden")) {
+          availableTours.push(...tourTemplates["Viking Age"].tours);
+        }
+        if (selectedLocations.includes("ireland") || selectedLocations.includes("scotland")) {
+          availableTours.push(...tourTemplates["Celtic Civilization"].tours);
+        }
+      }
+      if (period === "medieval") {
+        // Add medieval tours
+        if (selectedLocations.includes("norway") || selectedLocations.includes("sweden")) {
+          availableTours.push(...tourTemplates["Viking Age"].tours);
+        }
+        if (selectedLocations.includes("ireland") || selectedLocations.includes("scotland")) {
+          availableTours.push(...tourTemplates["Celtic Civilization"].tours);
+        }
+      }
+      if (period === "classical") {
+        // Add classical period tours
         if (selectedLocations.includes("rome") || selectedLocations.includes("italy")) {
           availableTours.push(...tourTemplates["Ancient Rome"].tours);
         }
