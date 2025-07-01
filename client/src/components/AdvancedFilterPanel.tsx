@@ -12,11 +12,12 @@ interface FilterState {
 
 interface AdvancedFilterPanelProps {
   eras: string[];
+  allEras: string[];
   onFiltersChange: (filters: FilterState) => void;
   className?: string;
 }
 
-export default function AdvancedFilterPanel({ eras, onFiltersChange, className }: AdvancedFilterPanelProps) {
+export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, className }: AdvancedFilterPanelProps) {
   const [filters, setFilters] = useState<FilterState>({
     selectedPeriods: [],
     selectedEras: [],
@@ -204,30 +205,36 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
             Historical Eras
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {eras.map(era => (
-              <button
-                key={era}
-                onClick={() => handleEraToggle(era)}
-                className={cn(
-                  "flex items-center gap-2 p-2 rounded-md text-xs font-medium transition-all duration-300 border",
-                  filters.selectedEras.includes(era)
-                    ? "bg-purple-500/20 text-purple-400 border-purple-400 shadow-lg shadow-purple-400/20"
-                    : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
-                )}
-              >
-                <div className={cn(
-                  "w-3 h-3 border rounded-sm flex items-center justify-center transition-all",
-                  filters.selectedEras.includes(era)
-                    ? "border-purple-400 bg-purple-400"
-                    : "border-gray-500"
-                )}>
-                  {filters.selectedEras.includes(era) && (
-                    <div className="w-1.5 h-1.5 bg-white rounded-sm"></div>
+            {(allEras || []).map(era => {
+              const isEnabled = filters.selectedPeriods.length === 0 || eras.includes(era);
+              const isSelected = filters.selectedEras.includes(era);
+              
+              return (
+                <button
+                  key={era}
+                  onClick={() => isEnabled ? handleEraToggle(era) : null}
+                  disabled={!isEnabled}
+                  className={cn(
+                    "flex items-center gap-2 p-2 rounded-md text-xs font-medium transition-all duration-300 border",
+                    !isEnabled && "opacity-50 cursor-not-allowed bg-gray-800/50 text-gray-500 border-gray-700",
+                    isEnabled && isSelected && "bg-purple-500/20 text-purple-400 border-purple-400 shadow-lg shadow-purple-400/20",
+                    isEnabled && !isSelected && "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
                   )}
-                </div>
-                <span className="truncate">{era}</span>
-              </button>
-            ))}
+                >
+                  <div className={cn(
+                    "w-3 h-3 border rounded-sm flex items-center justify-center transition-all",
+                    !isEnabled && "border-gray-600",
+                    isEnabled && isSelected && "border-purple-400 bg-purple-400",
+                    isEnabled && !isSelected && "border-gray-500"
+                  )}>
+                    {isSelected && (
+                      <div className="w-1.5 h-1.5 bg-white rounded-sm"></div>
+                    )}
+                  </div>
+                  <span className="truncate">{era}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

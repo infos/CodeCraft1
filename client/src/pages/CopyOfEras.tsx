@@ -128,6 +128,7 @@ export default function CopyOfEras() {
         {/* Advanced Filter Panel */}
         <AdvancedFilterPanel 
           eras={filteredEraOptions}
+          allEras={eraOptions}
           onFiltersChange={handleAdvancedFiltersChange}
         />
         
