@@ -8,6 +8,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate-tours", async (req, res) => {
     try {
       // Initialize OpenAI only when needed
+      console.log("API Key exists:", !!process.env.OPENAI_API_KEY);
+      console.log("Request body:", req.body);
+      
       if (!process.env.OPENAI_API_KEY) {
         return res.status(500).json({ message: "OpenAI API key not configured" });
       }
@@ -81,7 +84,11 @@ Format the response as a JSON array of tour objects. Each tour should have:
       
     } catch (error) {
       console.error("Tour generation error:", error);
-      res.status(500).json({ message: "Failed to generate tours. Please try again." });
+      console.error("Error details:", error.message, error.stack);
+      res.status(500).json({ 
+        message: "Failed to generate tours. Please try again.",
+        error: error.message 
+      });
     }
   });
 
