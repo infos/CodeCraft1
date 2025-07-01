@@ -11,7 +11,7 @@ export default function TourCard({ tour }: TourCardProps) {
   return (
     <div 
       className="bg-white border border-[#ddd] p-4 mb-4 rounded-md shadow-[0_2px_5px_rgba(0,0,0,0.1)] cursor-pointer"
-      onClick={() => setLocation(`/tour/${tour.id}`)}
+      onClick={() => setLocation(`/tours/${tour.id}`)}
       data-era={tour.era?.toLowerCase().replace(/\s+/g, '-')}
     >
       <div className="w-1/2 mx-auto mb-4">

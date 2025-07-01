@@ -25,9 +25,23 @@ export default function CopyOfEras() {
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState<any>(null);
   
-  // Tour generation state
-  const [generatedTours, setGeneratedTours] = useState<any[]>([]);
-  const [showGeneratedTours, setShowGeneratedTours] = useState(false);
+  // Tour generation state with session persistence
+  const [generatedTours, setGeneratedTours] = useState<any[]>(() => {
+    try {
+      const stored = sessionStorage.getItem('generatedTours');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [showGeneratedTours, setShowGeneratedTours] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('showGeneratedTours');
+      return stored ? JSON.parse(stored) : false;
+    } catch {
+      return false;
+    }
+  });
   const queryClient = useQueryClient();
   
   // Tour generation mutation
@@ -47,8 +61,17 @@ export default function CopyOfEras() {
       return response.json();
     },
     onSuccess: (data: any) => {
-      setGeneratedTours(Array.isArray(data) ? data : data.tours || []);
+      const tours = Array.isArray(data) ? data : data.tours || [];
+      setGeneratedTours(tours);
       setShowGeneratedTours(true);
+      
+      // Persist to session storage
+      try {
+        sessionStorage.setItem('generatedTours', JSON.stringify(tours));
+        sessionStorage.setItem('showGeneratedTours', JSON.stringify(true));
+      } catch (error) {
+        console.warn('Failed to save tours to session storage:', error);
+      }
     },
     onError: (error) => {
       console.error("Tour generation failed:", error);
