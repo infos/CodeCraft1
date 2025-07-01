@@ -11,35 +11,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <ul className="flex justify-center flex-wrap">
             <li className="mx-4">
               <Link 
-                href="/"
-                className={cn(
-                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/" || location === "/cuisine-example" ? "bg-[#555]" : ""
-                )}
-              >
-                Era Preferences
-              </Link>
-            </li>
-            <li className="mx-4">
-              <Link 
                 href="/copy-of-eras"
                 className={cn(
                   "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
                   location === "/copy-of-eras" ? "bg-[#555]" : ""
                 )}
               >
-                Copy of Eras
-              </Link>
-            </li>
-            <li className="mx-4">
-              <Link 
-                href="/emperors"
-                className={cn(
-                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/emperors" ? "bg-[#555]" : ""
-                )}
-              >
-                Emperors
+                Historical Tours
               </Link>
             </li>
           </ul>
