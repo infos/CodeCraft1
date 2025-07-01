@@ -206,8 +206,14 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {(allEras || []).map(era => {
-              const isEnabled = filters.selectedPeriods.length === 0 || eras.includes(era);
+              // Era is enabled if no periods are selected, or if it's in the filtered eras list
+              const isEnabled = filters.selectedPeriods.length === 0 || (eras || []).includes(era);
               const isSelected = filters.selectedEras.includes(era);
+              
+              // Debug logging for first few eras
+              if (allEras.indexOf(era) < 3) {
+                console.log(`Era: ${era}, selectedPeriods: ${filters.selectedPeriods.join(',')}, filteredEras: ${eras.join(',')}, isEnabled: ${isEnabled}`);
+              }
               
               return (
                 <button
