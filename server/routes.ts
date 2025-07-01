@@ -773,6 +773,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Tour details endpoint for generated tours
+  app.get("/api/tours/:id/details", async (req, res) => {
+    try {
+      const tourId = parseInt(req.params.id);
+      
+      // Check if it's a generated tour from local templates
+      if (tourId >= 1000) {
+        // Generate all possible tours and find the matching one
+        const allGeneratedTours: any[] = [];
+        
+        // Generate tours for all combinations to find the exact match
+        Object.entries(tourTemplates).forEach(([civilization, data]) => {
+          const baseId = civilization === "Ancient Egypt" ? 1001 : 
+                       civilization === "Ancient Rome" ? 1005 :
+                       civilization === "Ancient Greece" ? 1009 :
+                       civilization === "Ancient China" ? 1013 :
+                       civilization === "Ancient India" ? 1017 :
+                       civilization === "Maya Civilization" ? 1021 :
+                       civilization === "Inca Empire" ? 1025 :
+                       civilization === "Viking Age" ? 1029 :
+                       civilization === "Celtic Civilization" ? 1033 : 1001;
+
+          data.tours.forEach((template) => {
+            const durations = [
+              { duration: "3 days", days: 3, offset: 0 },
+              { duration: "5 days", days: 5, offset: 1 },
+              { duration: "7 days", days: 7, offset: 2 },
+              { duration: "10 days", days: 10, offset: 3 }
+            ];
+
+            durations.forEach(({ duration, days, offset }) => {
+              const generatedTourId = baseId + offset;
+              let itinerary = template.itinerary.slice(0, days);
+              
+              // For 10-day tours, extend itinerary if needed
+              if (days === 10 && itinerary.length < 10) {
+                const additionalDays = [];
+                for (let i = itinerary.length; i < 10; i++) {
+                  const dayTemplate = template.itinerary[i % template.itinerary.length];
+                  additionalDays.push({
+                    ...dayTemplate,
+                    day: i + 1,
+                    title: `${dayTemplate.title} (Extended)`
+                  });
+                }
+                itinerary = [...itinerary, ...additionalDays];
+              }
+
+              allGeneratedTours.push({
+                id: generatedTourId,
+                title: template.title,
+                duration,
+                description: template.description,
+                itinerary: itinerary.map((day, index) => ({
+                  ...day,
+                  day: index + 1
+                }))
+              });
+            });
+          });
+        });
+        
+        const foundTour = allGeneratedTours.find(tour => tour.id === tourId);
+        
+        if (!foundTour) {
+          return res.status(404).json({ message: "Tour not found" });
+        }
+        
+        res.json(foundTour);
+        return;
+      }
+      
+      // Otherwise try to get from database
+      const tour = await storage.getTour(tourId);
+      if (!tour) {
+        return res.status(404).json({ message: "Tour not found" });
+      }
+      
+      // Get itineraries for database tours
+      const itineraries = await storage.getItinerariesForTour(tourId);
+      const tourWithItinerary = {
+        ...tour,
+        itinerary: itineraries
+      };
+      
+      res.json(tourWithItinerary);
+    } catch (error) {
+      console.error("Error fetching tour details:", error);
+      res.status(500).json({ message: "Failed to fetch tour details" });
+    }
+  });
+
   // Tour itineraries route
   app.get("/api/tours/:id/itineraries", async (req, res) => {
     try {
