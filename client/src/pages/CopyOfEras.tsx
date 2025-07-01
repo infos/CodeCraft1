@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import EraChipSelector from '@/components/EraChipSelector';
+import AdvancedFilterPanel from '@/components/AdvancedFilterPanel';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tour } from '@shared/schema';
@@ -20,6 +21,9 @@ export default function CopyOfEras() {
   // For multiple selection of eras
   const [selectedEras, setSelectedEras] = useState<string[]>([]);
   
+  // Advanced filter state
+  const [advancedFilters, setAdvancedFilters] = useState<any>(null);
+  
   // Fetch all tours
   const { data: tours, isLoading } = useQuery({
     queryKey: ['/api/tours'],
@@ -31,10 +35,22 @@ export default function CopyOfEras() {
     return !!tourEra && selectedEras.includes(tourEra);
   };
   
-  // Filter tours based on selected eras
-  const filteredTours = tours?.filter(tour => 
-    selectedEras.length === 0 || isEraSelected(tour.era, selectedEras)
-  );
+  // Filter tours based on selected eras or advanced filters
+  const filteredTours = tours?.filter(tour => {
+    // If advanced filters are active, use them
+    if (advancedFilters && advancedFilters.selectedEras.length > 0) {
+      return isEraSelected(tour.era, advancedFilters.selectedEras);
+    }
+    // Otherwise use simple era selection
+    return selectedEras.length === 0 || isEraSelected(tour.era, selectedEras);
+  });
+  
+  // Handle advanced filter changes
+  const handleAdvancedFiltersChange = (filters: any) => {
+    setAdvancedFilters(filters);
+    // Update selected eras to maintain compatibility with existing logic
+    setSelectedEras(filters.selectedEras || []);
+  };
 
   return (
     <div className="space-y-8">
@@ -45,34 +61,43 @@ export default function CopyOfEras() {
           </p>
         </div>
 
-        <Card>
-          <CardContent className="pt-6">
-            <div className="space-y-4">
-              <div className="space-y-6">
-                <h3 className="text-lg font-medium">Choose your preferred historical eras</h3>
-                <EraChipSelector 
-                  options={eraOptions} 
-                  selected={selectedEras}
-                  onChange={setSelectedEras}
-                />
-              </div>
-              
-              {selectedEras.length > 0 && (
-                <div className="flex justify-end mt-4">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => setSelectedEras([])}
-                    className="text-sm flex items-center gap-1.5"
-                  >
-                    <XIcon className="h-4 w-4" />
-                    Clear selection
-                  </Button>
+        {/* Advanced Filter Panel */}
+        <AdvancedFilterPanel 
+          eras={eraOptions}
+          onFiltersChange={handleAdvancedFiltersChange}
+        />
+        
+        {/* Fallback Simple Filter - Hidden when advanced filters are active */}
+        {!advancedFilters && (
+          <Card>
+            <CardContent className="pt-6">
+              <div className="space-y-4">
+                <div className="space-y-6">
+                  <h3 className="text-lg font-medium">Choose your preferred historical eras</h3>
+                  <EraChipSelector 
+                    options={eraOptions} 
+                    selected={selectedEras}
+                    onChange={setSelectedEras}
+                  />
                 </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                
+                {selectedEras.length > 0 && (
+                  <div className="flex justify-end mt-4">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => setSelectedEras([])}
+                      className="text-sm flex items-center gap-1.5"
+                    >
+                      <XIcon className="h-4 w-4" />
+                      Clear selection
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
         
         {/* Related Tours Section */}
         {selectedEras.length > 0 && (

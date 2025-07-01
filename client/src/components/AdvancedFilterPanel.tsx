@@ -1,0 +1,295 @@
+import React, { useState } from 'react';
+import { Calendar, Globe, BarChart3, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+interface FilterState {
+  timeFilter: string | null;
+  selectedEras: string[];
+  selectedMetrics: string[];
+  customDateFrom?: string;
+  customDateTo?: string;
+}
+
+interface AdvancedFilterPanelProps {
+  eras: string[];
+  onFiltersChange: (filters: FilterState) => void;
+  className?: string;
+}
+
+export default function AdvancedFilterPanel({ eras, onFiltersChange, className }: AdvancedFilterPanelProps) {
+  const [filters, setFilters] = useState<FilterState>({
+    timeFilter: null,
+    selectedEras: [],
+    selectedMetrics: []
+  });
+  
+  const [showCustomDate, setShowCustomDate] = useState(false);
+  const [activeFilterTags, setActiveFilterTags] = useState<Array<{type: string, value: string, label: string}>>([]);
+
+  const timeOptions = [
+    { value: 'ancient', label: 'Ancient Times' },
+    { value: 'classical', label: 'Classical Period' },
+    { value: 'medieval', label: 'Medieval Era' },
+    { value: 'renaissance', label: 'Renaissance' },
+    { value: 'modern', label: 'Modern Era' },
+    { value: 'custom', label: 'Custom Period' }
+  ];
+
+  const metricOptions = [
+    { value: 'emperors', label: 'Emperors' },
+    { value: 'tours', label: 'Tours' },
+    { value: 'duration', label: 'Duration' },
+    { value: 'regions', label: 'Regions' },
+    { value: 'popularity', label: 'Popularity' }
+  ];
+
+  const handleTimeFilterChange = (value: string) => {
+    const newFilters = { ...filters, timeFilter: value };
+    setFilters(newFilters);
+    setShowCustomDate(value === 'custom');
+  };
+
+  const handleEraToggle = (era: string) => {
+    const newSelectedEras = filters.selectedEras.includes(era)
+      ? filters.selectedEras.filter(e => e !== era)
+      : [...filters.selectedEras, era];
+    
+    const newFilters = { ...filters, selectedEras: newSelectedEras };
+    setFilters(newFilters);
+  };
+
+  const handleMetricToggle = (metric: string) => {
+    const newSelectedMetrics = filters.selectedMetrics.includes(metric)
+      ? filters.selectedMetrics.filter(m => m !== metric)
+      : [...filters.selectedMetrics, metric];
+    
+    const newFilters = { ...filters, selectedMetrics: newSelectedMetrics };
+    setFilters(newFilters);
+  };
+
+  const applyFilters = () => {
+    if (!filters.timeFilter) {
+      alert('Please select a time period');
+      return;
+    }
+    
+    if (filters.selectedEras.length === 0) {
+      alert('Please select at least one era');
+      return;
+    }
+    
+    if (filters.selectedMetrics.length === 0) {
+      alert('Please select at least one metric');
+      return;
+    }
+
+    // Create filter tags
+    const tags: Array<{type: string, value: string, label: string}> = [];
+    
+    // Time filter tag
+    const timeOption = timeOptions.find(opt => opt.value === filters.timeFilter);
+    if (timeOption) {
+      tags.push({ type: 'time', value: filters.timeFilter!, label: `Time: ${timeOption.label}` });
+    }
+    
+    // Era tags
+    filters.selectedEras.forEach(era => {
+      tags.push({ type: 'era', value: era, label: era });
+    });
+    
+    // Metric tags
+    filters.selectedMetrics.forEach(metric => {
+      const metricOption = metricOptions.find(opt => opt.value === metric);
+      if (metricOption) {
+        tags.push({ type: 'metric', value: metric, label: metricOption.label });
+      }
+    });
+    
+    setActiveFilterTags(tags);
+    onFiltersChange(filters);
+  };
+
+  const resetFilters = () => {
+    const resetState = {
+      timeFilter: null,
+      selectedEras: [],
+      selectedMetrics: []
+    };
+    setFilters(resetState);
+    setShowCustomDate(false);
+    setActiveFilterTags([]);
+    onFiltersChange(resetState);
+  };
+
+  const removeFilterTag = (tagToRemove: {type: string, value: string, label: string}) => {
+    let newFilters = { ...filters };
+    
+    if (tagToRemove.type === 'time') {
+      newFilters.timeFilter = null;
+      setShowCustomDate(false);
+    } else if (tagToRemove.type === 'era') {
+      newFilters.selectedEras = newFilters.selectedEras.filter(era => era !== tagToRemove.value);
+    } else if (tagToRemove.type === 'metric') {
+      newFilters.selectedMetrics = newFilters.selectedMetrics.filter(metric => metric !== tagToRemove.value);
+    }
+    
+    setFilters(newFilters);
+    setActiveFilterTags(activeFilterTags.filter(tag => tag !== tagToRemove));
+    onFiltersChange(newFilters);
+  };
+
+  return (
+    <div className={cn("bg-gray-900 rounded-lg p-6 shadow-2xl text-white relative overflow-hidden", className)}>
+      {/* Animated top border */}
+      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 animate-pulse"></div>
+      
+      <div className="space-y-6">
+        {/* Time Period Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-gray-300 text-sm font-semibold">
+            <Calendar className="w-4 h-4" />
+            Historical Period
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {timeOptions.map(option => (
+              <button
+                key={option.value}
+                onClick={() => handleTimeFilterChange(option.value)}
+                className={cn(
+                  "px-3 py-2 rounded-md text-xs font-medium transition-all duration-300 border",
+                  filters.timeFilter === option.value
+                    ? "bg-cyan-500/20 text-cyan-400 border-cyan-400 shadow-lg shadow-cyan-400/20"
+                    : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+          
+          {/* Custom Date Range */}
+          {showCustomDate && (
+            <div className="flex gap-2 mt-3 opacity-0 animate-[fadeIn_0.3s_ease-in-out_forwards]">
+              <input
+                type="date"
+                className="bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-sm text-white flex-1"
+                onChange={(e) => setFilters({...filters, customDateFrom: e.target.value})}
+              />
+              <input
+                type="date"
+                className="bg-gray-800 border border-gray-600 rounded-md px-3 py-2 text-sm text-white flex-1"
+                onChange={(e) => setFilters({...filters, customDateTo: e.target.value})}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Historical Eras Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-gray-300 text-sm font-semibold">
+            <Globe className="w-4 h-4" />
+            Historical Eras
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            {eras.map(era => (
+              <button
+                key={era}
+                onClick={() => handleEraToggle(era)}
+                className={cn(
+                  "flex items-center gap-2 p-2 rounded-md text-xs font-medium transition-all duration-300 border",
+                  filters.selectedEras.includes(era)
+                    ? "bg-purple-500/20 text-purple-400 border-purple-400 shadow-lg shadow-purple-400/20"
+                    : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
+                )}
+              >
+                <div className={cn(
+                  "w-3 h-3 border rounded-sm flex items-center justify-center transition-all",
+                  filters.selectedEras.includes(era)
+                    ? "border-purple-400 bg-purple-400"
+                    : "border-gray-500"
+                )}>
+                  {filters.selectedEras.includes(era) && (
+                    <div className="w-1.5 h-1.5 bg-white rounded-sm"></div>
+                  )}
+                </div>
+                <span className="truncate">{era}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Metrics Section */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-gray-300 text-sm font-semibold">
+            <BarChart3 className="w-4 h-4" />
+            Data Metrics
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {metricOptions.map(option => (
+              <button
+                key={option.value}
+                onClick={() => handleMetricToggle(option.value)}
+                className={cn(
+                  "px-4 py-2 rounded-md text-xs font-medium transition-all duration-300 border relative overflow-hidden",
+                  filters.selectedMetrics.includes(option.value)
+                    ? "bg-pink-500/20 text-pink-400 border-pink-400 shadow-lg shadow-pink-400/20"
+                    : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
+                )}
+              >
+                <div className={cn(
+                  "absolute bottom-0 left-0 h-0.5 bg-pink-400 transition-all duration-300",
+                  filters.selectedMetrics.includes(option.value) ? "w-full" : "w-0"
+                )}></div>
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-between pt-4">
+          <button
+            onClick={resetFilters}
+            className="px-4 py-2 bg-transparent border border-gray-600 text-gray-300 rounded-md text-sm font-medium hover:bg-gray-800 hover:text-white transition-all duration-300"
+          >
+            Reset
+          </button>
+          <button
+            onClick={applyFilters}
+            className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-md text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300 transform hover:-translate-y-0.5"
+          >
+            Apply Filters
+          </button>
+        </div>
+
+        {/* Active Filter Tags */}
+        {activeFilterTags.length > 0 && (
+          <div className="pt-4 border-t border-gray-700">
+            <div className="text-sm font-semibold text-gray-300 mb-3">Active Filters</div>
+            <div className="flex flex-wrap gap-2">
+              {activeFilterTags.map((tag, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border animate-[fadeIn_0.3s_ease-in-out]",
+                    tag.type === 'time' && "bg-cyan-500/20 text-cyan-400 border-cyan-400",
+                    tag.type === 'era' && "bg-purple-500/20 text-purple-400 border-purple-400",
+                    tag.type === 'metric' && "bg-pink-500/20 text-pink-400 border-pink-400"
+                  )}
+                >
+                  <span>{tag.label}</span>
+                  <button
+                    onClick={() => removeFilterTag(tag)}
+                    className="w-4 h-4 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200"
+                  >
+                    <X className="w-2 h-2" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

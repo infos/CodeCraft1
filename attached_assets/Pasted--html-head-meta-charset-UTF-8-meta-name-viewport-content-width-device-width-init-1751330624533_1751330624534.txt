@@ -1,0 +1,876 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Analytics Dashboard Filter</title>
+    <style>
+        :root {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #2d2d2d;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            --accent-primary: #00e5ff;
+            --accent-secondary: #7b61ff;
+            --accent-tertiary: #ff4081;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            max-width: 700px;
+            max-height: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .pulse-icon {
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-primary);
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 229, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
+            }
+        }
+
+        .filter-panel {
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            animation: gradientMove 3s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .filter-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-section-title svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .date-range-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .date-option {
+            padding: 8px 14px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .date-option:hover {
+            background-color: #353535;
+            transform: translateY(-2px);
+        }
+
+        .date-option.active {
+            background-color: rgba(0, 229, 255, 0.15);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+
+        .custom-date-range {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            transition: var(--transition);
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .custom-date-range.active {
+            max-height: 50px;
+            opacity: 1;
+            margin-top: 10px;
+        }
+
+        .date-input {
+            background-color: var(--bg-tertiary);
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            padding: 8px;
+            flex: 1;
+        }
+
+        .date-input::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        .region-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+        }
+
+        .region-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .region-option:hover {
+            background-color: #353535;
+            transform: translateY(-2px);
+        }
+
+        .region-option.active {
+            background-color: rgba(123, 97, 255, 0.15);
+            color: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+            box-shadow: 0 0 10px rgba(123, 97, 255, 0.3);
+        }
+
+        .region-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #5a5a5a;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .region-option.active .region-checkbox {
+            border-color: var(--accent-secondary);
+            background-color: var(--accent-secondary);
+        }
+
+        .region-checkbox::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .region-option.active .region-checkbox::after {
+            opacity: 1;
+        }
+
+        .metrics-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .metric-option {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px 15px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-option::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-tertiary);
+            transition: var(--transition);
+        }
+
+        .metric-option:hover::before {
+            width: 30%;
+        }
+
+        .metric-option.active::before {
+            width: 100%;
+        }
+
+        .metric-option:hover {
+            background-color: #353535;
+            transform: translateY(-2px);
+        }
+
+        .metric-option.active {
+            background-color: rgba(255, 64, 129, 0.15);
+            color: var(--accent-tertiary);
+            border-color: var(--accent-tertiary);
+            box-shadow: 0 0 10px rgba(255, 64, 129, 0.3);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .filter-apply {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .filter-apply:active {
+            transform: translateY(1px);
+        }
+
+        .filter-reset {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-reset:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .data-preview {
+            flex: 1;
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .data-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .filter-tag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .filter-tag.date {
+            background-color: rgba(0, 229, 255, 0.15);
+            color: var(--accent-primary);
+            border: 1px solid var(--accent-primary);
+        }
+
+        .filter-tag.region {
+            background-color: rgba(123, 97, 255, 0.15);
+            color: var(--accent-secondary);
+            border: 1px solid var(--accent-secondary);
+        }
+
+        .filter-tag.metric {
+            background-color: rgba(255, 64, 129, 0.15);
+            color: var(--accent-tertiary);
+            border: 1px solid var(--accent-tertiary);
+        }
+
+        .remove-tag {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .remove-tag:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .data-visualization {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .data-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .data-placeholder svg {
+            width: 50px;
+            height: 50px;
+            opacity: 0.7;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        .chart-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .chart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .chart-bar {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(to top, var(--accent-primary), var(--accent-secondary));
+            border-radius: 5px 5px 0 0;
+            transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .chart-value {
+            position: absolute;
+            top: -25px;
+            font-size: 10px;
+            color: var(--text-primary);
+            transform: translateX(-50%);
+            background-color: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-bar:hover .chart-value {
+            opacity: 1;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(18, 18, 18, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid transparent;
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dashboard-container {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .dashboard-title {
+                font-size: 1.2rem;
+            }
+
+            .filter-panel {
+                padding: 15px;
+            }
+
+            .date-range-selector {
+                overflow-x: auto;
+                padding-bottom: 5px;
+                scroll-snap-type: x mandatory;
+            }
+
+            .date-option {
+                scroll-snap-align: start;
+                flex: 0 0 auto;
+            }
+
+            .region-selector {
+                grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <div class="pulse-icon"></div>
+                QuantumViz Analytics
+            </div>
+        </div>
+
+        <div class="filter-panel">
+            <div class="filter-section">
+                <div class="filter-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Time Period
+                </div>
+                <div class="date-range-selector">
+                    <div class="date-option" data-value="today">Today</div>
+                    <div class="date-option" data-value="week">Last 7 days</div>
+                    <div class="date-option" data-value="month">Last 30 days</div>
+                    <div class="date-option" data-value="quarter">Last quarter</div>
+                    <div class="date-option" data-value="year">Last year</div>
+                    <div class="date-option" data-value="custom">Custom range</div>
+                </div>
+                <div class="custom-date-range">
+                    <input type="date" class="date-input" id="date-from" placeholder="From">
+                    <input type="date" class="date-input" id="date-to" placeholder="To">
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Regions
+                </div>
+                <div class="region-selector">
+                    <div class="region-option" data-value="north-america">
+                        <div class="region-checkbox"></div>
+                        North America
+                    </div>
+                    <div class="region-option" data-value="europe">
+                        <div class="region-checkbox"></div>
+                        Europe
+                    </div>
+                    <div class="region-option" data-value="asia-pacific">
+                        <div class="region-checkbox"></div>
+                        Asia Pacific
+                    </div>
+                    <div class="region-option" data-value="latin-america">
+                        <div class="region-checkbox"></div>
+                        Latin America
+                    </div>
+                    <div class="region-option" data-value="middle-east">
+                        <div class="region-checkbox"></div>
+                        Middle East
+                    </div>
+                    <div class="region-option" data-value="africa">
+                        <div class="region-checkbox"></div>
+                        Africa
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-section-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Key Metrics
+                </div>
+                <div class="metrics-selector">
+                    <div class="metric-option" data-value="revenue">Revenue</div>
+                    <div class="metric-option" data-value="conversion">Conversion Rate</div>
+                    <div class="metric-option" data-value="users">Active Users</div>
+                    <div class="metric-option" data-value="sessions">Sessions</div>
+                    <div class="metric-option" data-value="bounces">Bounce Rate</div>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button class="filter-reset">Reset</button>
+                <button class="filter-apply">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                    </svg>
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+
+        <div class="data-preview">
+            <div class="data-preview-header">
+                <h3>Data Visualization</h3>
+            </div>
+            <div class="active-filters"></div>
+            <div class="data-visualization">
+                <div class="data-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <p>Apply filters to visualize your data</p>
+                </div>
+                <div class="chart-container">
+                    <div class="chart"></div>
+                </div>
+                <div class="loading-overlay">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const dateOptions = document.querySelectorAll('.date-option');
+            const customDateRange = document.querySelector('.custom-date-range');
+            const regionOptions = document.querySelectorAll('.region-option');
+            const metricOptions = document.querySelectorAll('.metric-option');
+            const applyButton = document.querySelector('.filter-apply');
+            const resetButton = document.querySelector('.filter-reset');
+            const activeFilters = document.querySelector('.active-filters');
+            const dataPlaceholder = document.querySelector('.data-placeholder');
+            const chartContainer = document.querySelector('.chart-container');
+            const chart = document.querySelector('.chart');
+            const loadingOverlay = document.querySelector('.loading-overlay');
+
+            // State
+            let selectedDate = null;
+            let selectedRegions = [];
+            let selectedMetrics = [];
+            let customDateFrom = '';
+            let customDateTo = '';
+
+            // Date range selection
+            dateOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    dateOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedDate = this.dataset.value;
+                    
+                    if (selectedDate === 'custom') {
+                        customDateRange.classList.add('active');
+                    } else {
+                        customDateRange.classList.remove('active');
+                    }
+                });
+            });
+
+            // Custom date range inputs
+            const dateFromInput = document.getElementById('date-from');
+            const dateToInput = document.getElementById('date-to');
+            
+            dateFromInput.addEventListener('change', function() {
+                customDateFrom = this.value;
+            });
+            
+            dateToInput.addEventListener('change', function() {
+                customDateTo = this.value;
+            });
+
+            // Region selection
+            regionOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const region = this.dataset.value;
+                    
+                    if (this.classList.contains('active')) {
+                        selectedRegions.push(region);
+                    } else {
+                        selectedRegions = selectedRegions.filter(r => r !== region);
+                    }
+                });
+            });
+
+            // Metrics selection
+            metricOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const metric = this.dataset.value;
+                    
+                    if (this.classList.contains('active')) {
+                        selectedMetrics.push(metric);
+                    } else {
+                        selectedMetrics = selectedMetrics.filter(m => m !== metric);
+                    }
+                });
+            });
+
+            // Apply filters
+            applyButton.addEventListener('click', function() {
+                if (!selectedDate) {
+                    alert('Please select a date range');
+                    return;
+                }
+                
+                if (selectedDate === 'custom' && (!customDateFrom || !customDateTo)) {
+                    alert('Please select both start and end dates for custom range');
+                    return;
+                }
+                
+                if (selectedRegions.length === 0) {
+                    alert('Please select at least one region');
+                    return;
+                }
+                
+                if (selectedMetrics.length === 0) {
+                    alert('Please select at least one metric');
+                    return;
+                }
+                
+                // Show loading state
+                loadingOverlay.classList.add('active');
+                
+                // Simulate API call with timeout
+                setTimeout(() => {
+                    updateFilters();
+                    generateChart();
+                    loadingOverlay.classList.remove('active');
+                }, 1000);
+            });
+
+            // Reset filters
+            resetButton.addEventListener('click', function() {
+                // Reset date selection
+                dateOptions.forEach(opt => opt.classList.remove('active'));
+                selectedDate = null;
+                customDateRange.classList.remove('active');
+                dateFromInput.value = '';
+                dateToInput.value = '';
+                customDateFrom = '';
+                customDateTo = '';
+                
+                // Reset region selection
+                regionOptions.forEach(opt => opt.classList.remove('active'));
+                selectedRegions = [];
+                
+                // Reset metrics selection
+                metricOptions.forEach(opt => opt.classList.remove('active'));
+                selectedMetrics = [];
+                
+                // Clear active filters
+                activeFilters.innerHTML = '';
+                
+                // Hide chart
+                dataPlaceholder.style.display = 'flex';
+                chartContainer.classList.remove('active');
+            });
+
+            // Update active filters display
+            function updateFilters() {
+                activeFilters.innerHTML = '';
+                
+                // Date filter tag
+                let dateText = '';
+                switch(selectedDate) {
+                    case 'today': dateText = 'Today'; break;
+                    case 'week': dateText = 'Last 7 days'; break;
+                    case 'month': dateText = 'Last 30 days'; break;
+                    case 'quarter': dateText = 'Last quarter'; break;
+                    case 'year': dateText = 'Last year'; break;
+                    case 'custom': dateText = `${formatDate(customDateFrom)} - ${formatDate(customDateTo)}`; break;
+                }
+                
+                const dateTag = document.createElement('div');
+                dateTag.className = 'filter-tag date';
+                dateTag.innerHTML = `
+                    <span>Time: ${dateText}</span>
+                    <div class="remove-tag" data-type="date">×</div>
+                `;
+                activeFilters.appendChild(dateTag);
+                
+                // Region filter tags
+                selectedRegions.forEach(region => {
+                    let regionText = '';
+                    switch(region) {
+                        case 'north-america': regionText = 'North America'; break;
+                        case 'europe': regionText = 'Europe'; break;
+                        case 'asia-pacific': regionText = 'Asia Pacific'; break;
+                        case 'latin-america': regionText = 'Latin America'; break;
+                        case 'middle-east': regionText = 'Middle East'; break;
+                        case 'africa': regionText = 'Africa'; break;
+       
