@@ -123,20 +123,19 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
 
     let enabledLocations: string[] = [];
 
-    // Add locations from selected periods
-    if (filters.selectedPeriods.length > 0) {
-      filters.selectedPeriods.forEach(period => {
-        if (locationsByPeriod[period]) {
-          enabledLocations = [...enabledLocations, ...locationsByPeriod[period]];
-        }
-      });
-    }
-
-    // Add locations from selected eras
+    // If both periods and eras are selected, prioritize the more specific eras
     if (filters.selectedEras.length > 0) {
+      // Use only era-based filtering for more specific results
       filters.selectedEras.forEach(era => {
         if (locationsByEra[era]) {
           enabledLocations = [...enabledLocations, ...locationsByEra[era]];
+        }
+      });
+    } else if (filters.selectedPeriods.length > 0) {
+      // Only use period-based filtering if no specific eras are selected
+      filters.selectedPeriods.forEach(period => {
+        if (locationsByPeriod[period]) {
+          enabledLocations = [...enabledLocations, ...locationsByPeriod[period]];
         }
       });
     }
