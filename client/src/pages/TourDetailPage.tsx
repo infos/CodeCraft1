@@ -37,9 +37,15 @@ export default function TourDetailPage() {
   const tourId = params?.id;
 
   const { data: tour, isLoading, error } = useQuery<TourDetails>({
-    queryKey: ["/api/tours", tourId, "details"],
+    queryKey: [`/api/tours/${tourId}/details`],
     enabled: !!tourId,
   });
+
+  // Debug logging
+  console.log("TourDetailPage - tourId:", tourId);
+  console.log("TourDetailPage - tour data:", tour);
+  console.log("TourDetailPage - isLoading:", isLoading);
+  console.log("TourDetailPage - error:", error);
 
   if (isLoading) {
     return (
