@@ -1,0 +1,109 @@
+// tourGenerator.js
+// Express server with an API to generate multi-day heritage tours using GPT4All locally.
+
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { spawn } from 'child_process';
+import path from 'path';
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+// Path to your GPT4All binary and model
+const GPT4ALL_BIN = './gpt4all'; // ensure this is executable in your Replit workspace
+const MODEL_PATH = './models/gpt4all-model.bin';
+
+/**
+ * Function to chat with GPT4All via subprocess
+ * @param {string} prompt - The prompt to send
+ * @returns {Promise<string>} - The model's completion
+ */
+function queryGPT4All(prompt) {
+  return new Promise((resolve, reject) => {
+    const gpt = spawn(GPT4ALL_BIN, ['--model', MODEL_PATH, '--prompt', prompt]);
+    let output = '';
+    let error = '';
+
+    gpt.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    gpt.stderr.on('data', (data) => {
+      error += data.toString();
+    });
+
+    gpt.on('close', (code) => {
+      if (code !== 0) {
+        return reject(new Error(`GPT4All exited with code ${code}: ${error}`));
+      }
+      resolve(output.trim());
+    });
+  });
+}
+
+/**
+ * POST /api/tours
+ * Request body: { era: string }
+ * Response: JSON array of 5 tours
+ */
+app.post('/api/tours', async (req, res) => {
+  const { era } = req.body;
+  if (!era) {
+    return res.status(400).json({ error: 'Era is required' });
+  }
+
+  // Craft prompt
+  const prompt = `Generate 5 distinct multi-day tour itineraries themed around the historical era: ${era}. For each tour, include a title, total days (3-7 days), for each day list 2-3 recommended sites (ruins, museums) with a short description, and 1 hotel recommendation per day with name and location. Output as a JSON array.`;
+
+  try {
+    const response = await queryGPT4All(prompt);
+    // Attempt to parse JSON
+    let tours;
+    try {
+      tours = JSON.parse(response);
+    } catch (parseErr) {
+      console.error('Failed to parse JSON:', parseErr, response);
+      return res.status(500).json({ error: 'AI response was not valid JSON' });
+    }
+    return res.json(tours);
+  } catch (err) {
+    console.error('Error querying GPT4All:', err);
+    return res.status(500).json({ error: 'Tour generation error' });
+  }
+});
+
+// Serve a simple health check
+app.get('/', (req, res) => {
+  res.send('GPT4All Tour Generator is running.');
+});
+
+// Start server
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+
+// Front-end (React) example remains the same:
+// import { useState } from 'react';
+// function TourList() {
+//   const [era, setEra] = useState('Roman');
+//   const [tours, setTours] = useState([]);
+//   const fetchTours = async () => {
+//     const res = await fetch('/api/tours', {
+//       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ era }),
+//     });
+//     const data = await res.json(); setTours(data);
+//   };
+//   return (
+//     <div>
+//       <select value={era} onChange={e => setEra(e.target.value)}>
+//         <option>Ancient Near Eastern</option>
+//         <option>Roman</option>
+//         <option>Greek</option>
+//         <option>Indian</option>
+//       </select>
+//       <button onClick={fetchTours}>Generate Tours</button>
+//       <pre>{JSON.stringify(tours, null, 2)}</pre>
+//     </div>
+//   );
+// }

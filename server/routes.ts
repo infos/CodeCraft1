@@ -1,22 +1,18 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import OpenAI from "openai";
+import { loadModel, createCompletion } from "gpt4all";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // AI Tour Generation endpoint
   app.post("/api/generate-tours", async (req, res) => {
     try {
-      // Initialize OpenAI only when needed
-      console.log("API Key exists:", !!process.env.OPENAI_API_KEY);
+      // Initialize GPT4All locally
+      console.log("Initializing GPT4All...");
       console.log("Request body:", req.body);
       
-      if (!process.env.OPENAI_API_KEY) {
-        return res.status(500).json({ message: "OpenAI API key not configured" });
-      }
-      
-      const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
+      const model = await loadModel("Nous-Hermes-2-Mistral-7B-DPO.Q4_0.gguf", {
+        verbose: false,
       });
       const { selectedPeriods, selectedEras, selectedLocations } = req.body;
       
