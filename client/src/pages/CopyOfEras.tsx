@@ -6,7 +6,7 @@ import AdvancedFilterPanel from '@/components/AdvancedFilterPanel';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tour } from '@shared/schema';
-import { XIcon, Sparkles, Loader2 } from 'lucide-react';
+import { XIcon, Sparkles, Loader2, Calendar } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 
 export default function CopyOfEras() {
@@ -300,21 +300,27 @@ export default function CopyOfEras() {
               </Button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {generatedTours.map((tour, index) => (
-                <Card key={index} className="overflow-hidden">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{tour.title}</CardTitle>
-                    <CardDescription>
-                      <span className="font-medium">{tour.duration}</span>
-                      {tour.description && ` • ${tour.description}`}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    {tour.itinerary && tour.itinerary.length > 0 && (
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-sm text-muted-foreground">ITINERARY</h4>
-                        {tour.itinerary.slice(0, 3).map((day: any, dayIndex: number) => (
+                <Card key={tour.id || index} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
+                  <Link href={tour.id ? `/tours/${tour.id}` : '#'} className="block">
+                    <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-500 text-white">
+                      <CardTitle className="text-lg group-hover:text-amber-100 transition-colors">{tour.title}</CardTitle>
+                      <CardDescription className="text-amber-100">
+                        <span className="font-medium">{tour.duration}</span>
+                        {tour.description && (
+                          <p className="mt-2 text-sm line-clamp-2">{tour.description}</p>
+                        )}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-4">
+                      {tour.itinerary && tour.itinerary.length > 0 && (
+                        <div className="space-y-3">
+                          <h4 className="font-semibold text-sm text-muted-foreground flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            HIGHLIGHTS
+                          </h4>
+                          {tour.itinerary.slice(0, 2).map((day: any, dayIndex: number) => (
                           <div key={dayIndex} className="border-l-2 border-purple-200 pl-4">
                             <div className="font-medium text-sm">Day {day.day}: {day.title}</div>
                             {day.sites && day.sites.length > 0 && (
@@ -336,9 +342,15 @@ export default function CopyOfEras() {
                             ... and {tour.itinerary.length - 3} more days
                           </div>
                         )}
+                        </div>
+                      )}
+                      <div className="mt-4 pt-3 border-t border-gray-200">
+                        <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white">
+                          View Full Itinerary
+                        </Button>
                       </div>
-                    )}
-                  </CardContent>
+                    </CardContent>
+                  </Link>
                 </Card>
               ))}
             </div>

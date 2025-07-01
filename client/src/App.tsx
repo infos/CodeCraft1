@@ -6,6 +6,7 @@ import Layout from "./components/Layout";
 import CuisineExample from "./pages/CuisineExample";
 import CopyOfEras from "./pages/CopyOfEras";
 import TourDetailsPage from "./pages/TourDetailsPage";
+import TourDetailPage from "./pages/TourDetailPage";
 import EmperorPage from "./pages/EmperorPage";
 import NotFound from "./pages/not-found";
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/emperors" component={EmperorPage} />
           <Route path="/emperor/:id" component={EmperorPage} />
           <Route path="/tour/:id" component={TourDetailsPage} />
+          <Route path="/tours/:id" component={TourDetailPage} />
           <Route component={NotFound} />
         </Switch>
       </Layout>
