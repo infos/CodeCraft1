@@ -280,7 +280,6 @@ const tourTemplates = {
     locations: ["rome", "italy", "pompeii"],
     tours: [
       {
-        id: 2001,
         title: "Imperial Rome and Gladiators",
         duration: "7 days",
         description: "Walk in the footsteps of emperors through the Colosseum, Roman Forum, and Palatine Hill, then explore the preserved city of Pompeii.",
@@ -302,6 +301,272 @@ const tourTemplates = {
               { name: "Pantheon", description: "Best-preserved Roman building from antiquity" }
             ],
             hotel: { name: "Hotel de Russie", location: "Piazza del Popolo", description: "Luxury hotel with beautiful gardens" }
+          },
+          {
+            day: 3,
+            title: "Palatine Hill and Capitoline Museums",
+            sites: [
+              { name: "Palatine Hill", description: "Legendary birthplace of Rome and imperial palace ruins" },
+              { name: "Capitoline Museums", description: "World's oldest public museums with Roman statues" }
+            ],
+            hotel: { name: "Hotel Artemide", location: "Via Nazionale", description: "Elegant hotel near Termini Station" }
+          },
+          {
+            day: 4,
+            title: "Baths of Caracalla and Via Appia",
+            sites: [
+              { name: "Baths of Caracalla", description: "Best-preserved Roman public baths" },
+              { name: "Via Appia Antica", description: "Ancient Roman road with tombs and catacombs" }
+            ],
+            hotel: { name: "Hotel de Russie", location: "Piazza del Popolo", description: "Luxury hotel with beautiful gardens" }
+          },
+          {
+            day: 5,
+            title: "Day Trip to Pompeii",
+            sites: [
+              { name: "Pompeii Archaeological Site", description: "Roman city preserved by volcanic ash" },
+              { name: "Villa of Mysteries", description: "Villa with famous frescoes depicting mystery cults" }
+            ],
+            hotel: { name: "Hotel Excelsior", location: "Naples", description: "Historic hotel overlooking the Bay of Naples" }
+          },
+          {
+            day: 6,
+            title: "Herculaneum and Mount Vesuvius",
+            sites: [
+              { name: "Herculaneum", description: "Better preserved than Pompeii with wooden artifacts" },
+              { name: "Mount Vesuvius", description: "The volcano that buried Pompeii and Herculaneum" }
+            ],
+            hotel: { name: "Hotel Excelsior", location: "Naples", description: "Historic hotel overlooking the Bay of Naples" }
+          },
+          {
+            day: 7,
+            title: "Return to Rome - Ostia Antica",
+            sites: [
+              { name: "Ostia Antica", description: "Ancient port of Rome with mosaics and theater" },
+              { name: "Borghese Gallery", description: "Villa with Bernini sculptures and paintings" }
+            ],
+            hotel: { name: "Hotel de Russie", location: "Piazza del Popolo", description: "Luxury hotel with beautiful gardens" }
+          },
+          {
+            day: 8,
+            title: "Tivoli - Hadrian's Villa",
+            sites: [
+              { name: "Hadrian's Villa", description: "Emperor Hadrian's sprawling villa complex" },
+              { name: "Villa d'Este", description: "Renaissance villa with elaborate fountains" }
+            ],
+            hotel: { name: "Hotel de Russie", location: "Piazza del Popolo", description: "Luxury hotel with beautiful gardens" }
+          },
+          {
+            day: 9,
+            title: "Underground Rome",
+            sites: [
+              { name: "San Clemente Basilica", description: "Three-layered church showing Roman history" },
+              { name: "Catacombs of San Callisto", description: "Early Christian burial chambers" }
+            ],
+            hotel: { name: "Hotel Artemide", location: "Via Nazionale", description: "Elegant hotel near Termini Station" }
+          },
+          {
+            day: 10,
+            title: "Roman Markets and Departure",
+            sites: [
+              { name: "Trajan's Markets", description: "Ancient Roman shopping complex" },
+              { name: "Diocletian's Baths", description: "Largest thermal baths complex in Rome" }
+            ],
+            hotel: { name: "Hotel Artemide", location: "Via Nazionale", description: "Elegant hotel near Termini Station" }
+          }
+        ]
+      },
+      {
+        title: "Roman Engineering Marvels",
+        duration: "6 days",
+        description: "Explore the incredible engineering achievements of ancient Rome through aqueducts, roads, and architectural wonders.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival - Pantheon and Roman Architecture",
+            sites: [
+              { name: "Pantheon", description: "Architectural marvel with the world's largest unreinforced concrete dome" },
+              { name: "Theatre of Marcellus", description: "Ancient Roman theater still in use today" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 2,
+            title: "Aqueducts and Water Engineering",
+            sites: [
+              { name: "Aqua Claudia Aqueduct", description: "Remains of ancient Roman water system" },
+              { name: "Baths of Diocletian", description: "Largest Roman bath complex" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 3,
+            title: "Colosseum Engineering",
+            sites: [
+              { name: "Colosseum Underground", description: "Hypogeum with lift systems and animal cages" },
+              { name: "Ludus Magnus", description: "Gladiator training school connected to Colosseum" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 4,
+            title: "Roman Roads and Transportation",
+            sites: [
+              { name: "Via Appia Antica", description: "Queen of Roads - first great Roman highway" },
+              { name: "Circus Maximus", description: "Largest sports stadium ever built" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 5,
+            title: "Port Engineering - Ostia",
+            sites: [
+              { name: "Ostia Antica Port", description: "Ancient harbor engineering with hexagonal basin" },
+              { name: "Roman Ship Museum", description: "Ancient vessels and navigation techniques" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 6,
+            title: "Military Engineering",
+            sites: [
+              { name: "Castel Sant'Angelo", description: "Hadrian's Mausoleum converted to fortress" },
+              { name: "Aurelian Walls", description: "Defensive walls that protected imperial Rome" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 7,
+            title: "Villa Adriana - Imperial Innovation",
+            sites: [
+              { name: "Maritime Theater", description: "Hadrian's innovative circular villa design" },
+              { name: "Canopus Pool", description: "Engineering marvel recreating Egyptian canal" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 8,
+            title: "Roman Concrete and Construction",
+            sites: [
+              { name: "Markets of Trajan", description: "World's first shopping mall with concrete vaults" },
+              { name: "Basilica of Maxentius", description: "Massive concrete structure showcasing Roman engineering" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 9,
+            title: "Suburban Engineering",
+            sites: [
+              { name: "Villa of Quintili", description: "Suburban villa with engineering innovations" },
+              { name: "Ponte Sant'Angelo", description: "Hadrian's Bridge showcasing Roman bridge building" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          },
+          {
+            day: 10,
+            title: "Modern Rome and Roman Legacy",
+            sites: [
+              { name: "EUR District", description: "Mussolini's attempt to recreate Roman grandeur" },
+              { name: "Museum of Roman Civilization", description: "Models and reconstructions of Roman engineering" }
+            ],
+            hotel: { name: "The First Roma", location: "Via del Vantaggio", description: "Boutique hotel near the Spanish Steps" }
+          }
+        ]
+      },
+      {
+        title: "Life in Ancient Rome",
+        duration: "5 days",
+        description: "Experience daily life in ancient Rome through markets, homes, entertainment, and religious practices of ordinary Romans.",
+        itinerary: [
+          {
+            day: 1,
+            title: "Roman Housing and Daily Life",
+            sites: [
+              { name: "Domus Aurea", description: "Nero's Golden House showing imperial lifestyle" },
+              { name: "Case Romane del Celio", description: "Ancient Roman houses beneath a church" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 2,
+            title: "Roman Markets and Commerce",
+            sites: [
+              { name: "Trajan's Markets", description: "Ancient Roman shopping complex" },
+              { name: "Portus", description: "Rome's commercial harbor and warehouses" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 3,
+            title: "Entertainment and Spectacles",
+            sites: [
+              { name: "Colosseum Arena Floor", description: "Where gladiators fought for entertainment" },
+              { name: "Theatre of Balbus", description: "Ancient Roman theater for comedies and dramas" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 4,
+            title: "Roman Religion and Burial",
+            sites: [
+              { name: "Temple of Vesta", description: "Sacred flame tended by Vestal Virgins" },
+              { name: "Pyramid of Cestius", description: "Egyptian-style tomb of Roman magistrate" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 5,
+            title: "Roman Baths and Social Life",
+            sites: [
+              { name: "Baths of Caracalla", description: "Social center where Romans exercised and bathed" },
+              { name: "Terme di Diocleziano", description: "Largest bath complex in ancient Rome" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 6,
+            title: "Pompeii - Frozen in Time",
+            sites: [
+              { name: "House of the Faun", description: "Wealthy Roman family home with mosaics" },
+              { name: "Lupanar", description: "Ancient Roman brothel showing social reality" }
+            ],
+            hotel: { name: "Grand Hotel Excelsior Vittoria", location: "Sorrento", description: "Historic hotel with Bay of Naples views" }
+          },
+          {
+            day: 7,
+            title: "Roman Gardens and Leisure",
+            sites: [
+              { name: "Gardens of Sallust", description: "Ancient Roman pleasure gardens" },
+              { name: "Horti Lamiani", description: "Imperial gardens with exotic plants" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 8,
+            title: "Roman Food and Dining",
+            sites: [
+              { name: "Thermopolium", description: "Ancient Roman fast food restaurant in Pompeii" },
+              { name: "Monte Testaccio", description: "Hill made of ancient Roman pottery shards" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 9,
+            title: "Roman Education and Culture",
+            sites: [
+              { name: "Athenaeum", description: "Roman center of learning and lectures" },
+              { name: "Library of Trajan", description: "Ancient Roman public library ruins" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
+          },
+          {
+            day: 10,
+            title: "Roman Military Life",
+            sites: [
+              { name: "Castra Praetoria", description: "Barracks of the Praetorian Guard" },
+              { name: "Mithraeum", description: "Underground temple where soldiers worshipped Mithras" }
+            ],
+            hotel: { name: "Artemide Hotel", location: "Via Nazionale", description: "Modern hotel near ancient Roman sites" }
           }
         ]
       }
@@ -968,8 +1233,52 @@ function generateTours(selectedPeriods: string[], selectedEras: string[], select
     ];
   }
   
-  // Return up to 5 tours
-  return { tours: availableTours.slice(0, 5) };
+  // Assign unique IDs to tours and create multiple duration variations
+  const finalTours: any[] = [];
+  
+  availableTours.forEach((template, templateIndex) => {
+    const durations = [
+      { duration: "3 days", days: 3, offset: 0 },
+      { duration: "5 days", days: 5, offset: 1 },
+      { duration: "7 days", days: 7, offset: 2 },
+      { duration: "10 days", days: 10, offset: 3 }
+    ];
+
+    durations.forEach(({ duration, days, offset }) => {
+      // Generate unique ID based on template and duration
+      const baseId = (templateIndex * 10) + 1001 + offset;
+      
+      let itinerary = template.itinerary.slice(0, days);
+      
+      // For 10-day tours, extend itinerary if needed
+      if (days === 10 && itinerary.length < 10) {
+        const additionalDays = [];
+        for (let i = itinerary.length; i < 10; i++) {
+          const dayTemplate = template.itinerary[i % template.itinerary.length];
+          additionalDays.push({
+            ...dayTemplate,
+            day: i + 1,
+            title: `${dayTemplate.title} (Extended)`
+          });
+        }
+        itinerary = [...itinerary, ...additionalDays];
+      }
+
+      finalTours.push({
+        id: baseId,
+        title: template.title,
+        duration,
+        description: template.description,
+        itinerary: itinerary.map((day: any, index: number) => ({
+          ...day,
+          day: index + 1
+        }))
+      });
+    });
+  });
+  
+  // Return all tours (up to 20 total for 5 templates x 4 durations each)
+  return { tours: finalTours };
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -1006,15 +1315,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const tourId = parseInt(req.params.id);
       console.log("Getting tour details for ID:", tourId);
       
-      // Search through all tour templates for the specific tour
-      let foundTour = null;
-      for (const civilization of Object.values(tourTemplates)) {
-        const tour = civilization.tours.find((t: any) => t.id === tourId);
-        if (tour) {
-          foundTour = tour;
-          break;
-        }
-      }
+      // Generate all tours to find the specific one by ID
+      const allTours = generateTours([], [], []);
+      const foundTour = allTours.tours.find((tour: any) => tour.id === tourId);
       
       if (!foundTour) {
         return res.status(404).json({ message: "Tour not found" });
