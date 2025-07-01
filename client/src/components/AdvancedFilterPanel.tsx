@@ -59,6 +59,9 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
     };
     setFilters(newFilters);
     setShowCustomDate(newSelectedPeriods.includes('custom'));
+    
+    // Immediately call onFiltersChange to update parent
+    onFiltersChange(newFilters);
   };
 
   const handleEraToggle = (era: string) => {
@@ -68,6 +71,9 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
     
     const newFilters = { ...filters, selectedEras: newSelectedEras };
     setFilters(newFilters);
+    
+    // Immediately call onFiltersChange to update parent
+    onFiltersChange(newFilters);
   };
 
   const handleLocationToggle = (location: string) => {
@@ -210,10 +216,7 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
               const isEnabled = filters.selectedPeriods.length === 0 || (eras || []).includes(era);
               const isSelected = filters.selectedEras.includes(era);
               
-              // Debug logging for first few eras
-              if (allEras.indexOf(era) < 3) {
-                console.log(`Era: ${era}, selectedPeriods: ${filters.selectedPeriods.join(',')}, filteredEras: ${eras.join(',')}, isEnabled: ${isEnabled}`);
-              }
+
               
               return (
                 <button
