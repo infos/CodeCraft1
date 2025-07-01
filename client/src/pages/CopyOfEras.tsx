@@ -204,37 +204,7 @@ export default function CopyOfEras() {
           </Button>
         </div>
         
-        {/* Fallback Simple Filter - Hidden when advanced filters are active */}
-        {!advancedFilters && (
-          <Card>
-            <CardContent className="pt-6">
-              <div className="space-y-4">
-                <div className="space-y-6">
-                  <h3 className="text-lg font-medium">Choose your preferred historical eras</h3>
-                  <EraChipSelector 
-                    options={eraOptions} 
-                    selected={selectedEras}
-                    onChange={setSelectedEras}
-                  />
-                </div>
-                
-                {selectedEras.length > 0 && (
-                  <div className="flex justify-end mt-4">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => setSelectedEras([])}
-                      className="text-sm flex items-center gap-1.5"
-                    >
-                      <XIcon className="h-4 w-4" />
-                      Clear selection
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+
         
         {/* Related Tours Section */}
         {selectedEras.length > 0 && (
