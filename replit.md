@@ -102,6 +102,7 @@ The application uses a relational database with the following main entities:
 ```
 Changelog:
 - June 30, 2025. Initial setup
+- January 1, 2025. Implemented advanced filtering system with historical period, era, and location filtering. Era filtering takes priority over period filtering for more precise results. All three filter sections now work together with proper enable/disable states and visual feedback.
 ```
 
 ## User Preferences

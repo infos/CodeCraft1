@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import EraChipSelector from '@/components/EraChipSelector';
 import AdvancedFilterPanel from '@/components/AdvancedFilterPanel';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tour } from '@shared/schema';
-import { XIcon } from 'lucide-react';
+import { XIcon, Sparkles, Loader2 } from 'lucide-react';
+import { apiRequest } from '@/lib/queryClient';
 
 export default function CopyOfEras() {
   // Fetch all eras from the database

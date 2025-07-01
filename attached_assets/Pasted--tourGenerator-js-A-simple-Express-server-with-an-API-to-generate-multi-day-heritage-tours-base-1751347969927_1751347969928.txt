@@ -1,0 +1,103 @@
+// tourGenerator.js
+// A simple Express server with an API to generate multi-day heritage tours based on era selection.
+
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { Configuration, OpenAIApi } from 'openai';
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+// Configure OpenAI
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+/**
+ * POST /api/tours
+ * Request body: { era: string }
+ * Response: JSON array of 5 tours, each with name, duration, daily itinerary (sites + hotels)
+ */
+app.post('/api/tours', async (req, res) => {
+  const { era } = req.body;
+  if (!era) {
+    return res.status(400).json({ error: 'Era is required' });
+  }
+
+  try {
+    // Craft the prompt for the LLM
+    const prompt = `Generate 5 distinct multi-day tour itineraries themed around the historical era: ${era}. ` +
+      `For each tour, include:
+` +
+      `- a title
+` +
+      `- total days (3-7 days)
+` +
+      `- for each day: list 2-3 recommended sites (ruins, museums) with a short description
+` +
+      `- 1 hotel recommendation per day with name, location, and brief note
+` +
+      `Output as JSON array.`;
+
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'system', content: 'You are a helpful travel guide AI.' },
+                 { role: 'user', content: prompt }],
+      temperature: 0.7,
+    });
+
+    // Parse and return JSON
+    const toursJsonText = completion.data.choices[0].message.content;
+    let tours = [];
+    try {
+      tours = JSON.parse(toursJsonText);
+    } catch (err) {
+      console.error('JSON parse error:', err);
+      return res.status(500).json({ error: 'Failed to parse AI response' });
+    }
+
+    res.json(tours);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Tour generation failed' });
+  }
+});
+
+// Start server
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Tour generator service running on port ${PORT}`);
+});
+
+// Front-end (React) usage example:
+// import { useState } from 'react';
+//
+// function TourList() {
+//   const [era, setEra] = useState('Roman');
+//   const [tours, setTours] = useState([]);
+//   const fetchTours = async () => {
+//     const res = await fetch('/api/tours', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ era }),
+//     });
+//     const data = await res.json();
+//     setTours(data);
+//   };
+//
+//   return (
+//     <div>
+//       <select value={era} onChange={e => setEra(e.target.value)}>
+//         <option>Ancient Near Eastern</option>
+//         <option>Roman</option>
+//         <option>Greek</option>
+//         <option>Indian</option>
+//       </select>
+//       <button onClick={fetchTours}>Generate Tours</button>
+//       <pre>{JSON.stringify(tours, null, 2)}</pre>
+//     </div>
+//   );
+// }
