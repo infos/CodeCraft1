@@ -98,47 +98,23 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
     onFiltersChange(newFilters);
   };
 
-  const handleEraToggle = (era: string) => {
-    const newSelectedEras = filters.selectedEras.includes(era)
-      ? filters.selectedEras.filter(e => e !== era)
-      : [...filters.selectedEras, era];
-    
-    const newFilters = { 
-      ...filters, 
-      selectedEras: newSelectedEras,
-      selectedLocations: [] // Clear locations when eras change
-    };
-    setFilters(newFilters);
-    
-    // Immediately call onFiltersChange to update parent
-    onFiltersChange(newFilters);
-  };
 
-  // Get enabled locations based on selected periods and eras
+
+  // Get enabled locations based on selected periods
   const getEnabledLocations = () => {
-    // If no periods or eras selected, all locations are enabled
-    if (filters.selectedPeriods.length === 0 && filters.selectedEras.length === 0) {
+    // If no periods selected, all locations are enabled
+    if (filters.selectedPeriods.length === 0) {
       return locationOptions.map(loc => loc.value);
     }
 
     let enabledLocations: string[] = [];
 
-    // If both periods and eras are selected, prioritize the more specific eras
-    if (filters.selectedEras.length > 0) {
-      // Use only era-based filtering for more specific results
-      filters.selectedEras.forEach(era => {
-        if (locationsByEra[era]) {
-          enabledLocations = [...enabledLocations, ...locationsByEra[era]];
-        }
-      });
-    } else if (filters.selectedPeriods.length > 0) {
-      // Only use period-based filtering if no specific eras are selected
-      filters.selectedPeriods.forEach(period => {
-        if (locationsByPeriod[period]) {
-          enabledLocations = [...enabledLocations, ...locationsByPeriod[period]];
-        }
-      });
-    }
+    // Use period-based filtering to determine available locations
+    filters.selectedPeriods.forEach(period => {
+      if (locationsByPeriod[period]) {
+        enabledLocations = [...enabledLocations, ...locationsByPeriod[period]];
+      }
+    });
 
     // Remove duplicates and return
     const uniqueLocations = enabledLocations.filter((loc, index) => enabledLocations.indexOf(loc) === index);
@@ -164,16 +140,6 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
       alert('Please select at least one time period');
       return;
     }
-    
-    if (filters.selectedEras.length === 0) {
-      alert('Please select at least one era');
-      return;
-    }
-    
-    if (filters.selectedLocations.length === 0) {
-      alert('Please select at least one location');
-      return;
-    }
 
     // Create filter tags
     const tags: Array<{type: string, value: string, label: string}> = [];
@@ -184,11 +150,6 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
       if (periodOption) {
         tags.push({ type: 'time', value: period, label: `Period: ${periodOption.label}` });
       }
-    });
-    
-    // Era tags
-    filters.selectedEras.forEach(era => {
-      tags.push({ type: 'era', value: era, label: era });
     });
     
     // Location tags
@@ -278,48 +239,7 @@ export default function AdvancedFilterPanel({ eras, allEras, onFiltersChange, cl
           )}
         </div>
 
-        {/* Historical Eras Section */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 text-gray-300 text-sm font-semibold">
-            <Globe className="w-4 h-4" />
-            Historical Eras
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {(allEras || []).map(era => {
-              // Era is enabled if no periods are selected, or if it's in the filtered eras list
-              const isEnabled = filters.selectedPeriods.length === 0 || (eras || []).includes(era);
-              const isSelected = filters.selectedEras.includes(era);
-              
 
-              
-              return (
-                <button
-                  key={era}
-                  onClick={() => isEnabled ? handleEraToggle(era) : null}
-                  disabled={!isEnabled}
-                  className={cn(
-                    "flex items-center gap-2 p-2 rounded-md text-xs font-medium transition-all duration-300 border",
-                    !isEnabled && "opacity-50 cursor-not-allowed bg-gray-800/50 text-gray-500 border-gray-700",
-                    isEnabled && isSelected && "bg-purple-500/20 text-purple-400 border-purple-400 shadow-lg shadow-purple-400/20",
-                    isEnabled && !isSelected && "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
-                  )}
-                >
-                  <div className={cn(
-                    "w-3 h-3 border rounded-sm flex items-center justify-center transition-all",
-                    !isEnabled && "border-gray-600",
-                    isEnabled && isSelected && "border-purple-400 bg-purple-400",
-                    isEnabled && !isSelected && "border-gray-500"
-                  )}>
-                    {isSelected && (
-                      <div className="w-1.5 h-1.5 bg-white rounded-sm"></div>
-                    )}
-                  </div>
-                  <span className="truncate">{era}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
         {/* Locations Section */}
         <div className="space-y-3">
