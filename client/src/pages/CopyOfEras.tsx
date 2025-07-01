@@ -24,6 +24,52 @@ export default function CopyOfEras() {
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState<any>(null);
   
+  // Filter eras based on selected time period
+  const getFilteredEras = (timeFilter: string | null) => {
+    if (!timeFilter) return eraOptions;
+    
+    const erasByPeriod: Record<string, string[]> = {
+      'ancient': [
+        'Ancient Near Eastern',
+        'Ancient Egypt',
+        'Middle Kingdom of Egypt',
+        'New Kingdom of Egypt',
+        'Israel\'s Patriarchal Period',
+        'Neo-Babylonian',
+        'Achaemenid Empire'
+      ],
+      'classical': [
+        'Ancient Greece',
+        'Ancient Rome',
+        'Hellenistic Period',
+        'Parthian Empire',
+        'Ancient India (Mauryan and Gupta Periods)',
+        'Imperial China'
+      ],
+      'medieval': [
+        'Byzantine',
+        'Medieval Europe',
+        'Sasanian Empire',
+        'Silk Road Trade Era'
+      ],
+      'renaissance': [
+        'Renaissance'
+      ],
+      'modern': [
+        'Age of Exploration',
+        'Enlightenment',
+        'Georgian Era'
+      ]
+    };
+    
+    const periodEras = erasByPeriod[timeFilter] || [];
+    // Only return eras that exist in our database
+    return periodEras.filter(era => eraOptions.includes(era));
+  };
+  
+  // Get filtered eras based on current advanced filters
+  const filteredEraOptions = getFilteredEras(advancedFilters?.timeFilter);
+  
   // Fetch all tours
   const { data: tours, isLoading } = useQuery({
     queryKey: ['/api/tours'],
@@ -47,6 +93,15 @@ export default function CopyOfEras() {
   
   // Handle advanced filter changes
   const handleAdvancedFiltersChange = (filters: any) => {
+    // If time filter changed, clear selected eras that are no longer valid
+    if (advancedFilters?.timeFilter !== filters.timeFilter) {
+      const validEras = getFilteredEras(filters.timeFilter);
+      const filteredSelectedEras = (filters.selectedEras || []).filter((era: string) => 
+        validEras.includes(era)
+      );
+      filters.selectedEras = filteredSelectedEras;
+    }
+    
     setAdvancedFilters(filters);
     // Update selected eras to maintain compatibility with existing logic
     setSelectedEras(filters.selectedEras || []);
@@ -63,7 +118,7 @@ export default function CopyOfEras() {
 
         {/* Advanced Filter Panel */}
         <AdvancedFilterPanel 
-          eras={eraOptions}
+          eras={filteredEraOptions}
           onFiltersChange={handleAdvancedFiltersChange}
         />
         

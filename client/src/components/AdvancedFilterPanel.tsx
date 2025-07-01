@@ -47,7 +47,12 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
   ];
 
   const handleTimeFilterChange = (value: string) => {
-    const newFilters = { ...filters, timeFilter: value };
+    // Clear selected eras when time filter changes to prevent invalid selections
+    const newFilters = { 
+      ...filters, 
+      timeFilter: value,
+      selectedEras: [] // Clear eras when time period changes
+    };
     setFilters(newFilters);
     setShowCustomDate(value === 'custom');
   };
