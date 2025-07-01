@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 interface FilterState {
   timeFilter: string | null;
   selectedEras: string[];
-  selectedMetrics: string[];
+  selectedLocations: string[];
   customDateFrom?: string;
   customDateTo?: string;
 }
@@ -20,7 +20,7 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
   const [filters, setFilters] = useState<FilterState>({
     timeFilter: null,
     selectedEras: [],
-    selectedMetrics: []
+    selectedLocations: []
   });
   
   const [showCustomDate, setShowCustomDate] = useState(false);
@@ -35,12 +35,15 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
     { value: 'custom', label: 'Custom Period' }
   ];
 
-  const metricOptions = [
-    { value: 'emperors', label: 'Emperors' },
-    { value: 'tours', label: 'Tours' },
-    { value: 'duration', label: 'Duration' },
-    { value: 'regions', label: 'Regions' },
-    { value: 'popularity', label: 'Popularity' }
+  const locationOptions = [
+    { value: 'rome', label: 'Rome' },
+    { value: 'egypt', label: 'Egypt' },
+    { value: 'greece', label: 'Greece' },
+    { value: 'mesopotamia', label: 'Mesopotamia' },
+    { value: 'constantinople', label: 'Constantinople' },
+    { value: 'persia', label: 'Persia' },
+    { value: 'china', label: 'China' },
+    { value: 'india', label: 'India' }
   ];
 
   const handleTimeFilterChange = (value: string) => {
@@ -58,12 +61,12 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
     setFilters(newFilters);
   };
 
-  const handleMetricToggle = (metric: string) => {
-    const newSelectedMetrics = filters.selectedMetrics.includes(metric)
-      ? filters.selectedMetrics.filter(m => m !== metric)
-      : [...filters.selectedMetrics, metric];
+  const handleLocationToggle = (location: string) => {
+    const newSelectedLocations = filters.selectedLocations.includes(location)
+      ? filters.selectedLocations.filter(l => l !== location)
+      : [...filters.selectedLocations, location];
     
-    const newFilters = { ...filters, selectedMetrics: newSelectedMetrics };
+    const newFilters = { ...filters, selectedLocations: newSelectedLocations };
     setFilters(newFilters);
   };
 
@@ -78,8 +81,8 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
       return;
     }
     
-    if (filters.selectedMetrics.length === 0) {
-      alert('Please select at least one metric');
+    if (filters.selectedLocations.length === 0) {
+      alert('Please select at least one location');
       return;
     }
 
@@ -97,11 +100,11 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
       tags.push({ type: 'era', value: era, label: era });
     });
     
-    // Metric tags
-    filters.selectedMetrics.forEach(metric => {
-      const metricOption = metricOptions.find(opt => opt.value === metric);
-      if (metricOption) {
-        tags.push({ type: 'metric', value: metric, label: metricOption.label });
+    // Location tags
+    filters.selectedLocations.forEach(location => {
+      const locationOption = locationOptions.find(opt => opt.value === location);
+      if (locationOption) {
+        tags.push({ type: 'location', value: location, label: locationOption.label });
       }
     });
     
@@ -113,7 +116,7 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
     const resetState = {
       timeFilter: null,
       selectedEras: [],
-      selectedMetrics: []
+      selectedLocations: []
     };
     setFilters(resetState);
     setShowCustomDate(false);
@@ -129,8 +132,8 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
       setShowCustomDate(false);
     } else if (tagToRemove.type === 'era') {
       newFilters.selectedEras = newFilters.selectedEras.filter(era => era !== tagToRemove.value);
-    } else if (tagToRemove.type === 'metric') {
-      newFilters.selectedMetrics = newFilters.selectedMetrics.filter(metric => metric !== tagToRemove.value);
+    } else if (tagToRemove.type === 'location') {
+      newFilters.selectedLocations = newFilters.selectedLocations.filter(location => location !== tagToRemove.value);
     }
     
     setFilters(newFilters);
@@ -218,27 +221,27 @@ export default function AdvancedFilterPanel({ eras, onFiltersChange, className }
           </div>
         </div>
 
-        {/* Metrics Section */}
+        {/* Locations Section */}
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-gray-300 text-sm font-semibold">
             <BarChart3 className="w-4 h-4" />
-            Data Metrics
+            Locations
           </div>
           <div className="flex flex-wrap gap-2">
-            {metricOptions.map(option => (
+            {locationOptions.map(option => (
               <button
                 key={option.value}
-                onClick={() => handleMetricToggle(option.value)}
+                onClick={() => handleLocationToggle(option.value)}
                 className={cn(
                   "px-4 py-2 rounded-md text-xs font-medium transition-all duration-300 border relative overflow-hidden",
-                  filters.selectedMetrics.includes(option.value)
+                  filters.selectedLocations.includes(option.value)
                     ? "bg-pink-500/20 text-pink-400 border-pink-400 shadow-lg shadow-pink-400/20"
                     : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700 hover:border-gray-500"
                 )}
               >
                 <div className={cn(
                   "absolute bottom-0 left-0 h-0.5 bg-pink-400 transition-all duration-300",
-                  filters.selectedMetrics.includes(option.value) ? "w-full" : "w-0"
+                  filters.selectedLocations.includes(option.value) ? "w-full" : "w-0"
                 )}></div>
                 {option.label}
               </button>
