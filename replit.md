@@ -104,6 +104,7 @@ Changelog:
 - June 30, 2025. Initial setup
 - January 1, 2025. Implemented advanced filtering system with historical period, era, and location filtering. Era filtering takes priority over period filtering for more precise results. All three filter sections now work together with proper enable/disable states and visual feedback.
 - January 1, 2025. Replaced OpenAI tour generation with comprehensive local tour templates covering 9 major civilizations: Ancient Egypt, Ancient Rome, Ancient Greece, Ancient China, Ancient India, Maya Civilization, Inca Empire, Viking Age, and Celtic Civilization. Each includes authentic historical sites, real hotels, and detailed itineraries.
+- January 2, 2025. Updated tour system to eliminate duplicates and implement duration selection dropdowns. Tours now display as unique entries with 3, 5, 7, and 10-day duration options. Itineraries update dynamically based on selected duration. Hidden "Related tours" section for cleaner interface.
 ```
 
 ## User Preferences

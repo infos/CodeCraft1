@@ -351,7 +351,7 @@ export default function CopyOfEras() {
                         </div>
                       )}
                       <div className="mt-4 pt-3 border-t border-gray-200">
-                        <Link href={tour.id ? `/tours/${tour.id}` : '#'} className="block">
+                        <Link href={tour.id ? `/tours/${tour.id}?duration=${encodeURIComponent(currentDuration)}` : '#'} className="block">
                           <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white">
                             View Full Itinerary
                           </Button>

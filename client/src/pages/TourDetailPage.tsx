@@ -35,9 +35,14 @@ interface TourDetails {
 export default function TourDetailPage() {
   const [match, params] = useRoute("/tours/:id");
   const tourId = params?.id;
+  
+  // Get duration from URL query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const duration = urlParams.get('duration') || '7 days';
 
   const { data: tour, isLoading, error } = useQuery<TourDetails>({
-    queryKey: [`/api/tours/${tourId}/details`],
+    queryKey: [`/api/tours/${tourId}/details`, duration],
+    queryFn: () => fetch(`/api/tours/${tourId}/details?duration=${encodeURIComponent(duration)}`).then(res => res.json()),
     enabled: !!tourId,
   });
 

@@ -1319,21 +1319,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get detailed tour by ID
+  // Get detailed tour by ID with duration
   app.get("/api/tours/:id/details", async (req, res) => {
     try {
       const tourId = parseInt(req.params.id);
-      console.log("Getting tour details for ID:", tourId);
+      const duration = req.query.duration as string || "7 days";
+      console.log("Getting tour details for ID:", tourId, "with duration:", duration);
       
-      // Generate all tours to find the specific one by ID
-      const allTours = generateTours([], [], []);
-      const foundTour = allTours.tours.find((tour: any) => tour.id === tourId);
+      // Find the tour template by searching through all available templates
+      let foundTemplate = null;
+      let templateFound = false;
       
-      if (!foundTour) {
+      // Search through all tour templates to find the one with matching ID
+      for (const [eraName, eraData] of Object.entries(tourTemplates)) {
+        const template = eraData.tours.find((tour: any, index: number) => {
+          const baseId = (index * 10) + 1001;
+          return baseId === tourId;
+        });
+        
+        if (template) {
+          foundTemplate = template;
+          templateFound = true;
+          break;
+        }
+      }
+      
+      if (!foundTemplate) {
         return res.status(404).json({ message: "Tour not found" });
       }
       
-      res.json(foundTour);
+      // Create the tour with the requested duration
+      const durationNumber = parseInt(duration.split(' ')[0]);
+      let itinerary = foundTemplate.itinerary.slice(0, durationNumber);
+      
+      // For 10-day tours, extend itinerary if needed
+      if (durationNumber === 10 && itinerary.length < 10) {
+        const additionalDays = [];
+        for (let i = itinerary.length; i < 10; i++) {
+          const dayTemplate = foundTemplate.itinerary[i % foundTemplate.itinerary.length];
+          additionalDays.push({
+            ...dayTemplate,
+            day: i + 1,
+            title: `${dayTemplate.title} (Extended)`
+          });
+        }
+        itinerary = [...itinerary, ...additionalDays];
+      }
+
+      const tourDetails = {
+        id: tourId,
+        title: foundTemplate.title,
+        duration: duration,
+        description: foundTemplate.description,
+        itinerary: itinerary.map((day: any, index: number) => ({
+          ...day,
+          day: index + 1
+        }))
+      };
+      
+      res.json(tourDetails);
     } catch (error: any) {
       console.error("Tour details error:", error);
       res.status(500).json({ 
