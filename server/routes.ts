@@ -1233,52 +1233,62 @@ function generateTours(selectedPeriods: string[], selectedEras: string[], select
     ];
   }
   
-  // Assign unique IDs to tours and create multiple duration variations
-  const finalTours: any[] = [];
+  // Create unique tours with duration options
+  const uniqueTours = new Map();
   
   availableTours.forEach((template, templateIndex) => {
-    const durations = [
-      { duration: "3 days", days: 3, offset: 0 },
-      { duration: "5 days", days: 5, offset: 1 },
-      { duration: "7 days", days: 7, offset: 2 },
-      { duration: "10 days", days: 10, offset: 3 }
-    ];
+    const tourKey = template.title;
+    
+    if (!uniqueTours.has(tourKey)) {
+      const baseId = (templateIndex * 10) + 1001;
+      
+      // Create duration variations for this tour
+      const durationOptions = [
+        { duration: "3 days", days: 3 },
+        { duration: "5 days", days: 5 },
+        { duration: "7 days", days: 7 },
+        { duration: "10 days", days: 10 }
+      ];
 
-    durations.forEach(({ duration, days, offset }) => {
-      // Generate unique ID based on template and duration
-      const baseId = (templateIndex * 10) + 1001 + offset;
-      
-      let itinerary = template.itinerary.slice(0, days);
-      
-      // For 10-day tours, extend itinerary if needed
-      if (days === 10 && itinerary.length < 10) {
-        const additionalDays = [];
-        for (let i = itinerary.length; i < 10; i++) {
-          const dayTemplate = template.itinerary[i % template.itinerary.length];
-          additionalDays.push({
-            ...dayTemplate,
-            day: i + 1,
-            title: `${dayTemplate.title} (Extended)`
-          });
+      const durationVariations = durationOptions.map(({ duration, days }) => {
+        let itinerary = template.itinerary.slice(0, days);
+        
+        // For 10-day tours, extend itinerary if needed
+        if (days === 10 && itinerary.length < 10) {
+          const additionalDays = [];
+          for (let i = itinerary.length; i < 10; i++) {
+            const dayTemplate = template.itinerary[i % template.itinerary.length];
+            additionalDays.push({
+              ...dayTemplate,
+              day: i + 1,
+              title: `${dayTemplate.title} (Extended)`
+            });
+          }
+          itinerary = [...itinerary, ...additionalDays];
         }
-        itinerary = [...itinerary, ...additionalDays];
-      }
 
-      finalTours.push({
+        return {
+          duration,
+          days,
+          itinerary: itinerary.map((day: any, index: number) => ({
+            ...day,
+            day: index + 1
+          }))
+        };
+      });
+
+      uniqueTours.set(tourKey, {
         id: baseId,
         title: template.title,
-        duration,
         description: template.description,
-        itinerary: itinerary.map((day: any, index: number) => ({
-          ...day,
-          day: index + 1
-        }))
+        durationOptions: durationVariations,
+        defaultDuration: "7 days" // Default to 7 days
       });
-    });
+    }
   });
   
-  // Return all tours (up to 20 total for 5 templates x 4 durations each)
-  return { tours: finalTours };
+  // Return unique tours with duration options
+  return { tours: Array.from(uniqueTours.values()) };
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {

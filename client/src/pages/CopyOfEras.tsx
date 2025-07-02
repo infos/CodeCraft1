@@ -5,6 +5,7 @@ import EraChipSelector from '@/components/EraChipSelector';
 import AdvancedFilterPanel from '@/components/AdvancedFilterPanel';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tour } from '@shared/schema';
 import { XIcon, Sparkles, Loader2, Calendar } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
@@ -25,6 +26,9 @@ export default function CopyOfEras() {
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState<any>(null);
   
+  // Duration selection state for each tour
+  const [selectedDurations, setSelectedDurations] = useState<{[tourId: string]: string}>({});
+
   // Tour generation state with session persistence
   const [generatedTours, setGeneratedTours] = useState<any[]>(() => {
     try {
@@ -190,6 +194,28 @@ export default function CopyOfEras() {
     generateToursMutation.mutate(filterData);
   };
 
+  // Handle duration selection for a specific tour
+  const handleDurationChange = (tourId: string, duration: string) => {
+    setSelectedDurations(prev => ({
+      ...prev,
+      [tourId]: duration
+    }));
+  };
+
+  // Get current itinerary for a tour based on selected duration
+  const getCurrentItinerary = (tour: any) => {
+    const selectedDuration = selectedDurations[tour.id] || tour.defaultDuration;
+    if (!tour.durationOptions) return tour.itinerary || [];
+    
+    const durationOption = tour.durationOptions.find((opt: any) => opt.duration === selectedDuration);
+    return durationOption?.itinerary || [];
+  };
+
+  // Get current duration for display
+  const getCurrentDuration = (tour: any) => {
+    return selectedDurations[tour.id] || tour.defaultDuration || tour.duration;
+  };
+
   return (
     <div className="space-y-8">
         <div>
@@ -247,26 +273,60 @@ export default function CopyOfEras() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {generatedTours.map((tour, index) => (
-                <Card key={tour.id || index} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group">
-                  <Link href={tour.id ? `/tours/${tour.id}` : '#'} className="block">
+              {generatedTours.map((tour, index) => {
+                const currentItinerary = getCurrentItinerary(tour);
+                const currentDuration = getCurrentDuration(tour);
+                
+                return (
+                  <Card key={tour.id || index} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                     <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-500 text-white">
-                      <CardTitle className="text-lg group-hover:text-amber-100 transition-colors">{tour.title}</CardTitle>
+                      <CardTitle className="text-lg">{tour.title}</CardTitle>
                       <CardDescription className="text-amber-100">
-                        <span className="font-medium">{tour.duration}</span>
                         {tour.description && (
-                          <p className="mt-2 text-sm line-clamp-2">{tour.description}</p>
+                          <p className="text-sm line-clamp-2">{tour.description}</p>
                         )}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="p-4">
-                      {tour.itinerary && tour.itinerary.length > 0 && (
+                      {/* Duration Selector */}
+                      {tour.durationOptions && tour.durationOptions.length > 0 && (
+                        <div className="mb-4 space-y-2">
+                          <label className="text-sm font-medium text-gray-700">Select Duration</label>
+                          <Select 
+                            value={currentDuration} 
+                            onValueChange={(value) => handleDurationChange(tour.id, value)}
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select duration" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {tour.durationOptions.map((option: any) => (
+                                <SelectItem key={option.duration} value={option.duration}>
+                                  {option.duration}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      )}
+
+                      {/* Current duration display for tours without duration options */}
+                      {!tour.durationOptions && tour.duration && (
+                        <div className="mb-4">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {tour.duration}
+                          </span>
+                        </div>
+                      )}
+
+                      {currentItinerary && currentItinerary.length > 0 && (
                         <div className="space-y-3">
                           <h4 className="font-semibold text-sm text-muted-foreground flex items-center gap-2">
                             <Calendar className="w-4 h-4" />
                             HIGHLIGHTS
                           </h4>
-                          {tour.itinerary.slice(0, 2).map((day: any, dayIndex: number) => (
+                          {currentItinerary.slice(0, 2).map((day: any, dayIndex: number) => (
                           <div key={dayIndex} className="border-l-2 border-purple-200 pl-4">
                             <div className="font-medium text-sm">Day {day.day}: {day.title}</div>
                             {day.sites && day.sites.length > 0 && (
@@ -283,22 +343,24 @@ export default function CopyOfEras() {
                             )}
                           </div>
                         ))}
-                        {tour.itinerary.length > 3 && (
+                        {currentItinerary.length > 2 && (
                           <div className="text-xs text-muted-foreground">
-                            ... and {tour.itinerary.length - 3} more days
+                            ... and {currentItinerary.length - 2} more days
                           </div>
                         )}
                         </div>
                       )}
                       <div className="mt-4 pt-3 border-t border-gray-200">
-                        <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white">
-                          View Full Itinerary
-                        </Button>
+                        <Link href={tour.id ? `/tours/${tour.id}` : '#'} className="block">
+                          <Button className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white">
+                            View Full Itinerary
+                          </Button>
+                        </Link>
                       </div>
                     </CardContent>
-                  </Link>
-                </Card>
-              ))}
+                  </Card>
+                );
+              })}
             </div>
           </div>
         )}
