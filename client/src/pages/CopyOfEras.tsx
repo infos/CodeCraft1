@@ -193,7 +193,7 @@ export default function CopyOfEras() {
   return (
     <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold mb-4">Copy of Eras - What are your favorite eras?</h1>
+          <h1 className="text-3xl font-bold mb-4">Build your history tour</h1>
           <p className="text-muted-foreground mb-8">
             Select the historical periods you're most interested in exploring
           </p>
