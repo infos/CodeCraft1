@@ -1,0 +1,187 @@
+/*────────────────────────────────────────────────────────────────────────────
+   Variables
+────────────────────────────────────────────────────────────────────────────*/
+:root {
+  --bg-color: #121212;
+  --accent-color: #d4a971;
+  --text-color: #fff;
+  --subtext-color: #ccc;
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --nav-font-size: 0.9rem;
+  --heading-font-size: 2.5rem;
+  --year-font-size: 1.2rem;
+  --text-font-size: 1rem;
+  --spacing: 1.5rem;
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Global
+────────────────────────────────────────────────────────────────────────────*/
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-sans);
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Section Wrapper
+────────────────────────────────────────────────────────────────────────────*/
+.history-section {
+  padding: var(--spacing) 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Title
+────────────────────────────────────────────────────────────────────────────*/
+.history-section .section-title {
+  text-align: center;
+  font-size: var(--heading-font-size);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing);
+  color: var(--accent-color);
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Timeline Nav
+────────────────────────────────────────────────────────────────────────────*/
+.history-section .timeline-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: var(--spacing);
+  color: var(--subtext-color);
+  font-size: var(--nav-font-size);
+}
+
+.history-section .timeline-nav .year {
+  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.history-section .timeline-nav .year.active {
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.history-section .timeline-nav .year.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Controls (Prev/Next)
+────────────────────────────────────────────────────────────────────────────*/
+.history-section .nav-arrow {
+  position: absolute;
+  top: 50%;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  transition: background 0.2s;
+}
+
+.history-section .nav-arrow:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.history-section .nav-arrow.prev {
+  left: 1rem;
+}
+
+.history-section .nav-arrow.next {
+  right: 1rem;
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Content Area
+────────────────────────────────────────────────────────────────────────────*/
+.history-section .content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing);
+  align-items: start;
+  margin-top: var(--spacing);
+}
+
+/* Main Image */
+.history-section .main-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Text & Small Gallery */
+.history-section .text-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+
+.history-section .text-gallery .year-heading {
+  font-size: var(--year-font-size);
+  font-weight: bold;
+  margin: 0;
+  color: var(--accent-color);
+}
+
+.history-section .text-gallery .description {
+  font-size: var(--text-font-size);
+  line-height: 1.6;
+  color: var(--subtext-color);
+}
+
+/* Small gallery grid */
+.history-section .text-gallery .thumbs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.history-section .text-gallery .thumbs img {
+  flex: 1;
+  border-radius: 4px;
+  object-fit: cover;
+  height: 100px;
+}
+
+/*────────────────────────────────────────────────────────────────────────────
+   Responsive
+────────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 900px) {
+  .history-section .content-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .history-section .text-gallery {
+    order: 2;
+  }
+  .history-section .main-image {
+    order: 1;
+  }
+}

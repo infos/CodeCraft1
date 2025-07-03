@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -7,14 +7,14 @@ import { Calendar, Loader2, Sparkles, XIcon } from 'lucide-react';
 import { Link } from 'wouter';
 
 export default function BuildTourCopy() {
-  const [currentIndex, setCurrentIndex] = useState(1); // Start with 1911 (index 1)
+  const [currentIndex, setCurrentIndex] = useState(1); // Start with Classical
   const [showGeneratedTours, setShowGeneratedTours] = useState(false);
   const [generatedTours, setGeneratedTours] = useState<any[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
 
   const queryClient = useQueryClient();
 
-  // Historical periods data matching the provided HTML structure
+  // Historical periods data matching the provided structure
   const historyData = [
     {
       period: "Ancient",
@@ -149,31 +149,55 @@ export default function BuildTourCopy() {
   const currentPeriod = historyData[currentIndex];
 
   return (
-    <div style={{
-      '--bg-color': '#121212',
-      '--accent-color': '#d4a971', 
-      '--text-color': '#ffffff',
-      '--subtext-color': '#cccccc',
-      '--font-sans': '"Helvetica Neue", Helvetica, Arial, sans-serif',
-      '--nav-font-size': '0.9rem',
-      '--heading-font-size': '2.5rem', 
-      '--year-font-size': '1.2rem',
-      '--text-font-size': '1rem',
-      '--spacing': '1.5rem'
-    } as React.CSSProperties}>
+    <div>
       <style>{`
+        /*────────────────────────────────────────────────────────────────────────────
+           Variables
+        ────────────────────────────────────────────────────────────────────────────*/
+        :root {
+          --bg-color: #121212;
+          --accent-color: #d4a971;
+          --text-color: #fff;
+          --subtext-color: #ccc;
+          --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          --nav-font-size: 0.9rem;
+          --heading-font-size: 2.5rem;
+          --year-font-size: 1.2rem;
+          --text-font-size: 1rem;
+          --spacing: 1.5rem;
+        }
+
+        /*────────────────────────────────────────────────────────────────────────────
+           Global
+        ────────────────────────────────────────────────────────────────────────────*/
+        body {
+          margin: 0;
+          padding: 0;
+          background: var(--bg-color);
+          color: var(--text-color);
+          font-family: var(--font-sans);
+        }
+        img {
+          max-width: 100%;
+          display: block;
+        }
+
+        /*────────────────────────────────────────────────────────────────────────────
+           Section Wrapper
+        ────────────────────────────────────────────────────────────────────────────*/
         .history-section {
           padding: var(--spacing) 2rem;
           max-width: 1200px;
           margin: 0 auto;
           position: relative;
           background: var(--bg-color);
-          color: var(--text-color);
-          font-family: var(--font-sans);
           min-height: 100vh;
         }
 
-        .section-title {
+        /*────────────────────────────────────────────────────────────────────────────
+           Title
+        ────────────────────────────────────────────────────────────────────────────*/
+        .history-section .section-title {
           text-align: center;
           font-size: var(--heading-font-size);
           text-transform: uppercase;
@@ -183,7 +207,10 @@ export default function BuildTourCopy() {
           font-weight: normal;
         }
 
-        .timeline-nav {
+        /*────────────────────────────────────────────────────────────────────────────
+           Timeline Nav
+        ────────────────────────────────────────────────────────────────────────────*/
+        .history-section .timeline-nav {
           display: flex;
           justify-content: center;
           align-items: center;
@@ -193,23 +220,23 @@ export default function BuildTourCopy() {
           font-size: var(--nav-font-size);
         }
 
-        .timeline-nav .year {
+        .history-section .timeline-nav .year {
           position: relative;
           cursor: pointer;
           padding: 0.5rem;
           transition: color 0.2s;
         }
 
-        .timeline-nav .year:hover {
+        .history-section .timeline-nav .year:hover {
           color: var(--text-color);
         }
 
-        .timeline-nav .year.active {
+        .history-section .timeline-nav .year.active {
           color: var(--text-color);
           font-weight: bold;
         }
 
-        .timeline-nav .year.active::before {
+        .history-section .timeline-nav .year.active::before {
           content: '';
           position: absolute;
           top: 50%;
@@ -221,7 +248,10 @@ export default function BuildTourCopy() {
           transform: translate(-50%, -50%);
         }
 
-        .nav-arrow {
+        /*────────────────────────────────────────────────────────────────────────────
+           Controls (Prev/Next)
+        ────────────────────────────────────────────────────────────────────────────*/
+        .history-section .nav-arrow {
           position: absolute;
           top: 50%;
           width: 2rem;
@@ -238,43 +268,82 @@ export default function BuildTourCopy() {
           transition: background 0.2s;
         }
 
-        .nav-arrow:hover {
+        .history-section .nav-arrow:hover {
           background: rgba(255,255,255,0.2);
         }
 
-        .nav-arrow.prev { left: 1rem; }
-        .nav-arrow.next { right: 1rem; }
+        .history-section .nav-arrow.prev {
+          left: 1rem;
+        }
 
-        .content-wrapper {
+        .history-section .nav-arrow.next {
+          right: 1rem;
+        }
+
+        /*────────────────────────────────────────────────────────────────────────────
+           Content Area
+        ────────────────────────────────────────────────────────────────────────────*/
+        .history-section .content-wrapper {
           display: grid;
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr 1fr;
           gap: var(--spacing);
           align-items: start;
           margin-top: var(--spacing);
-          max-width: 800px;
-          margin-left: auto;
-          margin-right: auto;
         }
 
-        .text-gallery {
+        /* Main Image */
+        .history-section .main-image {
+          position: relative;
+          overflow: hidden;
+          border-radius: 4px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+          background: rgba(255,255,255,0.05);
+          aspect-ratio: 4/3;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--subtext-color);
+        }
+
+        /* Text & Small Gallery */
+        .history-section .text-gallery {
           display: flex;
           flex-direction: column;
           gap: var(--spacing);
         }
 
-        .year-heading {
+        .history-section .text-gallery .year-heading {
           font-size: var(--year-font-size);
           font-weight: bold;
           margin: 0;
           color: var(--accent-color);
         }
 
-        .description {
+        .history-section .text-gallery .description {
           font-size: var(--text-font-size);
           line-height: 1.6;
           color: var(--subtext-color);
         }
 
+        /* Small gallery grid */
+        .history-section .text-gallery .thumbs {
+          display: flex;
+          gap: 0.5rem;
+        }
+
+        .history-section .text-gallery .thumbs .thumb-placeholder {
+          flex: 1;
+          border-radius: 4px;
+          height: 100px;
+          background: rgba(255,255,255,0.05);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--subtext-color);
+          font-size: 0.8rem;
+        }
+
+        /* Era Grid */
         .era-grid {
           display: grid;
           gap: 1rem;
@@ -287,6 +356,7 @@ export default function BuildTourCopy() {
           padding: 1rem;
           cursor: pointer;
           transition: all 0.2s;
+          border-radius: 4px;
         }
 
         .era-card:hover {
@@ -316,6 +386,7 @@ export default function BuildTourCopy() {
           transition: all 0.2s;
           margin-top: 1.5rem;
           width: 100%;
+          border-radius: 4px;
         }
 
         .generate-button:hover {
@@ -327,16 +398,28 @@ export default function BuildTourCopy() {
           cursor: not-allowed;
         }
 
+        /*────────────────────────────────────────────────────────────────────────────
+           Responsive
+        ────────────────────────────────────────────────────────────────────────────*/
         @media (max-width: 900px) {
-          .nav-arrow { display: none; }
-          .timeline-nav { gap: 1rem; }
-          .timeline-nav .year { padding: 0.25rem; }
+          .history-section .content-wrapper {
+            grid-template-columns: 1fr;
+          }
+          .history-section .text-gallery {
+            order: 2;
+          }
+          .history-section .main-image {
+            order: 1;
+          }
+          .history-section .nav-arrow {
+            display: none;
+          }
         }
       `}</style>
 
       <section className="history-section">
         <h2 className="section-title">Notre histoire</h2>
-
+        
         <div className="timeline-nav">
           {historyData.map((periodData, index) => (
             <div
@@ -348,19 +431,30 @@ export default function BuildTourCopy() {
             </div>
           ))}
         </div>
-
-        <button className="nav-arrow prev" onClick={prevPeriod} aria-label="Précédent">
+        
+        <button className="nav-arrow prev" onClick={prevPeriod}>
           ←
         </button>
-        <button className="nav-arrow next" onClick={nextPeriod} aria-label="Suivant">
+        <button className="nav-arrow next" onClick={nextPeriod}>
           →
         </button>
-
+        
         <div className="content-wrapper">
+          <div className="main-image">
+            Historical Image Placeholder
+          </div>
+          
           <div className="text-gallery">
             <h3 className="year-heading">{currentPeriod.title}</h3>
-            <p className="description">{currentPeriod.description}</p>
+            <p className="description">
+              {currentPeriod.description}
+            </p>
             
+            <div className="thumbs">
+              <div className="thumb-placeholder">Image</div>
+              <div className="thumb-placeholder">Image</div>
+            </div>
+
             <div className="era-grid">
               {currentPeriod.eras.map((era, index) => (
                 <div
@@ -392,9 +486,25 @@ export default function BuildTourCopy() {
 
         {/* Generated Tours Section */}
         {showGeneratedTours && generatedTours.length > 0 && (
-          <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(212,169,113,0.3)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-              <h2 style={{ fontSize: '2rem', fontWeight: 'normal', color: 'var(--accent-color)' }}>Generated Tours</h2>
+          <div style={{ 
+            marginTop: '3rem', 
+            paddingTop: '2rem', 
+            borderTop: '1px solid rgba(212,169,113,0.3)' 
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              marginBottom: '2rem' 
+            }}>
+              <h2 style={{ 
+                fontSize: '2rem', 
+                fontWeight: 'normal', 
+                color: 'var(--accent-color)',
+                margin: 0
+              }}>
+                Generated Tours
+              </h2>
               <Button
                 variant="outline"
                 onClick={() => setShowGeneratedTours(false)}
@@ -409,15 +519,28 @@ export default function BuildTourCopy() {
               </Button>
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+              gap: '2rem' 
+            }}>
               {generatedTours.map((tour, index) => {
                 const currentItinerary = getCurrentItinerary(tour);
                 const currentDuration = getCurrentDuration(tour);
                 
                 return (
-                  <Card key={tour.id || index} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212,169,113,0.3)' }}>
+                  <Card 
+                    key={tour.id || index} 
+                    style={{ 
+                      background: 'rgba(255,255,255,0.05)', 
+                      border: '1px solid rgba(212,169,113,0.3)',
+                      borderRadius: '4px'
+                    }}
+                  >
                     <CardHeader style={{ background: 'var(--accent-color)', color: 'var(--bg-color)' }}>
-                      <CardTitle style={{ fontSize: '1.2rem', fontWeight: 'normal' }}>{tour.title}</CardTitle>
+                      <CardTitle style={{ fontSize: '1.2rem', fontWeight: 'normal' }}>
+                        {tour.title}
+                      </CardTitle>
                       <CardDescription style={{ color: 'rgba(18,18,18,0.8)' }}>
                         {tour.description}
                       </CardDescription>
@@ -426,19 +549,35 @@ export default function BuildTourCopy() {
                       {/* Duration Selector */}
                       {tour.durationOptions && tour.durationOptions.length > 0 && (
                         <div style={{ marginBottom: '1.5rem' }}>
-                          <label style={{ fontSize: '0.9rem', color: 'var(--subtext-color)', marginBottom: '0.5rem', display: 'block' }}>
+                          <label style={{ 
+                            fontSize: '0.9rem', 
+                            color: 'var(--subtext-color)', 
+                            marginBottom: '0.5rem', 
+                            display: 'block' 
+                          }}>
                             Select Duration
                           </label>
                           <Select 
                             value={currentDuration} 
                             onValueChange={(value) => handleDurationChange(tour.id, value)}
                           >
-                            <SelectTrigger style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(212,169,113,0.3)', color: 'var(--text-color)' }}>
+                            <SelectTrigger style={{ 
+                              background: 'rgba(255,255,255,0.1)', 
+                              border: '1px solid rgba(212,169,113,0.3)', 
+                              color: 'var(--text-color)' 
+                            }}>
                               <SelectValue placeholder="Select duration" />
                             </SelectTrigger>
-                            <SelectContent style={{ background: 'var(--bg-color)', border: '1px solid rgba(212,169,113,0.3)' }}>
+                            <SelectContent style={{ 
+                              background: 'var(--bg-color)', 
+                              border: '1px solid rgba(212,169,113,0.3)' 
+                            }}>
                               {tour.durationOptions.map((option: any) => (
-                                <SelectItem key={option.duration} value={option.duration} style={{ color: 'var(--text-color)' }}>
+                                <SelectItem 
+                                  key={option.duration} 
+                                  value={option.duration} 
+                                  style={{ color: 'var(--text-color)' }}
+                                >
                                   {option.duration}
                                 </SelectItem>
                               ))}
@@ -449,24 +588,50 @@ export default function BuildTourCopy() {
 
                       {currentItinerary && currentItinerary.length > 0 && (
                         <div style={{ marginBottom: '1.5rem' }}>
-                          <h4 style={{ fontSize: '0.9rem', color: 'var(--accent-color)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <h4 style={{ 
+                            fontSize: '0.9rem', 
+                            color: 'var(--accent-color)', 
+                            marginBottom: '1rem', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '0.5rem' 
+                          }}>
                             <Calendar className="w-4 h-4" />
                             HIGHLIGHTS
                           </h4>
                           {currentItinerary.slice(0, 2).map((day: any, dayIndex: number) => (
-                            <div key={dayIndex} style={{ borderLeft: '2px solid var(--accent-color)', paddingLeft: '1rem', marginBottom: '1rem' }}>
-                              <div style={{ fontWeight: '500', fontSize: '0.9rem', color: 'var(--text-color)' }}>
+                            <div 
+                              key={dayIndex} 
+                              style={{ 
+                                borderLeft: '2px solid var(--accent-color)', 
+                                paddingLeft: '1rem', 
+                                marginBottom: '1rem' 
+                              }}
+                            >
+                              <div style={{ 
+                                fontWeight: '500', 
+                                fontSize: '0.9rem', 
+                                color: 'var(--text-color)' 
+                              }}>
                                 Day {day.day}: {day.title}
                               </div>
                               {day.sites && day.sites.length > 0 && (
-                                <div style={{ marginTop: '0.25rem', fontSize: '0.8rem', color: 'var(--subtext-color)' }}>
+                                <div style={{ 
+                                  marginTop: '0.25rem', 
+                                  fontSize: '0.8rem', 
+                                  color: 'var(--subtext-color)' 
+                                }}>
                                   {day.sites.map((site: any, siteIndex: number) => (
                                     <div key={siteIndex}>• {site.name}</div>
                                   ))}
                                 </div>
                               )}
                               {day.hotel && (
-                                <div style={{ marginTop: '0.25rem', fontSize: '0.8rem', color: 'var(--accent-color)' }}>
+                                <div style={{ 
+                                  marginTop: '0.25rem', 
+                                  fontSize: '0.8rem', 
+                                  color: 'var(--accent-color)' 
+                                }}>
                                   🏨 {day.hotel.name}
                                 </div>
                               )}
@@ -480,9 +645,17 @@ export default function BuildTourCopy() {
                         </div>
                       )}
                       
-                      <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(212,169,113,0.3)' }}>
+                      <div style={{ 
+                        paddingTop: '1rem', 
+                        borderTop: '1px solid rgba(212,169,113,0.3)' 
+                      }}>
                         <Link href={tour.id ? `/tours/${tour.id}?duration=${encodeURIComponent(currentDuration)}` : '#'}>
-                          <Button style={{ width: '100%', background: 'var(--accent-color)', color: 'var(--bg-color)', fontWeight: 'normal' }}>
+                          <Button style={{ 
+                            width: '100%', 
+                            background: 'var(--accent-color)', 
+                            color: 'var(--bg-color)', 
+                            fontWeight: 'normal' 
+                          }}>
                             View Full Itinerary
                           </Button>
                         </Link>
