@@ -17,9 +17,9 @@ export default function BuildTourCopy() {
   // Historical periods data matching the provided HTML structure
   const historyData = [
     {
-      year: "1845",
+      period: "Ancient",
       title: "Ancient Civilizations",
-      description: "En 1845, la brasserie est fondée par... Explore the rich heritage and cultural treasures of ancient civilizations. Discover archaeological marvels, historical sites that shaped our world.",
+      description: "Explore the rich heritage and cultural treasures of ancient civilizations. Discover archaeological marvels, historical sites that shaped our world through Mesopotamian, Egyptian, and early Mediterranean cultures.",
       eras: [
         'Ancient Near Eastern',
         'Ancient Egypt',
@@ -28,9 +28,9 @@ export default function BuildTourCopy() {
       ]
     },
     {
-      year: "1911", 
+      period: "Classical", 
       title: "Classical Antiquity",
-      description: "La Brasserie Schweighardt investit et augmente sa production... Experience the grandeur of classical antiquity through Greece and Rome's greatest achievements.",
+      description: "Experience the grandeur of classical antiquity through Greece and Rome's greatest achievements. Witness the birth of democracy, philosophy, and architectural marvels that influence us today.",
       eras: [
         'Ancient Greece',
         'Ancient Rome', 
@@ -39,9 +39,9 @@ export default function BuildTourCopy() {
       ]
     },
     {
-      year: "1950",
+      period: "Medieval",
       title: "Medieval Period", 
-      description: "En 1950, la brasserie modernise ses cuves... Journey through the medieval world of castles, cathedrals, and cultural exchange across continents.",
+      description: "Journey through the medieval world of castles, cathedrals, and cultural exchange across continents. Discover the rich traditions of Byzantine, European, and Silk Road civilizations.",
       eras: [
         'Byzantine',
         'Medieval Europe',
@@ -50,17 +50,17 @@ export default function BuildTourCopy() {
       ]
     },
     {
-      year: "1973",
+      period: "Renaissance",
       title: "Renaissance",
-      description: "The Renaissance brought revolutionary changes in art, science, and culture. Witness the rebirth of classical learning and artistic achievement.",
+      description: "The Renaissance brought revolutionary changes in art, science, and culture. Witness the rebirth of classical learning and artistic achievement that transformed European civilization.",
       eras: [
         'Renaissance'
       ]
     },
     {
-      year: "1989",
+      period: "Modern",
       title: "Modern Era",
-      description: "The modern era ushered in new technologies, exploration, and enlightenment thinking that continues to influence our world today.",
+      description: "The modern era ushered in new technologies, exploration, and enlightenment thinking that continues to influence our world today through scientific revolution and global exploration.",
       eras: [
         'Age of Exploration',
         'Enlightenment', 
@@ -338,13 +338,13 @@ export default function BuildTourCopy() {
         <h2 className="section-title">Notre histoire</h2>
 
         <div className="timeline-nav">
-          {historyData.map((period, index) => (
+          {historyData.map((periodData, index) => (
             <div
-              key={period.year}
+              key={periodData.period}
               className={`year ${index === currentIndex ? 'active' : ''}`}
               onClick={() => setCurrentIndex(index)}
             >
-              {period.year}
+              {periodData.period}
             </div>
           ))}
         </div>
