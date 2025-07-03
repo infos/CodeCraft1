@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>La Brasserie — Notre histoire</title>
+  <style>
+    /*────────────────────────────────────────────────────────────────────────
+      Variables
+    ────────────────────────────────────────────────────────────────────────*/
+    :root {
+      --bg-color: #121212;
+      --accent-color: #d4a971;
+      --text-color: #ffffff;
+      --subtext-color: #cccccc;
+      --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --nav-font-size: 0.9rem;
+      --heading-font-size: 2.5rem;
+      --year-font-size: 1.2rem;
+      --text-font-size: 1rem;
+      --spacing: 1.5rem;
+    }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Global
+    ────────────────────────────────────────────────────────────────────────*/
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--font-sans);
+    }
+    img { max-width: 100%; display: block; }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Section Wrapper
+    ────────────────────────────────────────────────────────────────────────*/
+    .history-section {
+      padding: var(--spacing) 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Title
+    ────────────────────────────────────────────────────────────────────────*/
+    .history-section .section-title {
+      text-align: center;
+      font-size: var(--heading-font-size);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: var(--spacing);
+      color: var(--accent-color);
+    }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Timeline Nav
+    ────────────────────────────────────────────────────────────────────────*/
+    .timeline-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: var(--spacing);
+      color: var(--subtext-color);
+      font-size: var(--nav-font-size);
+    }
+    .timeline-nav .year {
+      position: relative;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.2s;
+    }
+    .timeline-nav .year:hover {
+      color: var(--text-color);
+    }
+    .timeline-nav .year.active {
+      color: var(--text-color);
+      font-weight: bold;
+    }
+    .timeline-nav .year.active::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid var(--accent-color);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Controls (Prev/Next)
+    ────────────────────────────────────────────────────────────────────────*/
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      width: 2rem;
+      height: 2rem;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: var(--accent-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-50%);
+      transition: background 0.2s;
+    }
+    .nav-arrow:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .nav-arrow.prev { left: 1rem; }
+    .nav-arrow.next { right: 1rem; }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Content Area
+    ────────────────────────────────────────────────────────────────────────*/
+    .content-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing);
+      align-items: start;
+      margin-top: var(--spacing);
+    }
+    .main-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .text-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing);
+    }
+    .year-heading {
+      font-size: var(--year-font-size);
+      font-weight: bold;
+      margin: 0;
+      color: var(--accent-color);
+    }
+    .description {
+      font-size: var(--text-font-size);
+      line-height: 1.6;
+      color: var(--subtext-color);
+    }
+    .thumbs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .thumbs img {
+      flex: 1;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    /*────────────────────────────────────────────────────────────────────────
+      Responsive
+    ────────────────────────────────────────────────────────────────────────*/
+    @media (max-width: 900px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .text-gallery { order: 2; }
+      .main-image { order: 1; }
+      .nav-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="history-section">
+    <h2 class="section-title">Notre histoire</h2>
+
+    <div class="timeline-nav">
+      <!-- These will be populated by JS -->
+    </div>
+
+    <button class="nav-arrow prev" aria-label="Précédent">&larr;</button>
+    <button class="nav-arrow next" aria-label="Suivant">&rarr;</button>
+
+    <div class="content-wrapper">
+      <div class="main-image">
+        <img id="main-img" src="" alt="">
+      </div>
+      <div class="text-gallery">
+        <h3 id="year-title" class="year-heading"></h3>
+        <p id="year-desc" class="description"></p>
+        <div id="thumb-container" class="thumbs"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const historyData = {
+      "1845": {
+        img: "images/1845-main.jpg",
+        alt: "Brasserie en 1845",
+        text: "En 1845, la brasserie est fondée par…",
+        thumbs: ["images/1845-1.jpg","images/1845-2.jpg"]
+      },
+      "1911": {
+        img: "images/1911-main.jpg",
+        alt: "Brasserie en 1911",
+        text: "La Brasserie Schweighardt investit et augmente sa production…",
+        thumbs: ["images/1911-1.jpg","images/1911-2.jpg"]
+      },
+      "1950": {
+        img: "images/1950-main.jpg",
+        alt: "Brasserie en 1950",
+        text: "En 1950, la brasserie modernise ses cuves…",
+        thumbs: ["images/1950-1.jpg","images/1950-2.jpg"]
+      }
+      // … ajoutez ici toutes vos dates …
+    };
+
+    // prepare
+    const years = Object.keys(historyData);
+    let currentIndex = 0;
+
+    const navContainer   = document.querySelector('.timeline-nav');
+    const mainImg        = document.getElementById('main-img');
+    const yearTitle      = document.getElementById('year-title');
+    const yearDesc       = document.getElementById('year-desc');
+    const thumbContainer = document.getElementById('thumb-container');
+
+    // build year buttons
+    years.forEach((yr, idx) => {
+      const el = document.createElement('div');
+      el.classList.add('year');
+      el.textContent = yr;
+      el.dataset.index = idx;
+      el.addEventListener('click', () => {
+        currentIndex = idx;
+        render();
+      });
+      navContainer.appendChild(el);
+    });
+
+    // prev/next
+    document.querySelector('.nav-arrow.prev')
+      .addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + years.length) % years.length;
+        render();
+      });
+    document.querySelector('.nav-arrow.next')
+      .addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % years.length;
+        render();
+      });
+
+    function render() {
+      const selYear = years[currentIndex];
+      const data = historyData[selYear];
+
+      // update nav
+      document.querySelectorAll('.timeline-nav .year').forEach(el => {
+        el.classList.toggle('active', el.textContent === selYear);
+      });
+
+      // update main image + text
+      mainImg.src = data.img;
+      mainImg.alt = data.alt;
+      yearTitle.textContent = selYear;
+      yearDesc.textContent = data.text;
+
+      // update thumbnails
+      thumbContainer.innerHTML = '';
+      data.thumbs.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        thumbContainer.appendChild(img);
+      });
+    }
+
+    // initial render
+    render();
+  </script>
+
+</body>
+</html>

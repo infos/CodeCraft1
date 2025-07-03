@@ -1,54 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'wouter';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import EraChipSelector from '@/components/EraChipSelector';
-import AdvancedFilterPanel from '@/components/AdvancedFilterPanel';
+import { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tour } from '@shared/schema';
-import { XIcon, Sparkles, Loader2, Calendar } from 'lucide-react';
-import { apiRequest } from '@/lib/queryClient';
+import { Calendar, Loader2, Sparkles, XIcon } from 'lucide-react';
+import { Link } from 'wouter';
 
 export default function BuildTourCopy() {
-  // Fetch all eras from the database
-  const { data: eras } = useQuery({
-    queryKey: ['/api/eras'],
-    select: (data) => data as { id: number; name: string }[]
-  });
-  
-  // Extract era names for the selector
-  const eraOptions = eras?.map(era => era.name) || [];
-  
-  // For multiple selection of eras
-  const [selectedEras, setSelectedEras] = useState<string[]>([]);
-  
-  // Advanced filter state
-  const [advancedFilters, setAdvancedFilters] = useState<any>(null);
-  
-  // Duration selection state for each tour
-  const [selectedDurations, setSelectedDurations] = useState<{[tourId: string]: string}>({});
-
-  // Tour generation state with session persistence
-  const [generatedTours, setGeneratedTours] = useState<any[]>(() => {
-    try {
-      const stored = sessionStorage.getItem('generatedToursCopy');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
-  
-  const [showGeneratedTours, setShowGeneratedTours] = useState<boolean>(() => {
-    try {
-      const stored = sessionStorage.getItem('showGeneratedToursCopy');
-      return stored ? JSON.parse(stored) : false;
-    } catch {
-      return false;
-    }
-  });
+  const [currentIndex, setCurrentIndex] = useState(1); // Start with 1911 (index 1)
+  const [showGeneratedTours, setShowGeneratedTours] = useState(false);
+  const [generatedTours, setGeneratedTours] = useState<any[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
 
   const queryClient = useQueryClient();
+
+  // Historical periods data matching the provided HTML structure
+  const historyData = [
+    {
+      year: "1845",
+      title: "Ancient Civilizations",
+      description: "En 1845, la brasserie est fondée par... Explore the rich heritage and cultural treasures of ancient civilizations. Discover archaeological marvels, historical sites that shaped our world.",
+      eras: [
+        'Ancient Near Eastern',
+        'Ancient Egypt',
+        'Middle Kingdom of Egypt',
+        'New Kingdom of Egypt',
+      ]
+    },
+    {
+      year: "1911", 
+      title: "Classical Antiquity",
+      description: "La Brasserie Schweighardt investit et augmente sa production... Experience the grandeur of classical antiquity through Greece and Rome's greatest achievements.",
+      eras: [
+        'Ancient Greece',
+        'Ancient Rome', 
+        'Hellenistic Period',
+        'Ancient India (Mauryan and Gupta Periods)',
+      ]
+    },
+    {
+      year: "1950",
+      title: "Medieval Period", 
+      description: "En 1950, la brasserie modernise ses cuves... Journey through the medieval world of castles, cathedrals, and cultural exchange across continents.",
+      eras: [
+        'Byzantine',
+        'Medieval Europe',
+        'Sasanian Empire',
+        'Silk Road Trade Era'
+      ]
+    },
+    {
+      year: "1973",
+      title: "Renaissance",
+      description: "The Renaissance brought revolutionary changes in art, science, and culture. Witness the rebirth of classical learning and artistic achievement.",
+      eras: [
+        'Renaissance'
+      ]
+    },
+    {
+      year: "1989",
+      title: "Modern Era",
+      description: "The modern era ushered in new technologies, exploration, and enlightenment thinking that continues to influence our world today.",
+      eras: [
+        'Age of Exploration',
+        'Enlightenment', 
+        'Georgian Era'
+      ]
+    }
+  ];
 
   const generateToursMutation = useMutation({
     mutationFn: async (filters: any) => {
@@ -71,44 +90,35 @@ export default function BuildTourCopy() {
       setGeneratedTours(tours);
       setShowGeneratedTours(true);
       
-      // Persist to session storage
-      try {
-        sessionStorage.setItem('generatedToursCopy', JSON.stringify(tours));
-        sessionStorage.setItem('showGeneratedToursCopy', JSON.stringify(true));
-      } catch (error) {
-        console.warn('Failed to save tours to session storage:', error);
-      }
+      // Store in session storage
+      sessionStorage.setItem('generatedTours-copy', JSON.stringify(tours));
     },
-    onError: (error) => {
-      console.error("Tour generation failed:", error);
+    onError: (error: any) => {
       alert(`Tour generation failed: ${error.message}`);
     },
   });
-  
-  // We don't need the advanced filtering logic for this new UI design
 
-  const handleAdvancedFiltersChange = (filters: any) => {
-    setAdvancedFilters(filters);
-  };
+  // Load tours from session storage on mount
+  useEffect(() => {
+    const stored = sessionStorage.getItem('generatedTours-copy');
+    if (stored) {
+      const tours = JSON.parse(stored);
+      setGeneratedTours(tours);
+      setShowGeneratedTours(true);
+    }
+  }, []);
 
   const handleGenerateTours = () => {
+    const currentPeriod = historyData[currentIndex];
     const filterData = {
-      selectedPeriods: [selectedPeriod],
-      selectedEras: selectedEras.length > 0 ? selectedEras : currentEras,
+      selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
+      selectedEras: currentPeriod.eras,
       selectedLocations: []
     };
-    
-    // Check if any filters are selected
-    if (filterData.selectedPeriods.length === 0 && 
-        filterData.selectedEras.length === 0) {
-      alert("Please select at least one historical period or era to generate tours.");
-      return;
-    }
     
     generateToursMutation.mutate(filterData);
   };
 
-  // Handle duration selection for a specific tour
   const handleDurationChange = (tourId: string, duration: string) => {
     setSelectedDurations(prev => ({
       ...prev,
@@ -116,241 +126,319 @@ export default function BuildTourCopy() {
     }));
   };
 
-  // Get current itinerary for a tour based on selected duration
   const getCurrentItinerary = (tour: any) => {
-    const selectedDuration = selectedDurations[tour.id] || tour.defaultDuration;
     if (!tour.durationOptions) return tour.itinerary || [];
     
-    const durationOption = tour.durationOptions.find((opt: any) => opt.duration === selectedDuration);
-    return durationOption?.itinerary || [];
+    const currentDuration = selectedDurations[tour.id] || tour.defaultDuration || tour.duration;
+    const option = tour.durationOptions.find((opt: any) => opt.duration === currentDuration);
+    return option ? option.itinerary : [];
   };
 
-  // Get current duration for display
   const getCurrentDuration = (tour: any) => {
     return selectedDurations[tour.id] || tour.defaultDuration || tour.duration;
   };
 
-  // Historical periods for the timeline
-  const historicalPeriods = [
-    { id: 'ancient', name: 'Ancient', color: 'from-amber-600 to-orange-600' },
-    { id: 'classical', name: 'Classical', color: 'from-blue-600 to-indigo-600' },
-    { id: 'medieval', name: 'Medieval', color: 'from-green-600 to-emerald-600' },
-    { id: 'renaissance', name: 'Renaissance', color: 'from-purple-600 to-pink-600' },
-    { id: 'modern', name: 'Modern', color: 'from-red-600 to-rose-600' },
-  ];
-
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('classical');
-  
-  // Get eras for the selected period
-  const getErasForPeriod = (period: string) => {
-    const erasByPeriod: Record<string, string[]> = {
-      'ancient': [
-        'Ancient Near Eastern',
-        'Ancient Egypt',
-        'Middle Kingdom of Egypt',
-        'New Kingdom of Egypt',
-      ],
-      'classical': [
-        'Ancient Greece',
-        'Ancient Rome',
-        'Hellenistic Period',
-        'Ancient India (Mauryan and Gupta Periods)',
-      ],
-      'medieval': [
-        'Byzantine',
-        'Medieval Europe',
-        'Sasanian Empire',
-        'Silk Road Trade Era'
-      ],
-      'renaissance': [
-        'Renaissance'
-      ],
-      'modern': [
-        'Age of Exploration',
-        'Enlightenment',
-        'Georgian Era'
-      ]
-    };
-    return erasByPeriod[period] || [];
+  const prevPeriod = () => {
+    setCurrentIndex((prev) => (prev - 1 + historyData.length) % historyData.length);
   };
 
-  const currentEras = getErasForPeriod(selectedPeriod);
+  const nextPeriod = () => {
+    setCurrentIndex((prev) => (prev + 1) % historyData.length);
+  };
+
+  const currentPeriod = historyData[currentIndex];
 
   return (
-    <div className="min-h-screen bg-neutral-900 text-white">
-      {/* Header */}
-      <div className="text-center pt-16 pb-8">
-        <p className="text-xs tracking-[0.3em] text-neutral-500 mb-4 font-light">LA BRASSERIE</p>
-        <h1 className="text-5xl font-light mb-16 tracking-wide">Notre histoire</h1>
-        
-        {/* Timeline Navigation */}
-        <div className="relative flex justify-center items-center mb-20">
-          {/* Timeline line */}
-          <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-[600px] h-px bg-neutral-600"></div>
-          
-          <div className="flex items-center space-x-12">
-            {historicalPeriods.map((period, index) => (
-              <button
-                key={period.id}
-                onClick={() => setSelectedPeriod(period.id)}
-                className={`relative transition-all duration-300 ${
-                  selectedPeriod === period.id 
-                    ? 'scale-110' 
-                    : 'opacity-60 hover:opacity-80'
-                }`}
-              >
-                <div className={`
-                  w-12 h-12 rounded-full border-2 
-                  flex items-center justify-center text-sm font-light
-                  ${selectedPeriod === period.id 
-                    ? 'bg-orange-600 border-orange-500 shadow-lg' 
-                    : 'bg-neutral-800 border-neutral-600 hover:border-neutral-500'
-                  }
-                `}>
-                  {period.name.slice(0, 4)}
-                </div>
-                {/* Year label below */}
-                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 text-xs text-neutral-400 whitespace-nowrap">
-                  {period.name}
-                </div>
-              </button>
-            ))}
-          </div>
+    <div style={{
+      '--bg-color': '#121212',
+      '--accent-color': '#d4a971', 
+      '--text-color': '#ffffff',
+      '--subtext-color': '#cccccc',
+      '--font-sans': '"Helvetica Neue", Helvetica, Arial, sans-serif',
+      '--nav-font-size': '0.9rem',
+      '--heading-font-size': '2.5rem', 
+      '--year-font-size': '1.2rem',
+      '--text-font-size': '1rem',
+      '--spacing': '1.5rem'
+    } as React.CSSProperties}>
+      <style>{`
+        .history-section {
+          padding: var(--spacing) 2rem;
+          max-width: 1200px;
+          margin: 0 auto;
+          position: relative;
+          background: var(--bg-color);
+          color: var(--text-color);
+          font-family: var(--font-sans);
+          min-height: 100vh;
+        }
+
+        .section-title {
+          text-align: center;
+          font-size: var(--heading-font-size);
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          margin-bottom: var(--spacing);
+          color: var(--accent-color);
+          font-weight: normal;
+        }
+
+        .timeline-nav {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+          margin-bottom: var(--spacing);
+          color: var(--subtext-color);
+          font-size: var(--nav-font-size);
+        }
+
+        .timeline-nav .year {
+          position: relative;
+          cursor: pointer;
+          padding: 0.5rem;
+          transition: color 0.2s;
+        }
+
+        .timeline-nav .year:hover {
+          color: var(--text-color);
+        }
+
+        .timeline-nav .year.active {
+          color: var(--text-color);
+          font-weight: bold;
+        }
+
+        .timeline-nav .year.active::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 1.5rem;
+          height: 1.5rem;
+          border: 2px solid var(--accent-color);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .nav-arrow {
+          position: absolute;
+          top: 50%;
+          width: 2rem;
+          height: 2rem;
+          background: rgba(255,255,255,0.1);
+          border: none;
+          color: var(--accent-color);
+          font-size: 1.5rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: translateY(-50%);
+          transition: background 0.2s;
+        }
+
+        .nav-arrow:hover {
+          background: rgba(255,255,255,0.2);
+        }
+
+        .nav-arrow.prev { left: 1rem; }
+        .nav-arrow.next { right: 1rem; }
+
+        .content-wrapper {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: var(--spacing);
+          align-items: start;
+          margin-top: var(--spacing);
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .text-gallery {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing);
+        }
+
+        .year-heading {
+          font-size: var(--year-font-size);
+          font-weight: bold;
+          margin: 0;
+          color: var(--accent-color);
+        }
+
+        .description {
+          font-size: var(--text-font-size);
+          line-height: 1.6;
+          color: var(--subtext-color);
+        }
+
+        .era-grid {
+          display: grid;
+          gap: 1rem;
+          margin-top: 1.5rem;
+        }
+
+        .era-card {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(212,169,113,0.3);
+          padding: 1rem;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .era-card:hover {
+          background: rgba(212,169,113,0.1);
+          border-color: var(--accent-color);
+        }
+
+        .era-title {
+          font-weight: 600;
+          color: var(--text-color);
+          margin-bottom: 0.5rem;
+        }
+
+        .era-description {
+          font-size: 0.9rem;
+          color: var(--subtext-color);
+        }
+
+        .generate-button {
+          background: var(--accent-color);
+          color: var(--bg-color);
+          border: none;
+          padding: 1rem 2rem;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-top: 1.5rem;
+          width: 100%;
+        }
+
+        .generate-button:hover {
+          background: #c19958;
+        }
+
+        .generate-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+          .nav-arrow { display: none; }
+          .timeline-nav { gap: 1rem; }
+          .timeline-nav .year { padding: 0.25rem; }
+        }
+      `}</style>
+
+      <section className="history-section">
+        <h2 className="section-title">Notre histoire</h2>
+
+        <div className="timeline-nav">
+          {historyData.map((period, index) => (
+            <div
+              key={period.year}
+              className={`year ${index === currentIndex ? 'active' : ''}`}
+              onClick={() => setCurrentIndex(index)}
+            >
+              {period.year}
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-8 pb-16 relative">
-        {/* Navigation Arrows */}
-        <button 
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
-          onClick={() => {
-            const currentIndex = historicalPeriods.findIndex(p => p.id === selectedPeriod);
-            const prevIndex = currentIndex > 0 ? currentIndex - 1 : historicalPeriods.length - 1;
-            setSelectedPeriod(historicalPeriods[prevIndex].id);
-          }}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
+        <button className="nav-arrow prev" onClick={prevPeriod} aria-label="Précédent">
+          ←
         </button>
-        
-        <button 
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-white transition-colors"
-          onClick={() => {
-            const currentIndex = historicalPeriods.findIndex(p => p.id === selectedPeriod);
-            const nextIndex = currentIndex < historicalPeriods.length - 1 ? currentIndex + 1 : 0;
-            setSelectedPeriod(historicalPeriods[nextIndex].id);
-          }}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+        <button className="nav-arrow next" onClick={nextPeriod} aria-label="Suivant">
+          →
         </button>
-        
-        <div className="max-w-4xl mx-auto">
-          {/* Content */}
-          <div className="space-y-8 pt-8">
-            <div>
-              <h2 className="text-6xl font-light mb-8 capitalize tracking-wide">{selectedPeriod}</h2>
-              <p className="text-neutral-300 leading-relaxed mb-8 text-lg font-light">
-                Explore the rich heritage and cultural treasures of the {selectedPeriod} period. 
-                Discover ancient civilizations, architectural marvels, and historical sites that 
-                shaped our world. Each era offers unique insights into human achievement and cultural evolution.
-              </p>
-            </div>
 
-            {/* Historical Eras */}
-            <div className="space-y-6">
-              <h3 className="text-xl font-light text-neutral-200 mb-6">Historical Eras</h3>
-              <div className="grid gap-3">
-                {currentEras.map((era, index) => (
-                  <div 
-                    key={era}
-                    className="bg-neutral-800 border border-neutral-700 rounded-none p-5 hover:bg-neutral-750 transition-colors cursor-pointer"
-                    onClick={() => {
-                      setSelectedEras([era]);
-                      handleGenerateTours();
-                    }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-light text-white text-lg">{era}</h4>
-                      <span className="text-sm text-neutral-500">#{String(index + 1).padStart(2, '0')}</span>
-                    </div>
-                    <p className="text-sm text-neutral-400 mt-2 font-light">
-                      Discover tours and experiences from this fascinating historical period.
-                    </p>
+        <div className="content-wrapper">
+          <div className="text-gallery">
+            <h3 className="year-heading">{currentPeriod.title}</h3>
+            <p className="description">{currentPeriod.description}</p>
+            
+            <div className="era-grid">
+              {currentPeriod.eras.map((era, index) => (
+                <div
+                  key={era}
+                  className="era-card"
+                  onClick={handleGenerateTours}
+                >
+                  <div className="era-title">{era}</div>
+                  <div className="era-description">
+                    Discover tours and experiences from this fascinating historical period.
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
 
-            {/* Generate Tours Button */}
-            <div className="pt-8">
-              <Button 
-                onClick={handleGenerateTours}
-                disabled={generateToursMutation.isPending || selectedEras.length === 0}
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white py-4 text-lg font-light rounded-none"
-              >
-                {generateToursMutation.isPending ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Generating Tours...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Generate Tours for {selectedPeriod}
-                  </>
-                )}
-              </Button>
-            </div>
+            <button
+              className="generate-button"
+              onClick={handleGenerateTours}
+              disabled={generateToursMutation.isPending}
+            >
+              {generateToursMutation.isPending ? (
+                'Generating Tours...'
+              ) : (
+                `Generate Tours for ${currentPeriod.title}`
+              )}
+            </button>
           </div>
         </div>
 
         {/* Generated Tours Section */}
         {showGeneratedTours && generatedTours.length > 0 && (
-          <div className="mt-20 pt-16 border-t border-neutral-700">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-4xl font-light">Generated Tours</h2>
+          <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(212,169,113,0.3)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+              <h2 style={{ fontSize: '2rem', fontWeight: 'normal', color: 'var(--accent-color)' }}>Generated Tours</h2>
               <Button
                 variant="outline"
                 onClick={() => setShowGeneratedTours(false)}
-                className="text-neutral-400 border-neutral-600 hover:bg-neutral-800 rounded-none"
+                style={{ 
+                  background: 'transparent', 
+                  border: '1px solid var(--accent-color)', 
+                  color: 'var(--accent-color)' 
+                }}
               >
                 <XIcon className="w-4 h-4 mr-2" />
                 Hide Tours
               </Button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
               {generatedTours.map((tour, index) => {
                 const currentItinerary = getCurrentItinerary(tour);
                 const currentDuration = getCurrentDuration(tour);
                 
                 return (
-                  <Card key={tour.id || index} className="bg-neutral-800 border-neutral-700 overflow-hidden hover:bg-neutral-750 transition-all duration-300 rounded-none">
-                    <CardHeader className="bg-orange-600 text-white">
-                      <CardTitle className="text-xl font-light">{tour.title}</CardTitle>
-                      <CardDescription className="text-orange-100 text-sm font-light">
+                  <Card key={tour.id || index} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212,169,113,0.3)' }}>
+                    <CardHeader style={{ background: 'var(--accent-color)', color: 'var(--bg-color)' }}>
+                      <CardTitle style={{ fontSize: '1.2rem', fontWeight: 'normal' }}>{tour.title}</CardTitle>
+                      <CardDescription style={{ color: 'rgba(18,18,18,0.8)' }}>
                         {tour.description}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="p-6">
+                    <CardContent style={{ padding: '1.5rem' }}>
                       {/* Duration Selector */}
                       {tour.durationOptions && tour.durationOptions.length > 0 && (
-                        <div className="mb-6 space-y-2">
-                          <label className="text-sm font-light text-neutral-300">Select Duration</label>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                          <label style={{ fontSize: '0.9rem', color: 'var(--subtext-color)', marginBottom: '0.5rem', display: 'block' }}>
+                            Select Duration
+                          </label>
                           <Select 
                             value={currentDuration} 
                             onValueChange={(value) => handleDurationChange(tour.id, value)}
                           >
-                            <SelectTrigger className="w-full bg-neutral-700 border-neutral-600 text-white rounded-none">
+                            <SelectTrigger style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(212,169,113,0.3)', color: 'var(--text-color)' }}>
                               <SelectValue placeholder="Select duration" />
                             </SelectTrigger>
-                            <SelectContent className="bg-neutral-800 border-neutral-600">
+                            <SelectContent style={{ background: 'var(--bg-color)', border: '1px solid rgba(212,169,113,0.3)' }}>
                               {tour.durationOptions.map((option: any) => (
-                                <SelectItem key={option.duration} value={option.duration} className="text-white hover:bg-neutral-700">
+                                <SelectItem key={option.duration} value={option.duration} style={{ color: 'var(--text-color)' }}>
                                   {option.duration}
                                 </SelectItem>
                               ))}
@@ -359,49 +447,42 @@ export default function BuildTourCopy() {
                         </div>
                       )}
 
-                      {/* Current duration display for tours without duration options */}
-                      {!tour.durationOptions && tour.duration && (
-                        <div className="mb-6">
-                          <span className="inline-flex items-center px-3 py-1 rounded-none text-xs font-light bg-orange-900 text-orange-200">
-                            <Calendar className="w-3 h-3 mr-1" />
-                            {tour.duration}
-                          </span>
-                        </div>
-                      )}
-
                       {currentItinerary && currentItinerary.length > 0 && (
-                        <div className="space-y-4">
-                          <h4 className="font-light text-sm text-neutral-400 flex items-center gap-2">
+                        <div style={{ marginBottom: '1.5rem' }}>
+                          <h4 style={{ fontSize: '0.9rem', color: 'var(--accent-color)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <Calendar className="w-4 h-4" />
                             HIGHLIGHTS
                           </h4>
                           {currentItinerary.slice(0, 2).map((day: any, dayIndex: number) => (
-                          <div key={dayIndex} className="border-l-2 border-orange-600 pl-4">
-                            <div className="font-light text-sm text-white">Day {day.day}: {day.title}</div>
-                            {day.sites && day.sites.length > 0 && (
-                              <div className="mt-1 text-xs text-neutral-400">
-                                {day.sites.map((site: any, siteIndex: number) => (
-                                  <div key={siteIndex}>• {site.name}</div>
-                                ))}
+                            <div key={dayIndex} style={{ borderLeft: '2px solid var(--accent-color)', paddingLeft: '1rem', marginBottom: '1rem' }}>
+                              <div style={{ fontWeight: '500', fontSize: '0.9rem', color: 'var(--text-color)' }}>
+                                Day {day.day}: {day.title}
                               </div>
-                            )}
-                            {day.hotel && (
-                              <div className="mt-1 text-xs text-blue-400">
-                                🏨 {day.hotel.name}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                        {currentItinerary.length > 2 && (
-                          <div className="text-xs text-neutral-500">
-                            ... and {currentItinerary.length - 2} more days
-                          </div>
-                        )}
+                              {day.sites && day.sites.length > 0 && (
+                                <div style={{ marginTop: '0.25rem', fontSize: '0.8rem', color: 'var(--subtext-color)' }}>
+                                  {day.sites.map((site: any, siteIndex: number) => (
+                                    <div key={siteIndex}>• {site.name}</div>
+                                  ))}
+                                </div>
+                              )}
+                              {day.hotel && (
+                                <div style={{ marginTop: '0.25rem', fontSize: '0.8rem', color: 'var(--accent-color)' }}>
+                                  🏨 {day.hotel.name}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                          {currentItinerary.length > 2 && (
+                            <div style={{ fontSize: '0.8rem', color: 'var(--subtext-color)' }}>
+                              ... and {currentItinerary.length - 2} more days
+                            </div>
+                          )}
                         </div>
                       )}
-                      <div className="mt-6 pt-4 border-t border-neutral-700">
-                        <Link href={tour.id ? `/tours/${tour.id}?duration=${encodeURIComponent(currentDuration)}` : '#'} className="block">
-                          <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white rounded-none font-light">
+                      
+                      <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(212,169,113,0.3)' }}>
+                        <Link href={tour.id ? `/tours/${tour.id}?duration=${encodeURIComponent(currentDuration)}` : '#'}>
+                          <Button style={{ width: '100%', background: 'var(--accent-color)', color: 'var(--bg-color)', fontWeight: 'normal' }}>
                             View Full Itinerary
                           </Button>
                         </Link>
@@ -413,7 +494,7 @@ export default function BuildTourCopy() {
             </div>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }
