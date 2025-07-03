@@ -214,26 +214,52 @@ export default function BuildTourCopy() {
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 2rem;
+          gap: 3rem;
           margin-bottom: var(--spacing);
           color: var(--subtext-color);
           font-size: var(--nav-font-size);
+          position: relative;
+        }
+
+        /* Timeline connecting line */
+        .history-section .timeline-nav::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 80%;
+          height: 2px;
+          background: linear-gradient(to right, var(--accent-color) 0%, rgba(212,169,113,0.3) 50%, var(--accent-color) 100%);
+          transform: translate(-50%, -50%);
+          z-index: 0;
         }
 
         .history-section .timeline-nav .year {
           position: relative;
           cursor: pointer;
-          padding: 0.5rem;
-          transition: color 0.2s;
+          padding: 1rem 1.5rem;
+          transition: all 0.3s ease;
+          background: var(--bg-color);
+          border-radius: 50px;
+          min-width: 80px;
+          text-align: center;
+          z-index: 1;
+          border: 2px solid transparent;
         }
 
         .history-section .timeline-nav .year:hover {
           color: var(--text-color);
+          border-color: rgba(212,169,113,0.5);
+          transform: scale(1.05);
         }
 
         .history-section .timeline-nav .year.active {
-          color: var(--text-color);
+          color: var(--bg-color);
           font-weight: bold;
+          background: var(--accent-color);
+          border-color: var(--accent-color);
+          transform: scale(1.1);
+          box-shadow: 0 0 20px rgba(212,169,113,0.4);
         }
 
         .history-section .timeline-nav .year.active::before {
@@ -241,11 +267,28 @@ export default function BuildTourCopy() {
           position: absolute;
           top: 50%;
           left: 50%;
-          width: 1.5rem;
-          height: 1.5rem;
+          width: calc(100% + 16px);
+          height: calc(100% + 16px);
           border: 2px solid var(--accent-color);
-          border-radius: 50%;
+          border-radius: 50px;
           transform: translate(-50%, -50%);
+          opacity: 0.6;
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.6;
+          }
+          50% {
+            transform: translate(-50%, -50%) scale(1.05);
+            opacity: 0.3;
+          }
+          100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.6;
+          }
         }
 
         /*────────────────────────────────────────────────────────────────────────────
@@ -413,6 +456,18 @@ export default function BuildTourCopy() {
           }
           .history-section .nav-arrow {
             display: none;
+          }
+          .history-section .timeline-nav {
+            gap: 1.5rem;
+            flex-wrap: wrap;
+          }
+          .history-section .timeline-nav .year {
+            padding: 0.8rem 1.2rem;
+            min-width: 70px;
+            font-size: 0.8rem;
+          }
+          .history-section .timeline-nav::before {
+            width: 90%;
           }
         }
       `}</style>
