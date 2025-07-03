@@ -237,14 +237,15 @@ export default function BuildTourCopy() {
         .history-section .timeline-nav .year {
           position: relative;
           cursor: pointer;
-          padding: 1rem 1.5rem;
+          padding: 0.6rem 1rem;
           transition: all 0.3s ease;
           background: var(--bg-color);
-          border-radius: 50px;
-          min-width: 80px;
+          border-radius: 30px;
+          min-width: 60px;
           text-align: center;
           z-index: 1;
           border: 2px solid transparent;
+          font-size: 0.85rem;
         }
 
         .history-section .timeline-nav .year:hover {
@@ -258,8 +259,8 @@ export default function BuildTourCopy() {
           font-weight: bold;
           background: var(--accent-color);
           border-color: var(--accent-color);
-          transform: scale(1.1);
-          box-shadow: 0 0 20px rgba(212,169,113,0.4);
+          transform: scale(1.08);
+          box-shadow: 0 0 15px rgba(212,169,113,0.4);
         }
 
         .history-section .timeline-nav .year.active::before {
@@ -267,10 +268,10 @@ export default function BuildTourCopy() {
           position: absolute;
           top: 50%;
           left: 50%;
-          width: calc(100% + 16px);
-          height: calc(100% + 16px);
+          width: calc(100% + 12px);
+          height: calc(100% + 12px);
           border: 2px solid var(--accent-color);
-          border-radius: 50px;
+          border-radius: 30px;
           transform: translate(-50%, -50%);
           opacity: 0.6;
           animation: pulse 2s infinite;
@@ -462,9 +463,9 @@ export default function BuildTourCopy() {
             flex-wrap: wrap;
           }
           .history-section .timeline-nav .year {
-            padding: 0.8rem 1.2rem;
-            min-width: 70px;
-            font-size: 0.8rem;
+            padding: 0.5rem 0.8rem;
+            min-width: 50px;
+            font-size: 0.75rem;
           }
           .history-section .timeline-nav::before {
             width: 90%;
