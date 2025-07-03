@@ -20,6 +20,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Historical Tours
               </Link>
             </li>
+            <li className="mx-4">
+              <Link 
+                href="/build-tour-copy"
+                className={cn(
+                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
+                  location === "/build-tour-copy" ? "bg-[#555]" : ""
+                )}
+              >
+                Tour Builder Copy
+              </Link>
+            </li>
           </ul>
         </nav>
       </header>
