@@ -248,23 +248,8 @@ export default function BuildTourCopy() {
           </svg>
         </button>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left Side - Image placeholder */}
-          <div className="space-y-6">
-            <div className="aspect-[4/3] bg-neutral-800 rounded-none border-none flex items-center justify-center">
-              <span className="text-neutral-600 text-sm">Historical Image</span>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="aspect-square bg-neutral-800 rounded-none border-none flex items-center justify-center">
-                <span className="text-neutral-600 text-xs">Image</span>
-              </div>
-              <div className="aspect-square bg-neutral-800 rounded-none border-none flex items-center justify-center">
-                <span className="text-neutral-600 text-xs">Image</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - Content */}
+        <div className="max-w-4xl mx-auto">
+          {/* Content */}
           <div className="space-y-8 pt-8">
             <div>
               <h2 className="text-6xl font-light mb-8 capitalize tracking-wide">{selectedPeriod}</h2>
