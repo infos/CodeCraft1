@@ -387,36 +387,98 @@ export default function BuildTourCopy() {
           font-size: 0.8rem;
         }
 
-        /* Era Grid */
-        .era-grid {
-          display: grid;
-          gap: 1rem;
-          margin-top: 1.5rem;
+        /* Era Timeline */
+        .era-timeline {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          margin-top: 2rem;
+          position: relative;
         }
 
-        .era-card {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(212,169,113,0.3);
-          padding: 1rem;
+        /* Era timeline connecting line */
+        .era-timeline::before {
+          content: '';
+          position: absolute;
+          left: 2rem;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: linear-gradient(to bottom, var(--accent-color) 0%, rgba(212,169,113,0.3) 50%, var(--accent-color) 100%);
+          z-index: 0;
+        }
+
+        .era-item {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          position: relative;
+          z-index: 1;
+        }
+
+        .era-circle {
+          width: 4rem;
+          height: 4rem;
+          border-radius: 50%;
+          background: var(--bg-color);
+          border: 3px solid var(--accent-color);
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
-          transition: all 0.2s;
-          border-radius: 4px;
+          transition: all 0.3s ease;
+          flex-shrink: 0;
+          position: relative;
         }
 
-        .era-card:hover {
-          background: rgba(212,169,113,0.1);
+        .era-circle::before {
+          content: '';
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: var(--accent-color);
+          transition: all 0.3s ease;
+        }
+
+        .era-circle:hover {
+          border-color: var(--text-color);
+          transform: scale(1.05);
+          box-shadow: 0 0 15px rgba(212,169,113,0.4);
+        }
+
+        .era-circle:hover::before {
+          background: var(--text-color);
+          transform: scale(1.2);
+        }
+
+        .era-content {
+          flex: 1;
+          cursor: pointer;
+          padding: 1rem;
+          background: rgba(255,255,255,0.02);
+          border-radius: 8px;
+          border: 1px solid rgba(212,169,113,0.2);
+          transition: all 0.3s ease;
+        }
+
+        .era-content:hover {
+          background: rgba(212,169,113,0.08);
           border-color: var(--accent-color);
+          transform: translateX(5px);
         }
 
         .era-title {
           font-weight: 600;
           color: var(--text-color);
           margin-bottom: 0.5rem;
+          font-size: 1.1rem;
         }
 
         .era-description {
           font-size: 0.9rem;
           color: var(--subtext-color);
+          line-height: 1.5;
         }
 
         .generate-button {
@@ -470,6 +532,23 @@ export default function BuildTourCopy() {
           .history-section .timeline-nav::before {
             width: 90%;
           }
+          .era-timeline::before {
+            left: 1.5rem;
+          }
+          .era-circle {
+            width: 3rem !important;
+            height: 3rem !important;
+          }
+          .era-circle::before {
+            width: 8px !important;
+            height: 8px !important;
+          }
+          .era-content {
+            padding: 0.8rem !important;
+          }
+          .era-title {
+            font-size: 1rem !important;
+          }
         }
       `}</style>
 
@@ -511,16 +590,21 @@ export default function BuildTourCopy() {
               <div className="thumb-placeholder">Image</div>
             </div>
 
-            <div className="era-grid">
+            <div className="era-timeline">
               {currentPeriod.eras.map((era, index) => (
-                <div
-                  key={era}
-                  className="era-card"
-                  onClick={handleGenerateTours}
-                >
-                  <div className="era-title">{era}</div>
-                  <div className="era-description">
-                    Discover tours and experiences from this fascinating historical period.
+                <div key={era} className="era-item">
+                  <div 
+                    className="era-circle"
+                    onClick={handleGenerateTours}
+                  />
+                  <div 
+                    className="era-content"
+                    onClick={handleGenerateTours}
+                  >
+                    <div className="era-title">{era}</div>
+                    <div className="era-description">
+                      Discover tours and experiences from this fascinating historical period.
+                    </div>
                   </div>
                 </div>
               ))}
