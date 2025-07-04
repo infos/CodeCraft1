@@ -208,88 +208,40 @@ export default function BuildTourCopy() {
         }
 
         /*────────────────────────────────────────────────────────────────────────────
-           Timeline Nav
+           Timeline Nav - Badge Style
         ────────────────────────────────────────────────────────────────────────────*/
         .history-section .timeline-nav {
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 3rem;
+          gap: 1rem;
           margin-bottom: var(--spacing);
-          color: var(--subtext-color);
-          font-size: var(--nav-font-size);
-          position: relative;
-        }
-
-        /* Timeline connecting line */
-        .history-section .timeline-nav::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 80%;
-          height: 2px;
-          background: linear-gradient(to right, var(--accent-color) 0%, rgba(212,169,113,0.3) 50%, var(--accent-color) 100%);
-          transform: translate(-50%, -50%);
-          z-index: 0;
+          flex-wrap: wrap;
         }
 
         .history-section .timeline-nav .year {
-          position: relative;
+          display: inline-flex;
+          align-items: center;
+          border-radius: 9999px;
+          border: 1px solid rgba(212,169,113,0.5);
+          background: transparent;
+          padding: 0.5rem 1rem;
+          font-size: 0.875rem;
+          font-weight: 500;
           cursor: pointer;
-          padding: 0.6rem 1rem;
-          transition: all 0.3s ease;
-          background: var(--bg-color);
-          border-radius: 30px;
-          min-width: 60px;
-          text-align: center;
-          z-index: 1;
-          border: 2px solid transparent;
-          font-size: 0.85rem;
+          transition: all 0.2s ease;
+          color: var(--text-color);
         }
 
         .history-section .timeline-nav .year:hover {
-          color: var(--text-color);
-          border-color: rgba(212,169,113,0.5);
-          transform: scale(1.05);
+          background: rgba(255,255,255,0.1);
+          border-color: var(--accent-color);
         }
 
         .history-section .timeline-nav .year.active {
-          color: var(--bg-color);
-          font-weight: bold;
           background: var(--accent-color);
+          color: var(--bg-color);
           border-color: var(--accent-color);
-          transform: scale(1.08);
-          box-shadow: 0 0 15px rgba(212,169,113,0.4);
-        }
-
-        .history-section .timeline-nav .year.active::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: calc(100% + 12px);
-          height: calc(100% + 12px);
-          border: 2px solid var(--accent-color);
-          border-radius: 30px;
-          transform: translate(-50%, -50%);
-          opacity: 0.6;
-          animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0.6;
-          }
-          50% {
-            transform: translate(-50%, -50%) scale(1.05);
-            opacity: 0.3;
-          }
-          100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0.6;
-          }
         }
 
         /*────────────────────────────────────────────────────────────────────────────
@@ -387,98 +339,31 @@ export default function BuildTourCopy() {
           font-size: 0.8rem;
         }
 
-        /* Era Timeline */
-        .era-timeline {
+        /* Era Badge Selection */
+        .era-selector {
           display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          margin-top: 2rem;
-          position: relative;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+          margin-top: 1.5rem;
         }
 
-        /* Era timeline connecting line */
-        .era-timeline::before {
-          content: '';
-          position: absolute;
-          left: 2rem;
-          top: 0;
-          bottom: 0;
-          width: 2px;
-          background: linear-gradient(to bottom, var(--accent-color) 0%, rgba(212,169,113,0.3) 50%, var(--accent-color) 100%);
-          z-index: 0;
-        }
-
-        .era-item {
-          display: flex;
+        .era-badge {
+          display: inline-flex;
           align-items: center;
-          gap: 1.5rem;
-          position: relative;
-          z-index: 1;
-        }
-
-        .era-circle {
-          width: 4rem;
-          height: 4rem;
-          border-radius: 50%;
-          background: var(--bg-color);
-          border: 3px solid var(--accent-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          border-radius: 9999px;
+          border: 1px solid rgba(212,169,113,0.5);
+          background: transparent;
+          padding: 0.5rem 1rem;
+          font-size: 0.875rem;
+          font-weight: 500;
           cursor: pointer;
-          transition: all 0.3s ease;
-          flex-shrink: 0;
-          position: relative;
-        }
-
-        .era-circle::before {
-          content: '';
-          position: absolute;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: var(--accent-color);
-          transition: all 0.3s ease;
-        }
-
-        .era-circle:hover {
-          border-color: var(--text-color);
-          transform: scale(1.05);
-          box-shadow: 0 0 15px rgba(212,169,113,0.4);
-        }
-
-        .era-circle:hover::before {
-          background: var(--text-color);
-          transform: scale(1.2);
-        }
-
-        .era-content {
-          flex: 1;
-          cursor: pointer;
-          padding: 1rem;
-          background: rgba(255,255,255,0.02);
-          border-radius: 8px;
-          border: 1px solid rgba(212,169,113,0.2);
-          transition: all 0.3s ease;
-        }
-
-        .era-content:hover {
-          background: rgba(212,169,113,0.08);
-          border-color: var(--accent-color);
-          transform: translateX(5px);
-        }
-
-        .era-title {
-          font-weight: 600;
+          transition: all 0.2s ease;
           color: var(--text-color);
-          margin-bottom: 0.5rem;
-          font-size: 1.1rem;
         }
 
-        .era-description {
-          font-size: 0.9rem;
-          color: var(--subtext-color);
-          line-height: 1.5;
+        .era-badge:hover {
+          background: rgba(212,169,113,0.1);
+          border-color: var(--accent-color);
         }
 
         .generate-button {
@@ -521,33 +406,20 @@ export default function BuildTourCopy() {
             display: none;
           }
           .history-section .timeline-nav {
-            gap: 1.5rem;
-            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
           }
           .history-section .timeline-nav .year {
-            padding: 0.5rem 0.8rem;
-            min-width: 50px;
+            padding: 0.375rem 0.75rem;
             font-size: 0.75rem;
           }
-          .history-section .timeline-nav::before {
-            width: 90%;
+          .era-selector {
+            gap: 0.5rem;
+            justify-content: center;
           }
-          .era-timeline::before {
-            left: 1.5rem;
-          }
-          .era-circle {
-            width: 3rem !important;
-            height: 3rem !important;
-          }
-          .era-circle::before {
-            width: 8px !important;
-            height: 8px !important;
-          }
-          .era-content {
-            padding: 0.8rem !important;
-          }
-          .era-title {
-            font-size: 1rem !important;
+          .era-badge {
+            padding: 0.375rem 0.75rem !important;
+            font-size: 0.75rem !important;
           }
         }
       `}</style>
@@ -590,22 +462,14 @@ export default function BuildTourCopy() {
               <div className="thumb-placeholder">Image</div>
             </div>
 
-            <div className="era-timeline">
-              {currentPeriod.eras.map((era, index) => (
-                <div key={era} className="era-item">
-                  <div 
-                    className="era-circle"
-                    onClick={handleGenerateTours}
-                  />
-                  <div 
-                    className="era-content"
-                    onClick={handleGenerateTours}
-                  >
-                    <div className="era-title">{era}</div>
-                    <div className="era-description">
-                      Discover tours and experiences from this fascinating historical period.
-                    </div>
-                  </div>
+            <div className="era-selector">
+              {currentPeriod.eras.map((era) => (
+                <div
+                  key={era}
+                  className="era-badge"
+                  onClick={handleGenerateTours}
+                >
+                  {era}
                 </div>
               ))}
             </div>
