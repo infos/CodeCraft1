@@ -466,7 +466,14 @@ export default function BuildTourCopy() {
           font-size: 0.8rem;
         }
 
-        /* Era Tile Gallery */
+        /* Era Tile Gallery - Top Section */
+        .era-gallery-top {
+          margin-bottom: 3rem;
+          padding-bottom: 2rem;
+          border-bottom: 1px solid rgba(212,169,113,0.3);
+          transition: all 0.3s ease;
+        }
+
         .era-gallery {
           margin-top: 3rem;
           padding-top: 2rem;
@@ -659,8 +666,53 @@ export default function BuildTourCopy() {
         }
       `}</style>
 
+      {/* Era Gallery Section - Moved to Top */}
+      <section className="era-gallery-top">
+        <h2 className="section-title">Explore {currentPeriod.title} Eras</h2>
+        <div className="era-tiles-container">
+          <button 
+            className="era-scroll-arrow left" 
+            onClick={() => scrollEraGallery('left')}
+          >
+            ←
+          </button>
+          <button 
+            className="era-scroll-arrow right" 
+            onClick={() => scrollEraGallery('right')}
+          >
+            →
+          </button>
+          <div className="era-tiles">
+            {currentPeriod.eraDetails.map((era, index) => (
+              <div 
+                key={`${currentPeriod.period}-${era.name}`} 
+                className="era-tile"
+                onClick={() => {
+                  // Generate tours specifically for this era
+                  const filterData = {
+                    selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
+                    selectedEras: [era.name],
+                    selectedLocations: []
+                  };
+                  generateToursMutation.mutate(filterData);
+                }}
+              >
+                <div className="era-tile-image">
+                  Historical Image - {era.name}
+                </div>
+                <div className="era-tile-content">
+                  <div className="era-tile-year">{era.year}</div>
+                  <div className="era-tile-title">{era.title}</div>
+                  <div className="era-tile-description">{era.description}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="history-section">
-        <h2 className="section-title">Notre histoire</h2>
+        <h2 className="section-title">Historical Periods</h2>
         
         <div className="timeline-nav">
           {historyData.map((periodData, index) => (
@@ -730,50 +782,7 @@ export default function BuildTourCopy() {
           </div>
         </div>
 
-        {/* Era Gallery Section - Filtered by Current Period */}
-        <div className="era-gallery">
-          <h3 className="era-gallery-title">Explore {currentPeriod.title} Eras</h3>
-          <div className="era-tiles-container">
-            <button 
-              className="era-scroll-arrow left" 
-              onClick={() => scrollEraGallery('left')}
-            >
-              ←
-            </button>
-            <button 
-              className="era-scroll-arrow right" 
-              onClick={() => scrollEraGallery('right')}
-            >
-              →
-            </button>
-            <div className="era-tiles">
-              {currentPeriod.eraDetails.map((era, index) => (
-                <div 
-                  key={`${currentPeriod.period}-${era.name}`} 
-                  className="era-tile"
-                  onClick={() => {
-                    // Generate tours specifically for this era
-                    const filterData = {
-                      selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
-                      selectedEras: [era.name],
-                      selectedLocations: []
-                    };
-                    generateToursMutation.mutate(filterData);
-                  }}
-                >
-                  <div className="era-tile-image">
-                    Historical Image - {era.name}
-                  </div>
-                  <div className="era-tile-content">
-                    <div className="era-tile-year">{era.year}</div>
-                    <div className="era-tile-title">{era.title}</div>
-                    <div className="era-tile-description">{era.description}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+
 
         {/* Generated Tours Section */}
         {showGeneratedTours && generatedTours.length > 0 && (
