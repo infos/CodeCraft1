@@ -14,230 +14,110 @@ export default function BuildTourCopy() {
 
   const queryClient = useQueryClient();
 
-  // Historical periods data matching the provided structure
+  const generateToursMutation = useMutation({
+    mutationFn: async (filterData: any) => {
+      const response = await fetch('/api/generate-tours', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(filterData),
+      });
+      if (!response.ok) throw new Error('Failed to generate tours');
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setGeneratedTours(data.tours || []);
+      setShowGeneratedTours(true);
+      // Initialize duration state for new tours
+      const initialDurations: Record<string, string> = {};
+      (data.tours || []).forEach((tour: any) => {
+        if (tour.id && tour.defaultDuration) {
+          initialDurations[tour.id] = tour.defaultDuration;
+        }
+      });
+      setSelectedDurations(prev => ({ ...prev, ...initialDurations }));
+    },
+    onError: (error) => {
+      console.error('Error generating tours:', error);
+    },
+  });
+
+  // Historical data with detailed era information
   const historyData = [
     {
-      period: "Ancient",
-      title: "Ancient Civilizations",
-      description: "Explore the rich heritage and cultural treasures of ancient civilizations. Discover archaeological marvels, historical sites that shaped our world through Mesopotamian, Egyptian, and early Mediterranean cultures.",
-      eras: [
-        'Ancient Near Eastern',
-        'Ancient Egypt',
-        'Middle Kingdom of Egypt',
-        'New Kingdom of Egypt',
-      ],
+      period: "Prehistoric",
+      title: "Prehistoric Era",
+      eras: ["Stone Age", "Bronze Age", "Iron Age"],
       eraDetails: [
-        {
-          name: 'Ancient Near Eastern',
-          year: '3500 BCE',
-          title: 'Mesopotamian Civilizations',
-          description: 'Discover the cradle of civilization where writing, cities, and complex societies first emerged in the fertile lands between the Tigris and Euphrates rivers.'
-        },
-        {
-          name: 'Ancient Egypt',
-          year: '3100 BCE',
-          title: 'Pharaonic Egypt',
-          description: 'Experience the grandeur of ancient Egypt with its magnificent pyramids, temples, and the mysteries of pharaohs along the life-giving Nile River.'
-        },
-        {
-          name: 'Middle Kingdom of Egypt',
-          year: '2055 BCE',
-          title: 'Egypt\'s Classical Age',
-          description: 'Explore Egypt\'s golden age of literature, art, and architecture when the kingdom reunited and flourished under strong pharaonic rule.'
-        },
-        {
-          name: 'New Kingdom of Egypt',
-          year: '1550 BCE',
-          title: 'Empire of the Pharaohs',
-          description: 'Witness Egypt at its imperial peak with famous pharaohs like Tutankhamun, Ramesses II, and the magnificent temples of Luxor and Abu Simbel.'
-        }
+        { name: "Stone Age", year: "3.3M - 3300 BCE", title: "Dawn of Humanity", description: "First tools and cave paintings" },
+        { name: "Bronze Age", year: "3300 - 1200 BCE", title: "Metal Revolution", description: "Bronze working and early civilizations" },
+        { name: "Iron Age", year: "1200 - 550 BCE", title: "Iron Mastery", description: "Advanced metallurgy and empires" }
       ]
     },
     {
-      period: "Classical", 
-      title: "Classical Antiquity",
-      description: "Experience the grandeur of classical antiquity through Greece and Rome's greatest achievements. Witness the birth of democracy, philosophy, and architectural marvels that influence us today.",
-      eras: [
-        'Ancient Greece',
-        'Ancient Rome', 
-        'Hellenistic Period',
-        'Ancient India (Mauryan and Gupta Periods)',
-      ],
+      period: "Ancient",
+      title: "Ancient Civilizations",
+      eras: ["Ancient Egypt", "Ancient Mesopotamia", "Ancient Greece", "Ancient Rome"],
       eraDetails: [
-        {
-          name: 'Ancient Greece',
-          year: '800 BCE',
-          title: 'Birthplace of Democracy',
-          description: 'Explore the origins of Western civilization through Athens, Sparta, and the philosophical foundations that shaped our modern world.'
-        },
-        {
-          name: 'Ancient Rome',
-          year: '753 BCE',
-          title: 'The Eternal City',
-          description: 'Walk through the empire that dominated the Mediterranean for centuries, from the Roman Forum to the Colosseum and Pantheon.'
-        },
-        {
-          name: 'Hellenistic Period',
-          year: '323 BCE',
-          title: 'Alexander\'s Legacy',
-          description: 'Discover the cultural fusion that followed Alexander the Great\'s conquests, blending Greek, Persian, and Egyptian civilizations.'
-        },
-        {
-          name: 'Ancient India (Mauryan and Gupta Periods)',
-          year: '321 BCE',
-          title: 'Golden Age of India',
-          description: 'Experience the flourishing of Buddhism, art, and science during India\'s most prosperous ancient periods.'
-        }
+        { name: "Ancient Egypt", year: "3100 - 30 BCE", title: "Land of Pharaohs", description: "Pyramids, mummies, and Nile civilization" },
+        { name: "Ancient Mesopotamia", year: "3500 - 539 BCE", title: "Cradle of Civilization", description: "Sumerians, Babylonians, and Assyrians" },
+        { name: "Ancient Greece", year: "800 - 146 BCE", title: "Birthplace of Democracy", description: "Philosophy, art, and Olympic Games" },
+        { name: "Ancient Rome", year: "753 BCE - 476 CE", title: "The Eternal Empire", description: "Gladiators, aqueducts, and conquest" }
+      ]
+    },
+    {
+      period: "Classical",
+      title: "Classical Antiquity",
+      eras: ["Roman Empire", "Byzantine Empire", "Ancient China", "Ancient India"],
+      eraDetails: [
+        { name: "Roman Empire", year: "27 BCE - 476 CE", title: "Imperial Rome", description: "Peak of Roman power and engineering" },
+        { name: "Byzantine Empire", year: "330 - 1453 CE", title: "Eastern Rome", description: "Orthodox Christianity and Constantinople" },
+        { name: "Ancient China", year: "221 BCE - 220 CE", title: "Imperial Unity", description: "Great Wall and Silk Road" },
+        { name: "Ancient India", year: "600 BCE - 600 CE", title: "Golden Age", description: "Buddhism, Hinduism, and the Gupta Empire" }
       ]
     },
     {
       period: "Medieval",
-      title: "Medieval Period", 
-      description: "Journey through the medieval world of castles, cathedrals, and cultural exchange across continents. Discover the rich traditions of Byzantine, European, and Silk Road civilizations.",
-      eras: [
-        'Byzantine',
-        'Medieval Europe',
-        'Sasanian Empire',
-        'Silk Road Trade Era'
-      ],
+      title: "Medieval Period",
+      eras: ["Early Middle Ages", "High Middle Ages", "Late Middle Ages"],
       eraDetails: [
-        {
-          name: 'Byzantine',
-          year: '330 CE',
-          title: 'Eastern Roman Empire',
-          description: 'Explore the magnificent continuation of Roman civilization in Constantinople, with stunning mosaics, architecture, and Orthodox Christianity.'
-        },
-        {
-          name: 'Medieval Europe',
-          year: '476 CE',
-          title: 'Age of Knights and Castles',
-          description: 'Journey through feudal Europe with its magnificent cathedrals, fortified castles, and the rise of medieval towns and universities.'
-        },
-        {
-          name: 'Sasanian Empire',
-          year: '224 CE',
-          title: 'Persian Renaissance',
-          description: 'Discover the last great Persian empire before Islam, known for its art, architecture, and cultural achievements in ancient Iran.'
-        },
-        {
-          name: 'Silk Road Trade Era',
-          year: '130 BCE',
-          title: 'Bridge Between Worlds',
-          description: 'Follow the ancient trade routes that connected East and West, facilitating cultural exchange and commerce across continents.'
-        }
+        { name: "Early Middle Ages", year: "476 - 1000 CE", title: "Dark Ages", description: "Fall of Rome and rise of kingdoms" },
+        { name: "High Middle Ages", year: "1000 - 1300 CE", title: "Age of Faith", description: "Crusades, cathedrals, and chivalry" },
+        { name: "Late Middle Ages", year: "1300 - 1500 CE", title: "Time of Change", description: "Black Death, Renaissance dawn" }
       ]
     },
     {
       period: "Renaissance",
-      title: "Renaissance",
-      description: "The Renaissance brought revolutionary changes in art, science, and culture. Witness the rebirth of classical learning and artistic achievement that transformed European civilization.",
-      eras: [
-        'Renaissance'
-      ],
+      title: "Renaissance Era",
+      eras: ["Italian Renaissance", "Northern Renaissance", "Age of Exploration"],
       eraDetails: [
-        {
-          name: 'Renaissance',
-          year: '1400 CE',
-          title: 'Rebirth of Classical Learning',
-          description: 'Experience the cultural revolution that transformed Europe through art, science, and humanism in Florence, Rome, and beyond.'
-        }
+        { name: "Italian Renaissance", year: "1400 - 1600 CE", title: "Rebirth of Art", description: "Da Vinci, Michelangelo, and humanism" },
+        { name: "Northern Renaissance", year: "1450 - 1600 CE", title: "Cultural Flowering", description: "Printing press and Protestant Reformation" },
+        { name: "Age of Exploration", year: "1400 - 1600 CE", title: "New Worlds", description: "Columbus, Magellan, and discovery" }
       ]
     },
     {
       period: "Modern",
       title: "Modern Era",
-      description: "The modern era ushered in new technologies, exploration, and enlightenment thinking that continues to influence our world today through scientific revolution and global exploration.",
-      eras: [
-        'Age of Exploration',
-        'Enlightenment', 
-        'Georgian Era'
-      ],
+      eras: ["Industrial Revolution", "World Wars", "Space Age"],
       eraDetails: [
-        {
-          name: 'Age of Exploration',
-          year: '1400 CE',
-          title: 'Discovery of New Worlds',
-          description: 'Join the great voyages of discovery that connected continents and changed world history through maritime exploration.'
-        },
-        {
-          name: 'Enlightenment',
-          year: '1685 CE',
-          title: 'Age of Reason',
-          description: 'Explore the intellectual revolution that emphasized reason, science, and individual rights, shaping modern democratic societies.'
-        },
-        {
-          name: 'Georgian Era',
-          year: '1714 CE',
-          title: 'British Golden Age',
-          description: 'Discover the elegant architecture, literature, and social changes of Georgian Britain during its rise as a global power.'
-        }
+        { name: "Industrial Revolution", year: "1760 - 1840 CE", title: "Machine Age", description: "Steam power and factory systems" },
+        { name: "World Wars", year: "1914 - 1945 CE", title: "Global Conflict", description: "Two world wars reshape the globe" },
+        { name: "Space Age", year: "1957 - Present", title: "Beyond Earth", description: "Moon landing and space exploration" }
       ]
     }
   ];
 
-  const generateToursMutation = useMutation({
-    mutationFn: async (filters: any) => {
-      const response = await fetch('/api/generate-tours', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(filters),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to generate tours');
-      }
-      
-      const data = await response.json();
-      return data.tours;
-    },
-    onSuccess: (tours) => {
-      setGeneratedTours(tours);
-      setShowGeneratedTours(true);
-      
-      // Store in session storage
-      sessionStorage.setItem('generatedTours-copy', JSON.stringify(tours));
-    },
-    onError: (error: any) => {
-      alert(`Tour generation failed: ${error.message}`);
-    },
-  });
-
-  // Load tours from session storage on mount
-  useEffect(() => {
-    const stored = sessionStorage.getItem('generatedTours-copy');
-    if (stored) {
-      const tours = JSON.parse(stored);
-      setGeneratedTours(tours);
-      setShowGeneratedTours(true);
-    }
-  }, []);
-
-  const handleGenerateTours = () => {
-    const currentPeriod = historyData[currentIndex];
-    const filterData = {
-      selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
-      selectedEras: currentPeriod.eras,
-      selectedLocations: []
-    };
-    
-    generateToursMutation.mutate(filterData);
-  };
-
-  const handleDurationChange = (tourId: string, duration: string) => {
+  const handleDurationChange = (tourId: string, newDuration: string) => {
     setSelectedDurations(prev => ({
       ...prev,
-      [tourId]: duration
+      [tourId]: newDuration
     }));
   };
 
   const getCurrentItinerary = (tour: any) => {
-    if (!tour.durationOptions) return tour.itinerary || [];
-    
     const currentDuration = selectedDurations[tour.id] || tour.defaultDuration || tour.duration;
-    const option = tour.durationOptions.find((opt: any) => opt.duration === currentDuration);
-    return option ? option.itinerary : [];
+    const durationOption = tour.durationOptions?.find((opt: any) => opt.duration === currentDuration);
+    return durationOption?.itinerary || tour.itinerary || [];
   };
 
   const getCurrentDuration = (tour: any) => {
@@ -262,10 +142,19 @@ export default function BuildTourCopy() {
     }, 100);
   };
 
+  const handleGenerateTours = () => {
+    const filterData = {
+      selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
+      selectedEras: currentPeriod.eras,
+      selectedLocations: []
+    };
+    generateToursMutation.mutate(filterData);
+  };
+
   const scrollEraGallery = (direction: 'left' | 'right') => {
     const gallery = document.querySelector('.era-tiles') as HTMLElement;
     if (gallery) {
-      const scrollAmount = 420; // Width of tile plus gap
+      const scrollAmount = 320; // Width of one tile plus gap
       const newScrollLeft = direction === 'left' 
         ? gallery.scrollLeft - scrollAmount 
         : gallery.scrollLeft + scrollAmount;
@@ -276,7 +165,7 @@ export default function BuildTourCopy() {
   const currentPeriod = historyData[currentIndex];
 
   return (
-    <div>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-color)', color: 'var(--text-color)' }}>
       <style>{`
         /*────────────────────────────────────────────────────────────────────────────
            Variables
@@ -288,177 +177,116 @@ export default function BuildTourCopy() {
           --subtext-color: #ccc;
           --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
           --nav-font-size: 0.9rem;
-          --heading-font-size: 2.5rem;
-          --year-font-size: 1.2rem;
-          --text-font-size: 1rem;
-          --spacing: 1.5rem;
         }
 
-        /*────────────────────────────────────────────────────────────────────────────
-           Global
-        ────────────────────────────────────────────────────────────────────────────*/
         body {
           margin: 0;
           padding: 0;
           background: var(--bg-color);
           color: var(--text-color);
           font-family: var(--font-sans);
-        }
-        img {
-          max-width: 100%;
-          display: block;
+          line-height: 1.6;
         }
 
         /*────────────────────────────────────────────────────────────────────────────
-           Section Wrapper
+           Layout Styles
         ────────────────────────────────────────────────────────────────────────────*/
         .history-section {
-          padding: var(--spacing) 2rem;
-          max-width: 1200px;
+          padding: 2rem;
+          max-width: 1400px;
           margin: 0 auto;
-          position: relative;
-          background: var(--bg-color);
-          min-height: 100vh;
         }
 
-        /*────────────────────────────────────────────────────────────────────────────
-           Title
-        ────────────────────────────────────────────────────────────────────────────*/
-        .history-section .section-title {
+        .section-title {
+          font-size: 3rem;
+          font-weight: 100;
           text-align: center;
-          font-size: var(--heading-font-size);
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          margin-bottom: var(--spacing);
+          margin-bottom: 3rem;
           color: var(--accent-color);
-          font-weight: normal;
+          letter-spacing: 2px;
+          text-transform: uppercase;
         }
 
         /*────────────────────────────────────────────────────────────────────────────
-           Timeline Nav - Badge Style
+           Timeline Navigation
         ────────────────────────────────────────────────────────────────────────────*/
-        .history-section .timeline-nav {
+        .timeline-nav {
           display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: var(--spacing);
           flex-wrap: wrap;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 2rem;
         }
 
-        .history-section .timeline-nav .year {
-          display: inline-flex;
-          align-items: center;
-          border-radius: 9999px;
-          border: 1px solid rgba(212,169,113,0.5);
-          background: transparent;
-          padding: 0.5rem 1rem;
-          font-size: 0.875rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          color: var(--text-color);
-        }
-
-        .history-section .timeline-nav .year:hover {
+        .year {
+          padding: 0.75rem 1.5rem;
           background: rgba(255,255,255,0.1);
-          border-color: var(--accent-color);
+          border: 1px solid rgba(212,169,113,0.3);
+          border-radius: 25px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: var(--nav-font-size);
+          font-weight: 300;
+          letter-spacing: 1px;
+          text-transform: uppercase;
         }
 
-        .history-section .timeline-nav .year.active {
+        .year:hover {
+          background: rgba(212,169,113,0.2);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .year.active {
           background: var(--accent-color);
           color: var(--bg-color);
           border-color: var(--accent-color);
+          font-weight: 400;
         }
 
         /*────────────────────────────────────────────────────────────────────────────
-           Controls (Prev/Next)
+           Content Section
         ────────────────────────────────────────────────────────────────────────────*/
-        .history-section .nav-arrow {
-          position: absolute;
-          top: 50%;
-          width: 2rem;
-          height: 2rem;
-          background: rgba(255,255,255,0.1);
-          border: none;
-          color: var(--accent-color);
-          font-size: 1.5rem;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transform: translateY(-50%);
-          transition: background 0.2s;
-        }
-
-        .history-section .nav-arrow:hover {
-          background: rgba(255,255,255,0.2);
-        }
-
-        .history-section .nav-arrow.prev {
-          left: 1rem;
-        }
-
-        .history-section .nav-arrow.next {
-          right: 1rem;
-        }
-
-        /*────────────────────────────────────────────────────────────────────────────
-           Content Area
-        ────────────────────────────────────────────────────────────────────────────*/
-        .history-section .content-wrapper {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: var(--spacing);
-          align-items: start;
-          margin-top: var(--spacing);
-        }
-
-        /* Main Image */
-        .history-section .main-image {
+        .content-section {
           position: relative;
-          overflow: hidden;
-          border-radius: 4px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-          background: rgba(255,255,255,0.05);
-          aspect-ratio: 4/3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--subtext-color);
+          background: rgba(255,255,255,0.02);
+          border-radius: 8px;
+          border: 1px solid rgba(212,169,113,0.2);
+          padding: 2rem;
+          margin: 2rem 0;
         }
 
-        /* Text & Small Gallery */
-        .history-section .text-gallery {
-          display: flex;
-          flex-direction: column;
-          gap: var(--spacing);
-        }
-
-        .history-section .text-gallery .year-heading {
-          font-size: var(--year-font-size);
-          font-weight: bold;
-          margin: 0;
+        .content-title {
+          font-size: 2.5rem;
+          font-weight: 200;
           color: var(--accent-color);
+          margin-bottom: 1rem;
+          text-align: center;
         }
 
-        .history-section .text-gallery .description {
-          font-size: var(--text-font-size);
-          line-height: 1.6;
+        .content-subtitle {
+          font-size: 1.2rem;
           color: var(--subtext-color);
+          text-align: center;
+          margin-bottom: 2rem;
+          font-weight: 300;
         }
 
-        /* Small gallery grid */
-        .history-section .text-gallery .thumbs {
-          display: flex;
-          gap: 0.5rem;
+        /*────────────────────────────────────────────────────────────────────────────
+           Thumbnail Gallery
+        ────────────────────────────────────────────────────────────────────────────*/
+        .thumb-gallery {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 1rem;
+          margin: 2rem 0;
         }
 
-        .history-section .text-gallery .thumbs .thumb-placeholder {
-          flex: 1;
+        .thumb-placeholder {
+          aspect-ratio: 16/9;
+          background: rgba(212,169,113,0.1);
+          border: 1px solid rgba(212,169,113,0.3);
           border-radius: 4px;
-          height: 100px;
-          background: rgba(255,255,255,0.05);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -466,11 +294,103 @@ export default function BuildTourCopy() {
           font-size: 0.8rem;
         }
 
-        /* Era Tile Gallery - Top Section */
-        .era-gallery-top {
-          margin-bottom: 3rem;
-          padding-bottom: 2rem;
-          border-bottom: 1px solid rgba(212,169,113,0.3);
+        /*────────────────────────────────────────────────────────────────────────────
+           Era Selection
+        ────────────────────────────────────────────────────────────────────────────*/
+        .era-selector {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          justify-content: center;
+          margin: 2rem 0;
+        }
+
+        .era-badge {
+          padding: 0.5rem 1rem;
+          background: rgba(212,169,113,0.1);
+          border: 1px solid rgba(212,169,113,0.4);
+          border-radius: 20px;
+          color: var(--accent-color);
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 300;
+        }
+
+        .era-badge:hover {
+          background: rgba(212,169,113,0.2);
+          transform: translateY(-1px);
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /*────────────────────────────────────────────────────────────────────────────
+           Generate Button
+        ────────────────────────────────────────────────────────────────────────────*/
+        .generate-button {
+          display: block;
+          width: 300px;
+          margin: 2rem auto;
+          padding: 1rem 2rem;
+          background: var(--accent-color);
+          color: var(--bg-color);
+          border: none;
+          border-radius: 25px;
+          font-size: 1rem;
+          font-weight: 400;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .generate-button:hover:not(:disabled) {
+          background: #e6bb8a;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .generate-button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        /*────────────────────────────────────────────────────────────────────────────
+           Navigation Arrows
+        ────────────────────────────────────────────────────────────────────────────*/
+        .nav-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(212,169,113,0.2);
+          color: var(--accent-color);
+          border: 1px solid rgba(212,169,113,0.4);
+          border-radius: 50%;
+          width: 3rem;
+          height: 3rem;
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          z-index: 10;
+        }
+
+        .nav-arrow:hover {
+          background: rgba(212,169,113,0.4);
+          transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.prev {
+          left: -1.5rem;
+        }
+
+        .nav-arrow.next {
+          right: -1.5rem;
+        }
+
+        /* Era Gallery Below Historical Periods */
+        .era-gallery-below-periods {
+          margin-top: 2rem;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(212,169,113,0.2);
           transition: all 0.3s ease;
         }
 
@@ -482,11 +402,12 @@ export default function BuildTourCopy() {
         }
 
         .era-gallery-title {
-          font-size: 1.5rem;
-          font-weight: normal;
+          font-size: 2rem;
+          font-weight: 200;
           color: var(--accent-color);
-          margin-bottom: 1.5rem;
           text-align: center;
+          margin-bottom: 2rem;
+          letter-spacing: 1px;
         }
 
         .era-tiles-container {
@@ -496,10 +417,10 @@ export default function BuildTourCopy() {
 
         .era-tiles {
           display: flex;
-          gap: 2rem;
+          gap: 1.5rem;
           overflow-x: auto;
-          padding: 1rem 0;
           scroll-behavior: smooth;
+          padding: 1rem 0;
           scrollbar-width: none;
           -ms-overflow-style: none;
         }
@@ -509,33 +430,29 @@ export default function BuildTourCopy() {
         }
 
         .era-tile {
-          flex: 0 0 auto;
-          width: 400px;
-          background: rgba(255,255,255,0.02);
+          flex: 0 0 350px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(212,169,113,0.3);
           border-radius: 8px;
           overflow: hidden;
           cursor: pointer;
           transition: all 0.3s ease;
-          border: 1px solid rgba(212,169,113,0.2);
         }
 
         .era-tile:hover {
-          transform: translateY(-5px);
+          transform: translateY(-4px);
+          box-shadow: 0 8px 16px rgba(0,0,0,0.3);
           border-color: var(--accent-color);
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .era-tile-image {
-          width: 100%;
-          height: 200px;
-          background: rgba(255,255,255,0.05);
+          height: 150px;
+          background: rgba(212,169,113,0.1);
           display: flex;
           align-items: center;
           justify-content: center;
           color: var(--subtext-color);
           font-size: 0.9rem;
-          position: relative;
-          overflow: hidden;
         }
 
         .era-tile-content {
@@ -544,104 +461,66 @@ export default function BuildTourCopy() {
 
         .era-tile-year {
           font-size: 2rem;
-          font-weight: bold;
+          font-weight: 300;
           color: var(--accent-color);
-          margin-bottom: 1rem;
-        }
-
-        .era-tile-title {
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: var(--text-color);
           margin-bottom: 0.5rem;
         }
 
+        .era-tile-title {
+          font-size: 1.2rem;
+          font-weight: 400;
+          color: var(--text-color);
+          margin-bottom: 0.75rem;
+        }
+
         .era-tile-description {
-          font-size: 0.9rem;
           color: var(--subtext-color);
-          line-height: 1.5;
+          font-size: 0.8rem;
         }
 
         .era-scroll-arrow {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
+          background: rgba(212,169,113,0.3);
+          color: var(--accent-color);
+          border: 1px solid rgba(212,169,113,0.5);
+          border-radius: 50%;
           width: 3rem;
           height: 3rem;
-          background: rgba(212,169,113,0.8);
-          border: none;
-          border-radius: 50%;
-          color: var(--bg-color);
           font-size: 1.2rem;
           cursor: pointer;
-          transition: all 0.2s ease;
-          z-index: 2;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          transition: all 0.3s ease;
+          z-index: 10;
         }
 
         .era-scroll-arrow:hover {
-          background: var(--accent-color);
+          background: rgba(212,169,113,0.5);
           transform: translateY(-50%) scale(1.1);
         }
 
         .era-scroll-arrow.left {
-          left: 1rem;
+          left: -1.5rem;
         }
 
         .era-scroll-arrow.right {
-          right: 1rem;
-        }
-
-        .generate-button {
-          background: var(--accent-color);
-          color: var(--bg-color);
-          border: none;
-          padding: 1rem 2rem;
-          font-size: 1rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s;
-          margin-top: 1.5rem;
-          width: 100%;
-          border-radius: 4px;
-        }
-
-        .generate-button:hover {
-          background: #c19958;
-        }
-
-        .generate-button:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
+          right: -1.5rem;
         }
 
         /*────────────────────────────────────────────────────────────────────────────
-           Responsive
+           Responsive Design
         ────────────────────────────────────────────────────────────────────────────*/
-        @media (max-width: 900px) {
-          .history-section .content-wrapper {
-            grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+          .section-title {
+            font-size: 2rem;
           }
-          .history-section .text-gallery {
-            order: 2;
+          .content-title {
+            font-size: 2rem;
           }
-          .history-section .main-image {
-            order: 1;
-          }
-          .history-section .nav-arrow {
+          .nav-arrow {
             display: none;
           }
-          .history-section .timeline-nav {
-            gap: 0.75rem;
-            justify-content: center;
-          }
-          .history-section .timeline-nav .year {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.75rem;
-          }
-          .era-selector {
+          .timeline-nav {
             gap: 0.5rem;
             justify-content: center;
           }
@@ -666,51 +545,6 @@ export default function BuildTourCopy() {
         }
       `}</style>
 
-      {/* Era Gallery Section - Moved to Top */}
-      <section className="era-gallery-top">
-        <h2 className="section-title">Explore {currentPeriod.title} Eras</h2>
-        <div className="era-tiles-container">
-          <button 
-            className="era-scroll-arrow left" 
-            onClick={() => scrollEraGallery('left')}
-          >
-            ←
-          </button>
-          <button 
-            className="era-scroll-arrow right" 
-            onClick={() => scrollEraGallery('right')}
-          >
-            →
-          </button>
-          <div className="era-tiles">
-            {currentPeriod.eraDetails.map((era, index) => (
-              <div 
-                key={`${currentPeriod.period}-${era.name}`} 
-                className="era-tile"
-                onClick={() => {
-                  // Generate tours specifically for this era
-                  const filterData = {
-                    selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
-                    selectedEras: [era.name],
-                    selectedLocations: []
-                  };
-                  generateToursMutation.mutate(filterData);
-                }}
-              >
-                <div className="era-tile-image">
-                  Historical Image - {era.name}
-                </div>
-                <div className="era-tile-content">
-                  <div className="era-tile-year">{era.year}</div>
-                  <div className="era-tile-title">{era.title}</div>
-                  <div className="era-tile-description">{era.description}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="history-section">
         <h2 className="section-title">Historical Periods</h2>
         
@@ -732,6 +566,51 @@ export default function BuildTourCopy() {
             </div>
           ))}
         </div>
+
+        {/* Era Gallery Section - Below Historical Periods */}
+        <div className="era-gallery-below-periods">
+          <h3 className="era-gallery-title">Explore {currentPeriod.title} Eras</h3>
+          <div className="era-tiles-container">
+            <button 
+              className="era-scroll-arrow left" 
+              onClick={() => scrollEraGallery('left')}
+            >
+              ←
+            </button>
+            <button 
+              className="era-scroll-arrow right" 
+              onClick={() => scrollEraGallery('right')}
+            >
+              →
+            </button>
+            <div className="era-tiles">
+              {currentPeriod.eraDetails.map((era, index) => (
+                <div 
+                  key={`${currentPeriod.period}-${era.name}`} 
+                  className="era-tile"
+                  onClick={() => {
+                    // Generate tours specifically for this era
+                    const filterData = {
+                      selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
+                      selectedEras: [era.name],
+                      selectedLocations: []
+                    };
+                    generateToursMutation.mutate(filterData);
+                  }}
+                >
+                  <div className="era-tile-image">
+                    Historical Image - {era.name}
+                  </div>
+                  <div className="era-tile-content">
+                    <div className="era-tile-year">{era.year}</div>
+                    <div className="era-tile-title">{era.title}</div>
+                    <div className="era-tile-description">{era.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         
         <button className="nav-arrow prev" onClick={prevPeriod}>
           ←
@@ -739,57 +618,53 @@ export default function BuildTourCopy() {
         <button className="nav-arrow next" onClick={nextPeriod}>
           →
         </button>
-        
-        <div className="content-wrapper">
-          <div className="main-image">
-            Historical Image Placeholder
-          </div>
-          
-          <div className="text-gallery">
-            <h3 className="year-heading">{currentPeriod.title}</h3>
-            <p className="description">
-              {currentPeriod.description}
-            </p>
-            
-            <div className="thumbs">
-              <div className="thumb-placeholder">Image</div>
-              <div className="thumb-placeholder">Image</div>
-            </div>
 
-            <div className="era-selector">
-              {currentPeriod.eras.map((era) => (
-                <div
-                  key={era}
-                  className="era-badge"
-                  onClick={handleGenerateTours}
-                >
-                  {era}
-                </div>
-              ))}
-            </div>
+        <div className="content-section">
+          <h1 className="content-title">{currentPeriod.title}</h1>
+          <p className="content-subtitle">
+            Discover the fascinating world of {currentPeriod.title.toLowerCase()}
+          </p>
 
-            <button
-              className="generate-button"
-              onClick={handleGenerateTours}
-              disabled={generateToursMutation.isPending}
-            >
-              {generateToursMutation.isPending ? (
-                'Generating Tours...'
-              ) : (
-                `Generate Tours for ${currentPeriod.title}`
-              )}
-            </button>
+          <div className="thumb-gallery">
+            <div className="thumb-placeholder">Image</div>
+            <div className="thumb-placeholder">Image</div>
+            <div className="thumb-placeholder">Image</div>
+            <div className="thumb-placeholder">Image</div>
           </div>
+
+          <div className="era-selector">
+            {currentPeriod.eras.map((era) => (
+              <div
+                key={era}
+                className="era-badge"
+                onClick={handleGenerateTours}
+              >
+                {era}
+              </div>
+            ))}
+          </div>
+
+          <button
+            className="generate-button"
+            onClick={handleGenerateTours}
+            disabled={generateToursMutation.isPending}
+          >
+            {generateToursMutation.isPending ? (
+              'Generating Tours...'
+            ) : (
+              `Generate Tours for ${currentPeriod.title}`
+            )}
+          </button>
         </div>
-
-
 
         {/* Generated Tours Section */}
         {showGeneratedTours && generatedTours.length > 0 && (
           <div style={{ 
-            marginTop: '3rem', 
-            paddingTop: '2rem', 
-            borderTop: '1px solid rgba(212,169,113,0.3)' 
+            marginTop: '3rem',
+            padding: '2rem',
+            background: 'rgba(255,255,255,0.02)',
+            borderRadius: '4px',
+            border: '1px solid rgba(212,169,113,0.2)'
           }}>
             <div style={{ 
               display: 'flex', 
@@ -878,7 +753,7 @@ export default function BuildTourCopy() {
                                   value={option.duration} 
                                   style={{ color: 'var(--text-color)' }}
                                 >
-                                  {option.duration}
+                                  {option.duration} - {option.description}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -886,55 +761,39 @@ export default function BuildTourCopy() {
                         </div>
                       )}
 
+                      {/* Itinerary Preview */}
                       {currentItinerary && currentItinerary.length > 0 && (
                         <div style={{ marginBottom: '1.5rem' }}>
                           <h4 style={{ 
-                            fontSize: '0.9rem', 
+                            fontSize: '1rem', 
+                            fontWeight: 'normal', 
                             color: 'var(--accent-color)', 
-                            marginBottom: '1rem', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: '0.5rem' 
+                            marginBottom: '1rem' 
                           }}>
-                            <Calendar className="w-4 h-4" />
-                            HIGHLIGHTS
+                            Sample Itinerary ({currentDuration})
                           </h4>
                           {currentItinerary.slice(0, 2).map((day: any, dayIndex: number) => (
-                            <div 
-                              key={dayIndex} 
-                              style={{ 
-                                borderLeft: '2px solid var(--accent-color)', 
-                                paddingLeft: '1rem', 
-                                marginBottom: '1rem' 
-                              }}
-                            >
+                            <div key={dayIndex} style={{ 
+                              padding: '0.75rem', 
+                              background: 'rgba(255,255,255,0.03)', 
+                              borderRadius: '4px', 
+                              marginBottom: '0.75rem',
+                              border: '1px solid rgba(212,169,113,0.1)'
+                            }}>
                               <div style={{ 
-                                fontWeight: '500', 
-                                fontSize: '0.9rem', 
-                                color: 'var(--text-color)' 
+                                fontWeight: 'bold', 
+                                color: 'var(--accent-color)', 
+                                fontSize: '0.9rem' 
                               }}>
                                 Day {day.day}: {day.title}
                               </div>
-                              {day.sites && day.sites.length > 0 && (
-                                <div style={{ 
-                                  marginTop: '0.25rem', 
-                                  fontSize: '0.8rem', 
-                                  color: 'var(--subtext-color)' 
-                                }}>
-                                  {day.sites.map((site: any, siteIndex: number) => (
-                                    <div key={siteIndex}>• {site.name}</div>
-                                  ))}
-                                </div>
-                              )}
-                              {day.hotel && (
-                                <div style={{ 
-                                  marginTop: '0.25rem', 
-                                  fontSize: '0.8rem', 
-                                  color: 'var(--accent-color)' 
-                                }}>
-                                  🏨 {day.hotel.name}
-                                </div>
-                              )}
+                              <div style={{ 
+                                fontSize: '0.8rem', 
+                                color: 'var(--subtext-color)', 
+                                marginTop: '0.25rem' 
+                              }}>
+                                {day.description}
+                              </div>
                             </div>
                           ))}
                           {currentItinerary.length > 2 && (
