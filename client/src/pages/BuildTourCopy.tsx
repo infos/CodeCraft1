@@ -25,6 +25,32 @@ export default function BuildTourCopy() {
         'Ancient Egypt',
         'Middle Kingdom of Egypt',
         'New Kingdom of Egypt',
+      ],
+      eraDetails: [
+        {
+          name: 'Ancient Near Eastern',
+          year: '3500 BCE',
+          title: 'Mesopotamian Civilizations',
+          description: 'Discover the cradle of civilization where writing, cities, and complex societies first emerged in the fertile lands between the Tigris and Euphrates rivers.'
+        },
+        {
+          name: 'Ancient Egypt',
+          year: '3100 BCE',
+          title: 'Pharaonic Egypt',
+          description: 'Experience the grandeur of ancient Egypt with its magnificent pyramids, temples, and the mysteries of pharaohs along the life-giving Nile River.'
+        },
+        {
+          name: 'Middle Kingdom of Egypt',
+          year: '2055 BCE',
+          title: 'Egypt\'s Classical Age',
+          description: 'Explore Egypt\'s golden age of literature, art, and architecture when the kingdom reunited and flourished under strong pharaonic rule.'
+        },
+        {
+          name: 'New Kingdom of Egypt',
+          year: '1550 BCE',
+          title: 'Empire of the Pharaohs',
+          description: 'Witness Egypt at its imperial peak with famous pharaohs like Tutankhamun, Ramesses II, and the magnificent temples of Luxor and Abu Simbel.'
+        }
       ]
     },
     {
@@ -36,6 +62,32 @@ export default function BuildTourCopy() {
         'Ancient Rome', 
         'Hellenistic Period',
         'Ancient India (Mauryan and Gupta Periods)',
+      ],
+      eraDetails: [
+        {
+          name: 'Ancient Greece',
+          year: '800 BCE',
+          title: 'Birthplace of Democracy',
+          description: 'Explore the origins of Western civilization through Athens, Sparta, and the philosophical foundations that shaped our modern world.'
+        },
+        {
+          name: 'Ancient Rome',
+          year: '753 BCE',
+          title: 'The Eternal City',
+          description: 'Walk through the empire that dominated the Mediterranean for centuries, from the Roman Forum to the Colosseum and Pantheon.'
+        },
+        {
+          name: 'Hellenistic Period',
+          year: '323 BCE',
+          title: 'Alexander\'s Legacy',
+          description: 'Discover the cultural fusion that followed Alexander the Great\'s conquests, blending Greek, Persian, and Egyptian civilizations.'
+        },
+        {
+          name: 'Ancient India (Mauryan and Gupta Periods)',
+          year: '321 BCE',
+          title: 'Golden Age of India',
+          description: 'Experience the flourishing of Buddhism, art, and science during India\'s most prosperous ancient periods.'
+        }
       ]
     },
     {
@@ -47,6 +99,32 @@ export default function BuildTourCopy() {
         'Medieval Europe',
         'Sasanian Empire',
         'Silk Road Trade Era'
+      ],
+      eraDetails: [
+        {
+          name: 'Byzantine',
+          year: '330 CE',
+          title: 'Eastern Roman Empire',
+          description: 'Explore the magnificent continuation of Roman civilization in Constantinople, with stunning mosaics, architecture, and Orthodox Christianity.'
+        },
+        {
+          name: 'Medieval Europe',
+          year: '476 CE',
+          title: 'Age of Knights and Castles',
+          description: 'Journey through feudal Europe with its magnificent cathedrals, fortified castles, and the rise of medieval towns and universities.'
+        },
+        {
+          name: 'Sasanian Empire',
+          year: '224 CE',
+          title: 'Persian Renaissance',
+          description: 'Discover the last great Persian empire before Islam, known for its art, architecture, and cultural achievements in ancient Iran.'
+        },
+        {
+          name: 'Silk Road Trade Era',
+          year: '130 BCE',
+          title: 'Bridge Between Worlds',
+          description: 'Follow the ancient trade routes that connected East and West, facilitating cultural exchange and commerce across continents.'
+        }
       ]
     },
     {
@@ -55,6 +133,14 @@ export default function BuildTourCopy() {
       description: "The Renaissance brought revolutionary changes in art, science, and culture. Witness the rebirth of classical learning and artistic achievement that transformed European civilization.",
       eras: [
         'Renaissance'
+      ],
+      eraDetails: [
+        {
+          name: 'Renaissance',
+          year: '1400 CE',
+          title: 'Rebirth of Classical Learning',
+          description: 'Experience the cultural revolution that transformed Europe through art, science, and humanism in Florence, Rome, and beyond.'
+        }
       ]
     },
     {
@@ -65,6 +151,26 @@ export default function BuildTourCopy() {
         'Age of Exploration',
         'Enlightenment', 
         'Georgian Era'
+      ],
+      eraDetails: [
+        {
+          name: 'Age of Exploration',
+          year: '1400 CE',
+          title: 'Discovery of New Worlds',
+          description: 'Join the great voyages of discovery that connected continents and changed world history through maritime exploration.'
+        },
+        {
+          name: 'Enlightenment',
+          year: '1685 CE',
+          title: 'Age of Reason',
+          description: 'Explore the intellectual revolution that emphasized reason, science, and individual rights, shaping modern democratic societies.'
+        },
+        {
+          name: 'Georgian Era',
+          year: '1714 CE',
+          title: 'British Golden Age',
+          description: 'Discover the elegant architecture, literature, and social changes of Georgian Britain during its rise as a global power.'
+        }
       ]
     }
   ];
@@ -144,6 +250,17 @@ export default function BuildTourCopy() {
 
   const nextPeriod = () => {
     setCurrentIndex((prev) => (prev + 1) % historyData.length);
+  };
+
+  const scrollEraGallery = (direction: 'left' | 'right') => {
+    const gallery = document.querySelector('.era-tiles') as HTMLElement;
+    if (gallery) {
+      const scrollAmount = 420; // Width of tile plus gap
+      const newScrollLeft = direction === 'left' 
+        ? gallery.scrollLeft - scrollAmount 
+        : gallery.scrollLeft + scrollAmount;
+      gallery.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
+    }
   };
 
   const currentPeriod = historyData[currentIndex];
@@ -339,31 +456,124 @@ export default function BuildTourCopy() {
           font-size: 0.8rem;
         }
 
-        /* Era Badge Selection */
-        .era-selector {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-          margin-top: 1.5rem;
+        /* Era Tile Gallery */
+        .era-gallery {
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(212,169,113,0.3);
         }
 
-        .era-badge {
-          display: inline-flex;
+        .era-gallery-title {
+          font-size: 1.5rem;
+          font-weight: normal;
+          color: var(--accent-color);
+          margin-bottom: 1.5rem;
+          text-align: center;
+        }
+
+        .era-tiles-container {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .era-tiles {
+          display: flex;
+          gap: 2rem;
+          overflow-x: auto;
+          padding: 1rem 0;
+          scroll-behavior: smooth;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .era-tiles::-webkit-scrollbar {
+          display: none;
+        }
+
+        .era-tile {
+          flex: 0 0 auto;
+          width: 400px;
+          background: rgba(255,255,255,0.02);
+          border-radius: 8px;
+          overflow: hidden;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(212,169,113,0.2);
+        }
+
+        .era-tile:hover {
+          transform: translateY(-5px);
+          border-color: var(--accent-color);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .era-tile-image {
+          width: 100%;
+          height: 200px;
+          background: rgba(255,255,255,0.05);
+          display: flex;
           align-items: center;
-          border-radius: 9999px;
-          border: 1px solid rgba(212,169,113,0.5);
-          background: transparent;
-          padding: 0.5rem 1rem;
-          font-size: 0.875rem;
-          font-weight: 500;
+          justify-content: center;
+          color: var(--subtext-color);
+          font-size: 0.9rem;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .era-tile-content {
+          padding: 1.5rem;
+        }
+
+        .era-tile-year {
+          font-size: 2rem;
+          font-weight: bold;
+          color: var(--accent-color);
+          margin-bottom: 1rem;
+        }
+
+        .era-tile-title {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--text-color);
+          margin-bottom: 0.5rem;
+        }
+
+        .era-tile-description {
+          font-size: 0.9rem;
+          color: var(--subtext-color);
+          line-height: 1.5;
+        }
+
+        .era-scroll-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3rem;
+          height: 3rem;
+          background: rgba(212,169,113,0.8);
+          border: none;
+          border-radius: 50%;
+          color: var(--bg-color);
+          font-size: 1.2rem;
           cursor: pointer;
           transition: all 0.2s ease;
-          color: var(--text-color);
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .era-badge:hover {
-          background: rgba(212,169,113,0.1);
-          border-color: var(--accent-color);
+        .era-scroll-arrow:hover {
+          background: var(--accent-color);
+          transform: translateY(-50%) scale(1.1);
+        }
+
+        .era-scroll-arrow.left {
+          left: 1rem;
+        }
+
+        .era-scroll-arrow.right {
+          right: 1rem;
         }
 
         .generate-button {
@@ -420,6 +630,20 @@ export default function BuildTourCopy() {
           .era-badge {
             padding: 0.375rem 0.75rem !important;
             font-size: 0.75rem !important;
+          }
+          .era-tile {
+            width: 300px !important;
+          }
+          .era-tile-content {
+            padding: 1rem !important;
+          }
+          .era-tile-year {
+            font-size: 1.5rem !important;
+          }
+          .era-scroll-arrow {
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            font-size: 1rem !important;
           }
         }
       `}</style>
@@ -485,6 +709,43 @@ export default function BuildTourCopy() {
                 `Generate Tours for ${currentPeriod.title}`
               )}
             </button>
+          </div>
+        </div>
+
+        {/* Era Gallery Section */}
+        <div className="era-gallery">
+          <h3 className="era-gallery-title">Explore Historical Eras</h3>
+          <div className="era-tiles-container">
+            <button 
+              className="era-scroll-arrow left" 
+              onClick={() => scrollEraGallery('left')}
+            >
+              ←
+            </button>
+            <button 
+              className="era-scroll-arrow right" 
+              onClick={() => scrollEraGallery('right')}
+            >
+              →
+            </button>
+            <div className="era-tiles">
+              {currentPeriod.eraDetails.map((era, index) => (
+                <div 
+                  key={era.name} 
+                  className="era-tile"
+                  onClick={handleGenerateTours}
+                >
+                  <div className="era-tile-image">
+                    Historical Image - {era.name}
+                  </div>
+                  <div className="era-tile-content">
+                    <div className="era-tile-year">{era.year}</div>
+                    <div className="era-tile-title">{era.title}</div>
+                    <div className="era-tile-description">{era.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
