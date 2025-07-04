@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar, Loader2, Sparkles, XIcon } from 'lucide-react';
+import { Calendar, Loader2, Sparkles, XIcon, Mountain, Crown, Castle, Palette, Globe, Clock } from 'lucide-react';
 import { Link } from 'wouter';
 
 export default function BuildTourCopy() {
@@ -41,11 +41,12 @@ export default function BuildTourCopy() {
     },
   });
 
-  // Historical data with detailed era information
+  // Historical data with detailed era information and icons
   const historyData = [
     {
       period: "Prehistoric",
       title: "Prehistoric Era",
+      icon: Mountain,
       eras: ["Stone Age", "Bronze Age", "Iron Age"],
       eraDetails: [
         { name: "Stone Age", year: "3.3M - 3300 BCE", title: "Dawn of Humanity", description: "First tools and cave paintings" },
@@ -56,17 +57,19 @@ export default function BuildTourCopy() {
     {
       period: "Ancient",
       title: "Ancient Civilizations",
-      eras: ["Ancient Egypt", "Ancient Mesopotamia", "Ancient Greece", "Ancient Rome"],
+      icon: Crown,
+      eras: ["Egypt", "Mesopotamia", "Greece", "Rome"],
       eraDetails: [
-        { name: "Ancient Egypt", year: "3100 - 30 BCE", title: "Land of Pharaohs", description: "Pyramids, mummies, and Nile civilization" },
-        { name: "Ancient Mesopotamia", year: "3500 - 539 BCE", title: "Cradle of Civilization", description: "Sumerians, Babylonians, and Assyrians" },
-        { name: "Ancient Greece", year: "800 - 146 BCE", title: "Birthplace of Democracy", description: "Philosophy, art, and Olympic Games" },
-        { name: "Ancient Rome", year: "753 BCE - 476 CE", title: "The Eternal Empire", description: "Gladiators, aqueducts, and conquest" }
+        { name: "Egypt", year: "3100 - 30 BCE", title: "Land of Pharaohs", description: "Pyramids, mummies, and Nile civilization" },
+        { name: "Mesopotamia", year: "3500 - 539 BCE", title: "Cradle of Civilization", description: "Sumerians, Babylonians, and Assyrians" },
+        { name: "Greece", year: "800 - 146 BCE", title: "Birthplace of Democracy", description: "Philosophy, art, and Olympic Games" },
+        { name: "Rome", year: "753 BCE - 476 CE", title: "The Eternal Empire", description: "Gladiators, aqueducts, and conquest" }
       ]
     },
     {
       period: "Classical",
       title: "Classical Antiquity",
+      icon: Crown,
       eras: ["Roman Empire", "Byzantine Empire", "Ancient China", "Ancient India"],
       eraDetails: [
         { name: "Roman Empire", year: "27 BCE - 476 CE", title: "Imperial Rome", description: "Peak of Roman power and engineering" },
@@ -78,6 +81,7 @@ export default function BuildTourCopy() {
     {
       period: "Medieval",
       title: "Medieval Period",
+      icon: Castle,
       eras: ["Early Middle Ages", "High Middle Ages", "Late Middle Ages"],
       eraDetails: [
         { name: "Early Middle Ages", year: "476 - 1000 CE", title: "Dark Ages", description: "Fall of Rome and rise of kingdoms" },
@@ -88,6 +92,7 @@ export default function BuildTourCopy() {
     {
       period: "Renaissance",
       title: "Renaissance Era",
+      icon: Palette,
       eras: ["Italian Renaissance", "Northern Renaissance", "Age of Exploration"],
       eraDetails: [
         { name: "Italian Renaissance", year: "1400 - 1600 CE", title: "Rebirth of Art", description: "Da Vinci, Michelangelo, and humanism" },
@@ -98,6 +103,7 @@ export default function BuildTourCopy() {
     {
       period: "Modern",
       title: "Modern Era",
+      icon: Globe,
       eras: ["Industrial Revolution", "World Wars", "Space Age"],
       eraDetails: [
         { name: "Industrial Revolution", year: "1760 - 1840 CE", title: "Machine Age", description: "Steam power and factory systems" },
@@ -198,12 +204,12 @@ export default function BuildTourCopy() {
         }
 
         .section-title {
-          font-size: 3rem;
-          font-weight: 100;
+          font-size: 1.8rem;
+          font-weight: 300;
           text-align: center;
-          margin-bottom: 3rem;
+          margin-bottom: 2rem;
           color: var(--accent-color);
-          letter-spacing: 2px;
+          letter-spacing: 1px;
           text-transform: uppercase;
         }
 
@@ -219,15 +225,18 @@ export default function BuildTourCopy() {
         }
 
         .year {
-          padding: 0.75rem 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
           background: rgba(255,255,255,0.1);
           border: 1px solid rgba(212,169,113,0.3);
-          border-radius: 25px;
+          border-radius: 20px;
           cursor: pointer;
           transition: all 0.3s ease;
-          font-size: var(--nav-font-size);
+          font-size: 0.8rem;
           font-weight: 300;
-          letter-spacing: 1px;
+          letter-spacing: 0.5px;
           text-transform: uppercase;
         }
 
@@ -549,22 +558,26 @@ export default function BuildTourCopy() {
         <h2 className="section-title">Historical Periods</h2>
         
         <div className="timeline-nav">
-          {historyData.map((periodData, index) => (
-            <div
-              key={periodData.period}
-              className={`year ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => {
-                setCurrentIndex(index);
-                // Reset era gallery scroll position when period changes
-                setTimeout(() => {
-                  const gallery = document.querySelector('.era-tiles') as HTMLElement;
-                  if (gallery) gallery.scrollTo({ left: 0, behavior: 'smooth' });
-                }, 100);
-              }}
-            >
-              {periodData.period}
-            </div>
-          ))}
+          {historyData.map((periodData, index) => {
+            const IconComponent = periodData.icon;
+            return (
+              <div
+                key={periodData.period}
+                className={`year ${index === currentIndex ? 'active' : ''}`}
+                onClick={() => {
+                  setCurrentIndex(index);
+                  // Reset era gallery scroll position when period changes
+                  setTimeout(() => {
+                    const gallery = document.querySelector('.era-tiles') as HTMLElement;
+                    if (gallery) gallery.scrollTo({ left: 0, behavior: 'smooth' });
+                  }, 100);
+                }}
+              >
+                <IconComponent size={16} />
+                {periodData.period}
+              </div>
+            );
+          })}
         </div>
 
         {/* Era Gallery Section - Below Historical Periods */}
