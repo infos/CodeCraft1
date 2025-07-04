@@ -246,10 +246,20 @@ export default function BuildTourCopy() {
 
   const prevPeriod = () => {
     setCurrentIndex((prev) => (prev - 1 + historyData.length) % historyData.length);
+    // Reset era gallery scroll position
+    setTimeout(() => {
+      const gallery = document.querySelector('.era-tiles') as HTMLElement;
+      if (gallery) gallery.scrollTo({ left: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const nextPeriod = () => {
     setCurrentIndex((prev) => (prev + 1) % historyData.length);
+    // Reset era gallery scroll position
+    setTimeout(() => {
+      const gallery = document.querySelector('.era-tiles') as HTMLElement;
+      if (gallery) gallery.scrollTo({ left: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const scrollEraGallery = (direction: 'left' | 'right') => {
@@ -461,6 +471,7 @@ export default function BuildTourCopy() {
           margin-top: 3rem;
           padding-top: 2rem;
           border-top: 1px solid rgba(212,169,113,0.3);
+          transition: all 0.3s ease;
         }
 
         .era-gallery-title {
@@ -656,7 +667,14 @@ export default function BuildTourCopy() {
             <div
               key={periodData.period}
               className={`year ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
+              onClick={() => {
+                setCurrentIndex(index);
+                // Reset era gallery scroll position when period changes
+                setTimeout(() => {
+                  const gallery = document.querySelector('.era-tiles') as HTMLElement;
+                  if (gallery) gallery.scrollTo({ left: 0, behavior: 'smooth' });
+                }, 100);
+              }}
             >
               {periodData.period}
             </div>
@@ -712,9 +730,9 @@ export default function BuildTourCopy() {
           </div>
         </div>
 
-        {/* Era Gallery Section */}
+        {/* Era Gallery Section - Filtered by Current Period */}
         <div className="era-gallery">
-          <h3 className="era-gallery-title">Explore Historical Eras</h3>
+          <h3 className="era-gallery-title">Explore {currentPeriod.title} Eras</h3>
           <div className="era-tiles-container">
             <button 
               className="era-scroll-arrow left" 
@@ -731,9 +749,17 @@ export default function BuildTourCopy() {
             <div className="era-tiles">
               {currentPeriod.eraDetails.map((era, index) => (
                 <div 
-                  key={era.name} 
+                  key={`${currentPeriod.period}-${era.name}`} 
                   className="era-tile"
-                  onClick={handleGenerateTours}
+                  onClick={() => {
+                    // Generate tours specifically for this era
+                    const filterData = {
+                      selectedPeriods: [currentPeriod.title.toLowerCase().replace(/\s+/g, '_')],
+                      selectedEras: [era.name],
+                      selectedLocations: []
+                    };
+                    generateToursMutation.mutate(filterData);
+                  }}
                 >
                   <div className="era-tile-image">
                     Historical Image - {era.name}
