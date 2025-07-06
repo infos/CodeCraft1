@@ -107,6 +107,7 @@ Changelog:
 - January 2, 2025. Updated tour system to eliminate duplicates and implement duration selection dropdowns. Tours now display as unique entries with 3, 5, 7, and 10-day duration options. Itineraries update dynamically based on selected duration. Hidden "Related tours" section for cleaner interface.
 - January 2, 2025. Enhanced BuildTourCopy page with era gallery positioned below historical periods filter. Added scrollable era tiles with detailed information. Implemented smooth transitions and scroll position reset when switching periods.
 - January 2, 2025. Improved UI design: reduced historical periods font size, added icons to period filters, simplified Ancient Civilizations era names to country format (Egypt, Mesopotamia, Greece, Rome).
+- January 2, 2025. Removed Prehistoric historical period. Navigation now starts with Ancient Civilizations as the default period.
 ```
 
 ## User Preferences

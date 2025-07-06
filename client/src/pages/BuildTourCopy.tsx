@@ -7,7 +7,7 @@ import { Calendar, Loader2, Sparkles, XIcon, Mountain, Crown, Castle, Palette, G
 import { Link } from 'wouter';
 
 export default function BuildTourCopy() {
-  const [currentIndex, setCurrentIndex] = useState(1); // Start with Classical
+  const [currentIndex, setCurrentIndex] = useState(0); // Start with Ancient
   const [showGeneratedTours, setShowGeneratedTours] = useState(false);
   const [generatedTours, setGeneratedTours] = useState<any[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
@@ -43,17 +43,6 @@ export default function BuildTourCopy() {
 
   // Historical data with detailed era information and icons
   const historyData = [
-    {
-      period: "Prehistoric",
-      title: "Prehistoric Era",
-      icon: Mountain,
-      eras: ["Stone Age", "Bronze Age", "Iron Age"],
-      eraDetails: [
-        { name: "Stone Age", year: "3.3M - 3300 BCE", title: "Dawn of Humanity", description: "First tools and cave paintings" },
-        { name: "Bronze Age", year: "3300 - 1200 BCE", title: "Metal Revolution", description: "Bronze working and early civilizations" },
-        { name: "Iron Age", year: "1200 - 550 BCE", title: "Iron Mastery", description: "Advanced metallurgy and empires" }
-      ]
-    },
     {
       period: "Ancient",
       title: "Ancient Civilizations",
