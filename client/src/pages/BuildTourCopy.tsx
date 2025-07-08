@@ -723,12 +723,7 @@ export default function BuildTourCopy() {
             Discover the fascinating world of {currentPeriod.title.toLowerCase()}
           </p>
 
-          <div className="thumb-gallery">
-            <div className="thumb-placeholder">Image</div>
-            <div className="thumb-placeholder">Image</div>
-            <div className="thumb-placeholder">Image</div>
-            <div className="thumb-placeholder">Image</div>
-          </div>
+
 
           <div className="era-selector">
             {currentPeriod.eras.map((era) => (
