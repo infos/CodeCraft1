@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -73,7 +73,7 @@ export default function BuildTourCopy() {
   });
 
   // Update era images when data is loaded
-  React.useEffect(() => {
+  useEffect(() => {
     if (existingImagesData?.imageUrls) {
       setEraImages(existingImagesData.imageUrls);
     }
