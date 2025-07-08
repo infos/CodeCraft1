@@ -62,6 +62,23 @@ export default function BuildTourCopy() {
     },
   });
 
+  // Load existing era images from database on component mount
+  const { data: existingImagesData } = useQuery({
+    queryKey: ['/api/era-images'],
+    queryFn: async () => {
+      const response = await fetch('/api/era-images');
+      if (!response.ok) throw new Error('Failed to load era images');
+      return response.json();
+    },
+  });
+
+  // Update era images when data is loaded
+  React.useEffect(() => {
+    if (existingImagesData?.imageUrls) {
+      setEraImages(existingImagesData.imageUrls);
+    }
+  }, [existingImagesData]);
+
   const handleGenerateEraImages = () => {
     setIsGeneratingImages(true);
     generateEraImagesMutation.mutate();

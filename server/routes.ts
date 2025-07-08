@@ -1567,6 +1567,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Era name and description are required" });
       }
 
+      // Check if image already exists in database
+      const existingImage = await storage.getEraImage(eraName);
+      if (existingImage) {
+        return res.json({ imageUrl: existingImage.imageUrl, eraName });
+      }
+
       const imagePath = `client/public/era-images/${eraName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
       
       // Create directory if it doesn't exist
@@ -1576,8 +1582,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fs.mkdirSync(dir, { recursive: true });
       }
       
-      await generateEraImage(eraName, eraDescription, imagePath);
-      const imageUrl = `/era-images/${eraName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+      const { imageUrl, description } = await generateEraImage(eraName, eraDescription, imagePath);
+      
+      // Save to database
+      await storage.createEraImage({
+        eraName,
+        imageUrl,
+        imageDescription: description || eraDescription
+      });
       
       res.json({ imageUrl, eraName });
     } catch (error: any) {
@@ -1589,10 +1601,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all era images from database
+  app.get("/api/era-images", async (req, res) => {
+    try {
+      const images = await storage.getAllEraImages();
+      const imageUrls: Record<string, string> = {};
+      images.forEach(img => {
+        imageUrls[img.eraName] = img.imageUrl;
+      });
+      res.json({ imageUrls });
+    } catch (error: any) {
+      console.error("Error fetching era images:", error);
+      res.status(500).json({ 
+        message: "Failed to fetch era images",
+        error: error?.message || "Unknown error"
+      });
+    }
+  });
+
   // Generate all era images
   app.post("/api/generate-all-era-images", async (req, res) => {
     try {
-      const imageUrls = await generateAllEraImages();
+      const eras = [
+        { name: "Egypt", description: "Ancient Egypt with pyramids, pharaohs, and Nile River civilization", year: "3100 - 30 BCE" },
+        { name: "Mesopotamia", description: "Cradle of civilization with ziggurats, cuneiform writing, and ancient cities like Babylon", year: "3500 - 539 BCE" },
+        { name: "Greece", description: "Ancient Greece with Parthenon, democracy, philosophy, and Olympic Games", year: "800 - 146 BCE" },
+        { name: "Rome", description: "Roman Empire with Colosseum, gladiators, aqueducts, and imperial conquest", year: "753 BCE - 476 CE" },
+        { name: "Roman Empire", description: "Peak of Roman power with grand architecture, legions, and vast territorial control", year: "27 BCE - 476 CE" },
+        { name: "Byzantine Empire", description: "Eastern Roman Empire with Orthodox Christianity, Constantinople, and Byzantine art", year: "330 - 1453 CE" },
+        { name: "Ancient China", description: "Imperial China with Great Wall, Silk Road, terracotta warriors, and ancient dynasties", year: "221 BCE - 220 CE" },
+        { name: "Ancient India", description: "Golden Age of India with Buddhism, Hinduism, elaborate temples, and Gupta Empire", year: "600 BCE - 600 CE" },
+        { name: "Early Middle Ages", description: "Medieval Europe with castles, knights, monasteries, and feudal kingdoms", year: "476 - 1000 CE" },
+        { name: "High Middle Ages", description: "Age of Faith with Gothic cathedrals, Crusades, and chivalric culture", year: "1000 - 1300 CE" },
+        { name: "Late Middle Ages", description: "Medieval period with late Gothic architecture, universities, and cultural transformation", year: "1300 - 1500 CE" },
+        { name: "Italian Renaissance", description: "Renaissance Italy with artistic masterpieces, Florence, Venice, and cultural rebirth", year: "1400 - 1600 CE" },
+        { name: "Northern Renaissance", description: "Northern European Renaissance with printing press, detailed paintings, and cultural flowering", year: "1450 - 1600 CE" },
+        { name: "Age of Exploration", description: "Age of Discovery with sailing ships, new world exploration, and maritime adventures", year: "1400 - 1600 CE" },
+        { name: "Industrial Revolution", description: "Industrial age with steam engines, factories, railways, and technological advancement", year: "1760 - 1840 CE" },
+        { name: "World Wars", description: "20th century global conflicts with historical significance and remembrance sites", year: "1914 - 1945 CE" },
+        { name: "Space Age", description: "Modern space exploration with rockets, satellites, and technological achievement", year: "1957 - Present" }
+      ];
+
+      const imageUrls: Record<string, string> = {};
+      
+      for (const era of eras) {
+        try {
+          // Check if image already exists in database
+          const existingImage = await storage.getEraImage(era.name);
+          if (existingImage) {
+            imageUrls[era.name] = existingImage.imageUrl;
+            continue;
+          }
+
+          const imagePath = `client/public/era-images/${era.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+          
+          // Create directory if it doesn't exist
+          const fs = require('fs');
+          const dir = 'client/public/era-images';
+          if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+          }
+          
+          const { imageUrl, description } = await generateEraImage(era.name, era.description, imagePath);
+          
+          // Save to database
+          await storage.createEraImage({
+            eraName: era.name,
+            imageUrl,
+            imageDescription: description || era.description
+          });
+          
+          imageUrls[era.name] = imageUrl;
+          
+          // Add a small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        } catch (error) {
+          console.error(`Failed to generate image for ${era.name}:`, error);
+          // Continue with other eras even if one fails
+        }
+      }
+      
       res.json({ imageUrls });
     } catch (error: any) {
       console.error("Era images generation error:", error);

@@ -1,4 +1,4 @@
-import { emperors, tours, itineraries, hotelRecommendations, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras } from "@shared/schema";
+import { emperors, tours, itineraries, hotelRecommendations, eraImages, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras, type EraImage, type InsertEraImage } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import * as fs from 'fs';
@@ -27,6 +27,12 @@ export interface IStorage {
   // Hotel operations
   getHotelsForTour(tourId: number): Promise<HotelRecommendation[]>;
   createHotelRecommendation(hotel: InsertHotelRecommendation): Promise<HotelRecommendation>;
+
+  // Era image operations
+  getAllEraImages(): Promise<EraImage[]>;
+  getEraImage(eraName: string): Promise<EraImage | undefined>;
+  createEraImage(eraImage: InsertEraImage): Promise<EraImage>;
+  updateEraImage(eraName: string, eraImage: Partial<InsertEraImage>): Promise<EraImage>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -92,6 +98,28 @@ export class DatabaseStorage implements IStorage {
   async createHotelRecommendation(insertHotel: InsertHotelRecommendation): Promise<HotelRecommendation> {
     const [hotel] = await db.insert(hotelRecommendations).values(insertHotel).returning();
     return hotel;
+  }
+
+  async getAllEraImages(): Promise<EraImage[]> {
+    return db.select().from(eraImages);
+  }
+
+  async getEraImage(eraName: string): Promise<EraImage | undefined> {
+    const [image] = await db.select().from(eraImages).where(eq(eraImages.eraName, eraName));
+    return image || undefined;
+  }
+
+  async createEraImage(insertEraImage: InsertEraImage): Promise<EraImage> {
+    const [image] = await db.insert(eraImages).values(insertEraImage).returning();
+    return image;
+  }
+
+  async updateEraImage(eraName: string, updateData: Partial<InsertEraImage>): Promise<EraImage> {
+    const [image] = await db.update(eraImages)
+      .set(updateData)
+      .where(eq(eraImages.eraName, eraName))
+      .returning();
+    return image;
   }
 
   async initializeData() {

@@ -13,7 +13,7 @@ export async function generateEraImage(
     eraName: string,
     eraDescription: string,
     imagePath: string,
-): Promise<void> {
+): Promise<{ imageUrl: string; description?: string }> {
     try {
         // Create a detailed prompt for historical accuracy
         const prompt = `Create a historically accurate and visually stunning image representing ${eraName}. ${eraDescription}. 
@@ -46,14 +46,17 @@ export async function generateEraImage(
             throw new Error("No content parts in response");
         }
 
+        let generatedDescription = "";
         for (const part of content.parts) {
             if (part.text) {
+                generatedDescription = part.text;
                 console.log(`Generated image description: ${part.text}`);
             } else if (part.inlineData && part.inlineData.data) {
                 const imageData = Buffer.from(part.inlineData.data, "base64");
                 fs.writeFileSync(imagePath, imageData);
                 console.log(`Era image saved as ${imagePath}`);
-                return;
+                const imageUrl = imagePath.replace('client/public', '');
+                return { imageUrl, description: generatedDescription };
             }
         }
         
