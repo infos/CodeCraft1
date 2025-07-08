@@ -359,21 +359,26 @@ export default function BuildTourCopy() {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          background: rgba(212,169,113,0.2);
-          color: var(--accent-color);
-          border: 1px solid rgba(212,169,113,0.4);
+          background: rgba(212,169,113,0.8);
+          color: white;
+          border: 2px solid var(--accent-color);
           border-radius: 50%;
-          width: 3rem;
-          height: 3rem;
-          font-size: 1.2rem;
+          width: 3.5rem;
+          height: 3.5rem;
+          font-size: 1.4rem;
           cursor: pointer;
           transition: all 0.3s ease;
           z-index: 10;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         .nav-arrow:hover {
-          background: rgba(212,169,113,0.4);
-          transform: translateY(-50%) scale(1.1);
+          background: var(--accent-color);
+          transform: translateY(-50%) scale(1.15);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.4);
         }
 
         .nav-arrow.prev {
@@ -428,7 +433,7 @@ export default function BuildTourCopy() {
         }
 
         .era-tile {
-          flex: 0 0 350px;
+          flex: 0 0 280px;
           background: rgba(255,255,255,0.05);
           border: 1px solid rgba(212,169,113,0.3);
           border-radius: 8px;
@@ -444,7 +449,7 @@ export default function BuildTourCopy() {
         }
 
         .era-tile-image {
-          height: 150px;
+          height: 120px;
           background: rgba(212,169,113,0.1);
           display: flex;
           align-items: center;
@@ -454,7 +459,7 @@ export default function BuildTourCopy() {
         }
 
         .era-tile-content {
-          padding: 1.5rem;
+          padding: 1rem;
         }
 
         .era-tile-year {
