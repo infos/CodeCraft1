@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import fs from "fs";
 import { storage } from "./storage";
 import { generateEraImage, generateAllEraImages } from "./gemini";
 // Local tour generation without external AI dependencies
@@ -1576,7 +1577,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const imagePath = `client/public/era-images/${eraName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
       
       // Create directory if it doesn't exist
-      const fs = require('fs');
       const dir = 'client/public/era-images';
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
@@ -1656,7 +1656,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const imagePath = `client/public/era-images/${era.name.toLowerCase().replace(/\s+/g, '-')}.jpg`;
           
           // Create directory if it doesn't exist
-          const fs = require('fs');
           const dir = 'client/public/era-images';
           if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
