@@ -718,9 +718,9 @@ export default function BuildTourCopy() {
         </button>
 
         <div className="content-section">
-          <h1 className="content-title">{currentPeriod.title}</h1>
+          <h1 className="content-title">Locations</h1>
           <p className="content-subtitle">
-            Discover the fascinating world of {currentPeriod.title.toLowerCase()}
+            Select locations to explore historical sites and destinations
           </p>
 
 
@@ -745,7 +745,7 @@ export default function BuildTourCopy() {
             {generateToursMutation.isPending ? (
               'Generating Tours...'
             ) : (
-              `Generate Tours for ${currentPeriod.title}`
+              'Generate Tours for Selected Locations'
             )}
           </button>
         </div>
