@@ -108,6 +108,7 @@ Changelog:
 - January 2, 2025. Enhanced BuildTourCopy page with era gallery positioned below historical periods filter. Added scrollable era tiles with detailed information. Implemented smooth transitions and scroll position reset when switching periods.
 - January 2, 2025. Improved UI design: reduced historical periods font size, added icons to period filters, simplified Ancient Civilizations era names to country format (Egypt, Mesopotamia, Greece, Rome).
 - January 2, 2025. Removed Prehistoric historical period. Navigation now starts with Ancient Civilizations as the default period.
+- January 2, 2025. Integrated Google Gemini AI for era image generation. Added API endpoints and UI controls to generate historically accurate images for era tiles using Gemini's image generation capabilities.
 ```
 
 ## User Preferences

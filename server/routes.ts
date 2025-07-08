@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { generateEraImage, generateAllEraImages } from "./gemini";
 // Local tour generation without external AI dependencies
 
 // Historical tour templates based on different eras and locations
@@ -1554,6 +1555,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(eras);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch eras" });
+    }
+  });
+
+  // Generate single era image
+  app.post("/api/generate-era-image", async (req, res) => {
+    try {
+      const { eraName, eraDescription } = req.body;
+      
+      if (!eraName || !eraDescription) {
+        return res.status(400).json({ message: "Era name and description are required" });
+      }
+
+      const imagePath = `client/public/era-images/${eraName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+      
+      // Create directory if it doesn't exist
+      const fs = require('fs');
+      const dir = 'client/public/era-images';
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      
+      await generateEraImage(eraName, eraDescription, imagePath);
+      const imageUrl = `/era-images/${eraName.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+      
+      res.json({ imageUrl, eraName });
+    } catch (error: any) {
+      console.error("Era image generation error:", error);
+      res.status(500).json({ 
+        message: "Failed to generate era image",
+        error: error?.message || "Unknown error"
+      });
+    }
+  });
+
+  // Generate all era images
+  app.post("/api/generate-all-era-images", async (req, res) => {
+    try {
+      const imageUrls = await generateAllEraImages();
+      res.json({ imageUrls });
+    } catch (error: any) {
+      console.error("Era images generation error:", error);
+      res.status(500).json({ 
+        message: "Failed to generate era images",
+        error: error?.message || "Unknown error"
+      });
     }
   });
 

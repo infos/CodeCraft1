@@ -11,6 +11,8 @@ export default function BuildTourCopy() {
   const [showGeneratedTours, setShowGeneratedTours] = useState(false);
   const [generatedTours, setGeneratedTours] = useState<any[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
+  const [eraImages, setEraImages] = useState<Record<string, string>>({});
+  const [isGeneratingImages, setIsGeneratingImages] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -40,6 +42,30 @@ export default function BuildTourCopy() {
       console.error('Error generating tours:', error);
     },
   });
+
+  const generateEraImagesMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch('/api/generate-all-era-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (!response.ok) throw new Error('Failed to generate era images');
+      return response.json();
+    },
+    onSuccess: (data) => {
+      setEraImages(data.imageUrls || {});
+      setIsGeneratingImages(false);
+    },
+    onError: (error) => {
+      console.error('Error generating era images:', error);
+      setIsGeneratingImages(false);
+    },
+  });
+
+  const handleGenerateEraImages = () => {
+    setIsGeneratingImages(true);
+    generateEraImagesMutation.mutate();
+  };
 
   // Historical data with detailed era information and icons
   const historyData = [
@@ -404,13 +430,32 @@ export default function BuildTourCopy() {
           transition: all 0.3s ease;
         }
 
+        .era-gallery-header-with-button {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 2rem;
+          gap: 1rem;
+        }
+        
         .era-gallery-title {
           font-size: 2rem;
           font-weight: 200;
           color: var(--accent-color);
-          text-align: center;
-          margin-bottom: 2rem;
+          margin: 0;
           letter-spacing: 1px;
+        }
+        
+        .generate-images-button {
+          flex-shrink: 0;
+          background: rgba(212,169,113,0.1) !important;
+          border: 1px solid var(--accent-color) !important;
+          color: var(--accent-color) !important;
+        }
+        
+        .generate-images-button:hover {
+          background: var(--accent-color) !important;
+          color: white !important;
         }
 
         .era-tiles-container {
@@ -576,7 +621,28 @@ export default function BuildTourCopy() {
 
         {/* Era Gallery Section - Below Historical Periods */}
         <div className="era-gallery-below-periods">
-          <h3 className="era-gallery-title">Explore {currentPeriod.title} Eras</h3>
+          <div className="era-gallery-header-with-button">
+            <h3 className="era-gallery-title">Explore {currentPeriod.title} Eras</h3>
+            <Button
+              onClick={handleGenerateEraImages}
+              disabled={isGeneratingImages}
+              className="generate-images-button"
+              variant="outline"
+              size="sm"
+            >
+              {isGeneratingImages ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate AI Images
+                </>
+              )}
+            </Button>
+          </div>
           <div className="era-tiles-container">
             <button 
               className="era-scroll-arrow left" 
@@ -606,7 +672,15 @@ export default function BuildTourCopy() {
                   }}
                 >
                   <div className="era-tile-image">
-                    Historical Image - {era.name}
+                    {eraImages[era.name] ? (
+                      <img 
+                        src={eraImages[era.name]} 
+                        alt={`Historical image of ${era.name}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <>Historical Image - {era.name}</>
+                    )}
                   </div>
                   <div className="era-tile-content">
                     <div className="era-tile-year">{era.year}</div>
