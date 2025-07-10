@@ -61,6 +61,10 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        terra: {
+          DEFAULT: '#A84C32',
+          dark: '#832F1F',
+        },
       },
       keyframes: {
         "accordion-down": {
