@@ -100,7 +100,7 @@ export function Filters({ filters, setFilters, eras, regions }: {
   };
 
   return (
-    <aside className="w-1/4 p-4 bg-white rounded-lg shadow hidden lg:block">
+    <aside className="w-full lg:w-1/4 p-4 bg-white rounded-lg shadow mb-6 lg:mb-0">
       <h2 className="font-semibold mb-4">Filters</h2>
       <div className="mb-4">
         <label className="block mb-2 font-medium">Era</label>
@@ -158,23 +158,25 @@ export default function HeroPage() {
         durations={durations}
       />
 
-      <main className="container mx-auto flex py-8">
-        <Filters
-          filters={filters}
-          setFilters={setFilters}
-          eras={eras}
-          regions={regions}
-        />
+      <main className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <Filters
+            filters={filters}
+            setFilters={setFilters}
+            eras={eras}
+            regions={regions}
+          />
 
-        {/* Results Grid (placeholder) */}
-        <section className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Map through filtered tours here */}
-          {[...Array(6)].map((_, idx) => (
-            <div key={idx} className="bg-white rounded-lg shadow overflow-hidden">
-              {/* Tour Card content */}
-            </div>
-          ))}
-        </section>
+          {/* Results Grid (placeholder) */}
+          <section className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Map through filtered tours here */}
+            {[...Array(6)].map((_, idx) => (
+              <div key={idx} className="bg-white rounded-lg shadow overflow-hidden">
+                {/* Tour Card content */}
+              </div>
+            ))}
+          </section>
+        </div>
       </main>
     </div>
   );
