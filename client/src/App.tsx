@@ -5,7 +5,7 @@ import { queryClient } from "./lib/queryClient";
 import Layout from "./components/Layout";
 import CopyOfEras from "./pages/CopyOfEras";
 import BuildTourCopy from "./pages/BuildTourCopy";
-import HeroPage from "./pages/HeroPage";
+
 import TourDetailsPage from "./pages/TourDetailsPage";
 import TourDetailPage from "./pages/TourDetailPage";
 import NotFound from "./pages/not-found";
@@ -18,7 +18,7 @@ function App() {
           <Route path="/" component={CopyOfEras} />
           <Route path="/copy-of-eras" component={CopyOfEras} />
           <Route path="/build-tour-copy" component={BuildTourCopy} />
-          <Route path="/hero" component={HeroPage} />
+  
           <Route path="/tour/:id" component={TourDetailsPage} />
           <Route path="/tours/:id" component={TourDetailPage} />
           <Route component={NotFound} />
