@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import fs from "fs";
 import { storage } from "./storage";
-import { generateEraImage, generateAllEraImages } from "./gemini";
+import { generateEraImage, generateAllEraImages, generateMarcusAureliusVideo } from "./gemini";
 // Local tour generation without external AI dependencies
 
 // Historical tour templates based on different eras and locations
@@ -1685,6 +1685,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Era images generation error:", error);
       res.status(500).json({ 
         message: "Failed to generate era images",
+        error: error?.message || "Unknown error"
+      });
+    }
+  });
+
+  // Generate Marcus Aurelius video/image
+  app.post("/api/generate-marcus-aurelius-video", async (req, res) => {
+    try {
+      const videoPath = `client/public/videos/marcus-aurelius-era.jpg`;
+      
+      // Create directory if it doesn't exist
+      const dir = 'client/public/videos';
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      
+      const { videoUrl, description } = await generateMarcusAureliusVideo(videoPath);
+      
+      res.json({ 
+        videoUrl, 
+        description,
+        message: "Marcus Aurelius era video/image generated successfully" 
+      });
+      
+    } catch (error: any) {
+      console.error("Marcus Aurelius video generation error:", error);
+      res.status(500).json({ 
+        message: "Failed to generate Marcus Aurelius video",
         error: error?.message || "Unknown error"
       });
     }

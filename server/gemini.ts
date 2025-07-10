@@ -113,3 +113,61 @@ export async function generateAllEraImages(): Promise<Record<string, string>> {
     
     return imageUrls;
 }
+
+export async function generateMarcusAureliusVideo(
+    videoPath: string,
+): Promise<{ videoUrl: string; description?: string }> {
+    try {
+        // Create a detailed prompt for Marcus Aurelius era
+        const prompt = `Create a cinematic and historically accurate image representing the reign of Marcus Aurelius (161-180 CE), the philosopher emperor of Rome. 
+        
+        The image should show:
+        - The grandeur of Roman architecture during the Antonine period
+        - Marble columns, statues, and classical Roman buildings
+        - Golden hour lighting with dramatic shadows
+        - A sense of imperial power and philosophical wisdom
+        - Roman forum or imperial palace setting
+        - Rich, warm colors with bronze and gold tones
+        - Atmospheric perspective suggesting the weight of history
+        
+        Style: Cinematic, epic, historically accurate, with the quality of a historical documentary or period film. The image should evoke the golden age of Rome under the philosopher emperor.`;
+
+        // Generate the Marcus Aurelius era image
+        const response = await ai.models.generateContent({
+            model: "gemini-2.0-flash-preview-image-generation",
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            config: {
+                responseModalities: [Modality.TEXT, Modality.IMAGE],
+            },
+        });
+
+        const candidates = response.candidates;
+        if (!candidates || candidates.length === 0) {
+            throw new Error("No image generated for Marcus Aurelius era");
+        }
+
+        const content = candidates[0].content;
+        if (!content || !content.parts) {
+            throw new Error("No content parts in response");
+        }
+
+        let generatedDescription = "";
+        for (const part of content.parts) {
+            if (part.text) {
+                generatedDescription = part.text;
+                console.log(`Generated Marcus Aurelius description: ${part.text}`);
+            } else if (part.inlineData && part.inlineData.data) {
+                const imageData = Buffer.from(part.inlineData.data, "base64");
+                fs.writeFileSync(videoPath, imageData);
+                console.log(`Marcus Aurelius era image saved as ${videoPath}`);
+                const videoUrl = videoPath.replace('client/public', '');
+                return { videoUrl, description: generatedDescription };
+            }
+        }
+        
+        throw new Error("No image data found in Marcus Aurelius response");
+    } catch (error) {
+        console.error(`Failed to generate Marcus Aurelius era image:`, error);
+        throw new Error(`Failed to generate Marcus Aurelius era image: ${error}`);
+    }
+}
