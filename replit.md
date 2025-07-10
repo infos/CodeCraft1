@@ -110,6 +110,7 @@ Changelog:
 - January 2, 2025. Removed Prehistoric historical period. Navigation now starts with Ancient Civilizations as the default period.
 - January 2, 2025. Integrated Google Gemini AI for era image generation. Added API endpoints and UI controls to generate historically accurate images for era tiles using Gemini's image generation capabilities.
 - January 2, 2025. Enhanced AI image system with database storage. Added era_images table to store generated images with metadata for improved performance and persistence. Images are now saved to PostgreSQL database and loaded automatically on page load.
+- January 3, 2025. Added Heritage Hero page with date/duration selector component. Created new /hero route with responsive design featuring heritage-themed background and search controls for tour customization.
 ```
 
 ## User Preferences

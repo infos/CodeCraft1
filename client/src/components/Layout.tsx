@@ -31,6 +31,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Tour Builder Copy
               </Link>
             </li>
+            <li className="mx-4">
+              <Link 
+                href="/hero"
+                className={cn(
+                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
+                  location === "/hero" ? "bg-[#555]" : ""
+                )}
+              >
+                Heritage Hero
+              </Link>
+            </li>
           </ul>
         </nav>
       </header>
