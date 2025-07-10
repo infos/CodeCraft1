@@ -16,6 +16,21 @@ export default function BuildTourCopy() {
 
   const queryClient = useQueryClient();
 
+  const getFormattedYearRange = (period: any) => {
+    switch (period.period) {
+      case 'Ancient':
+        return '3500-500 BCE';
+      case 'Medieval':
+        return '500-1450 CE';
+      case 'Renaissance':
+        return '1400-1600 CE';
+      case 'Baroque':
+        return '1600-1750 CE';
+      default:
+        return '';
+    }
+  };
+
   const generateToursMutation = useMutation({
     mutationFn: async (filterData: any) => {
       const response = await fetch('/api/generate-tours', {
@@ -159,48 +174,48 @@ export default function BuildTourCopy() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Apple Store Style Header with Dropdown Filters */}
+      {/* Header with Historical Periods Filter */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <h1 className="text-2xl font-semibold text-gray-900">Tour Builder</h1>
             
-            {/* Dropdown Filters - Apple Style */}
-            <div className="flex items-center space-x-4">
-              <Select value={currentPeriod.period} onValueChange={(value) => {
-                const index = historyData.findIndex(p => p.period === value);
-                handlePeriodSelect(index);
-              }}>
-                <SelectTrigger className="w-48 bg-gray-50 border-gray-200">
-                  <SelectValue placeholder="Historical Period" />
-                </SelectTrigger>
-                <SelectContent>
-                  {historyData.map((period) => (
-                    <SelectItem key={period.period} value={period.period}>
-                      {period.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              
-              <Button 
-                onClick={handleGenerateEraImages}
-                disabled={isGeneratingImages}
-                variant="outline"
-                className="border-gray-200"
-              >
-                {isGeneratingImages ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    Generate Images
-                  </>
-                )}
-              </Button>
+            <Button 
+              onClick={handleGenerateEraImages}
+              disabled={isGeneratingImages}
+              variant="outline"
+              className="border-gray-200"
+            >
+              {isGeneratingImages ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate Images
+                </>
+              )}
+            </Button>
+          </div>
+          
+          {/* Historical Periods Filter Chips */}
+          <div className="pb-4">
+            <div className="flex flex-wrap gap-2">
+              {historyData.map((period, index) => (
+                <button
+                  key={period.period}
+                  onClick={() => handlePeriodSelect(index)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                    currentIndex === index
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+                  }`}
+                >
+                  {period.title} ({getFormattedYearRange(period)})
+                </button>
+              ))}
             </div>
           </div>
         </div>
