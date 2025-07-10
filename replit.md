@@ -115,6 +115,7 @@ Changelog:
 - January 3, 2025. Integrated Gemini AI for Marcus Aurelius era video/image generation. Added dynamic background that generates cinematic Marcus Aurelius era scenes using Gemini's image generation API. The Hero component now automatically generates historically accurate visuals of the philosopher emperor's reign on page load.
 - January 3, 2025. Removed Heritage Hero page per user request. Cleaned up /hero route and HeroPage.tsx file from the application.
 - January 3, 2025. Recreated tour builder page with Apple Store-inspired design. Implemented clean minimalist layout, hero section with large typography, navigation pills, product-style era cards with hover effects, star ratings, and elegant spacing following Apple's design language.
+- January 3, 2025. Restructured tour builder layout based on Apple Store design: moved historical periods to dropdown filter at top header, changed body to show historical eras as compact filter buttons, and displayed tours with images below in Apple product card style.
 ```
 
 ## User Preferences
