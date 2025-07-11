@@ -1,183 +1,263 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, MapPin, Clock, Users } from "lucide-react";
-import { Link } from "wouter";
-
-interface TourSite {
-  name: string;
-  description: string;
-}
-
-interface TourHotel {
-  name: string;
-  location: string;
-  description: string;
-}
-
-interface TourItineraryDay {
-  day: number;
-  title: string;
-  sites: TourSite[];
-  hotel: TourHotel;
-}
-
-interface TourDetails {
-  id: number;
-  title: string;
-  duration: string;
-  description: string;
-  itinerary: TourItineraryDay[];
-}
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MapPin, Calendar, Clock, Users, Star } from "lucide-react";
+import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailPage() {
-  const [match, params] = useRoute("/tours/:id");
-  const tourId = params?.id;
-  
-  // Get duration from URL query parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const duration = urlParams.get('duration') || '7 days';
+  const [, params] = useRoute("/tours/:id");
+  const tourId = Number(params?.id);
+  const [selectedDuration, setSelectedDuration] = useState<string>("7 days");
 
-  const { data: tour, isLoading, error } = useQuery<TourDetails>({
-    queryKey: [`/api/tours/${tourId}/details`, duration],
-    queryFn: () => fetch(`/api/tours/${tourId}/details?duration=${encodeURIComponent(duration)}`).then(res => res.json()),
-    enabled: !!tourId,
+  const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
+    queryKey: [`/api/tours/${tourId}`],
+    enabled: !!tourId
   });
 
+  const { data: itineraries, isLoading: itinerariesLoading } = useQuery<Itinerary[]>({
+    queryKey: [`/api/tours/${tourId}/itineraries`],
+    enabled: !!tourId
+  });
 
+  const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
+    queryKey: [`/api/tours/${tourId}/hotels`],
+    enabled: !!tourId
+  });
 
-  if (isLoading) {
+  if (tourLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 p-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-300 rounded w-1/4 mb-4"></div>
-            <div className="h-12 bg-gray-300 rounded w-3/4 mb-6"></div>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-32 bg-gray-300 rounded"></div>
+      <div className="min-h-screen bg-white">
+        <div className="animate-pulse">
+          <div className="h-96 bg-gray-100 mb-8"></div>
+          <div className="max-w-6xl mx-auto px-4 space-y-8">
+            <div className="h-12 bg-gray-100 rounded w-1/2"></div>
+            <div className="h-6 bg-gray-100 rounded w-3/4"></div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="h-32 bg-gray-100 rounded"></div>
+              <div className="h-32 bg-gray-100 rounded"></div>
+              <div className="h-32 bg-gray-100 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!tour) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">Tour not found</h1>
+          <p className="text-gray-600">The tour you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Duration options matching Apple's storage options pattern
+  const durationOptions = [
+    { label: "3 days", value: "3 days", price: Math.round(tour.price * 0.6) },
+    { label: "5 days", value: "5 days", price: Math.round(tour.price * 0.8) },
+    { label: "7 days", value: "7 days", price: tour.price },
+    { label: "10 days", value: "10 days", price: Math.round(tour.price * 1.3) }
+  ];
+
+  // Sort itineraries by day number
+  const sortedItineraries = itineraries ? [...itineraries].sort((a, b) => a.day - b.day) : [];
+  
+  // Filter itineraries based on selected duration
+  const selectedDays = parseInt(selectedDuration);
+  const filteredItineraries = sortedItineraries.slice(0, selectedDays);
+
+  const selectedPrice = durationOptions.find(d => d.value === selectedDuration)?.price || tour.price;
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Image Section */}
+      <div className="relative h-96 bg-gray-100 overflow-hidden">
+        <img 
+          src={tour.imageUrl || '/placeholder-tour.jpg'} 
+          alt={tour.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        
+        {/* Product Header - Apple Style */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Badge variant="secondary" className="px-3 py-1">
+              {tour.era || 'Heritage Tour'}
+            </Badge>
+          </div>
+          <h1 className="text-5xl font-light text-gray-900 mb-4">
+            {tour.title}
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            {tour.description}
+          </p>
+          <div className="mt-6">
+            <span className="text-3xl font-light text-gray-900">
+              From ${selectedPrice} 
+            </span>
+            <span className="text-lg text-gray-600 ml-2">
+              or ${Math.round(selectedPrice / 12)}/mo. for 12 months
+            </span>
+          </div>
+        </div>
+
+        {/* Duration Selection - Apple Storage Style */}
+        <div className="mb-16">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">
+              Duration. How long would you like to explore?
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {durationOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setSelectedDuration(option.value)}
+                  className={`relative p-6 rounded-2xl border-2 transition-all duration-200 text-left ${
+                    selectedDuration === option.value
+                      ? 'border-blue-600 bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="font-semibold text-lg text-gray-900 mb-1">
+                    {option.label}
+                  </div>
+                  <div className="text-sm text-gray-600 mb-2">
+                    From ${option.price}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    or ${Math.round(option.price / 12)}/mo.
+                  </div>
+                  {selectedDuration === option.value && (
+                    <div className="absolute top-4 right-4">
+                      <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      </div>
+                    </div>
+                  )}
+                </button>
               ))}
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
 
-  if (error || !tour) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 p-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Tour Not Found</h1>
-          <p className="text-gray-600 mb-6">The tour you're looking for doesn't exist.</p>
-          <Link href="/copy-of-eras">
-            <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Tours
-            </Button>
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 p-6">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <Link href="/copy-of-eras">
-            <Button variant="outline" className="mb-4">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Tours
-            </Button>
-          </Link>
-          
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <Badge variant="secondary" className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                {tour.duration}
-              </Badge>
-              <Badge variant="outline" className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                Heritage Tour
-              </Badge>
-            </div>
-            
-            <h1 className="text-3xl font-bold text-gray-800 mb-3">{tour.title}</h1>
-            <p className="text-lg text-gray-600 leading-relaxed">{tour.description}</p>
+        {/* Itinerary Section */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">
+            Your {selectedDuration} journey
+          </h2>
+          <div className="max-w-4xl mx-auto">
+            {itinerariesLoading ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-32 bg-gray-100 rounded-2xl animate-pulse"></div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {filteredItineraries.map((day, index) => (
+                  <Card key={day.id} className="border-0 shadow-sm bg-gray-50">
+                    <CardContent className="p-8">
+                      <div className="flex items-start gap-6">
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                            {day.day}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                            Day {day.day}: {day.title}
+                          </h3>
+                          <p className="text-gray-600 leading-relaxed">
+                            {day.description}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Itinerary */}
-        <div className="space-y-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Day-by-Day Itinerary</h2>
-          
-          {tour.itinerary && tour.itinerary.length > 0 ? (
-            tour.itinerary.map((day) => (
-              <Card key={day.day} className="shadow-lg">
-                <CardHeader className="bg-gradient-to-r from-amber-500 to-orange-500 text-white">
-                  <CardTitle className="flex items-center gap-2">
-                    <div className="bg-white text-amber-600 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
-                      {day.day}
-                    </div>
-                    {day.title}
-                  </CardTitle>
-                </CardHeader>
-                
-                <CardContent className="p-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {/* Sites */}
-                    <div>
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-amber-600" />
-                        Sites to Visit
-                      </h4>
-                      <div className="space-y-3">
-                        {day.sites && day.sites.map((site, index) => (
-                          <div key={index} className="border-l-2 border-amber-200 pl-4">
-                            <h5 className="font-medium text-gray-800">{site.name}</h5>
-                            <p className="text-sm text-gray-600 mt-1">{site.description}</p>
+        {/* Hotels Section */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">
+            Where you'll stay
+          </h2>
+          <div className="max-w-4xl mx-auto">
+            {hotelsLoading ? (
+              <div className="grid md:grid-cols-2 gap-6">
+                {[1, 2].map((i) => (
+                  <div key={i} className="h-48 bg-gray-100 rounded-2xl animate-pulse"></div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 gap-6">
+                {hotels?.slice(0, 4).map((hotel) => (
+                  <Card key={hotel.id} className="border-0 shadow-sm overflow-hidden">
+                    <CardContent className="p-0">
+                      <div className="aspect-video bg-gray-100 relative">
+                        <img
+                          src={hotel.imageUrl || '/placeholder-hotel.jpg'}
+                          alt={hotel.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-full">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <span className="text-sm font-medium">4.5</span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Hotel */}
-                    <div>
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                        <Users className="w-4 h-4 text-amber-600" />
-                        Accommodation
-                      </h4>
-                      {day.hotel && (
-                        <div className="bg-amber-50 rounded-lg p-4">
-                          <h5 className="font-medium text-gray-800">{day.hotel.name}</h5>
-                          <p className="text-sm text-amber-600 font-medium mt-1">{day.hotel.location}</p>
-                          <p className="text-sm text-gray-600 mt-2">{day.hotel.description}</p>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <div className="text-center text-gray-500 py-8">
-              <p>No detailed itinerary available for this tour.</p>
-            </div>
-          )}
+                      </div>
+                      <div className="p-6">
+                        <h3 className="font-semibold text-gray-900 mb-2">
+                          {hotel.name}
+                        </h3>
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                          <MapPin className="w-4 h-4" />
+                          {hotel.location}
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          {hotel.description}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="mt-8 bg-white rounded-lg shadow-lg p-6 text-center">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">Ready to Book This Tour?</h3>
-          <p className="text-gray-600 mb-4">Contact our heritage travel specialists to customize your itinerary.</p>
-          <Button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
-            Contact Travel Specialist
-          </Button>
+        {/* CTA Section - Apple Style */}
+        <div className="text-center py-16 border-t border-gray-100">
+          <h2 className="text-3xl font-light text-gray-900 mb-6">
+            Ready to begin your heritage journey?
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+            <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 rounded-full px-8 py-3">
+              Book ${selectedPrice} tour
+            </Button>
+            <Button variant="outline" size="lg" className="w-full sm:w-auto rounded-full px-8 py-3">
+              Contact specialist
+            </Button>
+          </div>
+          <p className="text-sm text-gray-500 mt-4">
+            Free cancellation up to 24 hours before departure
+          </p>
         </div>
       </div>
     </div>

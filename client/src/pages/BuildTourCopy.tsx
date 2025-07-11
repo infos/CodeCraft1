@@ -99,9 +99,51 @@ export default function BuildTourCopy() {
     }
   }, [existingImagesData]);
 
-  const handleGenerateEraImages = () => {
+  const handleGenerateImages = () => {
     setIsGeneratingImages(true);
-    generateEraImagesMutation.mutate();
+    
+    // If we have displayed tours, generate images for those tours
+    if (toursToDisplay.length > 0) {
+      // Generate images for the displayed tours
+      const tourImagesMutation = {
+        mutationFn: async () => {
+          const response = await fetch('/api/generate-tour-images', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tours: toursToDisplay.slice(0, 5) }), // Limit to first 5 tours
+          });
+          if (!response.ok) throw new Error('Failed to generate tour images');
+          return response.json();
+        },
+        onSuccess: (data) => {
+          console.log('Tour images generated:', data);
+          setIsGeneratingImages(false);
+        },
+        onError: (error) => {
+          console.error('Error generating tour images:', error);
+          setIsGeneratingImages(false);
+        }
+      };
+      
+      // Execute the mutation
+      fetch('/api/generate-tour-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tours: toursToDisplay.slice(0, 5) }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Tour images generated:', data);
+        setIsGeneratingImages(false);
+      })
+      .catch(error => {
+        console.error('Error generating tour images:', error);
+        setIsGeneratingImages(false);
+      });
+    } else {
+      // Fallback to era images if no tours displayed
+      generateEraImagesMutation.mutate();
+    }
   };
 
   const handleEraSelect = (eraName: string) => {
@@ -177,8 +219,6 @@ export default function BuildTourCopy() {
         return startYear >= 500 && startYear < 1400; // 500 CE to 1400 CE
       case 'renaissance':
         return startYear >= 1400 && startYear < 1750; // 1400 CE to 1750 CE
-      case 'modern':
-        return startYear >= 1750; // 1750 CE onwards
       default:
         return true;
     }
@@ -215,8 +255,7 @@ export default function BuildTourCopy() {
                     { key: 'ancient', label: 'Ancient Times', tooltip: 'Before 500 BCE' },
                     { key: 'classical', label: 'Classical Period', tooltip: '500 BCE - 500 CE' },
                     { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1400 CE' },
-                    { key: 'renaissance', label: 'Renaissance', tooltip: '1400 CE - 1750 CE' },
-                    { key: 'modern', label: 'Modern Era', tooltip: '1750 CE onwards' }
+                    { key: 'renaissance', label: 'Renaissance', tooltip: '1400 CE - 1750 CE' }
                   ].map((period) => (
                     <Tooltip key={period.key}>
                       <TooltipTrigger asChild>
@@ -266,13 +305,12 @@ export default function BuildTourCopy() {
                selectedPeriod === 'ancient' ? 'Ancient Times' :
                selectedPeriod === 'classical' ? 'Classical Period' :
                selectedPeriod === 'medieval' ? 'Medieval Period' :
-               selectedPeriod === 'renaissance' ? 'Renaissance' :
-               selectedPeriod === 'modern' ? 'Modern Era' : 'Historical Eras'}
+               selectedPeriod === 'renaissance' ? 'Renaissance' : 'Historical Eras'}
             </h3>
             
             {/* Generate Images Button - Moved to Right */}
             <Button 
-              onClick={handleGenerateEraImages}
+              onClick={handleGenerateImages}
               disabled={isGeneratingImages}
               variant="outline"
               className="border-gray-200"

@@ -1718,6 +1718,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Generate tour images using Gemini
+  app.post("/api/generate-tour-images", async (req, res) => {
+    try {
+      console.log("Starting tour images generation...");
+      const { tours } = req.body;
+      
+      if (!tours || !Array.isArray(tours)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Tours array is required" 
+        });
+      }
+
+      const imageResults = [];
+      
+      for (const tour of tours) {
+        try {
+          const prompt = `Create a cinematic, historically accurate image of ${tour.title}. ${tour.description}. Show authentic historical architecture, landscapes, and atmosphere from this period. Use dramatic lighting and composition suitable for a premium travel brochure.`;
+          
+          const imagePath = `client/public/tour-images/${tour.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`;
+          
+          // Create directory if it doesn't exist
+          const dir = 'client/public/tour-images';
+          if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+          }
+          
+          // Generate image using Gemini
+          await generateEraImage(tour.title, imagePath);
+          
+          imageResults.push({
+            tourId: tour.id,
+            title: tour.title,
+            imagePath: `/tour-images/${tour.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`,
+            prompt: prompt
+          });
+          
+          console.log(`Generated image for tour: ${tour.title}`);
+          
+          // Add a small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        } catch (tourError) {
+          console.error(`Error generating image for tour ${tour.title}:`, tourError);
+          imageResults.push({
+            tourId: tour.id,
+            title: tour.title,
+            error: tourError instanceof Error ? tourError.message : "Unknown error"
+          });
+        }
+      }
+      
+      res.json({ 
+        success: true, 
+        images: imageResults,
+        message: `Generated images for ${imageResults.filter(r => !r.error).length}/${tours.length} tours` 
+      });
+    } catch (error) {
+      console.error("Error generating tour images:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Failed to generate tour images",
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
