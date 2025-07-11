@@ -123,6 +123,8 @@ Changelog:
 - January 10, 2025. Moved historical eras filter chips from header to main page body for better organization. Header now contains only broad historical period filters while specific era chips appear below the hero section with dynamic section titles.
 - January 10, 2025. Added tooltips to historical period buttons showing timeline ranges. Removed "Tour Builder" title for cleaner header and moved Generate Images button below Historical Eras section for better user flow.
 - January 10, 2025. Removed "Modern Era" option from historical periods filter and "Clear All" button from header. Enhanced Generate Images functionality to generate AI images for tours instead of eras using Gemini API. Added /api/generate-tour-images endpoint for tour-specific image generation.
+- January 10, 2025. Updated tour detail page design to match Apple iPhone 16 Pro page layout with clean white background, Apple-style duration selection cards, pricing display similar to storage options, and card-based itinerary layout. Enhanced tour cards with Apple product design patterns including rounded corners, hover effects, and Apple-style pricing with monthly payment options.
+- January 10, 2025. Added timeline tooltips to historical era chips showing specific year ranges (e.g., "Ancient Egypt: 3100 BCE - 30 BCE", "Ancient Rome: 753 BCE - 476 CE"). Users can now hover over era chips to see the exact historical timeframe for each civilization.
 ```
 
 ## User Preferences

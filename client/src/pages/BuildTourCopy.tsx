@@ -8,6 +8,27 @@ import { Loader2, Sparkles, XIcon, MapPin, Star } from 'lucide-react';
 import { Link } from 'wouter';
 import type { Era } from "@shared/schema";
 
+// Era timeline data
+const eraTimelines: Record<string, string> = {
+  "Ancient Near Eastern": "3500 BCE - 539 BCE",
+  "Ancient Egypt": "3100 BCE - 30 BCE", 
+  "Ancient Greece": "800 BCE - 146 BCE",
+  "Ancient Rome": "753 BCE - 476 CE",
+  "Ancient China": "2070 BCE - 220 CE",
+  "Ancient India": "3300 BCE - 550 CE",
+  "Maya Civilization": "2000 BCE - 1500 CE",
+  "Inca Empire": "1438 CE - 1572 CE",
+  "Viking Age": "793 CE - 1066 CE",
+  "Celtic Civilization": "1200 BCE - 400 CE",
+  "Medieval Europe": "500 CE - 1500 CE",
+  "Islamic Golden Age": "786 CE - 1258 CE",
+  "Byzantine Empire": "330 CE - 1453 CE",
+  "Mongol Empire": "1206 CE - 1368 CE",
+  "Renaissance Italy": "1300 CE - 1600 CE",
+  "Ottoman Empire": "1299 CE - 1922 CE",
+  "Aztec Empire": "1345 CE - 1521 CE"
+};
+
 export default function BuildTourCopy() {
   const [selectedEras, setSelectedEras] = useState<string[]>([]);
   const [showGeneratedTours, setShowGeneratedTours] = useState(false);
@@ -330,19 +351,27 @@ export default function BuildTourCopy() {
           </div>
           
           <div className="flex flex-wrap gap-3">
-            {filteredEras.map((era) => (
-              <button
-                key={era.id}
-                onClick={() => handleEraSelect(era.name)}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
-                  selectedEras.includes(era.name)
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
-                }`}
-              >
-                {era.name}
-              </button>
-            ))}
+            <TooltipProvider>
+              {filteredEras.map((era) => (
+                <Tooltip key={era.id}>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => handleEraSelect(era.name)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                        selectedEras.includes(era.name)
+                          ? 'bg-blue-600 text-white border-blue-600'
+                          : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+                      }`}
+                    >
+                      {era.name}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{eraTimelines[era.name] || 'Historical period'}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </TooltipProvider>
           </div>
         </div>
 
