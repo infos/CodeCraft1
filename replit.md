@@ -121,6 +121,7 @@ Changelog:
 - January 10, 2025. Implemented multi-select functionality for historical period chips. Users can now select multiple eras simultaneously with visual feedback.
 - January 10, 2025. Added Apple Store-inspired header filters with historical periods (Ancient Times, Classical Period, Medieval Period, Renaissance, Modern Era). Filters dynamically show/hide era chips based on time periods with intelligent year-range filtering.
 - January 10, 2025. Moved historical eras filter chips from header to main page body for better organization. Header now contains only broad historical period filters while specific era chips appear below the hero section with dynamic section titles.
+- January 10, 2025. Added tooltips to historical period buttons showing timeline ranges. Removed "Tour Builder" title for cleaner header and moved Generate Images button below Historical Eras section for better user flow.
 ```
 
 ## User Preferences

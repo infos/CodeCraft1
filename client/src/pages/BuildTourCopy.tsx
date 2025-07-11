@@ -204,27 +204,7 @@ export default function BuildTourCopy() {
       <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Main Header */}
-          <div className="flex items-center justify-between py-4">
-            <h1 className="text-2xl font-semibold text-gray-900">Tour Builder</h1>
-            
-            <Button 
-              onClick={handleGenerateEraImages}
-              disabled={isGeneratingImages}
-              variant="outline"
-              className="border-gray-200"
-            >
-              {isGeneratingImages ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Generate Images
-                </>
-              )}
-            </Button>
+          <div className="py-4">
           </div>
           
           {/* Apple-style Historical Periods Filter */}
@@ -318,6 +298,28 @@ export default function BuildTourCopy() {
                 {era.name}
               </button>
             ))}
+          </div>
+          
+          {/* Generate Images Button */}
+          <div className="flex justify-center mb-8">
+            <Button 
+              onClick={handleGenerateEraImages}
+              disabled={isGeneratingImages}
+              variant="outline"
+              className="border-gray-200"
+            >
+              {isGeneratingImages ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate Images
+                </>
+              )}
+            </Button>
           </div>
         </div>
 
