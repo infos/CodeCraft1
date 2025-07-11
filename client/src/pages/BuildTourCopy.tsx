@@ -275,33 +275,18 @@ export default function BuildTourCopy() {
         </div>
 
         {/* Historical Eras Filter Chips - Moved to Body */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">
-            {selectedPeriod === 'all' ? 'All Historical Eras' : 
-             selectedPeriod === 'ancient' ? 'Ancient Times' :
-             selectedPeriod === 'classical' ? 'Classical Period' :
-             selectedPeriod === 'medieval' ? 'Medieval Period' :
-             selectedPeriod === 'renaissance' ? 'Renaissance' :
-             selectedPeriod === 'modern' ? 'Modern Era' : 'Historical Eras'}
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {filteredEras.map((era) => (
-              <button
-                key={era.id}
-                onClick={() => handleEraSelect(era.name)}
-                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
-                  selectedEras.includes(era.name)
-                    ? 'bg-blue-600 text-white border-blue-600'
-                    : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
-                }`}
-              >
-                {era.name}
-              </button>
-            ))}
-          </div>
-          
-          {/* Generate Images Button */}
-          <div className="flex justify-center mb-8">
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-gray-900">
+              {selectedPeriod === 'all' ? 'All Historical Eras' : 
+               selectedPeriod === 'ancient' ? 'Ancient Times' :
+               selectedPeriod === 'classical' ? 'Classical Period' :
+               selectedPeriod === 'medieval' ? 'Medieval Period' :
+               selectedPeriod === 'renaissance' ? 'Renaissance' :
+               selectedPeriod === 'modern' ? 'Modern Era' : 'Historical Eras'}
+            </h3>
+            
+            {/* Generate Images Button - Moved to Right */}
             <Button 
               onClick={handleGenerateEraImages}
               disabled={isGeneratingImages}
@@ -320,6 +305,22 @@ export default function BuildTourCopy() {
                 </>
               )}
             </Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-3">
+            {filteredEras.map((era) => (
+              <button
+                key={era.id}
+                onClick={() => handleEraSelect(era.name)}
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                  selectedEras.includes(era.name)
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+                }`}
+              >
+                {era.name}
+              </button>
+            ))}
           </div>
         </div>
 
