@@ -1,17 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MapPin, Calendar, Clock, Users, Star } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { MapPin, Calendar, Clock, Users, Star, Play, Sparkles, Camera } from "lucide-react";
 import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailPage() {
   const [, params] = useRoute("/tours/:id");
   const tourId = Number(params?.id);
   const [selectedDuration, setSelectedDuration] = useState<string>("7 days");
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
+  const [tourImages, setTourImages] = useState<string[]>([]);
 
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
     queryKey: [`/api/tours/${tourId}`],
@@ -27,6 +31,81 @@ export default function TourDetailPage() {
     queryKey: [`/api/tours/${tourId}/hotels`],
     enabled: !!tourId
   });
+
+  // Generate era video for the tour
+  const generateVideoMutation = useMutation({
+    mutationFn: async () => {
+      if (!tour) throw new Error("Tour not found");
+      
+      const response = await fetch('/api/generate-tour-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          tourTitle: tour.title,
+          tourDescription: tour.description,
+          era: tour.era || "Ancient Times",
+          tourId: tour.id
+        }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to generate video');
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        setVideoUrl(data.videoUrl);
+        setIsGeneratingVideo(false);
+      }
+    },
+    onError: (error) => {
+      console.error('Error generating video:', error);
+      setIsGeneratingVideo(false);
+    }
+  });
+
+  const handleGenerateVideo = () => {
+    setIsGeneratingVideo(true);
+    generateVideoMutation.mutate();
+  };
+
+  // Generate multiple tour images for carousel
+  const generateImagesForCarousel = async () => {
+    if (!tour) return;
+    
+    const imagePromises = [];
+    const imageDescriptions = [
+      `${tour.title} - Main attraction view`,
+      `${tour.title} - Historical architecture`,
+      `${tour.title} - Cultural heritage site`,
+      `${tour.title} - Scenic landscape view`
+    ];
+    
+    for (let i = 0; i < 4; i++) {
+      imagePromises.push(
+        fetch('/api/generate-tour-images', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            tours: [{
+              id: tour.id + i,
+              title: imageDescriptions[i],
+              description: tour.description
+            }]
+          }),
+        }).then(res => res.json())
+      );
+    }
+    
+    try {
+      const results = await Promise.all(imagePromises);
+      const imageUrls = results.map(result => 
+        result.success && result.images[0] ? result.images[0].imagePath : null
+      ).filter(Boolean);
+      setTourImages(imageUrls);
+    } catch (error) {
+      console.error('Error generating carousel images:', error);
+    }
+  };
 
   if (tourLoading) {
     return (
@@ -77,15 +156,106 @@ export default function TourDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Image Section */}
-      <div className="relative h-96 bg-gray-100 overflow-hidden">
-        <img 
-          src={tour.imageUrl || '/placeholder-tour.jpg'} 
-          alt={tour.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      {/* Hero Section - Apple iPhone 16 Pro Style */}
+      <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-6xl mx-auto px-4 py-24">
+          <div className="text-center">
+            <h1 className="text-5xl font-bold mb-6 tracking-tight">
+              {tour.title}
+            </h1>
+            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              {tour.description}
+            </p>
+            <div className="flex items-center justify-center gap-8 text-sm mb-8">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-blue-400" />
+                <span>{tour.location || "Historic Sites"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-5 w-5 text-blue-400" />
+                <span>{selectedDuration}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-blue-400" />
+                <span>Small Groups</span>
+              </div>
+            </div>
+            
+            {/* Video Generation and Carousel Controls */}
+            <div className="flex items-center justify-center gap-4">
+              <Button 
+                onClick={handleGenerateVideo}
+                disabled={isGeneratingVideo}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
+              >
+                {isGeneratingVideo ? (
+                  <>
+                    <Sparkles className="h-5 w-5 mr-2 animate-spin" />
+                    Generating Video...
+                  </>
+                ) : (
+                  <>
+                    <Play className="h-5 w-5 mr-2" />
+                    Generate Era Video
+                  </>
+                )}
+              </Button>
+              
+              <Button 
+                onClick={generateImagesForCarousel}
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
+              >
+                <Camera className="h-5 w-5 mr-2" />
+                Generate Images
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Video Player Section */}
+      {videoUrl && (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <div className="bg-black rounded-2xl overflow-hidden mb-8">
+            <div className="aspect-video">
+              <img 
+                src={videoUrl} 
+                alt={`${tour.title} Era Video`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Carousel Section */}
+      {tourImages.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 py-12">
+          <h2 className="text-3xl font-bold text-center mb-8">Tour Gallery</h2>
+          <Carousel className="w-full max-w-4xl mx-auto">
+            <CarouselContent>
+              {tourImages.map((image, index) => (
+                <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="p-1">
+                    <Card>
+                      <CardContent className="flex aspect-square items-center justify-center p-0">
+                        <img 
+                          src={image} 
+                          alt={`${tour.title} - Gallery ${index + 1}`}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-8">

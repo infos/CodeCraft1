@@ -115,25 +115,28 @@ export async function generateAllEraImages(): Promise<Record<string, string>> {
     return imageUrls;
 }
 
-export async function generateMarcusAureliusVideo(
+export async function generateTourVideo(
+    tourTitle: string,
+    tourDescription: string,
+    era: string,
     videoPath: string,
 ): Promise<{ videoUrl: string; description?: string }> {
     try {
-        // Create a detailed prompt for Marcus Aurelius era
-        const prompt = `Create a cinematic and historically accurate image representing the reign of Marcus Aurelius (161-180 CE), the philosopher emperor of Rome. 
+        // Create a detailed prompt for the tour's historical era
+        const prompt = `Create a cinematic and historically accurate image representing ${tourTitle} in the ${era} era. ${tourDescription}
         
         The image should show:
-        - The grandeur of Roman architecture during the Antonine period
-        - Marble columns, statues, and classical Roman buildings
-        - Golden hour lighting with dramatic shadows
-        - A sense of imperial power and philosophical wisdom
-        - Roman forum or imperial palace setting
-        - Rich, warm colors with bronze and gold tones
-        - Atmospheric perspective suggesting the weight of history
+        - Authentic historical architecture and landmarks from ${era}
+        - Dramatic cinematic lighting with rich, warm colors
+        - Historical figures in period-appropriate clothing
+        - Atmospheric perspective that captures the essence of the era
+        - Documentary-quality composition suitable for tourism
+        - Golden hour or dramatic sunset lighting
+        - Sense of grandeur and historical significance
         
-        Style: Cinematic, epic, historically accurate, with the quality of a historical documentary or period film. The image should evoke the golden age of Rome under the philosopher emperor.`;
+        Style: Cinematic, epic, historically accurate, with the quality of a historical documentary or period film. The image should transport viewers to ${era} and make them want to visit these historical sites.`;
 
-        // Generate the Marcus Aurelius era image
+        // Generate the tour era image/video
         const response = await ai.models.generateContent({
             model: "gemini-2.0-flash-preview-image-generation",
             contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -144,7 +147,7 @@ export async function generateMarcusAureliusVideo(
 
         const candidates = response.candidates;
         if (!candidates || candidates.length === 0) {
-            throw new Error("No image generated for Marcus Aurelius era");
+            throw new Error(`No image generated for ${tourTitle}`);
         }
 
         const content = candidates[0].content;
@@ -156,19 +159,30 @@ export async function generateMarcusAureliusVideo(
         for (const part of content.parts) {
             if (part.text) {
                 generatedDescription = part.text;
-                console.log(`Generated Marcus Aurelius description: ${part.text}`);
+                console.log(`Generated ${tourTitle} description: ${part.text}`);
             } else if (part.inlineData && part.inlineData.data) {
                 const imageData = Buffer.from(part.inlineData.data, "base64");
                 fs.writeFileSync(videoPath, imageData);
-                console.log(`Marcus Aurelius era image saved as ${videoPath}`);
+                console.log(`${tourTitle} era image saved as ${videoPath}`);
                 const videoUrl = videoPath.replace('client/public', '');
                 return { videoUrl, description: generatedDescription };
             }
         }
         
-        throw new Error("No image data found in Marcus Aurelius response");
+        throw new Error(`No image data found in ${tourTitle} response`);
     } catch (error) {
-        console.error(`Failed to generate Marcus Aurelius era image:`, error);
-        throw new Error(`Failed to generate Marcus Aurelius era image: ${error}`);
+        console.error(`Failed to generate ${tourTitle} era image:`, error);
+        throw new Error(`Failed to generate ${tourTitle} era image: ${error}`);
     }
+}
+
+export async function generateMarcusAureliusVideo(
+    videoPath: string,
+): Promise<{ videoUrl: string; description?: string }> {
+    return generateTourVideo(
+        "Marcus Aurelius Era",
+        "The reign of Marcus Aurelius (161-180 CE), the philosopher emperor of Rome",
+        "Ancient Rome",
+        videoPath
+    );
 }

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import fs from "fs";
 import { storage } from "./storage";
-import { generateEraImage, generateAllEraImages, generateMarcusAureliusVideo } from "./gemini";
+import { generateEraImage, generateAllEraImages, generateMarcusAureliusVideo, generateTourVideo } from "./gemini";
 // Local tour generation without external AI dependencies
 
 // Historical tour templates based on different eras and locations
@@ -1685,6 +1685,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Era images generation error:", error);
       res.status(500).json({ 
         message: "Failed to generate era images",
+        error: error?.message || "Unknown error"
+      });
+    }
+  });
+
+  // Generate tour video using Gemini
+  app.post("/api/generate-tour-video", async (req, res) => {
+    try {
+      const { tourTitle, tourDescription, era, tourId } = req.body;
+      
+      if (!tourTitle || !tourDescription || !era) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "tourTitle, tourDescription, and era are required" 
+        });
+      }
+      
+      const videoPath = `client/public/videos/${tourTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${tourId || 'video'}.jpg`;
+      
+      // Create directory if it doesn't exist
+      const dir = 'client/public/videos';
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      
+      const result = await generateTourVideo(tourTitle, tourDescription, era, videoPath);
+      
+      res.json({ 
+        success: true, 
+        videoUrl: result.videoUrl,
+        description: result.description 
+      });
+    } catch (error) {
+      console.error("Error generating tour video:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to generate tour video",
         error: error?.message || "Unknown error"
       });
     }
