@@ -1738,6 +1738,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const prompt = `Create a cinematic, historically accurate image of ${tour.title}. ${tour.description}. Show authentic historical architecture, landscapes, and atmosphere from this period. Use dramatic lighting and composition suitable for a premium travel brochure.`;
           
           const imagePath = `client/public/tour-images/${tour.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`;
+
           
           // Create directory if it doesn't exist
           const dir = 'client/public/tour-images';
@@ -1745,8 +1746,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             fs.mkdirSync(dir, { recursive: true });
           }
           
-          // Generate image using Gemini
-          await generateEraImage(tour.title, imagePath);
+          // Generate image using Gemini  
+          const result = await generateEraImage(tour.title, tour.description, imagePath);
           
           imageResults.push({
             tourId: tour.id,

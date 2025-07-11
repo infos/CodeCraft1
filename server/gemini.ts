@@ -53,6 +53,7 @@ export async function generateEraImage(
                 console.log(`Generated image description: ${part.text}`);
             } else if (part.inlineData && part.inlineData.data) {
                 const imageData = Buffer.from(part.inlineData.data, "base64");
+
                 fs.writeFileSync(imagePath, imageData);
                 console.log(`Era image saved as ${imagePath}`);
                 const imageUrl = imagePath.replace('client/public', '');
