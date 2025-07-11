@@ -14,9 +14,7 @@ export default function BuildTourCopy() {
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
   const [eraImages, setEraImages] = useState<Record<string, string>>({});
   const [isGeneratingImages, setIsGeneratingImages] = useState(false);
-  const [selectedDuration, setSelectedDuration] = useState<string>('all');
-  const [selectedLocation, setSelectedLocation] = useState<string>('all');
-  const [selectedTourType, setSelectedTourType] = useState<string>('all');
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('all');
 
   const queryClient = useQueryClient();
 
@@ -125,13 +123,11 @@ export default function BuildTourCopy() {
     setShowGeneratedTours(false);
     
     if (eras.length > 0) {
-      // Generate tours for the selected eras and other filters
+      // Generate tours for the selected eras
       const filterData = {
-        selectedPeriods: [],
+        selectedPeriods: selectedPeriod !== 'all' ? [selectedPeriod] : [],
         selectedEras: eras,
-        selectedLocations: selectedLocation !== 'all' ? [selectedLocation] : [],
-        selectedDuration: selectedDuration !== 'all' ? selectedDuration : '',
-        selectedTourType: selectedTourType !== 'all' ? selectedTourType : ''
+        selectedLocations: []
       };
       generateToursMutation.mutate(filterData);
     } else {
@@ -140,22 +136,15 @@ export default function BuildTourCopy() {
     }
   };
 
-  const handleFilterChange = (filterType: string, value: string) => {
-    switch (filterType) {
-      case 'duration':
-        setSelectedDuration(value);
-        break;
-      case 'location':
-        setSelectedLocation(value);
-        break;
-      case 'tourType':
-        setSelectedTourType(value);
-        break;
-    }
+  const handlePeriodChange = (period: string) => {
+    setSelectedPeriod(period);
     
-    // Regenerate tours with new filters if eras are selected
-    if (selectedEras.length > 0) {
-      setTimeout(() => generateToursWithFilters(), 0);
+    // Filter eras based on selected period
+    if (period !== 'all') {
+      // Clear current era selections and regenerate if any were selected
+      if (selectedEras.length > 0) {
+        setTimeout(() => generateToursWithFilters(), 0);
+      }
     }
   };
 
@@ -173,24 +162,36 @@ export default function BuildTourCopy() {
   // Sort eras by startYear from oldest to newest
   const sortedEras = [...(eras || [])].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
 
+  // Filter eras based on selected period
+  const filteredEras = sortedEras.filter(era => {
+    if (selectedPeriod === 'all') return true;
+    
+    const startYear = era.startYear || 0;
+    switch (selectedPeriod) {
+      case 'ancient':
+        return startYear < -500; // Before 500 BCE
+      case 'classical':
+        return startYear >= -500 && startYear < 500; // 500 BCE to 500 CE
+      case 'medieval':
+        return startYear >= 500 && startYear < 1400; // 500 CE to 1400 CE
+      case 'renaissance':
+        return startYear >= 1400 && startYear < 1750; // 1400 CE to 1750 CE
+      case 'modern':
+        return startYear >= 1750; // 1750 CE onwards
+      default:
+        return true;
+    }
+  });
+
   // Display tours from either generated tours or database tours
   const toursToDisplay = showGeneratedTours && generatedTours.length > 0
     ? generatedTours.map(tour => ({
         ...tour,
         image: eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
-      })).filter(tour => {
-        // Apply additional filters to generated tours
-        if (selectedDuration !== 'all' && !tour.durationOptions?.includes(selectedDuration)) {
-          return false;
-        }
-        return true;
-      })
+      }))
     : (toursData || []).filter(tour => {
         // Filter database tours
         if (selectedEras.length > 0 && !selectedEras.some(era => tour.era && tour.era.toLowerCase() === era.toLowerCase())) {
-          return false;
-        }
-        if (selectedDuration !== 'all' && tour.duration && tour.duration !== selectedDuration) {
           return false;
         }
         return true;
@@ -225,80 +226,42 @@ export default function BuildTourCopy() {
             </Button>
           </div>
           
-          {/* Apple-style Menu Filters */}
-          <div className="border-t border-gray-100 py-3">
-            <div className="flex items-center justify-center space-x-8">
-              {/* Duration Filter */}
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium text-gray-700">Duration:</span>
-                <div className="flex space-x-1">
-                  {['all', '3 days', '5 days', '7 days', '10 days'].map((duration) => (
-                    <button
-                      key={duration}
-                      onClick={() => handleFilterChange('duration', duration)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                        selectedDuration === duration
-                          ? 'bg-black text-white'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                      }`}
-                    >
-                      {duration === 'all' ? 'All' : duration}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Location Filter */}
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium text-gray-700">Region:</span>
-                <div className="flex space-x-1">
-                  {['all', 'Middle East', 'Africa', 'Europe', 'Asia', 'Americas'].map((location) => (
-                    <button
-                      key={location}
-                      onClick={() => handleFilterChange('location', location)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                        selectedLocation === location
-                          ? 'bg-black text-white'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                      }`}
-                    >
-                      {location === 'all' ? 'All Regions' : location}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tour Type Filter */}
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium text-gray-700">Type:</span>
-                <div className="flex space-x-1">
-                  {['all', 'Archaeological', 'Cultural', 'Historical', 'Explorer'].map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => handleFilterChange('tourType', type)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                        selectedTourType === type
-                          ? 'bg-black text-white'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                      }`}
-                    >
-                      {type === 'all' ? 'All Types' : type}
-                    </button>
-                  ))}
-                </div>
+          {/* Apple-style Historical Periods Filter */}
+          <div className="border-t border-gray-100 py-4">
+            <div className="flex items-center justify-center space-x-2">
+              <span className="text-sm font-medium text-gray-700 mr-4">Historical Periods:</span>
+              <div className="flex space-x-1">
+                {[
+                  { key: 'all', label: 'All Periods' },
+                  { key: 'ancient', label: 'Ancient Times' },
+                  { key: 'classical', label: 'Classical Period' },
+                  { key: 'medieval', label: 'Medieval Period' },
+                  { key: 'renaissance', label: 'Renaissance' },
+                  { key: 'modern', label: 'Modern Era' }
+                ].map((period) => (
+                  <button
+                    key={period.key}
+                    onClick={() => handlePeriodChange(period.key)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                      selectedPeriod === period.key
+                        ? 'bg-black text-white'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}
+                  >
+                    {period.label}
+                  </button>
+                ))}
               </div>
 
               {/* Clear All Filters */}
-              {(selectedEras.length > 0 || selectedDuration !== 'all' || selectedLocation !== 'all' || selectedTourType !== 'all') && (
+              {(selectedEras.length > 0 || selectedPeriod !== 'all') && (
                 <button
                   onClick={() => {
                     setSelectedEras([]);
-                    setSelectedDuration('all');
-                    setSelectedLocation('all');
-                    setSelectedTourType('all');
+                    setSelectedPeriod('all');
                     setShowGeneratedTours(false);
                   }}
-                  className="px-4 py-1 rounded-full text-xs font-medium bg-gray-900 text-white hover:bg-gray-800 transition-all duration-200"
+                  className="ml-6 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 transition-all duration-200"
                 >
                   Clear All
                 </button>
@@ -309,7 +272,7 @@ export default function BuildTourCopy() {
           {/* Historical Eras Filter Chips */}
           <div className="pb-4">
             <div className="flex flex-wrap gap-2">
-              {sortedEras.map((era) => (
+              {filteredEras.map((era) => (
                 <button
                   key={era.id}
                   onClick={() => handleEraSelect(era.name)}
