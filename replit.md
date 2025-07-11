@@ -120,7 +120,7 @@ Changelog:
 - January 10, 2025. Removed Heritage Hero page from navigation and application per user request. Cleaned up all references to /hero route.
 - January 10, 2025. Implemented multi-select functionality for historical period chips. Users can now select multiple eras simultaneously with visual feedback.
 - January 10, 2025. Added Apple Store-inspired header filters with historical periods (Ancient Times, Classical Period, Medieval Period, Renaissance, Modern Era). Filters dynamically show/hide era chips based on time periods with intelligent year-range filtering.
-- January 10, 2025. Added Apple Store-style menu filters to Tour Builder header. Implemented sticky navigation with Duration, Region, and Type filters using black/white selection styling. Added Clear All filters button and integrated filter functionality with tour generation system.
+- January 10, 2025. Moved historical eras filter chips from header to main page body for better organization. Header now contains only broad historical period filters while specific era chips appear below the hero section with dynamic section titles.
 ```
 
 ## User Preferences

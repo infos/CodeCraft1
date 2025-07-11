@@ -268,25 +268,6 @@ export default function BuildTourCopy() {
               )}
             </div>
           </div>
-          
-          {/* Historical Eras Filter Chips */}
-          <div className="pb-4">
-            <div className="flex flex-wrap gap-2">
-              {filteredEras.map((era) => (
-                <button
-                  key={era.id}
-                  onClick={() => handleEraSelect(era.name)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
-                    selectedEras.includes(era.name)
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
-                  }`}
-                >
-                  {era.name} ({formatYear(era.startYear)}-{formatYear(era.endYear)})
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
 
@@ -303,6 +284,33 @@ export default function BuildTourCopy() {
               : 'Experience history first-hand with our curated historical tours'
             }
           </p>
+        </div>
+
+        {/* Historical Eras Filter Chips - Moved to Body */}
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            {selectedPeriod === 'all' ? 'All Historical Eras' : 
+             selectedPeriod === 'ancient' ? 'Ancient Times' :
+             selectedPeriod === 'classical' ? 'Classical Period' :
+             selectedPeriod === 'medieval' ? 'Medieval Period' :
+             selectedPeriod === 'renaissance' ? 'Renaissance' :
+             selectedPeriod === 'modern' ? 'Modern Era' : 'Historical Eras'}
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {filteredEras.map((era) => (
+              <button
+                key={era.id}
+                onClick={() => handleEraSelect(era.name)}
+                className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
+                  selectedEras.includes(era.name)
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+                }`}
+              >
+                {era.name} ({formatYear(era.startYear)}-{formatYear(era.endYear)})
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Tours Section */}
