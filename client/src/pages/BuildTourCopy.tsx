@@ -39,7 +39,8 @@ export default function BuildTourCopy() {
       const initialDurations: Record<string, string> = {};
       (data.tours || []).forEach((tour: any) => {
         if (tour.id && tour.defaultDuration) {
-          initialDurations[tour.id] = tour.defaultDuration;
+          const durationStr = typeof tour.defaultDuration === 'string' ? tour.defaultDuration : "7 days";
+          initialDurations[tour.id] = durationStr;
         }
       });
       setSelectedDurations(prev => ({ ...prev, ...initialDurations }));
@@ -222,8 +223,8 @@ export default function BuildTourCopy() {
 
           {/* Tours Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {toursToDisplay.map((tour: any) => (
-              <div key={tour.id} className="group">
+            {toursToDisplay.map((tour: any, index: number) => (
+              <div key={`${tour.id || index}-${tour.title}`} className="group">
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
                   {/* Tour Image */}
                   <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
@@ -253,18 +254,21 @@ export default function BuildTourCopy() {
                     {/* Duration and Price */}
                     <div className="flex items-center justify-between mb-4">
                       <Select 
-                        value={selectedDurations[tour.id] || tour.defaultDuration || "7 days"}
+                        value={selectedDurations[tour.id] || (typeof tour.defaultDuration === 'string' ? tour.defaultDuration : "7 days")}
                         onValueChange={(value) => handleDurationChange(tour.id, value)}
                       >
                         <SelectTrigger className="w-24 h-8 text-xs">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {(tour.durationOptions || ["3 days", "5 days", "7 days", "10 days"]).map((duration: string) => (
-                            <SelectItem key={duration} value={duration}>
-                              {duration}
-                            </SelectItem>
-                          ))}
+                          {(tour.durationOptions || ["3 days", "5 days", "7 days", "10 days"]).map((duration: any) => {
+                            const durationStr = typeof duration === 'string' ? duration : duration.duration || `${duration.days || duration} days`;
+                            return (
+                              <SelectItem key={durationStr} value={durationStr}>
+                                {durationStr}
+                              </SelectItem>
+                            );
+                          })}
                         </SelectContent>
                       </Select>
                       
@@ -285,7 +289,7 @@ export default function BuildTourCopy() {
                     </div>
 
                     {/* Action Button */}
-                    <Link href={`/tours/${tour.id}?duration=${selectedDurations[tour.id] || tour.defaultDuration || "7"}`}>
+                    <Link href={`/tours/${tour.id}?duration=${selectedDurations[tour.id] || (typeof tour.defaultDuration === 'string' ? tour.defaultDuration : "7 days")}`}>
                       <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm">
                         View Details
                       </Button>
