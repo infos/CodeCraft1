@@ -156,6 +156,16 @@ export default function BuildTourCopy() {
       .then(data => {
         console.log('Tour images generated:', data);
         setIsGeneratingImages(false);
+        
+        // Update the generated tours with the new image paths
+        if (data.success && data.images) {
+          setGeneratedTours(prevTours => 
+            prevTours.map(tour => {
+              const imageResult = data.images.find(img => img.tourId === tour.id);
+              return imageResult ? { ...tour, image: imageResult.imagePath } : tour;
+            })
+          );
+        }
       })
       .catch(error => {
         console.error('Error generating tour images:', error);
@@ -249,7 +259,7 @@ export default function BuildTourCopy() {
   const toursToDisplay = showGeneratedTours && generatedTours.length > 0
     ? generatedTours.map(tour => ({
         ...tour,
-        image: eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
+        image: tour.image || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
       }))
     : (toursData || []).filter(tour => {
         // Filter database tours
