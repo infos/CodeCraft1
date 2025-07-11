@@ -229,7 +229,6 @@ export default function BuildTourCopy() {
           {/* Apple-style Historical Periods Filter */}
           <div className="border-t border-gray-100 py-4">
             <div className="flex items-center justify-center space-x-2">
-              <span className="text-sm font-medium text-gray-700 mr-4">Historical Periods:</span>
               <div className="flex space-x-1">
                 {[
                   { key: 'all', label: 'All Periods' },
