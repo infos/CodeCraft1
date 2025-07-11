@@ -238,20 +238,6 @@ export default function BuildTourCopy() {
                   ))}
                 </div>
               </TooltipProvider>
-
-              {/* Clear All Filters */}
-              {(selectedEras.length > 0 || selectedPeriod !== 'all') && (
-                <button
-                  onClick={() => {
-                    setSelectedEras([]);
-                    setSelectedPeriod('all');
-                    setShowGeneratedTours(false);
-                  }}
-                  className="ml-6 px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white hover:bg-gray-800 transition-all duration-200"
-                >
-                  Clear All
-                </button>
-              )}
             </div>
           </div>
         </div>
