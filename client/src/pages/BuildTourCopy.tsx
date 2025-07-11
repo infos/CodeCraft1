@@ -8,7 +8,7 @@ import { Link } from 'wouter';
 import type { Era } from "@shared/schema";
 
 export default function BuildTourCopy() {
-  const [selectedEra, setSelectedEra] = useState<string | null>(null);
+  const [selectedEras, setSelectedEras] = useState<string[]>([]);
   const [showGeneratedTours, setShowGeneratedTours] = useState(false);
   const [generatedTours, setGeneratedTours] = useState<any[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
@@ -102,18 +102,32 @@ export default function BuildTourCopy() {
     generateEraImagesMutation.mutate();
   };
 
-  const handleEraSelect = (eraName: string | null) => {
-    setSelectedEra(eraName);
+  const handleEraSelect = (eraName: string) => {
+    const isSelected = selectedEras.includes(eraName);
+    let newSelectedEras: string[];
+    
+    if (isSelected) {
+      // Remove from selection
+      newSelectedEras = selectedEras.filter(era => era !== eraName);
+    } else {
+      // Add to selection
+      newSelectedEras = [...selectedEras, eraName];
+    }
+    
+    setSelectedEras(newSelectedEras);
     setShowGeneratedTours(false);
     
-    if (eraName) {
-      // Generate tours for the selected era
+    if (newSelectedEras.length > 0) {
+      // Generate tours for the selected eras
       const filterData = {
         selectedPeriods: [],
-        selectedEras: [eraName],
+        selectedEras: newSelectedEras,
         selectedLocations: []
       };
       generateToursMutation.mutate(filterData);
+    } else {
+      // If no eras selected, hide generated tours
+      setShowGeneratedTours(false);
     }
   };
 
@@ -135,10 +149,10 @@ export default function BuildTourCopy() {
   const toursToDisplay = showGeneratedTours && generatedTours.length > 0
     ? generatedTours.map(tour => ({
         ...tour,
-        image: eraImages[selectedEra || ''] || '/era-images/default.jpg'
+        image: eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
       }))
     : (toursData || []).filter(tour => 
-        selectedEra ? tour.era && tour.era.toLowerCase() === selectedEra.toLowerCase() : true
+        selectedEras.length > 0 ? selectedEras.some(era => tour.era && tour.era.toLowerCase() === era.toLowerCase()) : true
       );
 
   return (
@@ -177,7 +191,7 @@ export default function BuildTourCopy() {
                   key={era.id}
                   onClick={() => handleEraSelect(era.name)}
                   className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
-                    selectedEra === era.name
+                    selectedEras.includes(era.name)
                       ? 'bg-blue-600 text-white border-blue-600'
                       : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
                   }`}
@@ -195,11 +209,11 @@ export default function BuildTourCopy() {
         {/* Apple Store Style Hero Section */}
         <div className="text-center mb-12">
           <h2 className="text-6xl font-light text-gray-900 mb-4">
-            {selectedEra ? `${selectedEra} Tours` : 'Heritage Tours'}
+            {selectedEras.length > 0 ? `${selectedEras.length === 1 ? selectedEras[0] : 'Multi-Era'} Tours` : 'Heritage Tours'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {selectedEra 
-              ? `Discover the wonders of ${selectedEra} through our expertly curated heritage experiences`
+            {selectedEras.length > 0 
+              ? `Discover the wonders of ${selectedEras.length === 1 ? selectedEras[0] : 'multiple historical periods'} through our expertly curated heritage experiences`
               : 'Experience history first-hand with our curated historical tours'
             }
           </p>
@@ -209,10 +223,10 @@ export default function BuildTourCopy() {
         <div>
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-900">Available Tours</h3>
-            {selectedEra && (
+            {selectedEras.length > 0 && (
               <Button
                 variant="outline"
-                onClick={() => handleEraSelect(null)}
+                onClick={() => setSelectedEras([])}
                 className="flex items-center gap-2 text-sm"
               >
                 <XIcon className="w-4 h-4" />
@@ -229,7 +243,7 @@ export default function BuildTourCopy() {
                   {/* Tour Image */}
                   <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                     <img
-                      src={tour.image || eraImages[selectedEra || ''] || '/era-images/default.jpg'}
+                      src={tour.image || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'}
                       alt={tour.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -303,8 +317,8 @@ export default function BuildTourCopy() {
           {toursToDisplay.length === 0 && (
             <div className="text-center py-12">
               <p className="text-gray-500">
-                {selectedEra 
-                  ? `No tours found for ${selectedEra}. Try selecting a different era.`
+                {selectedEras.length > 0
+                  ? `No tours found for ${selectedEras.length === 1 ? selectedEras[0] : 'the selected eras'}. Try selecting different eras.`
                   : 'No tours available. Please try again later.'
                 }
               </p>
