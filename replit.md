@@ -118,6 +118,7 @@ Changelog:
 - January 3, 2025. Restructured tour builder layout based on Apple Store design: moved historical periods to dropdown filter at top header, changed body to show historical eras as compact filter buttons, and displayed tours with images below in Apple product card style.
 - January 10, 2025. Updated tour builder to match historical tours page exactly. Replaced grouped historical periods with individual era chip filters (Ancient Near Eastern, Ancient Egypt, etc.) using same format and year ranges as historical tours page.
 - January 10, 2025. Removed Heritage Hero page from navigation and application per user request. Cleaned up all references to /hero route.
+- January 10, 2025. Added Apple Store-style menu filters to Tour Builder header. Implemented sticky navigation with Duration, Region, and Type filters using black/white selection styling. Added Clear All filters button and integrated filter functionality with tour generation system.
 ```
 
 ## User Preferences

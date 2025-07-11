@@ -14,6 +14,9 @@ export default function BuildTourCopy() {
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
   const [eraImages, setEraImages] = useState<Record<string, string>>({});
   const [isGeneratingImages, setIsGeneratingImages] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState<string>('all');
+  const [selectedLocation, setSelectedLocation] = useState<string>('all');
+  const [selectedTourType, setSelectedTourType] = useState<string>('all');
 
   const queryClient = useQueryClient();
 
@@ -115,19 +118,44 @@ export default function BuildTourCopy() {
     }
     
     setSelectedEras(newSelectedEras);
+    generateToursWithFilters(newSelectedEras);
+  };
+
+  const generateToursWithFilters = (eras: string[] = selectedEras) => {
     setShowGeneratedTours(false);
     
-    if (newSelectedEras.length > 0) {
-      // Generate tours for the selected eras
+    if (eras.length > 0) {
+      // Generate tours for the selected eras and other filters
       const filterData = {
         selectedPeriods: [],
-        selectedEras: newSelectedEras,
-        selectedLocations: []
+        selectedEras: eras,
+        selectedLocations: selectedLocation !== 'all' ? [selectedLocation] : [],
+        selectedDuration: selectedDuration !== 'all' ? selectedDuration : '',
+        selectedTourType: selectedTourType !== 'all' ? selectedTourType : ''
       };
       generateToursMutation.mutate(filterData);
     } else {
       // If no eras selected, hide generated tours
       setShowGeneratedTours(false);
+    }
+  };
+
+  const handleFilterChange = (filterType: string, value: string) => {
+    switch (filterType) {
+      case 'duration':
+        setSelectedDuration(value);
+        break;
+      case 'location':
+        setSelectedLocation(value);
+        break;
+      case 'tourType':
+        setSelectedTourType(value);
+        break;
+    }
+    
+    // Regenerate tours with new filters if eras are selected
+    if (selectedEras.length > 0) {
+      setTimeout(() => generateToursWithFilters(), 0);
     }
   };
 
@@ -150,16 +178,30 @@ export default function BuildTourCopy() {
     ? generatedTours.map(tour => ({
         ...tour,
         image: eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
-      }))
-    : (toursData || []).filter(tour => 
-        selectedEras.length > 0 ? selectedEras.some(era => tour.era && tour.era.toLowerCase() === era.toLowerCase()) : true
-      );
+      })).filter(tour => {
+        // Apply additional filters to generated tours
+        if (selectedDuration !== 'all' && !tour.durationOptions?.includes(selectedDuration)) {
+          return false;
+        }
+        return true;
+      })
+    : (toursData || []).filter(tour => {
+        // Filter database tours
+        if (selectedEras.length > 0 && !selectedEras.some(era => tour.era && tour.era.toLowerCase() === era.toLowerCase())) {
+          return false;
+        }
+        if (selectedDuration !== 'all' && tour.duration && tour.duration !== selectedDuration) {
+          return false;
+        }
+        return true;
+      });
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      {/* Header - Apple Style */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Main Header */}
           <div className="flex items-center justify-between py-4">
             <h1 className="text-2xl font-semibold text-gray-900">Tour Builder</h1>
             
@@ -183,7 +225,88 @@ export default function BuildTourCopy() {
             </Button>
           </div>
           
-          {/* Historical Eras Filter Chips - matching historical tours page */}
+          {/* Apple-style Menu Filters */}
+          <div className="border-t border-gray-100 py-3">
+            <div className="flex items-center justify-center space-x-8">
+              {/* Duration Filter */}
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">Duration:</span>
+                <div className="flex space-x-1">
+                  {['all', '3 days', '5 days', '7 days', '10 days'].map((duration) => (
+                    <button
+                      key={duration}
+                      onClick={() => handleFilterChange('duration', duration)}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        selectedDuration === duration
+                          ? 'bg-black text-white'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      }`}
+                    >
+                      {duration === 'all' ? 'All' : duration}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Location Filter */}
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">Region:</span>
+                <div className="flex space-x-1">
+                  {['all', 'Middle East', 'Africa', 'Europe', 'Asia', 'Americas'].map((location) => (
+                    <button
+                      key={location}
+                      onClick={() => handleFilterChange('location', location)}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        selectedLocation === location
+                          ? 'bg-black text-white'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      }`}
+                    >
+                      {location === 'all' ? 'All Regions' : location}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tour Type Filter */}
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">Type:</span>
+                <div className="flex space-x-1">
+                  {['all', 'Archaeological', 'Cultural', 'Historical', 'Explorer'].map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => handleFilterChange('tourType', type)}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                        selectedTourType === type
+                          ? 'bg-black text-white'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                      }`}
+                    >
+                      {type === 'all' ? 'All Types' : type}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Clear All Filters */}
+              {(selectedEras.length > 0 || selectedDuration !== 'all' || selectedLocation !== 'all' || selectedTourType !== 'all') && (
+                <button
+                  onClick={() => {
+                    setSelectedEras([]);
+                    setSelectedDuration('all');
+                    setSelectedLocation('all');
+                    setSelectedTourType('all');
+                    setShowGeneratedTours(false);
+                  }}
+                  className="px-4 py-1 rounded-full text-xs font-medium bg-gray-900 text-white hover:bg-gray-800 transition-all duration-200"
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
+          </div>
+          
+          {/* Historical Eras Filter Chips */}
           <div className="pb-4">
             <div className="flex flex-wrap gap-2">
               {sortedEras.map((era) => (
