@@ -116,6 +116,8 @@ Changelog:
 - January 3, 2025. Removed Heritage Hero page per user request. Cleaned up /hero route and HeroPage.tsx file from the application.
 - January 3, 2025. Recreated tour builder page with Apple Store-inspired design. Implemented clean minimalist layout, hero section with large typography, navigation pills, product-style era cards with hover effects, star ratings, and elegant spacing following Apple's design language.
 - January 3, 2025. Restructured tour builder layout based on Apple Store design: moved historical periods to dropdown filter at top header, changed body to show historical eras as compact filter buttons, and displayed tours with images below in Apple product card style.
+- January 10, 2025. Updated tour builder to match historical tours page exactly. Replaced grouped historical periods with individual era chip filters (Ancient Near Eastern, Ancient Egypt, etc.) using same format and year ranges as historical tours page.
+- January 10, 2025. Removed Heritage Hero page from navigation and application per user request. Cleaned up all references to /hero route.
 ```
 
 ## User Preferences
