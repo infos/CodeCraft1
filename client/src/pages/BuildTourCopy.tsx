@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Loader2, Sparkles, XIcon, MapPin, Star } from 'lucide-react';
 import { Link } from 'wouter';
 import type { Era } from "@shared/schema";
@@ -229,28 +230,36 @@ export default function BuildTourCopy() {
           {/* Apple-style Historical Periods Filter */}
           <div className="border-t border-gray-100 py-4">
             <div className="flex items-center justify-center space-x-2">
-              <div className="flex space-x-1">
-                {[
-                  { key: 'all', label: 'All Periods' },
-                  { key: 'ancient', label: 'Ancient Times' },
-                  { key: 'classical', label: 'Classical Period' },
-                  { key: 'medieval', label: 'Medieval Period' },
-                  { key: 'renaissance', label: 'Renaissance' },
-                  { key: 'modern', label: 'Modern Era' }
-                ].map((period) => (
-                  <button
-                    key={period.key}
-                    onClick={() => handlePeriodChange(period.key)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                      selectedPeriod === period.key
-                        ? 'bg-black text-white'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                  >
-                    {period.label}
-                  </button>
-                ))}
-              </div>
+              <TooltipProvider>
+                <div className="flex space-x-1">
+                  {[
+                    { key: 'all', label: 'All Periods', tooltip: 'All historical eras' },
+                    { key: 'ancient', label: 'Ancient Times', tooltip: 'Before 500 BCE' },
+                    { key: 'classical', label: 'Classical Period', tooltip: '500 BCE - 500 CE' },
+                    { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1400 CE' },
+                    { key: 'renaissance', label: 'Renaissance', tooltip: '1400 CE - 1750 CE' },
+                    { key: 'modern', label: 'Modern Era', tooltip: '1750 CE onwards' }
+                  ].map((period) => (
+                    <Tooltip key={period.key}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => handlePeriodChange(period.key)}
+                          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedPeriod === period.key
+                              ? 'bg-black text-white'
+                              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                          }`}
+                        >
+                          {period.label}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{period.tooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+              </TooltipProvider>
 
               {/* Clear All Filters */}
               {(selectedEras.length > 0 || selectedPeriod !== 'all') && (
