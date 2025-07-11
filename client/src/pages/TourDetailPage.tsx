@@ -17,20 +17,33 @@ export default function TourDetailPage() {
   const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
   const [tourImages, setTourImages] = useState<string[]>([]);
 
+  // Use details endpoint for generated tours (ID >= 1000), regular endpoint for database tours
+  const isGeneratedTour = tourId >= 1000;
+  const tourEndpoint = isGeneratedTour ? `/api/tours/${tourId}/details` : `/api/tours/${tourId}`;
+  
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
-    queryKey: [`/api/tours/${tourId}`],
+    queryKey: [tourEndpoint],
     enabled: !!tourId
   });
 
+  // For generated tours, itineraries are included in the tour object
+  // For database tours, we need separate queries
   const { data: itineraries, isLoading: itinerariesLoading } = useQuery<Itinerary[]>({
     queryKey: [`/api/tours/${tourId}/itineraries`],
-    enabled: !!tourId
+    enabled: !!tourId && !isGeneratedTour
   });
 
   const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
     queryKey: [`/api/tours/${tourId}/hotels`],
-    enabled: !!tourId
+    enabled: !!tourId && !isGeneratedTour
   });
+
+  // Extract itineraries from tour object for generated tours
+  const finalItineraries = isGeneratedTour ? (tour as any)?.itinerary || [] : itineraries || [];
+  const finalHotels = isGeneratedTour ? [] : hotels || []; // Generated tours don't have separate hotel data
+  
+  // Loading states
+  const isLoading = tourLoading || (!isGeneratedTour && (itinerariesLoading || hotelsLoading));
 
   // Generate era video for the tour
   const generateVideoMutation = useMutation({
@@ -107,7 +120,7 @@ export default function TourDetailPage() {
     }
   };
 
-  if (tourLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-white">
         <div className="animate-pulse">
@@ -138,21 +151,23 @@ export default function TourDetailPage() {
   }
 
   // Duration options matching Apple's storage options pattern
+  // Default price for generated tours if not provided
+  const basePrice = tour.price || 2499;
   const durationOptions = [
-    { label: "3 days", value: "3 days", price: Math.round(tour.price * 0.6) },
-    { label: "5 days", value: "5 days", price: Math.round(tour.price * 0.8) },
-    { label: "7 days", value: "7 days", price: tour.price },
-    { label: "10 days", value: "10 days", price: Math.round(tour.price * 1.3) }
+    { label: "3 days", value: "3 days", price: Math.round(basePrice * 0.6) },
+    { label: "5 days", value: "5 days", price: Math.round(basePrice * 0.8) },
+    { label: "7 days", value: "7 days", price: basePrice },
+    { label: "10 days", value: "10 days", price: Math.round(basePrice * 1.3) }
   ];
 
   // Sort itineraries by day number
-  const sortedItineraries = itineraries ? [...itineraries].sort((a, b) => a.day - b.day) : [];
+  const sortedItineraries = finalItineraries ? [...finalItineraries].sort((a, b) => a.day - b.day) : [];
   
   // Filter itineraries based on selected duration
   const selectedDays = parseInt(selectedDuration);
   const filteredItineraries = sortedItineraries.slice(0, selectedDays);
 
-  const selectedPrice = durationOptions.find(d => d.value === selectedDuration)?.price || tour.price;
+  const selectedPrice = durationOptions.find(d => d.value === selectedDuration)?.price || basePrice;
 
   return (
     <div className="min-h-screen bg-white">
@@ -328,7 +343,7 @@ export default function TourDetailPage() {
             Your {selectedDuration} journey
           </h2>
           <div className="max-w-4xl mx-auto">
-            {itinerariesLoading ? (
+            {isLoading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="h-32 bg-gray-100 rounded-2xl animate-pulse"></div>
@@ -368,7 +383,7 @@ export default function TourDetailPage() {
             Where you'll stay
           </h2>
           <div className="max-w-4xl mx-auto">
-            {hotelsLoading ? (
+            {isLoading ? (
               <div className="grid md:grid-cols-2 gap-6">
                 {[1, 2].map((i) => (
                   <div key={i} className="h-48 bg-gray-100 rounded-2xl animate-pulse"></div>
@@ -376,7 +391,7 @@ export default function TourDetailPage() {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
-                {hotels?.slice(0, 4).map((hotel) => (
+                {finalHotels?.slice(0, 4).map((hotel) => (
                   <Card key={hotel.id} className="border-0 shadow-sm overflow-hidden">
                     <CardContent className="p-0">
                       <div className="aspect-video bg-gray-100 relative">
