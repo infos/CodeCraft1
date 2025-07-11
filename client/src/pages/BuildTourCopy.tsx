@@ -315,7 +315,7 @@ export default function BuildTourCopy() {
                     : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
                 }`}
               >
-                {era.name} ({formatYear(era.startYear)}-{formatYear(era.endYear)})
+                {era.name}
               </button>
             ))}
           </div>
