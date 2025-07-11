@@ -203,12 +203,10 @@ export default function BuildTourCopy() {
       {/* Header - Apple Style */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Main Header */}
-          <div className="py-4">
-          </div>
+
           
           {/* Apple-style Historical Periods Filter */}
-          <div className="border-t border-gray-100 py-4">
+          <div className="py-4">
             <div className="flex items-center justify-center space-x-2">
               <TooltipProvider>
                 <div className="flex space-x-1">
