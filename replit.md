@@ -126,6 +126,7 @@ Changelog:
 - January 10, 2025. Updated tour detail page design to match Apple iPhone 16 Pro page layout with clean white background, Apple-style duration selection cards, pricing display similar to storage options, and card-based itinerary layout. Enhanced tour cards with Apple product design patterns including rounded corners, hover effects, and Apple-style pricing with monthly payment options.
 - January 10, 2025. Added timeline tooltips to historical era chips showing specific year ranges (e.g., "Ancient Egypt: 3100 BCE - 30 BCE", "Ancient Rome: 753 BCE - 476 CE"). Users can now hover over era chips to see the exact historical timeframe for each civilization.
 - January 11, 2025. Implemented comprehensive tour image database storage system. Added tour_images table with full CRUD operations. Updated image generation endpoints to check database first before generating new images. Tour builder and detail pages now load existing images from database and cache new generations for improved performance and cost efficiency.
+- January 12, 2025. Hid historical tours page from navigation and renamed tour builder copy page to "Heritage Tours". Updated routing to make Heritage Tours the main landing page with simplified navigation focused on the core tour building experience.
 ```
 
 ## User Preferences

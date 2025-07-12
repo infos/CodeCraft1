@@ -11,27 +11,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <ul className="flex justify-center flex-wrap">
             <li className="mx-4">
               <Link 
-                href="/copy-of-eras"
+                href="/"
                 className={cn(
                   "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/copy-of-eras" ? "bg-[#555]" : ""
+                  location === "/" || location === "/heritage-tours" ? "bg-[#555]" : ""
                 )}
               >
-                Historical Tours
+                Heritage Tours
               </Link>
             </li>
-            <li className="mx-4">
-              <Link 
-                href="/build-tour-copy"
-                className={cn(
-                  "px-4 py-2 rounded-md transition-colors hover:bg-[#555] inline-block",
-                  location === "/build-tour-copy" ? "bg-[#555]" : ""
-                )}
-              >
-                Tour Builder Copy
-              </Link>
-            </li>
-
           </ul>
         </nav>
       </header>
