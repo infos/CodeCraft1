@@ -64,12 +64,23 @@ export const eraImages = pgTable("era_images", {
   generatedAt: timestamp("generated_at").defaultNow(),
 });
 
+export const tourImages = pgTable("tour_images", {
+  id: serial("id").primaryKey(),
+  tourId: integer("tour_id").notNull(),
+  tourTitle: text("tour_title").notNull(),
+  imageUrl: text("image_url").notNull(),
+  imageDescription: text("image_description"),
+  prompt: text("prompt"),
+  generatedAt: timestamp("generated_at").defaultNow(),
+});
+
 export const insertEraSchema = createInsertSchema(eras).omit({ id: true });
 export const insertEmperorSchema = createInsertSchema(emperors).omit({ id: true });
 export const insertTourSchema = createInsertSchema(tours).omit({ id: true });
 export const insertItinerarySchema = createInsertSchema(itineraries).omit({ id: true });
 export const insertHotelSchema = createInsertSchema(hotelRecommendations).omit({ id: true });
 export const insertEraImageSchema = createInsertSchema(eraImages).omit({ id: true, generatedAt: true });
+export const insertTourImageSchema = createInsertSchema(tourImages).omit({ id: true, generatedAt: true });
 
 export type Era = typeof eras.$inferSelect;
 export type InsertEra = z.infer<typeof insertEraSchema>;
@@ -83,3 +94,5 @@ export type HotelRecommendation = typeof hotelRecommendations.$inferSelect;
 export type InsertHotelRecommendation = z.infer<typeof insertHotelSchema>;
 export type EraImage = typeof eraImages.$inferSelect;
 export type InsertEraImage = z.infer<typeof insertEraImageSchema>;
+export type TourImage = typeof tourImages.$inferSelect;
+export type InsertTourImage = z.infer<typeof insertTourImageSchema>;

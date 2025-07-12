@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRoute } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -81,9 +81,35 @@ export default function TourDetailPage() {
     generateVideoMutation.mutate();
   };
 
+  // Load existing tour images automatically when tour loads
+  useEffect(() => {
+    if (existingTourImages && existingTourImages.length > 0 && tourImages.length === 0) {
+      const imageUrls = existingTourImages.map((img: any) => img.imageUrl);
+      setTourImages(imageUrls);
+    }
+  }, [existingTourImages, tourImages.length]);
+
+  // Fetch existing tour images for carousel
+  const { data: existingTourImages } = useQuery({
+    queryKey: [`/api/tour-images/${tourId}`],
+    enabled: !!tourId,
+    queryFn: async () => {
+      const response = await fetch(`/api/tour-images/${tourId}`);
+      if (!response.ok) throw new Error('Failed to load tour images');
+      return response.json();
+    },
+  });
+
   // Generate multiple tour images for carousel
   const generateImagesForCarousel = async () => {
     if (!tour) return;
+    
+    // First check if we already have images in the database
+    if (existingTourImages && existingTourImages.length >= 4) {
+      const imageUrls = existingTourImages.slice(0, 4).map((img: any) => img.imageUrl);
+      setTourImages(imageUrls);
+      return;
+    }
     
     const imagePromises = [];
     const imageDescriptions = [

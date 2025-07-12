@@ -1772,9 +1772,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       for (const tour of tours) {
         try {
+          // Check if image already exists in database
+          const existingImage = await storage.getTourImage(tour.id, tour.title);
+          
+          if (existingImage) {
+            console.log(`Using existing image for tour: ${tour.title}`);
+            imageResults.push({
+              tourId: tour.id,
+              title: tour.title,
+              imagePath: existingImage.imageUrl,
+              prompt: existingImage.prompt,
+              fromDatabase: true
+            });
+            continue;
+          }
+
           const prompt = `Create a cinematic, historically accurate image of ${tour.title}. ${tour.description}. Show authentic historical architecture, landscapes, and atmosphere from this period. Use dramatic lighting and composition suitable for a premium travel brochure.`;
           
           const imagePath = `client/public/tour-images/${tour.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`;
+          const publicImagePath = `/tour-images/${tour.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`;
 
           
           // Create directory if it doesn't exist
@@ -1786,14 +1802,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Generate image using Gemini  
           const result = await generateEraImage(tour.title, tour.description, imagePath);
           
-          imageResults.push({
+          // Save to database
+          const savedImage = await storage.createTourImage({
             tourId: tour.id,
-            title: tour.title,
-            imagePath: `/tour-images/${tour.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`,
+            tourTitle: tour.title,
+            imageUrl: publicImagePath,
+            imageDescription: tour.description,
             prompt: prompt
           });
           
-          console.log(`Generated image for tour: ${tour.title}`);
+          imageResults.push({
+            tourId: tour.id,
+            title: tour.title,
+            imagePath: publicImagePath,
+            prompt: prompt,
+            fromDatabase: false
+          });
+          
+          console.log(`Generated and saved image for tour: ${tour.title}`);
           
           // Add a small delay to avoid rate limiting
           await new Promise(resolve => setTimeout(resolve, 1000));
@@ -1819,6 +1845,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         error: "Failed to generate tour images",
         details: error instanceof Error ? error.message : "Unknown error"
       });
+    }
+  });
+
+  // Get tour images from database
+  app.get("/api/tour-images", async (req, res) => {
+    try {
+      const images = await storage.getAllTourImages();
+      res.json(images);
+    } catch (error) {
+      console.error("Error fetching tour images:", error);
+      res.status(500).json({ message: "Failed to fetch tour images" });
+    }
+  });
+
+  // Get tour images by tour ID
+  app.get("/api/tour-images/:tourId", async (req, res) => {
+    try {
+      const tourId = parseInt(req.params.tourId);
+      const images = await storage.getTourImagesByTourId(tourId);
+      res.json(images);
+    } catch (error) {
+      console.error("Error fetching tour images:", error);
+      res.status(500).json({ message: "Failed to fetch tour images" });
     }
   });
 

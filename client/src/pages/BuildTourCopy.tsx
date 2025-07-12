@@ -114,11 +114,28 @@ export default function BuildTourCopy() {
     },
   });
 
+  // Fetch existing tour images from database
+  const { data: tourImages } = useQuery({
+    queryKey: ['/api/tour-images'],
+    queryFn: async () => {
+      const response = await fetch('/api/tour-images');
+      if (!response.ok) throw new Error('Failed to load tour images');
+      return response.json();
+    },
+  });
+
   useEffect(() => {
     if (existingImagesData?.imageUrls) {
       setEraImages(existingImagesData.imageUrls);
     }
   }, [existingImagesData]);
+
+  // Helper function to get tour image by tour ID
+  const getTourImageUrl = (tourId: number): string | null => {
+    if (!tourImages) return null;
+    const image = tourImages.find((img: any) => img.tourId === tourId);
+    return image?.imageUrl || null;
+  };
 
   const handleGenerateImages = () => {
     setIsGeneratingImages(true);
@@ -157,7 +174,7 @@ export default function BuildTourCopy() {
         console.log('Tour images generated:', data);
         setIsGeneratingImages(false);
         
-        // Update the generated tours with the new image paths
+        // Update the generated tours with the new image paths and refresh tour images cache
         if (data.success && data.images) {
           setGeneratedTours(prevTours => 
             prevTours.map(tour => {
@@ -165,6 +182,8 @@ export default function BuildTourCopy() {
               return imageResult ? { ...tour, image: imageResult.imagePath } : tour;
             })
           );
+          // Invalidate and refetch tour images cache
+          queryClient.invalidateQueries({ queryKey: ['/api/tour-images'] });
         }
       })
       .catch(error => {
@@ -259,7 +278,7 @@ export default function BuildTourCopy() {
   const toursToDisplay = showGeneratedTours && generatedTours.length > 0
     ? generatedTours.map(tour => ({
         ...tour,
-        image: tour.image || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
+        image: tour.image || getTourImageUrl(tour.id) || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
       }))
     : (toursData || []).filter(tour => {
         // Filter database tours
@@ -267,7 +286,10 @@ export default function BuildTourCopy() {
           return false;
         }
         return true;
-      });
+      }).map(tour => ({
+        ...tour,
+        image: getTourImageUrl(tour.id) || tour.imageUrl || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
+      }));
 
   return (
     <div className="min-h-screen bg-white">
@@ -409,7 +431,7 @@ export default function BuildTourCopy() {
                   {/* Tour Image */}
                   <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
                     <img
-                      src={tour.image || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'}
+                      src={tour.image}
                       alt={tour.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />

@@ -1,4 +1,4 @@
-import { emperors, tours, itineraries, hotelRecommendations, eraImages, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras, type EraImage, type InsertEraImage } from "@shared/schema";
+import { emperors, tours, itineraries, hotelRecommendations, eraImages, tourImages, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras, type EraImage, type InsertEraImage, type TourImage, type InsertTourImage } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import * as fs from 'fs';
@@ -33,6 +33,13 @@ export interface IStorage {
   getEraImage(eraName: string): Promise<EraImage | undefined>;
   createEraImage(eraImage: InsertEraImage): Promise<EraImage>;
   updateEraImage(eraName: string, eraImage: Partial<InsertEraImage>): Promise<EraImage>;
+
+  // Tour image operations
+  getAllTourImages(): Promise<TourImage[]>;
+  getTourImage(tourId: number, tourTitle: string): Promise<TourImage | undefined>;
+  getTourImagesByTourId(tourId: number): Promise<TourImage[]>;
+  createTourImage(tourImage: InsertTourImage): Promise<TourImage>;
+  updateTourImage(id: number, tourImage: Partial<InsertTourImage>): Promise<TourImage>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -118,6 +125,34 @@ export class DatabaseStorage implements IStorage {
     const [image] = await db.update(eraImages)
       .set(updateData)
       .where(eq(eraImages.eraName, eraName))
+      .returning();
+    return image;
+  }
+
+  // Tour image operations
+  async getAllTourImages(): Promise<TourImage[]> {
+    return db.select().from(tourImages);
+  }
+
+  async getTourImage(tourId: number, tourTitle: string): Promise<TourImage | undefined> {
+    const [image] = await db.select().from(tourImages)
+      .where(eq(tourImages.tourId, tourId));
+    return image || undefined;
+  }
+
+  async getTourImagesByTourId(tourId: number): Promise<TourImage[]> {
+    return db.select().from(tourImages).where(eq(tourImages.tourId, tourId));
+  }
+
+  async createTourImage(insertTourImage: InsertTourImage): Promise<TourImage> {
+    const [image] = await db.insert(tourImages).values(insertTourImage).returning();
+    return image;
+  }
+
+  async updateTourImage(id: number, updateData: Partial<InsertTourImage>): Promise<TourImage> {
+    const [image] = await db.update(tourImages)
+      .set(updateData)
+      .where(eq(tourImages.id, id))
       .returning();
     return image;
   }
