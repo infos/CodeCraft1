@@ -484,10 +484,10 @@ export default function BuildTourCopy() {
                     <div className="flex items-center mb-4">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
+                          <Star key={i} className="w-3 h-3 text-gray-300" />
                         ))}
                       </div>
-                      <span className="ml-2 text-xs text-gray-500">4.9 (128)</span>
+                      <span className="ml-2 text-xs text-gray-500">0 (0 reviews)</span>
                     </div>
 
                     {/* Action Button */}
