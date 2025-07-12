@@ -1,4 +1,4 @@
-import { emperors, tours, itineraries, hotelRecommendations, eraImages, tourImages, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras, type EraImage, type InsertEraImage, type TourImage, type InsertTourImage } from "@shared/schema";
+import { emperors, tours, itineraries, hotelRecommendations, eraImages, tourImages, tourVideos, type Emperor, type InsertEmperor, type Tour, type InsertTour, type Itinerary, type InsertItinerary, type HotelRecommendation, type InsertHotelRecommendation, type Era, type InsertEra, eras, type EraImage, type InsertEraImage, type TourImage, type InsertTourImage, type TourVideo, type InsertTourVideo } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 import * as fs from 'fs';
@@ -40,6 +40,13 @@ export interface IStorage {
   getTourImagesByTourId(tourId: number): Promise<TourImage[]>;
   createTourImage(tourImage: InsertTourImage): Promise<TourImage>;
   updateTourImage(id: number, tourImage: Partial<InsertTourImage>): Promise<TourImage>;
+
+  // Tour video operations
+  getAllTourVideos(): Promise<TourVideo[]>;
+  getTourVideo(tourId: number, tourTitle: string): Promise<TourVideo | undefined>;
+  getTourVideosByTourId(tourId: number): Promise<TourVideo[]>;
+  createTourVideo(tourVideo: InsertTourVideo): Promise<TourVideo>;
+  updateTourVideo(id: number, tourVideo: Partial<InsertTourVideo>): Promise<TourVideo>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -155,6 +162,38 @@ export class DatabaseStorage implements IStorage {
       .where(eq(tourImages.id, id))
       .returning();
     return image;
+  }
+
+  // Tour video operations
+  async getAllTourVideos(): Promise<TourVideo[]> {
+    return await db.select().from(tourVideos);
+  }
+
+  async getTourVideo(tourId: number, tourTitle: string): Promise<TourVideo | undefined> {
+    const [video] = await db.select().from(tourVideos)
+      .where(eq(tourVideos.tourId, tourId) && eq(tourVideos.tourTitle, tourTitle));
+    return video || undefined;
+  }
+
+  async getTourVideosByTourId(tourId: number): Promise<TourVideo[]> {
+    return await db.select().from(tourVideos).where(eq(tourVideos.tourId, tourId));
+  }
+
+  async createTourVideo(insertTourVideo: InsertTourVideo): Promise<TourVideo> {
+    const [video] = await db
+      .insert(tourVideos)
+      .values(insertTourVideo)
+      .returning();
+    return video;
+  }
+
+  async updateTourVideo(id: number, updateData: Partial<InsertTourVideo>): Promise<TourVideo> {
+    const [video] = await db
+      .update(tourVideos)
+      .set(updateData)
+      .where(eq(tourVideos.id, id))
+      .returning();
+    return video;
   }
 
   async initializeData() {

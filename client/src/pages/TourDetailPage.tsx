@@ -81,14 +81,6 @@ export default function TourDetailPage() {
     generateVideoMutation.mutate();
   };
 
-  // Load existing tour images automatically when tour loads
-  useEffect(() => {
-    if (existingTourImages && existingTourImages.length > 0 && tourImages.length === 0) {
-      const imageUrls = existingTourImages.map((img: any) => img.imageUrl);
-      setTourImages(imageUrls);
-    }
-  }, [existingTourImages, tourImages.length]);
-
   // Fetch existing tour images for carousel
   const { data: existingTourImages } = useQuery({
     queryKey: [`/api/tour-images/${tourId}`],
@@ -99,6 +91,32 @@ export default function TourDetailPage() {
       return response.json();
     },
   });
+
+  // Fetch existing tour videos
+  const { data: existingTourVideos } = useQuery({
+    queryKey: [`/api/tour-videos/${tourId}`],
+    enabled: !!tourId,
+    queryFn: async () => {
+      const response = await fetch(`/api/tour-videos/${tourId}`);
+      if (!response.ok) throw new Error('Failed to load tour videos');
+      return response.json();
+    },
+  });
+
+  // Load existing tour images automatically when tour loads
+  useEffect(() => {
+    if (existingTourImages && existingTourImages.length > 0 && tourImages.length === 0) {
+      const imageUrls = existingTourImages.map((img: any) => img.imageUrl);
+      setTourImages(imageUrls);
+    }
+  }, [existingTourImages, tourImages.length]);
+
+  // Load existing tour video automatically when tour loads
+  useEffect(() => {
+    if (existingTourVideos && existingTourVideos.length > 0 && !videoUrl) {
+      setVideoUrl(existingTourVideos[0].videoUrl);
+    }
+  }, [existingTourVideos, videoUrl]);
 
   // Generate multiple tour images for carousel
   const generateImagesForCarousel = async () => {

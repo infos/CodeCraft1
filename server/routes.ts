@@ -1702,6 +1702,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
       
+      // Check if video already exists in database
+      if (tourId) {
+        const existingVideo = await storage.getTourVideo(tourId, tourTitle);
+        if (existingVideo) {
+          return res.json({ 
+            success: true, 
+            videoUrl: existingVideo.videoUrl,
+            description: existingVideo.videoDescription,
+            fromDatabase: true 
+          });
+        }
+      }
+      
       const videoPath = `client/public/videos/${tourTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${tourId || 'video'}.jpg`;
       
       // Create directory if it doesn't exist
@@ -1712,10 +1725,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const result = await generateTourVideo(tourTitle, tourDescription, era, videoPath);
       
+      // Save to database
+      if (tourId) {
+        const prompt = `Create a cinematic and historically accurate image representing ${tourTitle} in the ${era} era. ${tourDescription}`;
+        await storage.createTourVideo({
+          tourId,
+          tourTitle,
+          videoUrl: result.videoUrl,
+          videoDescription: result.description,
+          prompt
+        });
+      }
+      
       res.json({ 
         success: true, 
         videoUrl: result.videoUrl,
-        description: result.description 
+        description: result.description,
+        fromDatabase: false 
       });
     } catch (error) {
       console.error("Error generating tour video:", error);
@@ -1868,6 +1894,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching tour images:", error);
       res.status(500).json({ message: "Failed to fetch tour images" });
+    }
+  });
+
+  // Get tour videos from database
+  app.get("/api/tour-videos", async (req, res) => {
+    try {
+      const videos = await storage.getAllTourVideos();
+      res.json(videos);
+    } catch (error) {
+      console.error("Error fetching tour videos:", error);
+      res.status(500).json({ message: "Failed to fetch tour videos" });
+    }
+  });
+
+  // Get tour videos by tour ID
+  app.get("/api/tour-videos/:tourId", async (req, res) => {
+    try {
+      const tourId = parseInt(req.params.tourId);
+      const videos = await storage.getTourVideosByTourId(tourId);
+      res.json(videos);
+    } catch (error) {
+      console.error("Error fetching tour videos:", error);
+      res.status(500).json({ message: "Failed to fetch tour videos" });
     }
   });
 
