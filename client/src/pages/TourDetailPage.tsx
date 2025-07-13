@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { MapPin, Calendar, Clock, Users, Star, Play, Sparkles, Camera } from "lucide-react";
+import { MapPin, Calendar, Clock, Users, Star, Play, Sparkles, Camera, Building } from "lucide-react";
 import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailPage() {
@@ -106,8 +106,13 @@ export default function TourDetailPage() {
   // Load existing tour images automatically when tour loads
   useEffect(() => {
     if (existingTourImages && existingTourImages.length > 0 && tourImages.length === 0) {
-      const imageUrls = existingTourImages.map((img: any) => img.imageUrl);
-      setTourImages(imageUrls);
+      const imageObjects = existingTourImages.map((img: any) => ({
+        url: img.imageUrl,
+        description: img.imageDescription || '',
+        source: img.source || 'Database',
+        attribution: img.attribution || 'Previously generated'
+      }));
+      setTourImages(imageObjects);
     }
   }, [existingTourImages, tourImages.length]);
 
@@ -118,47 +123,44 @@ export default function TourDetailPage() {
     }
   }, [existingTourVideos, videoUrl]);
 
-  // Generate multiple tour images for carousel
+  // Generate multiple tour images for carousel using real sources
   const generateImagesForCarousel = async () => {
     if (!tour) return;
     
     // First check if we already have images in the database
-    if (existingTourImages && existingTourImages.length >= 4) {
-      const imageUrls = existingTourImages.slice(0, 4).map((img: any) => img.imageUrl);
-      setTourImages(imageUrls);
+    if (existingTourImages && existingTourImages.length >= 3) {
+      const imageObjects = existingTourImages.slice(0, 6).map((img: any) => ({
+        url: img.imageUrl,
+        description: img.imageDescription || '',
+        source: img.source || 'Database',
+        attribution: img.attribution || 'Previously generated'
+      }));
+      setTourImages(imageObjects);
       return;
     }
     
-    const imagePromises = [];
-    const imageDescriptions = [
-      `${tour.title} - Main attraction view`,
-      `${tour.title} - Historical architecture`,
-      `${tour.title} - Cultural heritage site`,
-      `${tour.title} - Scenic landscape view`
-    ];
-    
-    for (let i = 0; i < 4; i++) {
-      imagePromises.push(
-        fetch('/api/generate-tour-images', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            tours: [{
-              id: tour.id + i,
-              title: imageDescriptions[i],
-              description: tour.description
-            }]
-          }),
-        }).then(res => res.json())
-      );
-    }
-    
     try {
-      const results = await Promise.all(imagePromises);
-      const imageUrls = results.map(result => 
-        result.success && result.images[0] ? result.images[0].imagePath : null
-      ).filter(Boolean);
-      setTourImages(imageUrls);
+      // Generate real images using the new system
+      const response = await fetch('/api/generate-tour-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          tours: [{
+            id: tour.id,
+            title: tour.title,
+            description: tour.description,
+            era: tour.era || 'ancient',
+            location: tour.location || 'historical site'
+          }]
+        }),
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.results && result.results[0] && result.results[0].images) {
+          setTourImages(result.results[0].images);
+        }
+      }
     } catch (error) {
       console.error('Error generating carousel images:', error);
     }
@@ -298,12 +300,31 @@ export default function TourDetailPage() {
                 <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
                     <Card>
-                      <CardContent className="flex aspect-square items-center justify-center p-0">
-                        <img 
-                          src={image} 
-                          alt={`${tour.title} - Gallery ${index + 1}`}
-                          className="w-full h-full object-cover rounded-lg"
-                        />
+                      <CardContent className="flex flex-col p-0">
+                        <div className="aspect-square relative overflow-hidden rounded-t-lg">
+                          <img 
+                            src={typeof image === 'string' ? image : image.url} 
+                            alt={`${tour.title} - Gallery ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        {typeof image === 'object' && (image.source || image.attribution) && (
+                          <div className="p-3 bg-gray-50 rounded-b-lg">
+                            <p className="text-xs text-gray-600 mb-1">
+                              {image.description || `Historical site from ${tour.title}`}
+                            </p>
+                            <div className="flex items-center justify-between text-xs text-gray-500">
+                              <span className="font-medium">{image.source}</span>
+                              {image.attribution && (
+                                <span className="truncate ml-2" title={image.attribution}>
+                                  {image.attribution.length > 20 
+                                    ? image.attribution.substring(0, 20) + '...' 
+                                    : image.attribution}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </div>
@@ -408,9 +429,50 @@ export default function TourDetailPage() {
                           <h3 className="text-xl font-semibold text-gray-900 mb-2">
                             Day {day.day}: {day.title}
                           </h3>
-                          <p className="text-gray-600 leading-relaxed">
+                          <p className="text-gray-600 leading-relaxed mb-4">
                             {day.description}
                           </p>
+                          
+                          {/* Sites to visit */}
+                          {(day as any).sites && (day as any).sites.length > 0 && (
+                            <div className="mt-4">
+                              <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                <MapPin className="w-4 h-4 text-blue-600" />
+                                Sites to Visit
+                              </h4>
+                              <div className="grid gap-3">
+                                {(day as any).sites.map((site: any, siteIndex: number) => (
+                                  <div key={siteIndex} className="bg-white rounded-lg p-4 border border-gray-100">
+                                    <h5 className="font-medium text-gray-900 mb-1">{site.name}</h5>
+                                    <p className="text-sm text-gray-600">{site.description}</p>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Hotel information */}
+                          {(day as any).hotel && (
+                            <div className="mt-4">
+                              <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                <Building className="w-4 h-4 text-blue-600" />
+                                Accommodation
+                              </h4>
+                              <div className="bg-white rounded-lg p-4 border border-gray-100">
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <h5 className="font-medium text-gray-900 mb-1">{(day as any).hotel.name}</h5>
+                                    <p className="text-sm text-gray-600 mb-2">{(day as any).hotel.location}</p>
+                                    <p className="text-sm text-gray-600">{(day as any).hotel.description}</p>
+                                  </div>
+                                  <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full">
+                                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                    <span className="text-xs font-medium">4.5</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </CardContent>

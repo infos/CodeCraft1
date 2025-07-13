@@ -71,6 +71,8 @@ export const tourImages = pgTable("tour_images", {
   imageUrl: text("image_url").notNull(),
   imageDescription: text("image_description"),
   prompt: text("prompt"),
+  source: text("source"), // Source of the image (Wikimedia Commons, AI Generated, etc.)
+  attribution: text("attribution"), // Attribution text for the image
   generatedAt: timestamp("generated_at").defaultNow(),
 });
 

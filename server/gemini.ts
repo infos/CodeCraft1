@@ -176,6 +176,142 @@ export async function generateTourVideo(
     }
 }
 
+export async function generateTourImages(
+    tourId: number,
+    tourTitle: string,
+    tourEra: string,
+    tourLocation: string
+): Promise<{ images: Array<{ url: string; description: string; source: string; attribution: string }> }> {
+    try {
+        // Import the wikimedia functions
+        const { searchWikimediaImages, searchTourismImages, getHistoricalSiteImages } = await import('./wikimedia');
+        
+        console.log(`Searching for real images for tour: ${tourTitle} in ${tourLocation}, era: ${tourEra}`);
+        
+        // Search for real images from multiple sources
+        const [wikimediaImages, tourismImages, siteImages] = await Promise.all([
+            searchWikimediaImages(`${tourLocation} ${tourEra} historical monument`, 3),
+            searchTourismImages(tourLocation, [tourEra, 'historical site', 'monument']),
+            getHistoricalSiteImages(tourLocation, tourEra)
+        ]);
+        
+        // Combine all images and format them
+        const allImages = [
+            ...wikimediaImages.map(img => ({
+                url: img.url,
+                description: img.description || `Historical site in ${tourLocation}`,
+                source: img.source,
+                attribution: img.attribution
+            })),
+            ...tourismImages.map(img => ({
+                url: img.url,
+                description: img.description || `Tourism site in ${tourLocation}`,
+                source: img.source,
+                attribution: img.attribution
+            })),
+            ...siteImages.map(img => ({
+                url: img.url,
+                description: img.description || `Archaeological site in ${tourLocation}`,
+                source: img.source,
+                attribution: img.attribution
+            }))
+        ];
+        
+        // Remove duplicates and limit to 6 images
+        const uniqueImages = allImages.filter((img, index, self) => 
+            index === self.findIndex(i => i.url === img.url)
+        ).slice(0, 6);
+        
+        console.log(`Found ${uniqueImages.length} real images for ${tourTitle}`);
+        
+        // If we have fewer than 3 real images, supplement with AI-generated ones
+        if (uniqueImages.length < 3) {
+            console.log(`Only found ${uniqueImages.length} real images, generating additional AI images...`);
+            
+            const aiImages = await generateAITourImages(tourId, tourTitle, tourEra, tourLocation, 3 - uniqueImages.length);
+            uniqueImages.push(...aiImages);
+        }
+        
+        return { images: uniqueImages };
+    } catch (error) {
+        console.error(`Failed to generate tour images for ${tourTitle}:`, error);
+        // Fallback to AI-generated images
+        const aiImages = await generateAITourImages(tourId, tourTitle, tourEra, tourLocation, 4);
+        return { images: aiImages };
+    }
+}
+
+async function generateAITourImages(
+    tourId: number,
+    tourTitle: string,
+    tourEra: string,
+    tourLocation: string,
+    count: number = 4
+): Promise<Array<{ url: string; description: string; source: string; attribution: string }>> {
+    const aiImages = [];
+    
+    for (let i = 0; i < count; i++) {
+        try {
+            const prompt = `Create a historically accurate and visually stunning image representing "${tourTitle}" in ${tourLocation} during the ${tourEra} era.
+            
+            The image should capture:
+            - Authentic ${tourEra} architecture and monuments
+            - Historical accuracy with period-appropriate details
+            - Rich colors and atmospheric lighting
+            - Professional tourism photography quality
+            - Inspiring composition that showcases the heritage site
+            
+            Style: Professional travel photography, historically accurate, inspiring.`;
+
+            const response = await ai.models.generateContent({
+                model: "gemini-2.0-flash-preview-image-generation",
+                contents: [{ role: "user", parts: [{ text: prompt }] }],
+                config: {
+                    responseModalities: [Modality.TEXT, Modality.IMAGE],
+                },
+            });
+
+            const candidates = response.candidates;
+            if (!candidates || candidates.length === 0) continue;
+
+            const content = candidates[0].content;
+            if (!content || !content.parts) continue;
+
+            let generatedDescription = "";
+            const imagePath = `client/public/tour-images/tour-${tourId}-ai-${i}-${Date.now()}.jpg`;
+            
+            // Ensure directory exists
+            const dir = 'client/public/tour-images';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+
+            for (const part of content.parts) {
+                if (part.text) {
+                    generatedDescription = part.text;
+                } else if (part.inlineData && part.inlineData.data) {
+                    const imageData = Buffer.from(part.inlineData.data, "base64");
+                    fs.writeFileSync(imagePath, imageData);
+                    
+                    const imageUrl = imagePath.replace('client/public', '');
+                    aiImages.push({
+                        url: imageUrl,
+                        description: generatedDescription || `AI-generated image of ${tourTitle}`,
+                        source: 'AI Generated (Gemini)',
+                        attribution: 'Generated by Google Gemini AI'
+                    });
+                    break;
+                }
+            }
+        } catch (error) {
+            console.error(`Failed to generate AI image ${i} for ${tourTitle}:`, error);
+            continue;
+        }
+    }
+    
+    return aiImages;
+}
+
 export async function generateMarcusAureliusVideo(
     videoPath: string,
 ): Promise<{ videoUrl: string; description?: string }> {

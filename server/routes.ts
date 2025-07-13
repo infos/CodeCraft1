@@ -1825,22 +1825,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
             fs.mkdirSync(dir, { recursive: true });
           }
           
-          // Generate image using Gemini  
-          const result = await generateEraImage(tour.title, tour.description, imagePath);
+          // Generate images using new function with real sources
+          const { generateTourImages } = await import('./gemini');
+          const tourLocation = tour.location || tour.title.split(' ')[0] || 'historical site';
+          const tourEra = tour.era || 'ancient';
           
-          // Save to database
-          const savedImage = await storage.createTourImage({
-            tourId: tour.id,
-            tourTitle: tour.title,
-            imageUrl: publicImagePath,
-            imageDescription: tour.description,
-            prompt: prompt
-          });
+          const imageResult = await generateTourImages(tour.id, tour.title, tourEra, tourLocation);
+          
+          // Save images to database
+          const savedImages = [];
+          for (const image of imageResult.images.slice(0, 1)) { // Take first image for backward compatibility
+            const savedImage = await storage.createTourImage({
+              tourId: tour.id,
+              tourTitle: tour.title,
+              imageUrl: image.url,
+              imageDescription: image.description,
+              source: image.source,
+              attribution: image.attribution,
+              prompt: `Real image search: ${tourLocation} ${tourEra}`
+            });
+            savedImages.push(savedImage);
+          }
           
           imageResults.push({
             tourId: tour.id,
             title: tour.title,
-            imagePath: publicImagePath,
+            imagePath: imageResult.images[0]?.url || publicImagePath,
+            images: imageResult.images,
             prompt: prompt,
             fromDatabase: false
           });
