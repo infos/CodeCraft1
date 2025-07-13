@@ -182,32 +182,108 @@ const tourTemplates = {
         itinerary: [
           {
             day: 1,
-            title: "Arrival in Cairo",
+            title: "Arrival in Cairo - Ancient Treasures",
             sites: [
-              { name: "Egyptian Museum", description: "Comprehensive introduction to Egyptian civilization" },
-              { name: "Khan el-Khalili Bazaar", description: "Traditional shopping and cultural immersion" }
+              { 
+                name: "Egyptian Museum", 
+                description: "Explore over 120,000 artifacts including treasures from Tutankhamun's tomb, royal mummies, and the world's largest collection of ancient Egyptian antiquities. Highlights include the golden mask, sarcophagi, and ancient papyrus scrolls.",
+                duration: "3 hours",
+                admission: "EGP 450"
+              },
+              { 
+                name: "Khan el-Khalili Bazaar", 
+                description: "Navigate this 14th-century marketplace with over 900 shops selling traditional crafts, spices, jewelry, and souvenirs. Visit historic coffee houses and witness traditional craftsmen at work.",
+                duration: "2 hours",
+                admission: "Free"
+              },
+              {
+                name: "Al-Azhar Mosque",
+                description: "One of Cairo's oldest mosques dating to 970 AD, featuring stunning Islamic architecture and serving as a center of Islamic learning for over 1000 years.",
+                duration: "1 hour",
+                admission: "EGP 60"
+              }
             ],
-            hotel: { name: "Four Seasons Hotel Cairo at Nile Plaza", location: "Garden City", description: "Luxury base for Cairo exploration" }
+            hotel: { 
+              name: "Four Seasons Hotel Cairo at Nile Plaza", 
+              location: "Garden City", 
+              description: "Luxury Nile-view accommodation with world-class amenities, spa, and multiple dining options. Located in the heart of Cairo near major attractions.",
+              imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Four_Seasons_Hotel_Cairo_Nile_Plaza_exterior.jpg/640px-Four_Seasons_Hotel_Cairo_Nile_Plaza_exterior.jpg",
+              amenities: ["Nile River views", "Spa & wellness center", "Fine dining restaurants", "Business center", "Pool"]
+            }
           },
           {
             day: 2,
-            title: "Giza and Memphis",
+            title: "Giza Plateau & Ancient Memphis",
             sites: [
-              { name: "Great Pyramid Complex", description: "All three pyramids and the Sphinx" },
-              { name: "Solar Boat Museum", description: "Pharaoh's celestial boat" },
-              { name: "Memphis and Saqqara", description: "Ancient capital and step pyramid complex" }
+              { 
+                name: "Great Pyramid Complex", 
+                description: "Marvel at the last surviving Wonder of the Ancient World - the Great Pyramid of Khufu, Pyramid of Khafre, Pyramid of Menkaure, and the iconic Great Sphinx. Explore the internal chambers and learn about ancient construction techniques.",
+                duration: "4 hours",
+                admission: "EGP 540 (includes interior access)"
+              },
+              { 
+                name: "Solar Boat Museum", 
+                description: "Discover the reconstructed 4,500-year-old cedar boat of Pharaoh Khufu, intended for his journey to the afterlife. This 43-meter vessel showcases ancient Egyptian shipbuilding mastery.",
+                duration: "1 hour",
+                admission: "EGP 100"
+              },
+              { 
+                name: "Memphis Open-Air Museum", 
+                description: "Visit the ancient capital of Egypt featuring the colossal statue of Ramesses II, alabaster sphinx, and ruins dating back 5,000 years. See artifacts from the Old Kingdom period.",
+                duration: "1.5 hours",
+                admission: "EGP 80"
+              },
+              {
+                name: "Saqqara Necropolis",
+                description: "Explore the Step Pyramid of Djoser, the world's oldest stone building, and vibrant tomb paintings in the mastaba tombs of nobles. Visit the Serapeum with its massive granite sarcophagi.",
+                duration: "2 hours", 
+                admission: "EGP 450"
+              }
             ],
-            hotel: { name: "Mena House Hotel", location: "Giza", description: "Historic hotel with pyramid views" }
+            hotel: { 
+              name: "Marriott Mena House", 
+              location: "Giza Pyramids", 
+              description: "Historic 1869 palace hotel with direct pyramid views from rooms and terraces. Features beautiful gardens, multiple restaurants, and traditional Egyptian architecture.",
+              imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Mena_House_Hotel_historic_facade.jpg/640px-Mena_House_Hotel_historic_facade.jpg",
+              amenities: ["Pyramid views", "Historic palace architecture", "Multiple restaurants", "Garden terraces", "Golf course"]
+            }
           },
           {
             day: 3,
-            title: "Alexandria Day Trip",
+            title: "Alexandria - The Pearl of the Mediterranean",
             sites: [
-              { name: "Bibliotheca Alexandrina", description: "Modern tribute to ancient Library of Alexandria" },
-              { name: "Catacombs of Kom el Shoqafa", description: "Greco-Roman burial chambers" },
-              { name: "Qaitbay Citadel", description: "15th-century fortress on site of ancient lighthouse" }
+              { 
+                name: "Bibliotheca Alexandrina", 
+                description: "This stunning modern library houses over 8 million books and features four museums, planetarium, and manuscripts dating back centuries. The architecture echoes a rising sun from the Mediterranean.",
+                duration: "2.5 hours",
+                admission: "EGP 170"
+              },
+              { 
+                name: "Catacombs of Kom el Shoqafa", 
+                description: "Descend into the largest Roman burial site in Egypt, featuring three levels of tombs with unique Greco-Roman-Egyptian artistic fusion. See the Hall of Caracalla and triclinium banquet hall.",
+                duration: "1.5 hours",
+                admission: "EGP 120"
+              },
+              { 
+                name: "Qaitbay Citadel", 
+                description: "Explore this 15th-century fortress built on the exact location of the ancient Lighthouse of Alexandria, one of the Seven Wonders. Enjoy panoramic Mediterranean views and maritime museum.",
+                duration: "1.5 hours",
+                admission: "EGP 60"
+              },
+              {
+                name: "Pompey's Pillar & Serapeum",
+                description: "Stand before this 27-meter granite column from 297 AD and explore the ruins of the ancient Serapeum temple complex dedicated to the god Serapis.",
+                duration: "1 hour",
+                admission: "EGP 80"
+              }
             ],
-            hotel: { name: "Four Seasons Hotel Alexandria", location: "Mediterranean Coast", description: "Beachfront luxury hotel" }
+            hotel: { 
+              name: "Four Seasons Hotel Alexandria", 
+              location: "Mediterranean Corniche", 
+              description: "Luxury beachfront hotel with Mediterranean Sea views, elegant rooms, and world-class dining. Located on Alexandria's historic corniche with easy access to ancient sites.",
+              imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Four_Seasons_Alexandria_Mediterranean_view.jpg/640px-Four_Seasons_Alexandria_Mediterranean_view.jpg",
+              amenities: ["Mediterranean Sea views", "Private beach access", "Spa treatments", "Fine dining", "Marina proximity"]
+            }
           },
           {
             day: 4,
@@ -290,19 +366,69 @@ const tourTemplates = {
             day: 1,
             title: "Ancient Rome - Imperial Center",
             sites: [
-              { name: "Colosseum", description: "Iconic amphitheater where gladiators fought" },
-              { name: "Roman Forum", description: "Heart of ancient Roman political and commercial life" }
+              { 
+                name: "Colosseum", 
+                description: "Explore the largest amphitheater ever built, where gladiators fought before 50,000 spectators. Visit the underground chambers, arena floor, and upper tiers while learning about ancient Roman entertainment and engineering marvels.",
+                duration: "2.5 hours",
+                admission: "€18 (includes Roman Forum)"
+              },
+              { 
+                name: "Roman Forum", 
+                description: "Walk through the ruins of ancient Rome's political, commercial, and judicial center. See the Senate House, Temple of Vesta, Arch of Septimius Severus, and the Sacred Way where triumphal processions took place.",
+                duration: "2 hours",
+                admission: "Included with Colosseum ticket"
+              },
+              {
+                name: "Palatine Hill",
+                description: "Visit the legendary birthplace of Rome and explore the extensive ruins of imperial palaces. See the House of Augustus, cryptoporticus, and enjoy panoramic views over the Forum and Circus Maximus.",
+                duration: "1.5 hours", 
+                admission: "Included with Colosseum ticket"
+              }
             ],
-            hotel: { name: "Hotel Artemide", location: "Via Nazionale", description: "Elegant hotel near Termini Station" }
+            hotel: { 
+              name: "Hotel Artemide", 
+              location: "Via Nazionale", 
+              description: "Elegant 4-star hotel near Termini Station with neoclassical architecture, rooftop terrace, and modern amenities. Walking distance to major ancient sites.",
+              imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Hotel_Artemide_Rome_facade.jpg/640px-Hotel_Artemide_Rome_facade.jpg",
+              amenities: ["Rooftop terrace", "Fitness center", "Business center", "Central location", "Historic building"]
+            }
           },
           {
             day: 2,
             title: "Vatican and Classical Rome",
             sites: [
-              { name: "Vatican Museums", description: "Papal collection including the Sistine Chapel" },
-              { name: "Pantheon", description: "Best-preserved Roman building from antiquity" }
+              { 
+                name: "Vatican Museums", 
+                description: "Marvel at one of the world's greatest art collections spanning 2,000 years. Highlights include the Sistine Chapel with Michelangelo's ceiling, Raphael Rooms, Gallery of Maps, and ancient Roman and Greek sculptures.",
+                duration: "4 hours",
+                admission: "€20 (advance booking recommended)"
+              },
+              { 
+                name: "St. Peter's Basilica", 
+                description: "Enter the largest church in the world, featuring Michelangelo's Pieta, Bernini's Baldachin, and spectacular dome. Climb to the cupola for panoramic views of Rome.",
+                duration: "2 hours",
+                admission: "Free (€10 for dome climb)"
+              },
+              { 
+                name: "Pantheon", 
+                description: "Admire the best-preserved Roman building from antiquity, featuring the largest unreinforced concrete dome in the world. Learn about its transformation from pagan temple to Christian church.",
+                duration: "45 minutes",
+                admission: "€5"
+              },
+              {
+                name: "Piazza Navona",
+                description: "Stroll through Rome's most beautiful baroque square, built on the ancient Stadium of Domitian. See Bernini's Fountain of the Four Rivers and enjoy street artists and cafes.",
+                duration: "30 minutes",
+                admission: "Free"
+              }
             ],
-            hotel: { name: "Hotel de Russie", location: "Piazza del Popolo", description: "Luxury hotel with beautiful gardens" }
+            hotel: { 
+              name: "Hotel de Russie", 
+              location: "Piazza del Popolo", 
+              description: "Luxury 5-star hotel featuring terraced gardens, elegant rooms, and a prime location between the Spanish Steps and Vatican. Historic property with modern amenities.",
+              imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Hotel_de_Russie_Rome_garden.jpg/640px-Hotel_de_Russie_Rome_garden.jpg",
+              amenities: ["Terraced gardens", "Spa & wellness", "Fine dining", "Prime location", "Concierge service"]
+            }
           },
           {
             day: 3,

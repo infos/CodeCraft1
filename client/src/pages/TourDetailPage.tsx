@@ -420,7 +420,7 @@ export default function TourDetailPage() {
             ) : (
               <div className="space-y-6">
                 {filteredItineraries.map((day, index) => (
-                  <Card key={day.id} className="border-0 shadow-sm bg-gray-50">
+                  <Card key={`day-${day.id}-${index}`} className="border-0 shadow-sm bg-gray-50">
                     <CardContent className="p-8">
                       <div className="flex items-start gap-6">
                         <div className="flex-shrink-0">
@@ -446,7 +446,21 @@ export default function TourDetailPage() {
                               <div className="grid gap-3">
                                 {(day as any).sites.map((site: any, siteIndex: number) => (
                                   <div key={siteIndex} className="bg-white rounded-lg p-4 border border-gray-100">
-                                    <h5 className="font-medium text-gray-900 mb-1">{site.name}</h5>
+                                    <div className="flex justify-between items-start mb-2">
+                                      <h5 className="font-medium text-gray-900">{site.name}</h5>
+                                      <div className="flex gap-2 text-xs">
+                                        {site.duration && (
+                                          <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                            {site.duration}
+                                          </span>
+                                        )}
+                                        {site.admission && (
+                                          <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                                            {site.admission}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
                                     <p className="text-sm text-gray-600">{site.description}</p>
                                   </div>
                                 ))}
@@ -461,17 +475,37 @@ export default function TourDetailPage() {
                                 <Building className="w-4 h-4 text-blue-600" />
                                 Accommodation
                               </h4>
-                              <div className="bg-white rounded-lg p-4 border border-gray-100">
-                                <div className="flex items-start justify-between">
-                                  <div>
-                                    <h5 className="font-medium text-gray-900 mb-1">{(day as any).hotel.name}</h5>
-                                    <p className="text-sm text-gray-600 mb-2">{(day as any).hotel.location}</p>
-                                    <p className="text-sm text-gray-600">{(day as any).hotel.description}</p>
+                              <div className="bg-white rounded-lg overflow-hidden border border-gray-100">
+                                {(day as any).hotel.imageUrl && (
+                                  <div className="aspect-video bg-gray-100">
+                                    <img
+                                      src={(day as any).hotel.imageUrl}
+                                      alt={(day as any).hotel.name}
+                                      className="w-full h-full object-cover"
+                                    />
                                   </div>
-                                  <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full">
-                                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                    <span className="text-xs font-medium">4.5</span>
+                                )}
+                                <div className="p-4">
+                                  <div className="flex items-start justify-between mb-2">
+                                    <div>
+                                      <h5 className="font-medium text-gray-900 mb-1">{(day as any).hotel.name}</h5>
+                                      <p className="text-sm text-gray-600 mb-2">{(day as any).hotel.location}</p>
+                                    </div>
+                                    <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full">
+                                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                                      <span className="text-xs font-medium">4.5</span>
+                                    </div>
                                   </div>
+                                  <p className="text-sm text-gray-600 mb-3">{(day as any).hotel.description}</p>
+                                  {(day as any).hotel.amenities && (day as any).hotel.amenities.length > 0 && (
+                                    <div className="flex flex-wrap gap-1">
+                                      {(day as any).hotel.amenities.slice(0, 3).map((amenity: string, amenityIndex: number) => (
+                                        <span key={amenityIndex} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                          {amenity}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -505,16 +539,23 @@ export default function TourDetailPage() {
                     <CardContent className="p-0">
                       <div className="aspect-video bg-gray-100 relative">
                         <img
-                          src={hotel.imageUrl || '/placeholder-hotel.jpg'}
+                          src={hotel.imageUrl || 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Hotel_building_architecture.jpg/640px-Hotel_building_architecture.jpg'}
                           alt={hotel.name}
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute top-4 left-4">
-                          <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-full">
+                          <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-full shadow-sm">
                             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-sm font-medium">4.5</span>
+                            <span className="text-sm font-medium">{hotel.rating || 4.5}</span>
                           </div>
                         </div>
+                        {hotel.pricePerNight && (
+                          <div className="absolute top-4 right-4">
+                            <div className="bg-white px-3 py-1 rounded-full shadow-sm">
+                              <span className="text-sm font-medium">${hotel.pricePerNight}/night</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className="p-6">
                         <h3 className="font-semibold text-gray-900 mb-2">
@@ -524,9 +565,18 @@ export default function TourDetailPage() {
                           <MapPin className="w-4 h-4" />
                           {hotel.location}
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-600 mb-4">
                           {hotel.description}
                         </p>
+                        {hotel.amenities && hotel.amenities.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {hotel.amenities.slice(0, 4).map((amenity, amenityIndex) => (
+                              <span key={amenityIndex} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                {amenity}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </Card>

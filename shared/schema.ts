@@ -53,7 +53,14 @@ export const itineraries = pgTable("itineraries", {
 export const hotelRecommendations = pgTable("hotel_recommendations", {
   id: serial("id").primaryKey(),
   tourId: integer("tour_id").notNull(),
-  name: text("name").notNull()
+  name: text("name").notNull(),
+  location: text("location").notNull(),
+  description: text("description").notNull(),
+  rating: integer("rating").default(4),
+  pricePerNight: integer("price_per_night").default(200),
+  imageUrl: text("image_url"),
+  website: text("website"),
+  amenities: text("amenities").array().default([])
 });
 
 export const eraImages = pgTable("era_images", {
