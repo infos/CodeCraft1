@@ -1,4 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/lib/queryClient";
 import { useRoute } from "wouter";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -159,6 +160,8 @@ export default function TourDetailPage() {
         const result = await response.json();
         if (result.success && result.results && result.results[0] && result.results[0].images) {
           setTourImages(result.results[0].images);
+          // Invalidate the cache and refetch existing images
+          queryClient.invalidateQueries({ queryKey: [`/api/tour-images/${tourId}`] });
         }
       }
     } catch (error) {

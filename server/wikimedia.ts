@@ -20,46 +20,60 @@ interface TourismImage {
 // Search for images on Wikimedia Commons
 export async function searchWikimediaImages(query: string, limit: number = 5): Promise<WikimediaImage[]> {
   try {
-    // Search for images on Wikimedia Commons using their API
-    const searchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(query)}&srnamespace=6&srlimit=${limit}`;
+    // Search for images on Wikimedia Commons using their API with better filtering
+    const searchUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search&gsrsearch=${encodeURIComponent(query)}&gsrnamespace=6&gsrlimit=${limit * 2}&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=800`;
     
     const searchResponse = await fetch(searchUrl);
     const searchData = await searchResponse.json();
     
-    if (!searchData.query?.search) {
+    if (!searchData.query?.pages) {
       return [];
     }
     
     const images: WikimediaImage[] = [];
+    const pages = Object.values(searchData.query.pages) as any[];
     
-    for (const result of searchData.query.search) {
+    for (const page of pages) {
+      if (images.length >= limit) break;
+      
       try {
-        // Get image info including URL and metadata
-        const imageInfoUrl = `https://commons.wikimedia.org/w/api.php?action=query&format=json&titles=${encodeURIComponent(result.title)}&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=800`;
+        // Skip obvious non-image files
+        if (page.title && (
+            page.title.toLowerCase().includes('.pdf') || 
+            page.title.toLowerCase().includes('.doc') ||
+            page.title.toLowerCase().includes('.txt'))) {
+          continue;
+        }
         
-        const imageResponse = await fetch(imageInfoUrl);
-        const imageData = await imageResponse.json();
-        
-        const pages = imageData.query?.pages;
-        if (!pages) continue;
-        
-        const page = Object.values(pages)[0] as any;
         const imageInfo = page.imageinfo?.[0];
         
         if (imageInfo?.url) {
           const metadata = imageInfo.extmetadata || {};
           
-          images.push({
-            url: imageInfo.url,
-            title: result.title.replace('File:', ''),
-            description: metadata.ImageDescription?.value || result.snippet || '',
-            license: metadata.LicenseShortName?.value || 'CC BY-SA',
-            source: 'Wikimedia Commons',
-            attribution: metadata.Attribution?.value || metadata.Artist?.value || 'Wikimedia Commons contributors'
-          });
+          // Only include actual image files, not PDFs or other documents
+          const fileExtension = imageInfo.url.split('.').pop()?.toLowerCase();
+          if (fileExtension && ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension)) {
+            // Clean up HTML from description
+            const cleanDescription = metadata.ImageDescription?.value
+              ? metadata.ImageDescription.value.replace(/<[^>]*>/g, '').trim()
+              : '';
+            
+            const cleanAttribution = metadata.Attribution?.value 
+              ? metadata.Attribution.value.replace(/<[^>]*>/g, '').trim()
+              : metadata.Artist?.value?.replace(/<[^>]*>/g, '').trim() || 'Wikimedia Commons contributors';
+            
+            images.push({
+              url: imageInfo.url,
+              title: page.title ? page.title.replace('File:', '') : 'Historical Image',
+              description: cleanDescription || `Historical photograph from ${query}`,
+              license: metadata.LicenseShortName?.value || 'CC BY-SA',
+              source: 'Wikimedia Commons',
+              attribution: cleanAttribution
+            });
+          }
         }
       } catch (error) {
-        console.error(`Error fetching image info for ${result.title}:`, error);
+        console.error(`Error processing image from page:`, error);
         continue;
       }
     }

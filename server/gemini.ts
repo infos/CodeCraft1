@@ -188,12 +188,29 @@ export async function generateTourImages(
         
         console.log(`Searching for real images for tour: ${tourTitle} in ${tourLocation}, era: ${tourEra}`);
         
-        // Search for real images from multiple sources
-        const [wikimediaImages, tourismImages, siteImages] = await Promise.all([
-            searchWikimediaImages(`${tourLocation} ${tourEra} historical monument`, 3),
-            searchTourismImages(tourLocation, [tourEra, 'historical site', 'monument']),
-            getHistoricalSiteImages(tourLocation, tourEra)
-        ]);
+        // Search for real images from multiple sources with specific historical terms
+        const searchTerms = [
+            `${tourLocation} ruins ancient`,
+            `${tourLocation} archaeological site`,
+            `Mesopotamia ancient architecture`,
+            `Ancient Near East historical`,
+            `Babylon historical photograph`
+        ];
+        
+        const wikimediaResults = [];
+        for (const term of searchTerms.slice(0, 3)) {
+            try {
+                const results = await searchWikimediaImages(term, 2);
+                wikimediaResults.push(...results);
+            } catch (error) {
+                console.log(`Search failed for term: ${term}`);
+                continue;
+            }
+        }
+        
+        const wikimediaImages = wikimediaResults.slice(0, 4);
+        const tourismImages: any[] = []; // Simplified for now
+        const siteImages: any[] = [];
         
         // Combine all images and format them
         const allImages = [
@@ -205,7 +222,7 @@ export async function generateTourImages(
             })),
             ...tourismImages.map(img => ({
                 url: img.url,
-                description: img.description || `Tourism site in ${tourLocation}`,
+                description: img.description || `Historical site in ${tourLocation}`,
                 source: img.source,
                 attribution: img.attribution
             })),
