@@ -376,7 +376,7 @@ export default function BuildTourCopy() {
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Generate Images
+                  Generate Home Page Images
                 </>
               )}
             </Button>

@@ -46,41 +46,7 @@ export default function TourDetailPage() {
   // Loading states
   const isLoading = tourLoading || (!isGeneratedTour && (itinerariesLoading || hotelsLoading));
 
-  // Generate era video for the tour
-  const generateVideoMutation = useMutation({
-    mutationFn: async () => {
-      if (!tour) throw new Error("Tour not found");
-      
-      const response = await fetch('/api/generate-tour-video', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          tourTitle: tour.title,
-          tourDescription: tour.description,
-          era: tour.era || "Ancient Times",
-          tourId: tour.id
-        }),
-      });
-      
-      if (!response.ok) throw new Error('Failed to generate video');
-      return response.json();
-    },
-    onSuccess: (data) => {
-      if (data.success) {
-        setVideoUrl(data.videoUrl);
-        setIsGeneratingVideo(false);
-      }
-    },
-    onError: (error) => {
-      console.error('Error generating video:', error);
-      setIsGeneratingVideo(false);
-    }
-  });
-
-  const handleGenerateVideo = () => {
-    setIsGeneratingVideo(true);
-    generateVideoMutation.mutate();
-  };
+  // AI video generation removed - only real content for tours
 
   // Fetch existing tour images for carousel
   const { data: existingTourImages } = useQuery({
@@ -124,24 +90,24 @@ export default function TourDetailPage() {
     }
   }, [existingTourVideos, videoUrl]);
 
-  // Generate multiple tour images for carousel using real sources
-  const generateImagesForCarousel = async () => {
+  // Load real images from Wikimedia and hotel sources only
+  const loadRealImagesForCarousel = async () => {
     if (!tour) return;
     
-    // First check if we already have images in the database
+    // Check if we already have images in the database
     if (existingTourImages && existingTourImages.length >= 3) {
       const imageObjects = existingTourImages.slice(0, 6).map((img: any) => ({
         url: img.imageUrl,
         description: img.imageDescription || '',
         source: img.source || 'Database',
-        attribution: img.attribution || 'Previously generated'
+        attribution: img.attribution || 'Previously sourced'
       }));
       setTourImages(imageObjects);
       return;
     }
     
     try {
-      // Generate real images using the new system
+      // Load real images from Wikimedia and tourism sources only  
       const response = await fetch('/api/generate-tour-images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -246,52 +212,21 @@ export default function TourDetailPage() {
               </div>
             </div>
             
-            {/* Video Generation and Carousel Controls */}
+            {/* Tour Image Loading Controls */}
             <div className="flex items-center justify-center gap-4">
               <Button 
-                onClick={handleGenerateVideo}
-                disabled={isGeneratingVideo}
+                onClick={loadRealImagesForCarousel}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
               >
-                {isGeneratingVideo ? (
-                  <>
-                    <Sparkles className="h-5 w-5 mr-2 animate-spin" />
-                    Generating Video...
-                  </>
-                ) : (
-                  <>
-                    <Play className="h-5 w-5 mr-2" />
-                    Generate Era Video
-                  </>
-                )}
-              </Button>
-              
-              <Button 
-                onClick={generateImagesForCarousel}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
-              >
                 <Camera className="h-5 w-5 mr-2" />
-                Generate Images
+                Load Historical Images
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Video Player Section */}
-      {videoUrl && (
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <div className="bg-black rounded-2xl overflow-hidden mb-8">
-            <div className="aspect-video">
-              <img 
-                src={videoUrl} 
-                alt={`${tour.title} Era Video`}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Video section removed - AI content only for home page */}
 
       {/* Image Carousel Section */}
       {tourImages.length > 0 && (

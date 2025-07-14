@@ -127,6 +127,7 @@ Changelog:
 - January 10, 2025. Added timeline tooltips to historical era chips showing specific year ranges (e.g., "Ancient Egypt: 3100 BCE - 30 BCE", "Ancient Rome: 753 BCE - 476 CE"). Users can now hover over era chips to see the exact historical timeframe for each civilization.
 - January 11, 2025. Implemented comprehensive tour image database storage system. Added tour_images table with full CRUD operations. Updated image generation endpoints to check database first before generating new images. Tour builder and detail pages now load existing images from database and cache new generations for improved performance and cost efficiency.
 - January 12, 2025. Hid historical tours page from navigation and renamed tour builder copy page to "Heritage Tours". Updated routing to make Heritage Tours the main landing page with simplified navigation focused on the core tour building experience.
+- January 15, 2025. Restricted AI image generation to home page only per user request. Removed AI video and image generation from tour detail pages. Tour content now exclusively uses real images from Wikimedia Commons and hotel websites with proper attribution. Enhanced hotel cards with authentic images, amenities, and detailed itinerary information including visit durations and admission prices.
 ```
 
 ## User Preferences
