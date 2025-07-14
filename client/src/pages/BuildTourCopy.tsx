@@ -281,9 +281,21 @@ export default function BuildTourCopy() {
         image: tour.image || getTourImageUrl(tour.id) || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
       }))
     : (toursData || []).filter(tour => {
-        // Filter database tours
-        if (selectedEras.length > 0 && !selectedEras.some(era => tour.era && tour.era.toLowerCase() === era.toLowerCase())) {
-          return false;
+        // Filter database tours - only filter if eras are selected
+        if (selectedEras.length > 0) {
+          // Check if tour era matches any selected era (flexible matching)
+          const tourEra = tour.era?.toLowerCase() || '';
+          const hasMatchingEra = selectedEras.some(era => {
+            const selectedEra = era.toLowerCase();
+            // Direct match or partial match for complex era names
+            return tourEra === selectedEra || 
+                   tourEra.includes(selectedEra) || 
+                   selectedEra.includes(tourEra) ||
+                   (tourEra.includes('silk') && selectedEra.includes('medieval')); // Silk Road is medieval period
+          });
+          if (!hasMatchingEra) {
+            return false;
+          }
         }
         return true;
       }).map(tour => ({
