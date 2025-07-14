@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { MapPin, Calendar, Clock, Users, Star, Play, Sparkles, Camera, Building } from "lucide-react";
+import { MapPin, Calendar, Clock, Users, Star, Play, Sparkles, Camera, Building, Loader2 } from "lucide-react";
 import type { Tour, Itinerary, HotelRecommendation } from "@shared/schema";
 
 export default function TourDetailPage() {
@@ -17,6 +17,7 @@ export default function TourDetailPage() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
   const [tourImages, setTourImages] = useState<string[]>([]);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
   // Use details endpoint for generated tours (ID >= 1000), regular endpoint for database tours
   const isGeneratedTour = tourId >= 1000;
@@ -131,7 +132,45 @@ export default function TourDetailPage() {
         }
       }
     } catch (error) {
-      console.error('Error generating carousel images:', error);
+      console.error('Error loading real images:', error);
+    }
+  };
+
+  // Generate AI images for tours
+  const generateAIImagesForTour = async () => {
+    if (!tour) return;
+    
+    setIsGeneratingAI(true);
+    
+    try {
+      const response = await fetch('/api/generate-tour-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          tours: [{
+            id: tour.id,
+            title: tour.title,
+            description: tour.description,
+            era: tour.era || 'ancient',
+            location: tour.location || 'historical site'
+          }]
+        }),
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.images) {
+          // Extract AI image URLs from the generated results
+          const newAIImages = result.images.map((img: any) => img.imagePath || img.imageUrl).filter(Boolean);
+          setTourImages(prevImages => [...prevImages, ...newAIImages]);
+          // Invalidate the cache and refetch existing images
+          queryClient.invalidateQueries({ queryKey: [`/api/tour-images/${tourId}`] });
+        }
+      }
+    } catch (error) {
+      console.error('Error generating AI images:', error);
+    } finally {
+      setIsGeneratingAI(false);
     }
   };
 
@@ -212,14 +251,31 @@ export default function TourDetailPage() {
               </div>
             </div>
             
-            {/* Tour Image Loading Controls */}
+            {/* Image Loading Controls - Both AI and Real */}
             <div className="flex items-center justify-center gap-4">
               <Button 
                 onClick={loadRealImagesForCarousel}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-200"
               >
                 <Camera className="h-5 w-5 mr-2" />
-                Load Historical Images
+                Load Real Images
+              </Button>
+              <Button 
+                onClick={generateAIImagesForTour}
+                disabled={isGeneratingAI}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-200 disabled:opacity-50"
+              >
+                {isGeneratingAI ? (
+                  <>
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-5 w-5 mr-2" />
+                    Generate AI Images
+                  </>
+                )}
               </Button>
             </div>
           </div>

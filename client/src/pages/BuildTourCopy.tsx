@@ -140,60 +140,8 @@ export default function BuildTourCopy() {
   const handleGenerateImages = () => {
     setIsGeneratingImages(true);
     
-    // If we have displayed tours, generate images for those tours
-    if (toursToDisplay.length > 0) {
-      // Generate images for the displayed tours
-      const tourImagesMutation = {
-        mutationFn: async () => {
-          const response = await fetch('/api/generate-tour-images', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tours: toursToDisplay.slice(0, 5) }), // Limit to first 5 tours
-          });
-          if (!response.ok) throw new Error('Failed to generate tour images');
-          return response.json();
-        },
-        onSuccess: (data) => {
-          console.log('Tour images generated:', data);
-          setIsGeneratingImages(false);
-        },
-        onError: (error) => {
-          console.error('Error generating tour images:', error);
-          setIsGeneratingImages(false);
-        }
-      };
-      
-      // Execute the mutation
-      fetch('/api/generate-tour-images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tours: toursToDisplay.slice(0, 5) }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Tour images generated:', data);
-        setIsGeneratingImages(false);
-        
-        // Update the generated tours with the new image paths and refresh tour images cache
-        if (data.success && data.images) {
-          setGeneratedTours(prevTours => 
-            prevTours.map(tour => {
-              const imageResult = data.images.find(img => img.tourId === tour.id);
-              return imageResult ? { ...tour, image: imageResult.imagePath } : tour;
-            })
-          );
-          // Invalidate and refetch tour images cache
-          queryClient.invalidateQueries({ queryKey: ['/api/tour-images'] });
-        }
-      })
-      .catch(error => {
-        console.error('Error generating tour images:', error);
-        setIsGeneratingImages(false);
-      });
-    } else {
-      // Fallback to era images if no tours displayed
-      generateEraImagesMutation.mutate();
-    }
+    // Always generate era images first (for home page AI images)
+    generateEraImagesMutation.mutate();
   };
 
   const handleEraSelect = (eraName: string) => {
@@ -278,7 +226,7 @@ export default function BuildTourCopy() {
   const toursToDisplay = showGeneratedTours && generatedTours.length > 0
     ? generatedTours.map(tour => ({
         ...tour,
-        image: tour.image || getTourImageUrl(tour.id) || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
+        image: eraImages[tour.era] || eraImages[selectedEras[0] || ''] || tour.image || getTourImageUrl(tour.id) || '/era-images/default.jpg'
       }))
     : (toursData || []).filter(tour => {
         // Filter database tours - only filter if eras are selected
@@ -300,7 +248,7 @@ export default function BuildTourCopy() {
         return true;
       }).map(tour => ({
         ...tour,
-        image: getTourImageUrl(tour.id) || tour.imageUrl || eraImages[selectedEras[0] || ''] || '/era-images/default.jpg'
+        image: eraImages[tour.era] || eraImages[selectedEras[0] || ''] || getTourImageUrl(tour.id) || tour.imageUrl || '/era-images/default.jpg'
       }));
 
   return (
@@ -388,7 +336,7 @@ export default function BuildTourCopy() {
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Generate Home Page Images
+                  Generate AI Images
                 </>
               )}
             </Button>
