@@ -199,22 +199,33 @@ export default function BuildTourCopy() {
   // Sort eras by startYear from oldest to newest
   const sortedEras = [...(eras || [])].sort((a, b) => (a.startYear || 0) - (b.startYear || 0));
 
-  // Filter eras based on selected period
+  // Filter eras based on selected period with proper chronological boundaries
   const filteredEras = sortedEras.filter(era => {
     if (selectedPeriod === 'all') return true;
     
     const startYear = era.startYear || 0;
+    const eraName = era.name || '';
+    
     switch (selectedPeriod) {
       case 'ancient':
         return startYear < -500; // Before 500 BCE
       case 'classical':
         return startYear >= -500 && startYear < 500; // 500 BCE to 500 CE
       case 'medieval':
-        return startYear >= 500 && startYear < 1500; // 500 CE to 1500 CE
+        // Medieval: Match Historical Tours page exactly
+        return eraName.includes('Byzantine') || 
+               eraName.includes('Medieval Europe') || 
+               eraName.includes('Sasanian Empire') ||
+               eraName.includes('Silk Road Trade Era');
       case 'renaissance':
-        return startYear >= 1300 && startYear < 1650; // 1300 CE to 1650 CE
+        // Renaissance: Match Historical Tours page exactly
+        return eraName.includes('Renaissance') && 
+               !eraName.includes('Age of Exploration');
       case 'early_modern':
-        return startYear >= 1650 && startYear < 1800; // 1650 CE to 1800 CE
+        // Early Modern: Match Historical Tours page "modern" category
+        return eraName.includes('Age of Exploration') ||
+               eraName.includes('Enlightenment') ||
+               eraName.includes('Georgian Era');
       default:
         return true;
     }
