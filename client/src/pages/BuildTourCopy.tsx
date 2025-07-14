@@ -180,14 +180,9 @@ export default function BuildTourCopy() {
 
   const handlePeriodChange = (period: string) => {
     setSelectedPeriod(period);
-    
-    // Filter eras based on selected period
-    if (period !== 'all') {
-      // Clear current era selections and regenerate if any were selected
-      if (selectedEras.length > 0) {
-        setTimeout(() => generateToursWithFilters(), 0);
-      }
-    }
+    setSelectedEras([]); // Clear era selection when period changes
+    setSelectedLocations([]); // Clear location selection when period changes
+    setShowGeneratedTours(false);
   };
 
   const handleDurationChange = (tourId: string, duration: string) => {
@@ -215,9 +210,11 @@ export default function BuildTourCopy() {
       case 'classical':
         return startYear >= -500 && startYear < 500; // 500 BCE to 500 CE
       case 'medieval':
-        return startYear >= 500 && startYear < 1400; // 500 CE to 1400 CE
+        return startYear >= 500 && startYear < 1500; // 500 CE to 1500 CE
       case 'renaissance':
-        return startYear >= 1400 && startYear < 1750; // 1400 CE to 1750 CE
+        return startYear >= 1300 && startYear < 1650; // 1300 CE to 1650 CE
+      case 'early_modern':
+        return startYear >= 1650 && startYear < 1800; // 1650 CE to 1800 CE
       default:
         return true;
     }
@@ -282,8 +279,9 @@ export default function BuildTourCopy() {
                     { key: 'all', label: 'All Periods', tooltip: 'All historical eras' },
                     { key: 'ancient', label: 'Ancient Times', tooltip: 'Before 500 BCE' },
                     { key: 'classical', label: 'Classical Period', tooltip: '500 BCE - 500 CE' },
-                    { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1400 CE' },
-                    { key: 'renaissance', label: 'Renaissance', tooltip: '1400 CE - 1750 CE' }
+                    { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1500 CE' },
+                    { key: 'renaissance', label: 'Renaissance', tooltip: '1300 CE - 1650 CE' },
+                    { key: 'early_modern', label: 'Early Modern', tooltip: '1650 CE - 1800 CE' }
                   ].map((period) => (
                     <Tooltip key={period.key}>
                       <TooltipTrigger asChild>
@@ -333,7 +331,8 @@ export default function BuildTourCopy() {
                selectedPeriod === 'ancient' ? 'Ancient Times' :
                selectedPeriod === 'classical' ? 'Classical Period' :
                selectedPeriod === 'medieval' ? 'Medieval Period' :
-               selectedPeriod === 'renaissance' ? 'Renaissance' : 'Historical Eras'}
+               selectedPeriod === 'renaissance' ? 'Renaissance' :
+               selectedPeriod === 'early_modern' ? 'Early Modern' : 'Historical Eras'}
             </h3>
             
             {/* Generate Images Button - Moved to Right */}
