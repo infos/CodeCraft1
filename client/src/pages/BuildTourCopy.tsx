@@ -31,6 +31,7 @@ const eraTimelines: Record<string, string> = {
 
 export default function BuildTourCopy() {
   const [selectedEras, setSelectedEras] = useState<string[]>([]);
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [showGeneratedTours, setShowGeneratedTours] = useState(false);
   const [generatedTours, setGeneratedTours] = useState<any[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
@@ -229,7 +230,7 @@ export default function BuildTourCopy() {
         image: eraImages[tour.era] || eraImages[selectedEras[0] || ''] || tour.image || getTourImageUrl(tour.id) || '/era-images/default.jpg'
       }))
     : (toursData || []).filter(tour => {
-        // Filter database tours - only filter if eras are selected
+        // Filter database tours - only filter if eras or locations are selected
         if (selectedEras.length > 0) {
           // Check if tour era matches any selected era (flexible matching)
           const tourEra = tour.era?.toLowerCase() || '';
@@ -245,6 +246,20 @@ export default function BuildTourCopy() {
             return false;
           }
         }
+        
+        // Filter by locations if any are selected
+        if (selectedLocations.length > 0) {
+          const tourLocations = tour.locations?.toLowerCase() || '';
+          const hasMatchingLocation = selectedLocations.some(location => {
+            const selectedLocation = location.toLowerCase();
+            return tourLocations.includes(selectedLocation) || 
+                   selectedLocation.includes(tourLocations);
+          });
+          if (!hasMatchingLocation) {
+            return false;
+          }
+        }
+        
         return true;
       }).map(tour => ({
         ...tour,
@@ -300,12 +315,12 @@ export default function BuildTourCopy() {
         {/* Apple Store Style Hero Section */}
         <div className="text-center mb-12">
           <h2 className="text-6xl font-light text-gray-900 mb-4">
-            {selectedEras.length > 0 ? `${selectedEras.length === 1 ? selectedEras[0] : 'Multi-Era'} Tours` : 'Heritage Tours'}
+            {selectedEras.length > 0 ? `${selectedEras.length === 1 ? selectedEras[0] : 'Multi-Era'} Tours` : 'Choose an Era to Generate Tours'}
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {selectedEras.length > 0 
               ? `Discover the wonders of ${selectedEras.length === 1 ? selectedEras[0] : 'multiple historical periods'} through our expertly curated heritage experiences`
-              : 'Experience history first-hand with our curated historical tours'
+              : 'Build your own tour by selecting historical periods and locations. Create personalized journeys through time.'
             }
           </p>
         </div>
@@ -340,6 +355,55 @@ export default function BuildTourCopy() {
                 </>
               )}
             </Button>
+          </div>
+
+          {/* Location Filter Section */}
+          {selectedEras.length > 0 && (
+            <div className="mb-8">
+              <h4 className="text-md font-medium text-gray-900 mb-3">Filter by Location</h4>
+              <div className="flex flex-wrap gap-2">
+                {/* Get unique locations from tours */}
+                {Array.from(new Set(
+                  (toursData || [])
+                    .filter(tour => selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
+                    .map(tour => tour.locations)
+                    .filter(Boolean)
+                    .flatMap(location => location.split(',').map(l => l.trim()))
+                )).slice(0, 10).map((location) => (
+                  <button
+                    key={location}
+                    onClick={() => {
+                      const isSelected = selectedLocations.includes(location);
+                      if (isSelected) {
+                        setSelectedLocations(prev => prev.filter(l => l !== location));
+                      } else {
+                        setSelectedLocations(prev => [...prev, location]);
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                      selectedLocations.includes(location)
+                        ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                    }`}
+                  >
+                    <MapPin className="w-3 h-3 mr-1 inline" />
+                    {location}
+                  </button>
+                ))}
+                {selectedLocations.length > 0 && (
+                  <button
+                    onClick={() => setSelectedLocations([])}
+                    className="px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                  >
+                    <XIcon className="w-3 h-3 mr-1 inline" />
+                    Clear Locations
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          
+          <div className="grid flex-wrap gap-3 mb-6 columns-2 md:columns-3 lg:columns-4">
           </div>
           
           <div className="flex flex-wrap gap-3">

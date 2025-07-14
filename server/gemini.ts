@@ -329,6 +329,130 @@ async function generateAITourImages(
     return aiImages;
 }
 
+export async function generateTourContent(era: any): Promise<any> {
+  try {
+    console.log(`Generating comprehensive tour content for ${era.name}...`);
+    
+    const prompt = `Create a comprehensive historical tour for the era "${era.name}" (${era.startYear} - ${era.endYear}).
+    
+    Era details:
+    - Name: ${era.name}
+    - Period: ${era.startYear} - ${era.endYear}
+    - Key Figures: ${era.keyFigures || 'Historical figures of the era'}
+    - Description: ${era.description || 'A significant historical period'}
+    - Modern Regions: ${era.modernRegions || 'Historical territories'}
+    
+    Generate a detailed JSON response with the following structure:
+    {
+      "title": "Engaging tour title (50-80 characters)",
+      "description": "Compelling tour description highlighting unique aspects (150-200 words)",
+      "duration": 7,
+      "price": 2500,
+      "locations": "Main destinations and regions",
+      "wikipediaUrl": "Relevant Wikipedia URL for the era",
+      "imageUrl": "Museum or cultural institution image URL",
+      "imageAttribution": "Proper attribution for the image",
+      "itineraries": [
+        {
+          "day": 1,
+          "title": "Day title",
+          "description": "Day description",
+          "activities": ["Activity 1", "Activity 2", "Activity 3"],
+          "meals": ["Breakfast: Description", "Lunch: Description", "Dinner: Description"],
+          "accommodation": "Hotel description"
+        }
+      ],
+      "hotels": [
+        {
+          "name": "Hotel name",
+          "description": "Hotel description with historical relevance",
+          "rating": 4.5,
+          "pricePerNight": 200,
+          "amenities": ["Amenity 1", "Amenity 2", "Amenity 3"],
+          "location": "Hotel location",
+          "imageUrl": "Hotel image URL",
+          "bookingUrl": "Booking.com or hotel website URL"
+        }
+      ]
+    }
+    
+    Requirements:
+    - Create historically accurate content
+    - Include 7 days of detailed itineraries
+    - Include 3-5 authentic hotel recommendations
+    - Use real museum/cultural institution image URLs
+    - Include proper attributions
+    - Focus on authentic historical sites and experiences
+    - Price tours realistically for historical/cultural travel
+    
+    Respond only with valid JSON.`;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-pro",
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
+          properties: {
+            title: { type: "string" },
+            description: { type: "string" },
+            duration: { type: "number" },
+            price: { type: "number" },
+            locations: { type: "string" },
+            wikipediaUrl: { type: "string" },
+            imageUrl: { type: "string" },
+            imageAttribution: { type: "string" },
+            itineraries: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  day: { type: "number" },
+                  title: { type: "string" },
+                  description: { type: "string" },
+                  activities: { type: "array", items: { type: "string" } },
+                  meals: { type: "array", items: { type: "string" } },
+                  accommodation: { type: "string" }
+                }
+              }
+            },
+            hotels: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string" },
+                  description: { type: "string" },
+                  rating: { type: "number" },
+                  pricePerNight: { type: "number" },
+                  amenities: { type: "array", items: { type: "string" } },
+                  location: { type: "string" },
+                  imageUrl: { type: "string" },
+                  bookingUrl: { type: "string" }
+                }
+              }
+            }
+          },
+          required: ["title", "description", "duration", "price", "locations"]
+        }
+      },
+      contents: prompt,
+    });
+
+    const rawJson = response.text;
+    if (!rawJson) {
+      throw new Error("Empty response from Gemini");
+    }
+
+    console.log(`Generated tour content for ${era.name}`);
+    return JSON.parse(rawJson);
+    
+  } catch (error) {
+    console.error(`Error generating tour content for ${era.name}:`, error);
+    throw error;
+  }
+}
+
 export async function generateMarcusAureliusVideo(
     videoPath: string,
 ): Promise<{ videoUrl: string; description?: string }> {
