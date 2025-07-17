@@ -72,6 +72,12 @@ export default function HistoricalTimelineTours() {
     staleTime: 1000 * 60 * 5,
   });
 
+  // Fetch tour images data
+  const { data: tourImagesData } = useQuery({
+    queryKey: ['/api/tour-images'],
+    staleTime: 1000 * 60 * 5,
+  });
+
   // Filter eras based on selected period
   const filteredEras = React.useMemo(() => {
     if (!erasData || !selectedPeriod) return erasData || [];
@@ -150,9 +156,23 @@ export default function HistoricalTimelineTours() {
     }
   }, [selectedEras, selectedLocations, selectedPeriod]);
 
-  // Combine generated tours with database tours
+  // Combine generated tours with database tours and add images
   const toursToDisplay = React.useMemo(() => {
-    const tours = showGeneratedTours ? generatedTours : (toursData || []);
+    let tours = showGeneratedTours ? generatedTours : (toursData || []);
+    
+    // Add images to tours from tour images data
+    if (tourImagesData && tours) {
+      tours = tours.map((tour: any) => {
+        const tourImage = tourImagesData.find((img: any) => 
+          img.tourTitle?.toLowerCase().includes(tour.title?.toLowerCase().split(' ')[0] || '') ||
+          img.tourId === tour.id
+        );
+        return {
+          ...tour,
+          image: tourImage?.imageUrl || tour.image
+        };
+      });
+    }
     
     if (searchQuery.trim()) {
       return tours.filter((tour: any) => 
@@ -164,7 +184,7 @@ export default function HistoricalTimelineTours() {
     }
     
     return tours;
-  }, [showGeneratedTours, generatedTours, toursData, searchQuery]);
+  }, [showGeneratedTours, generatedTours, toursData, searchQuery, tourImagesData]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
@@ -326,7 +346,7 @@ export default function HistoricalTimelineTours() {
                   {toursToDisplay.map((tour: any, index: number) => (
                     <Link 
                       key={`${tour.id || index}-${tour.title}`} 
-                      href={`/tour/${tour.id || 'generated'}`}
+                      href={showGeneratedTours ? `/tour/${toursData?.[0]?.id || 830}` : `/tour/${tour.id}`}
                       className="group block"
                     >
                       <Card className="h-full border-0 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1 bg-white overflow-hidden">
