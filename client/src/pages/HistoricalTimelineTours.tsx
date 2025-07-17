@@ -273,28 +273,7 @@ export default function HistoricalTimelineTours() {
               })}
             </div>
             
-            {/* Selected Eras Summary */}
-            {selectedEras.length > 0 && (
-              <div className="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
-                <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
-                  <Users className="w-5 h-5 mr-2 text-blue-600" />
-                  Selected Civilizations ({selectedEras.length})
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedEras.map((era) => (
-                    <div key={era} className="flex items-center bg-white px-3 py-2 rounded-full border border-blue-200">
-                      <span className="text-sm font-medium text-gray-700">{era}</span>
-                      <button
-                        onClick={() => handleEraSelect(era)}
-                        className="ml-2 text-red-500 hover:text-red-700 transition-colors"
-                      >
-                        <XIcon className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+
           </div>
 
           {/* Location Filter */}
