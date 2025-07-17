@@ -22,6 +22,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Tour Builder
                 </Link>
                 
+                <Link href="/timeline-tours" className={cn(
+                  "text-sm font-medium transition-colors hover:text-gray-600",
+                  location === "/timeline-tours" ? "text-gray-900" : "text-gray-500"
+                )}>
+                  Timeline Tours
+                </Link>
+                
                 <Link href="/historical-tours" className={cn(
                   "text-sm font-medium transition-colors hover:text-gray-600",
                   location === "/historical-tours" ? "text-gray-900" : "text-gray-500"
