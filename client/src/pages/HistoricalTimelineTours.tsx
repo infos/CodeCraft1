@@ -204,9 +204,7 @@ export default function HistoricalTimelineTours() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8">
-          {/* Main Content */}
-          <div className="flex-1">
+        <div className="w-full">
             {/* Hero Section */}
             <div className="text-center mb-12">
               <h2 className="text-5xl font-light text-gray-900 mb-4">
@@ -218,42 +216,35 @@ export default function HistoricalTimelineTours() {
               </p>
             </div>
 
-            {/* Historical Timeline Visual */}
+            {/* Horizontal Historical Timeline */}
             <div className="mb-12">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6 text-center">Historical Timeline</h3>
-              <div className="relative">
-                {/* Timeline Line */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-amber-400 via-purple-500 to-blue-600 h-full"></div>
-                
-                {/* Timeline Periods */}
-                <div className="space-y-8">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Historical Timeline</h3>
+              <div className="relative overflow-x-auto pb-4">
+                {/* Horizontal Timeline Container */}
+                <div className="flex items-center justify-between min-w-[1200px] relative">
+                  {/* Timeline Line */}
+                  <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-purple-500 via-emerald-500 via-blue-500 via-indigo-500 to-slate-600 transform -translate-y-1/2"></div>
+                  
+                  {/* Timeline Periods */}
                   {historicalPeriods.map((period, index) => (
-                    <div 
-                      key={period.id}
-                      className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
-                    >
-                      <div className={`w-5/12 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
-                        <button
-                          onClick={() => setSelectedPeriod(selectedPeriod === period.id ? '' : period.id)}
-                          className={`inline-block p-4 rounded-lg border-2 transition-all duration-300 hover:shadow-lg ${
-                            selectedPeriod === period.id 
-                              ? period.color + ' ring-2 ring-blue-500 scale-105' 
-                              : 'bg-white border-gray-200 hover:border-gray-300'
-                          }`}
-                        >
-                          <h4 className="font-semibold text-lg">{period.name}</h4>
-                          <p className="text-sm opacity-75">{period.range}</p>
-                        </button>
-                      </div>
-                      
+                    <div key={period.id} className="flex flex-col items-center relative z-10">
                       {/* Timeline Dot */}
-                      <div className="w-2/12 flex justify-center">
-                        <div className={`w-4 h-4 rounded-full border-4 border-white shadow-lg ${
-                          selectedPeriod === period.id ? 'bg-blue-600' : 'bg-gray-400'
-                        }`}></div>
-                      </div>
+                      <div className={`w-6 h-6 rounded-full border-4 border-white shadow-lg mb-4 ${
+                        selectedPeriod === period.id ? 'bg-blue-600 scale-125' : 'bg-gray-400'
+                      } transition-all duration-300`}></div>
                       
-                      <div className="w-5/12"></div>
+                      {/* Period Card */}
+                      <button
+                        onClick={() => setSelectedPeriod(selectedPeriod === period.id ? '' : period.id)}
+                        className={`w-48 p-4 rounded-lg border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                          selectedPeriod === period.id 
+                            ? period.color + ' ring-2 ring-blue-500 scale-105' 
+                            : 'bg-white border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <h4 className="font-semibold text-lg mb-1">{period.name}</h4>
+                        <p className="text-sm opacity-75">{period.range}</p>
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -263,36 +254,66 @@ export default function HistoricalTimelineTours() {
             {/* Selected Period Eras */}
             {selectedPeriod && (
               <div className="mb-12">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-                  {historicalPeriods.find(p => p.id === selectedPeriod)?.name} Civilizations
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-semibold text-gray-900 mb-2">
+                    {historicalPeriods.find(p => p.id === selectedPeriod)?.name} Civilizations
+                  </h3>
+                  <p className="text-lg text-gray-600">
+                    Select civilizations to explore available tours
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {filteredEras.map((era: Era) => {
                     const eraInfo = eraTimelines[era.name];
                     return (
                       <button
                         key={era.id}
                         onClick={() => handleEraSelect(era.name)}
-                        className={`p-4 rounded-lg border-2 text-left transition-all duration-300 hover:shadow-md ${
+                        className={`p-6 rounded-xl border-2 text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
                           selectedEras.includes(era.name)
-                            ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                            ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200 scale-105'
                             : eraInfo?.color || 'bg-white border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <h4 className="font-semibold text-lg mb-2">{era.name}</h4>
+                        <h4 className="font-bold text-xl mb-3">{era.name}</h4>
                         {eraInfo && (
                           <>
-                            <p className="text-sm text-gray-600 mb-1">{eraInfo.range}</p>
-                            <p className="text-sm text-gray-500">{eraInfo.description}</p>
+                            <p className="text-sm text-gray-600 mb-2 font-medium">{eraInfo.range}</p>
+                            <p className="text-sm text-gray-500 mb-3">{eraInfo.description}</p>
                           </>
                         )}
                         {era.keyFigures && (
-                          <p className="text-xs text-gray-400 mt-2">Key: {era.keyFigures}</p>
+                          <p className="text-xs text-gray-400 border-t border-gray-200 pt-2">
+                            Key Figures: {era.keyFigures}
+                          </p>
                         )}
                       </button>
                     );
                   })}
                 </div>
+                
+                {/* Selected Eras Summary */}
+                {selectedEras.length > 0 && (
+                  <div className="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+                    <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+                      <Users className="w-5 h-5 mr-2 text-blue-600" />
+                      Selected Civilizations ({selectedEras.length})
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedEras.map((era) => (
+                        <div key={era} className="flex items-center bg-white px-3 py-2 rounded-full border border-blue-200">
+                          <span className="text-sm font-medium text-gray-700">{era}</span>
+                          <button
+                            onClick={() => handleEraSelect(era)}
+                            className="ml-2 text-red-500 hover:text-red-700 transition-colors"
+                          >
+                            <XIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -419,65 +440,6 @@ export default function HistoricalTimelineTours() {
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Right Sidebar - Periods */}
-          <div className="w-80 bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit sticky top-24">
-            <div className="mb-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Historical Periods</h3>
-              <p className="text-sm text-gray-600">Select a period to explore civilizations</p>
-            </div>
-            
-            <div className="space-y-3">
-              {historicalPeriods.map((period) => (
-                <button
-                  key={period.id}
-                  onClick={() => setSelectedPeriod(selectedPeriod === period.id ? '' : period.id)}
-                  className={`w-full p-4 rounded-lg text-left transition-all duration-200 border-2 ${
-                    selectedPeriod === period.id
-                      ? period.color + ' ring-2 ring-blue-500'
-                      : 'bg-gray-50 border-gray-200 hover:border-gray-300 hover:bg-gray-100'
-                  }`}
-                >
-                  <div className="font-semibold text-sm">{period.name}</div>
-                  <div className="text-xs text-gray-500 mt-1">{period.range}</div>
-                </button>
-              ))}
-            </div>
-
-            {/* Selected Eras Summary */}
-            {selectedEras.length > 0 && (
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <h4 className="font-semibold text-gray-900 mb-3">Selected Civilizations</h4>
-                <div className="space-y-2">
-                  {selectedEras.map((era) => (
-                    <div key={era} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-700">{era}</span>
-                      <button
-                        onClick={() => handleEraSelect(era)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        <XIcon className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Stats */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">{toursToDisplay.length}</div>
-                  <div className="text-xs text-gray-500">Tours Available</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">{selectedEras.length}</div>
-                  <div className="text-xs text-gray-500">Eras Selected</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
