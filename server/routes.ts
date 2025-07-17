@@ -1252,6 +1252,139 @@ const tourTemplates = {
         ]
       }
     ]
+  },
+  "Renaissance": {
+    locations: ["italy", "florence", "rome", "venice", "france", "paris"],
+    tours: [
+      {
+        id: 2001,
+        title: "Florence Renaissance Masterpieces",
+        duration: "5 days",
+        description: "Explore the birthplace of the Renaissance with masterworks by Michelangelo, Leonardo da Vinci, and Brunelleschi.",
+        era: "Renaissance",
+        locations: "Florence, Italy",
+        itinerary: [
+          {
+            day: 1,
+            title: "Arrival in Florence - Renaissance Beginnings",
+            sites: [
+              { name: "Uffizi Gallery", description: "World's greatest collection of Renaissance art including Botticelli's Birth of Venus" },
+              { name: "Ponte Vecchio", description: "Medieval bridge lined with Renaissance-era goldsmith shops" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Historic Center", description: "Renaissance palace converted to boutique hotel" }
+          },
+          {
+            day: 2,
+            title: "Michelangelo's Florence",
+            sites: [
+              { name: "David at Accademia Gallery", description: "Michelangelo's masterpiece marble sculpture" },
+              { name: "Palazzo Vecchio", description: "Renaissance town hall with Michelangelo's courtyard" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Historic Center", description: "Renaissance palace converted to boutique hotel" }
+          },
+          {
+            day: 3,
+            title: "Brunelleschi's Architectural Revolution",
+            sites: [
+              { name: "Duomo and Dome", description: "Brunelleschi's revolutionary dome engineering" },
+              { name: "Santo Spirito Church", description: "Perfect example of Renaissance architecture" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Historic Center", description: "Renaissance palace converted to boutique hotel" }
+          },
+          {
+            day: 4,
+            title: "Medici Legacy",
+            sites: [
+              { name: "Pitti Palace", description: "Former Medici residence with Renaissance art collection" },
+              { name: "Boboli Gardens", description: "Renaissance garden design masterpiece" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Historic Center", description: "Renaissance palace converted to boutique hotel" }
+          },
+          {
+            day: 5,
+            title: "Renaissance Workshops and Crafts",
+            sites: [
+              { name: "Oltrarno Artisan Quarter", description: "Traditional Renaissance craft workshops still operating" },
+              { name: "San Lorenzo Market", description: "Renaissance-era market with local crafts" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Historic Center", description: "Renaissance palace converted to boutique hotel" }
+          }
+        ]
+      },
+      {
+        id: 2002,
+        title: "Italian Renaissance Cities Tour",
+        duration: "7 days",
+        description: "Journey through Italy's Renaissance capitals: Florence, Rome, and Venice, discovering art, architecture, and innovation.",
+        era: "Renaissance",
+        locations: "Florence, Rome, Venice, Italy",
+        itinerary: [
+          {
+            day: 1,
+            title: "Florence - Cradle of Renaissance",
+            sites: [
+              { name: "Uffizi Gallery", description: "Renaissance art masterpieces" },
+              { name: "Duomo", description: "Brunelleschi's architectural innovation" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Florence", description: "Renaissance palace hotel" }
+          },
+          {
+            day: 2,
+            title: "Medici Florence",
+            sites: [
+              { name: "Medici Chapels", description: "Michelangelo's tomb sculptures" },
+              { name: "Palazzo Medici", description: "First Renaissance palace" }
+            ],
+            hotel: { name: "Hotel Davanzati", location: "Florence", description: "Renaissance palace hotel" }
+          },
+          {
+            day: 3,
+            title: "Travel to Rome - High Renaissance",
+            sites: [
+              { name: "Sistine Chapel", description: "Michelangelo's ceiling frescoes" },
+              { name: "Vatican Museums", description: "Renaissance papal art collection" }
+            ],
+            hotel: { name: "Hotel de Russie", location: "Rome", description: "Luxury hotel near Renaissance sites" }
+          },
+          {
+            day: 4,
+            title: "Renaissance Rome",
+            sites: [
+              { name: "St. Peter's Basilica", description: "Renaissance architecture by Bramante and Michelangelo" },
+              { name: "Villa Farnesina", description: "Renaissance villa with Raphael frescoes" }
+            ],
+            hotel: { name: "Hotel de Russie", location: "Rome", description: "Luxury hotel near Renaissance sites" }
+          },
+          {
+            day: 5,
+            title: "Travel to Venice - Venetian Renaissance",
+            sites: [
+              { name: "Doge's Palace", description: "Venetian Renaissance political center" },
+              { name: "St. Mark's Basilica", description: "Byzantine-Renaissance architectural fusion" }
+            ],
+            hotel: { name: "Gritti Palace", location: "Venice", description: "Historic palace on the Grand Canal" }
+          },
+          {
+            day: 6,
+            title: "Venetian Renaissance Art",
+            sites: [
+              { name: "Peggy Guggenheim Collection", description: "Renaissance to modern art in historic palace" },
+              { name: "Ca' Rezzonico", description: "Venetian Renaissance palace museum" }
+            ],
+            hotel: { name: "Gritti Palace", location: "Venice", description: "Historic palace on the Grand Canal" }
+          },
+          {
+            day: 7,
+            title: "Murano Glass and Renaissance Crafts",
+            sites: [
+              { name: "Murano Glass Workshops", description: "Renaissance glassmaking traditions" },
+              { name: "Rialto Bridge", description: "Renaissance engineering marvel" }
+            ],
+            hotel: { name: "Gritti Palace", location: "Venice", description: "Historic palace on the Grand Canal" }
+          }
+        ]
+      }
+    ]
   }
 };
 

@@ -375,7 +375,17 @@ export default function BuildTourCopy() {
                 {/* Get unique locations from tours */}
                 {Array.from(new Set(
                   (toursData || [])
-                    .filter(tour => selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
+                    .filter(tour => {
+                      if (!tour.era) return false;
+                      return selectedEras.some(era => {
+                        const tourEra = tour.era?.toLowerCase() || '';
+                        const selectedEra = era.toLowerCase();
+                        // More flexible matching for era names
+                        return tourEra === selectedEra || 
+                               tourEra.includes(selectedEra) || 
+                               selectedEra.includes(tourEra);
+                      });
+                    })
                     .map(tour => tour.locations)
                     .filter(Boolean)
                     .flatMap(location => location.split(',').map(l => l.trim()))
