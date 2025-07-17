@@ -244,60 +244,58 @@ export default function HistoricalTimelineTours() {
 
 
 
-          {/* Selected Period Eras */}
-          {selectedPeriod && (
-            <div className="mb-12">
-                <div className="text-center mb-8">
-                  <h3 className="text-3xl font-semibold text-gray-900 mb-2">
-                    {historicalPeriods.find(p => p.id === selectedPeriod)?.name} Civilizations
-                  </h3>
-                  <p className="text-lg text-gray-600">
-                    Select civilizations to explore available tours
-                  </p>
-                </div>
-                {/* Horizontal Tags - Dribbble Style */}
-                <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-                  {filteredEras.map((era: Era) => {
-                    return (
+          {/* All Civilizations - Dribbble Style */}
+          <div className="mb-12">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-semibold text-gray-900 mb-2">
+                Choose Civilizations to Explore
+              </h3>
+              <p className="text-lg text-gray-600">
+                Select civilizations to discover available heritage tours
+              </p>
+            </div>
+            {/* Horizontal Tags - Compact Dribbble Style */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+              {erasData?.map((era: Era) => {
+                return (
+                  <button
+                    key={era.id}
+                    onClick={() => handleEraSelect(era.name)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                      selectedEras.includes(era.name)
+                        ? 'bg-blue-600 text-white shadow-lg scale-105'
+                        : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                    }`}
+                  >
+                    {era.name}
+                  </button>
+                );
+              })}
+            </div>
+            
+            {/* Selected Eras Summary */}
+            {selectedEras.length > 0 && (
+              <div className="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+                <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+                  <Users className="w-5 h-5 mr-2 text-blue-600" />
+                  Selected Civilizations ({selectedEras.length})
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedEras.map((era) => (
+                    <div key={era} className="flex items-center bg-white px-3 py-2 rounded-full border border-blue-200">
+                      <span className="text-sm font-medium text-gray-700">{era}</span>
                       <button
-                        key={era.id}
-                        onClick={() => handleEraSelect(era.name)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-md ${
-                          selectedEras.includes(era.name)
-                            ? 'bg-blue-600 text-white shadow-lg scale-105'
-                            : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-                        }`}
+                        onClick={() => handleEraSelect(era)}
+                        className="ml-2 text-red-500 hover:text-red-700 transition-colors"
                       >
-                        {era.name}
+                        <XIcon className="w-4 h-4" />
                       </button>
-                    );
-                  })}
-                </div>
-                
-                {/* Selected Eras Summary */}
-                {selectedEras.length > 0 && (
-                  <div className="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
-                    <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
-                      <Users className="w-5 h-5 mr-2 text-blue-600" />
-                      Selected Civilizations ({selectedEras.length})
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedEras.map((era) => (
-                        <div key={era} className="flex items-center bg-white px-3 py-2 rounded-full border border-blue-200">
-                          <span className="text-sm font-medium text-gray-700">{era}</span>
-                          <button
-                            onClick={() => handleEraSelect(era)}
-                            className="ml-2 text-red-500 hover:text-red-700 transition-colors"
-                          >
-                            <XIcon className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
                     </div>
-                  </div>
-                )}
+                  ))}
+                </div>
               </div>
             )}
+          </div>
 
           {/* Location Filter */}
           {selectedEras.length > 0 && (
