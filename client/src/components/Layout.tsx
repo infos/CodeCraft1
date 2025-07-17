@@ -35,34 +35,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 )}>
                   Historical Tours
                 </Link>
-                
-                <Link href="/eras" className={cn(
-                  "text-sm font-medium transition-colors hover:text-gray-600",
-                  location === "/eras" ? "text-gray-900" : "text-gray-500"
-                )}>
-                  Eras & Emperors
-                </Link>
-                
-                <Link href="/emperors" className={cn(
-                  "text-sm font-medium transition-colors hover:text-gray-600",
-                  location === "/emperors" ? "text-gray-900" : "text-gray-500"
-                )}>
-                  Emperors
-                </Link>
-                
-                <Link href="/timeline" className={cn(
-                  "text-sm font-medium transition-colors hover:text-gray-600",
-                  location === "/timeline" ? "text-gray-900" : "text-gray-500"
-                )}>
-                  Timeline
-                </Link>
-                
-                <Link href="/tours" className={cn(
-                  "text-sm font-medium transition-colors hover:text-gray-600",
-                  location === "/tours" ? "text-gray-900" : "text-gray-500"
-                )}>
-                  All Tours
-                </Link>
               </div>
             </div>
             

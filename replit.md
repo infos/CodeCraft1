@@ -133,6 +133,7 @@ Changelog:
 - January 15, 2025. **HISTORICAL VALIDATION**: Validated historical periods and eras consistency between Tour Builder and Historical Tours pages. Updated period categorization: Medieval Period extended to 1500 CE, Renaissance adjusted to 1300-1650 CE, added Early Modern period (1650-1800 CE). Fixed chronological accuracy and improved era filtering logic based on historically accurate date ranges.
 - January 15, 2025. **FILTERING CONSISTENCY FIX**: Fixed era filtering logic in Tour Builder to exactly match Historical Tours page categorization. Medieval period now correctly shows only Byzantine, Medieval Europe, Sasanian Empire, and Silk Road Trade Era. Renaissance and Age of Exploration moved to appropriate Renaissance and Early Modern periods respectively.
 - January 17, 2025. **TIMELINE TOURS PAGE CREATED**: Built new HistoricalTimelineTours page inspired by Dribbble timeline designs. Features search bar in header, periods sidebar on right, visual timeline with historical periods (Ancient Times, Classical Period, Medieval, Renaissance, Early Modern, Modern Era), era selection cards, location filtering, and tours grid. Added comprehensive Renaissance tour templates to tour generation system. Page accessible via /timeline-tours route with full navigation integration.
+- January 17, 2025. **NAVIGATION SIMPLIFIED**: Hidden Eras & Emperors, Emperors, Timeline, and All Tours pages from navigation. Navigation now shows only core pages: Tour Builder, Timeline Tours, and Historical Tours for streamlined user experience.
 ```
 
 ## User Preferences
