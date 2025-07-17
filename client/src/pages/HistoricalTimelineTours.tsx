@@ -255,31 +255,20 @@ export default function HistoricalTimelineTours() {
                     Select civilizations to explore available tours
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {/* Horizontal Tags - Dribbble Style */}
+                <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
                   {filteredEras.map((era: Era) => {
-                    const eraInfo = eraTimelines[era.name];
                     return (
                       <button
                         key={era.id}
                         onClick={() => handleEraSelect(era.name)}
-                        className={`p-6 rounded-xl border-2 text-left transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-md ${
                           selectedEras.includes(era.name)
-                            ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200 scale-105'
-                            : eraInfo?.color || 'bg-white border-gray-200 hover:border-gray-300'
+                            ? 'bg-blue-600 text-white shadow-lg scale-105'
+                            : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                         }`}
                       >
-                        <h4 className="font-bold text-xl mb-3">{era.name}</h4>
-                        {eraInfo && (
-                          <>
-                            <p className="text-sm text-gray-600 mb-2 font-medium">{eraInfo.range}</p>
-                            <p className="text-sm text-gray-500 mb-3">{eraInfo.description}</p>
-                          </>
-                        )}
-                        {era.keyFigures && (
-                          <p className="text-xs text-gray-400 border-t border-gray-200 pt-2">
-                            Key Figures: {era.keyFigures}
-                          </p>
-                        )}
+                        {era.name}
                       </button>
                     );
                   })}
