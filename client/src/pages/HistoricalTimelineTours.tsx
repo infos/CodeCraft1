@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { 
   Loader2, 
   Sparkles, 
@@ -17,7 +18,8 @@ import {
   Users,
   Filter,
   ArrowRight,
-  Globe
+  Globe,
+  ChevronDown
 } from 'lucide-react';
 import { Link } from 'wouter';
 import type { Era } from "@shared/schema";
@@ -194,6 +196,30 @@ export default function HistoricalTimelineTours() {
 
             {/* Actions */}
             <div className="flex items-center space-x-3">
+              {/* Historical Periods Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    Historical periods
+                    <ChevronDown className="h-4 w-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  {historicalPeriods.map((period) => (
+                    <DropdownMenuItem
+                      key={period.id}
+                      onClick={() => setSelectedPeriod(selectedPeriod === period.id ? '' : period.id)}
+                      className={`flex flex-col items-start py-3 px-3 ${
+                        selectedPeriod === period.id ? 'bg-blue-50 text-blue-700' : ''
+                      }`}
+                    >
+                      <div className="font-medium">{period.name}</div>
+                      <div className="text-xs text-gray-500 mt-1">{period.range}</div>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
               <Button variant="outline" size="sm">
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
