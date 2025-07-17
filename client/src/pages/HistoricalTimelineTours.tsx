@@ -205,8 +205,8 @@ export default function HistoricalTimelineTours() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="w-full">
-            {/* Hero Section */}
-            <div className="text-center mb-12">
+          {/* Hero Section */}
+          <div className="text-center mb-12">
               <h2 className="text-5xl font-light text-gray-900 mb-4">
                 Journey Through Time
               </h2>
@@ -216,8 +216,8 @@ export default function HistoricalTimelineTours() {
               </p>
             </div>
 
-            {/* Horizontal Historical Timeline */}
-            <div className="mb-12">
+          {/* Horizontal Historical Timeline */}
+          <div className="mb-12">
               <h3 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Historical Timeline</h3>
               <div className="relative overflow-x-auto pb-4">
                 {/* Horizontal Timeline Container */}
@@ -251,8 +251,8 @@ export default function HistoricalTimelineTours() {
               </div>
             </div>
 
-            {/* Selected Period Eras */}
-            {selectedPeriod && (
+          {/* Selected Period Eras */}
+          {selectedPeriod && (
               <div className="mb-12">
                 <div className="text-center mb-8">
                   <h3 className="text-3xl font-semibold text-gray-900 mb-2">
@@ -317,8 +317,8 @@ export default function HistoricalTimelineTours() {
               </div>
             )}
 
-            {/* Location Filter */}
-            {selectedEras.length > 0 && (
+          {/* Location Filter */}
+          {selectedEras.length > 0 && (
               <div className="mb-8">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
                 <div className="flex flex-wrap gap-2">
@@ -353,8 +353,8 @@ export default function HistoricalTimelineTours() {
               </div>
             )}
 
-            {/* Tours Grid */}
-            {toursToDisplay.length > 0 && (
+          {/* Tours Grid */}
+          {toursToDisplay.length > 0 && (
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-semibold text-gray-900">
@@ -423,8 +423,8 @@ export default function HistoricalTimelineTours() {
               </div>
             )}
 
-            {/* Empty State */}
-            {toursToDisplay.length === 0 && !isLoadingTours && (
+          {/* Empty State */}
+          {toursToDisplay.length === 0 && !isLoadingTours && (
               <div className="text-center py-12">
                 <div className="max-w-md mx-auto">
                   <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
