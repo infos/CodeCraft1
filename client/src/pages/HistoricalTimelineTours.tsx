@@ -242,40 +242,7 @@ export default function HistoricalTimelineTours() {
             </p>
           </div>
 
-          {/* Horizontal Historical Timeline */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Historical Timeline</h3>
-            <div className="relative overflow-x-auto pb-4">
-                {/* Horizontal Timeline Container */}
-                <div className="flex items-center justify-between min-w-[1200px] relative">
-                  {/* Timeline Line */}
-                  <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-purple-500 via-emerald-500 via-blue-500 via-indigo-500 to-slate-600 transform -translate-y-1/2"></div>
-                  
-                  {/* Timeline Periods */}
-                  {historicalPeriods.map((period, index) => (
-                    <div key={period.id} className="flex flex-col items-center relative z-10">
-                      {/* Timeline Dot */}
-                      <div className={`w-6 h-6 rounded-full border-4 border-white shadow-lg mb-4 ${
-                        selectedPeriod === period.id ? 'bg-blue-600 scale-125' : 'bg-gray-400'
-                      } transition-all duration-300`}></div>
-                      
-                      {/* Period Card */}
-                      <button
-                        onClick={() => setSelectedPeriod(selectedPeriod === period.id ? '' : period.id)}
-                        className={`w-48 p-4 rounded-lg border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
-                          selectedPeriod === period.id 
-                            ? period.color + ' ring-2 ring-blue-500 scale-105' 
-                            : 'bg-white border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <h4 className="font-semibold text-lg mb-1">{period.name}</h4>
-                        <p className="text-sm opacity-75">{period.range}</p>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+
 
           {/* Selected Period Eras */}
           {selectedPeriod && (
