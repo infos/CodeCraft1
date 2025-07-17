@@ -207,19 +207,19 @@ export default function HistoricalTimelineTours() {
         <div className="w-full">
           {/* Hero Section */}
           <div className="text-center mb-12">
-              <h2 className="text-5xl font-light text-gray-900 mb-4">
-                Journey Through Time
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Explore humanity's greatest civilizations through immersive historical tours. 
-                Select a period to discover authentic heritage experiences.
-              </p>
-            </div>
+            <h2 className="text-5xl font-light text-gray-900 mb-4">
+              Journey Through Time
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Explore humanity's greatest civilizations through immersive historical tours. 
+              Select a period to discover authentic heritage experiences.
+            </p>
+          </div>
 
           {/* Horizontal Historical Timeline */}
           <div className="mb-12">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Historical Timeline</h3>
-              <div className="relative overflow-x-auto pb-4">
+            <h3 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Historical Timeline</h3>
+            <div className="relative overflow-x-auto pb-4">
                 {/* Horizontal Timeline Container */}
                 <div className="flex items-center justify-between min-w-[1200px] relative">
                   {/* Timeline Line */}
@@ -253,7 +253,7 @@ export default function HistoricalTimelineTours() {
 
           {/* Selected Period Eras */}
           {selectedPeriod && (
-              <div className="mb-12">
+            <div className="mb-12">
                 <div className="text-center mb-8">
                   <h3 className="text-3xl font-semibold text-gray-900 mb-2">
                     {historicalPeriods.find(p => p.id === selectedPeriod)?.name} Civilizations
@@ -319,7 +319,7 @@ export default function HistoricalTimelineTours() {
 
           {/* Location Filter */}
           {selectedEras.length > 0 && (
-              <div className="mb-8">
+            <div className="mb-8">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
                 <div className="flex flex-wrap gap-2">
                   {Array.from(new Set(
@@ -355,7 +355,7 @@ export default function HistoricalTimelineTours() {
 
           {/* Tours Grid */}
           {toursToDisplay.length > 0 && (
-              <div>
+            <div>
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-semibold text-gray-900">
                     {searchQuery ? 'Search Results' : 'Available Tours'}
@@ -425,7 +425,7 @@ export default function HistoricalTimelineTours() {
 
           {/* Empty State */}
           {toursToDisplay.length === 0 && !isLoadingTours && (
-              <div className="text-center py-12">
+            <div className="text-center py-12">
                 <div className="max-w-md mx-auto">
                   <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -440,7 +440,6 @@ export default function HistoricalTimelineTours() {
                 </div>
               </div>
             )}
-          </div>
         </div>
       </div>
     </div>
