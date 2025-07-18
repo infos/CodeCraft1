@@ -144,11 +144,7 @@ export default function HistoricalTimelineTours() {
 
   // Handle period change and filter eras
   const handlePeriodChange = (periodKey: string) => {
-    if (periodKey === 'all') {
-      setSelectedPeriod('all');
-    } else {
-      setSelectedPeriod(selectedPeriod === periodKey ? 'all' : periodKey);
-    }
+    setSelectedPeriod(selectedPeriod === periodKey ? '' : periodKey);
   };
 
 
@@ -292,7 +288,6 @@ export default function HistoricalTimelineTours() {
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <TooltipProvider>
                   {[
-                    { key: 'all', label: 'All Periods', tooltip: 'All historical eras' },
                     { key: 'ancient', label: 'Ancient Times', tooltip: '3500 BCE - 500 CE' },
                     { key: 'classical', label: 'Classical Period', tooltip: '800 BCE - 500 CE' },
                     { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1500 CE' },
@@ -395,7 +390,7 @@ export default function HistoricalTimelineTours() {
                         </button>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>{eraTimelines[era.name] || 'Historical period'}</p>
+                        <p>{eraTimelines[era.name]?.range || 'Historical period'}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
