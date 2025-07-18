@@ -112,6 +112,54 @@ export default function HistoricalTimelineTours() {
     });
   }, [erasData, selectedPeriod]);
 
+  // Filter rulers based on selected period and civilizations
+  const filteredRulers = React.useMemo(() => {
+    if (!emperorsData) return [];
+    
+    let rulers = emperorsData || [];
+    
+    // Filter by historical period if selected
+    if (selectedPeriod) {
+      rulers = rulers.filter((ruler: any) => {
+        const rulerEra = ruler.era?.toLowerCase() || '';
+        
+        switch (selectedPeriod) {
+          case 'ancient':
+            return rulerEra.includes('ancient') || rulerEra.includes('egypt') || rulerEra.includes('rome') || rulerEra.includes('greece') || rulerEra.includes('mesopotam') || rulerEra.includes('persian');
+          case 'classical':
+            return rulerEra.includes('rome') || rulerEra.includes('greece') || rulerEra.includes('hellenistic') || rulerEra.includes('republic');
+          case 'medieval':
+            return rulerEra.includes('byzantine') || rulerEra.includes('medieval') || rulerEra.includes('sasanian') || rulerEra.includes('viking') || rulerEra.includes('middle ages');
+          case 'renaissance':
+            return rulerEra.includes('renaissance');
+          case 'early_modern':
+            return rulerEra.includes('exploration') || rulerEra.includes('enlightenment') || rulerEra.includes('georgian') || rulerEra.includes('early modern');
+          case 'modern':
+            return rulerEra.includes('industrial') || rulerEra.includes('modern') || rulerEra.includes('19th') || rulerEra.includes('20th');
+          default:
+            return true;
+        }
+      });
+    }
+    
+    // Filter by selected civilizations if any are selected
+    if (selectedEras.length > 0) {
+      rulers = rulers.filter((ruler: any) => {
+        const rulerEra = ruler.era?.toLowerCase() || '';
+        return selectedEras.some(era => 
+          rulerEra.includes(era.toLowerCase()) || 
+          era.toLowerCase().includes(rulerEra.split(' ')[0]) ||
+          (era === 'Ancient Egypt' && rulerEra.includes('egypt')) ||
+          (era === 'Ancient Rome' && rulerEra.includes('rome')) ||
+          (era === 'Ancient Greece' && rulerEra.includes('greece')) ||
+          (era === 'Ancient Near Eastern' && (rulerEra.includes('mesopotam') || rulerEra.includes('persian') || rulerEra.includes('babylon')))
+        );
+      });
+    }
+    
+    return rulers.slice(0, 12);
+  }, [emperorsData, selectedPeriod, selectedEras]);
+
   // Generate tours mutation
   const generateToursMutation = useMutation({
     mutationFn: async (filterData: any) => {
@@ -303,7 +351,7 @@ export default function HistoricalTimelineTours() {
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Famous Rulers</h4>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <TooltipProvider>
-                  {(emperorsData || []).slice(0, 12).map((emperor: any) => (
+                  {filteredRulers.map((emperor: any) => (
                     <Tooltip key={emperor.id}>
                       <TooltipTrigger asChild>
                         <button
