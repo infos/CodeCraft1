@@ -373,13 +373,8 @@ export default function HistoricalTimelineTours() {
         <div className="w-full">
           {/* All Civilizations - Dribbble Style */}
           <div className="mb-12">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl font-semibold text-gray-900 mb-2">
-                Choose Civilizations to Explore
-              </h3>
-              <p className="text-lg text-gray-600">
-                Select civilizations to discover available heritage tours
-              </p>
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Choose Civilizations to Explore</h4>
             </div>
             {/* Horizontal Tags - Compact Dribbble Style */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
