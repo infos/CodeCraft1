@@ -318,11 +318,11 @@ export default function HistoricalTimelineTours() {
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <TooltipProvider>
                   {[
-                    { key: 'ancient', label: 'Ancient Times', tooltip: '3500 BCE - 500 CE' },
-                    { key: 'classical', label: 'Classical Period', tooltip: '800 BCE - 500 CE' },
-                    { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1500 CE' },
-                    { key: 'renaissance', label: 'Renaissance', tooltip: '1300 CE - 1650 CE' },
-                    { key: 'early_modern', label: 'Early Modern', tooltip: '1650 CE - 1800 CE' }
+                    { key: 'ancient', label: 'Ancient Times (3500 BCE - 500 CE)', tooltip: '3500 BCE - 500 CE' },
+                    { key: 'classical', label: 'Classical Period (800 BCE - 500 CE)', tooltip: '800 BCE - 500 CE' },
+                    { key: 'medieval', label: 'Medieval Period (500 CE - 1500 CE)', tooltip: '500 CE - 1500 CE' },
+                    { key: 'renaissance', label: 'Renaissance (1300 CE - 1650 CE)', tooltip: '1300 CE - 1650 CE' },
+                    { key: 'early_modern', label: 'Early Modern (1650 CE - 1800 CE)', tooltip: '1650 CE - 1800 CE' }
                   ].map((period) => (
                     <Tooltip key={period.key}>
                       <TooltipTrigger asChild>
