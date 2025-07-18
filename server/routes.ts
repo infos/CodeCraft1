@@ -2093,33 +2093,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
             fs.mkdirSync(dir, { recursive: true });
           }
           
-          // Generate images using new function with real sources
-          const { generateTourImages } = await import('./gemini');
-          const tourLocation = tour.location || tour.title.split(' ')[0] || 'historical site';
-          const tourEra = tour.era || 'ancient';
+          // Generate AI images using Gemini
+          const { generateImage } = await import('./gemini');
           
-          const imageResult = await generateTourImages(tour.id, tour.title, tourEra, tourLocation);
+          const aiImageResult = await generateImage(prompt, imagePath);
           
-          // Save images to database
-          const savedImages = [];
-          for (const image of imageResult.images.slice(0, 1)) { // Take first image for backward compatibility
-            const savedImage = await storage.createTourImage({
-              tourId: tour.id,
-              tourTitle: tour.title,
-              imageUrl: image.url,
-              imageDescription: image.description,
-              source: image.source,
-              attribution: image.attribution,
-              prompt: `Real image search: ${tourLocation} ${tourEra}`
-            });
-            savedImages.push(savedImage);
-          }
+          // Save AI image to database
+          const savedImage = await storage.createTourImage({
+            tourId: tour.id,
+            tourTitle: tour.title,
+            imageUrl: publicImagePath,
+            imageDescription: `AI-generated image of ${tour.title}`,
+            source: 'Gemini AI',
+            attribution: 'Google Gemini AI',
+            prompt: prompt
+          });
+          
+          console.log(`Generated and saved AI image for tour: ${tour.title}`);
           
           imageResults.push({
             tourId: tour.id,
             title: tour.title,
-            imagePath: imageResult.images[0]?.url || publicImagePath,
-            images: imageResult.images,
+            imagePath: publicImagePath,
             prompt: prompt,
             fromDatabase: false
           });
