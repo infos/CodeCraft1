@@ -267,19 +267,6 @@ export default function HistoricalTimelineTours() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="w-full">
-          {/* Hero Section */}
-          <div className="text-center mb-12">
-            <h2 className="text-5xl font-light text-gray-900 mb-4">
-              Journey Through Time
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Explore humanity's greatest civilizations through immersive historical tours. 
-              Select a period to discover authentic heritage experiences.
-            </p>
-          </div>
-
-
-
           {/* All Civilizations - Dribbble Style */}
           <div className="mb-12">
             <div className="text-center mb-8">
