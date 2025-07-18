@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import fs from "fs";
 import { storage } from "./storage";
-import { generateEraImage, generateAllEraImages, generateMarcusAureliusVideo, generateTourVideo } from "./gemini";
+import { generateEraImage, generateAllEraImages, generateMarcusAureliusVideo, generateTourVideo, generateCivilizationTours } from "./gemini";
 // Local tour generation without external AI dependencies
 
 // Historical tour templates based on different eras and locations
@@ -1553,30 +1553,39 @@ function generateTours(selectedPeriods: string[], selectedEras: string[], select
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Local Tour Generation endpoint
+  // Gemini-powered Tour Generation endpoint
   app.post("/api/generate-tours", async (req, res) => {
     try {
-      console.log("Generating tours locally...");
+      console.log("Generating tours with Gemini...");
       console.log("Request body:", req.body);
       
       const { selectedPeriods, selectedEras, selectedLocations } = req.body;
       
-      if (!selectedPeriods?.length && !selectedEras?.length) {
-        return res.status(400).json({ message: "Please select at least one historical period or era" });
+      if (!selectedEras?.length) {
+        return res.status(400).json({ message: "Please select at least one civilization/era" });
       }
 
-      const tours = generateTours(selectedPeriods || [], selectedEras || [], selectedLocations || []);
+      // Use Gemini to generate tours for selected civilizations
+      const tours = await generateCivilizationTours(selectedEras, selectedLocations || []);
       
-      console.log("Generated tours:", tours);
-      res.json(tours);
+      console.log("Generated tours:", { tours });
+      res.json({ tours });
       
     } catch (error: any) {
-      console.error("Tour generation error:", error);
-      console.error("Error details:", error?.message, error?.stack);
-      res.status(500).json({ 
-        message: "Failed to generate tours. Please try again.",
-        error: error?.message || "Unknown error"
-      });
+      console.error("Gemini tour generation error:", error);
+      
+      // Fallback to local tour generation if Gemini fails
+      try {
+        const fallbackTours = generateTours(selectedPeriods || [], selectedEras || [], selectedLocations || []);
+        console.log("Using fallback tours:", fallbackTours);
+        res.json(fallbackTours);
+      } catch (fallbackError) {
+        console.error("Fallback tour generation also failed:", fallbackError);
+        res.status(500).json({ 
+          message: "Failed to generate tours. Please try again.",
+          error: error?.message || "Unknown error"
+        });
+      }
     }
   });
 

@@ -24,8 +24,13 @@ export default function TourDetailsPage() {
     return <Skeleton className="h-[600px] w-full" />;
   }
 
-  if (!tour || !hotels) {
-    return <div>Tour not found</div>;
+  if (!tour) {
+    return <div className="container mx-auto px-4 py-8">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">Tour Not Found</h2>
+        <p className="text-gray-600">The requested tour could not be found.</p>
+      </div>
+    </div>;
   }
 
   return (
@@ -63,15 +68,47 @@ export default function TourDetailsPage() {
             <div className="flex items-center justify-between text-lg border-t pt-4">
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                <span>{tour.duration} days</span>
+                <span>{tour.duration || '7 days'}</span>
               </div>
               <div className="font-bold">
-                ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}
+                ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price || '2,500'}
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* Hotel Recommendations Section */}
+      {hotels && hotels.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Hotel className="h-5 w-5" />
+              Hotel Recommendations
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              {hotels.map((hotel, index) => (
+                <div key={index} className="border rounded-lg p-4 space-y-2">
+                  <h4 className="font-semibold">{hotel.name}</h4>
+                  <p className="text-sm text-muted-foreground">{hotel.location}</p>
+                  <p className="text-sm">{hotel.description}</p>
+                  {hotel.amenities && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {hotel.amenities.slice(0, 3).map((amenity, idx) => (
+                        <span key={idx} className="text-xs bg-gray-100 px-2 py-1 rounded">
+                          {amenity}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>

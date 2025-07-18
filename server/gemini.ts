@@ -68,6 +68,99 @@ export async function generateEraImage(
     }
 }
 
+export async function generateCivilizationTours(
+    civilizations: string[],
+    selectedLocations: string[] = []
+): Promise<any[]> {
+    try {
+        const prompt = `Create authentic historical heritage tours for these civilizations: ${civilizations.join(', ')}.
+
+For each civilization, generate 2-4 unique tour experiences that include:
+- Authentic historical sites and monuments
+- Real destinations and locations
+- Detailed itineraries with major sites
+- Cultural experiences and activities
+- Historical context and significance
+
+${selectedLocations.length > 0 ? `Focus on these specific locations: ${selectedLocations.join(', ')}` : ''}
+
+Return a JSON array of tours with this exact structure:
+[
+  {
+    "id": unique_number,
+    "title": "Tour Title",
+    "description": "Detailed description of the tour experience",
+    "civilization": "Civilization Name",
+    "locations": "Primary destination city/country",
+    "duration": "7 days",
+    "defaultDuration": "7 days",
+    "durationOptions": ["3 days", "5 days", "7 days", "10 days"],
+    "price": 2500,
+    "highlights": ["Key attraction 1", "Key attraction 2", "Key attraction 3"]
+  }
+]
+
+Make tours historically accurate, culturally immersive, and suitable for heritage tourism. Include major archaeological sites, museums, and cultural experiences.`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-pro",
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            id: { type: "number" },
+                            title: { type: "string" },
+                            description: { type: "string" },
+                            civilization: { type: "string" },
+                            locations: { type: "string" },
+                            duration: { type: "string" },
+                            defaultDuration: { type: "string" },
+                            durationOptions: { 
+                                type: "array", 
+                                items: { type: "string" } 
+                            },
+                            price: { type: "number" },
+                            highlights: { 
+                                type: "array", 
+                                items: { type: "string" } 
+                            }
+                        },
+                        required: ["id", "title", "description", "civilization", "locations", "duration", "defaultDuration", "durationOptions", "price", "highlights"]
+                    }
+                }
+            },
+            contents: prompt,
+        });
+
+        const rawJson = response.text;
+        if (rawJson) {
+            const tours = JSON.parse(rawJson);
+            console.log(`Generated ${tours.length} tours for civilizations: ${civilizations.join(', ')}`);
+            return tours;
+        } else {
+            throw new Error("Empty response from Gemini");
+        }
+    } catch (error) {
+        console.error('Failed to generate civilization tours:', error);
+        // Fallback to basic tour generation
+        return civilizations.map((civ, index) => ({
+            id: 1000 + index,
+            title: `Discover ${civ}`,
+            description: `Explore the wonders and heritage of ${civ} through authentic historical sites.`,
+            civilization: civ,
+            locations: "Historical Sites",
+            duration: "7 days",
+            defaultDuration: "7 days",
+            durationOptions: ["3 days", "5 days", "7 days", "10 days"],
+            price: 2000,
+            highlights: ["Historical Sites", "Cultural Experiences", "Archaeological Wonders"]
+        }));
+    }
+}
+
 export async function generateAllEraImages(): Promise<Record<string, string>> {
     const eras = [
         { name: "Egypt", description: "Ancient Egypt with pyramids, pharaohs, and Nile River civilization", year: "3100 - 30 BCE" },
