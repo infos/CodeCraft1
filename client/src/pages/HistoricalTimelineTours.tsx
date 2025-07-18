@@ -289,7 +289,7 @@ export default function HistoricalTimelineTours() {
             {/* Historical Periods Filter */}
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Periods</h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-2">
                 <TooltipProvider>
                   {[
                     { key: 'all', label: 'All Periods', tooltip: 'All historical eras' },
@@ -303,10 +303,10 @@ export default function HistoricalTimelineTours() {
                       <TooltipTrigger asChild>
                         <button
                           onClick={() => handlePeriodChange(period.key)}
-                          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
                             selectedPeriod === period.key
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                              ? 'bg-blue-600 text-white shadow-lg scale-105'
+                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
                           }`}
                         >
                           {period.label}
