@@ -58,6 +58,7 @@ export default function HistoricalTimelineTours() {
   const [eraImages, setEraImages] = useState<Record<string, string>>({});
   const [isGeneratingImages, setIsGeneratingImages] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedRulers, setSelectedRulers] = useState<string[]>([]);
 
   const queryClient = useQueryClient();
 
@@ -76,6 +77,12 @@ export default function HistoricalTimelineTours() {
   // Fetch tour images data
   const { data: tourImagesData } = useQuery({
     queryKey: ['/api/tour-images'],
+    staleTime: 1000 * 60 * 5,
+  });
+
+  // Fetch emperors data
+  const { data: emperorsData } = useQuery({
+    queryKey: ['/api/emperors'],
     staleTime: 1000 * 60 * 5,
   });
 
@@ -291,6 +298,49 @@ export default function HistoricalTimelineTours() {
               </div>
             </div>
 
+            {/* Rulers Filter */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Famous Rulers</h4>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <TooltipProvider>
+                  {(emperorsData || []).slice(0, 12).map((emperor: any) => (
+                    <Tooltip key={emperor.id}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => {
+                            const isSelected = selectedRulers.includes(emperor.name);
+                            if (isSelected) {
+                              setSelectedRulers(prev => prev.filter(r => r !== emperor.name));
+                            } else {
+                              setSelectedRulers(prev => [...prev, emperor.name]);
+                            }
+                          }}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                            selectedRulers.includes(emperor.name)
+                              ? 'bg-blue-600 text-white shadow-lg scale-105'
+                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                          }`}
+                        >
+                          {emperor.name}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{emperor.startYear} - {emperor.endYear} | {emperor.era}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </TooltipProvider>
+                {selectedRulers.length > 0 && (
+                  <button
+                    onClick={() => setSelectedRulers([])}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                  >
+                    <XIcon className="w-3 h-3 mr-1 inline" />
+                    Clear Rulers
+                  </button>
+                )}
+              </div>
+            </div>
 
           </div>
         </div>
