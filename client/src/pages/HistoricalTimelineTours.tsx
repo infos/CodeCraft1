@@ -57,6 +57,7 @@ export default function HistoricalTimelineTours() {
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
   const [eraImages, setEraImages] = useState<Record<string, string>>({});
   const [isGeneratingImages, setIsGeneratingImages] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -140,6 +141,17 @@ export default function HistoricalTimelineTours() {
         : [...prev, eraName]
     );
   };
+
+  // Handle period change and filter eras
+  const handlePeriodChange = (periodKey: string) => {
+    if (periodKey === 'all') {
+      setSelectedPeriod('all');
+    } else {
+      setSelectedPeriod(selectedPeriod === periodKey ? 'all' : periodKey);
+    }
+  };
+
+
 
   // Generate tours when eras are selected
   useEffect(() => {
@@ -256,7 +268,12 @@ export default function HistoricalTimelineTours() {
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Button variant="outline" size="sm">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => setShowFilters(!showFilters)}
+                className={showFilters ? 'bg-blue-50 text-blue-700 border-blue-200' : ''}
+              >
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
               </Button>
@@ -265,43 +282,48 @@ export default function HistoricalTimelineTours() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="w-full">
-          {/* All Civilizations - Dribbble Style */}
-          <div className="mb-12">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl font-semibold text-gray-900 mb-2">
-                Choose Civilizations to Explore
-              </h3>
-              <p className="text-lg text-gray-600">
-                Select civilizations to discover available heritage tours
-              </p>
+      {/* Filters Section */}
+      {showFilters && (
+        <div className="bg-white border-b border-gray-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {/* Historical Periods Filter */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Periods</h4>
+              <div className="flex flex-wrap gap-2">
+                <TooltipProvider>
+                  {[
+                    { key: 'all', label: 'All Periods', tooltip: 'All historical eras' },
+                    { key: 'ancient', label: 'Ancient Times', tooltip: '3500 BCE - 500 CE' },
+                    { key: 'classical', label: 'Classical Period', tooltip: '800 BCE - 500 CE' },
+                    { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1500 CE' },
+                    { key: 'renaissance', label: 'Renaissance', tooltip: '1300 CE - 1650 CE' },
+                    { key: 'early_modern', label: 'Early Modern', tooltip: '1650 CE - 1800 CE' }
+                  ].map((period) => (
+                    <Tooltip key={period.key}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => handlePeriodChange(period.key)}
+                          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                            selectedPeriod === period.key
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                          }`}
+                        >
+                          {period.label}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{period.tooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </TooltipProvider>
+              </div>
             </div>
-            {/* Horizontal Tags - Compact Dribbble Style */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-              {erasData?.map((era: Era) => {
-                return (
-                  <button
-                    key={era.id}
-                    onClick={() => handleEraSelect(era.name)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
-                      selectedEras.includes(era.name)
-                        ? 'bg-blue-600 text-white shadow-lg scale-105'
-                        : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-                    }`}
-                  >
-                    {era.name}
-                  </button>
-                );
-              })}
-            </div>
-            
 
-          </div>
-
-          {/* Location Filter */}
-          {selectedEras.length > 0 && (
-            <div className="mb-8">
+            {/* Location Filter */}
+            {selectedEras.length > 0 && (
+              <div className="mb-4">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
                 <div className="flex flex-wrap gap-2">
                   {Array.from(new Set(
@@ -321,19 +343,73 @@ export default function HistoricalTimelineTours() {
                           setSelectedLocations(prev => [...prev, location]);
                         }
                       }}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                         selectedLocations.includes(location)
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                          ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
                       }`}
                     >
                       <MapPin className="w-3 h-3 mr-1 inline" />
                       {location}
                     </button>
                   ))}
+                  {selectedLocations.length > 0 && (
+                    <button
+                      onClick={() => setSelectedLocations([])}
+                      className="px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                    >
+                      <XIcon className="w-3 h-3 mr-1 inline" />
+                      Clear Locations
+                    </button>
+                  )}
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="w-full">
+          {/* All Civilizations - Dribbble Style */}
+          <div className="mb-12">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-semibold text-gray-900 mb-2">
+                Choose Civilizations to Explore
+              </h3>
+              <p className="text-lg text-gray-600">
+                Select civilizations to discover available heritage tours
+              </p>
+            </div>
+            {/* Horizontal Tags - Compact Dribbble Style */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+              {filteredEras?.map((era: Era) => {
+                return (
+                  <TooltipProvider key={era.id}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => handleEraSelect(era.name)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                            selectedEras.includes(era.name)
+                              ? 'bg-blue-600 text-white shadow-lg scale-105'
+                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                          }`}
+                        >
+                          {era.name}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{eraTimelines[era.name] || 'Historical period'}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                );
+              })}
+            </div>
+            
+
+          </div>
 
           {/* Tours Grid */}
           {toursToDisplay.length > 0 && (
