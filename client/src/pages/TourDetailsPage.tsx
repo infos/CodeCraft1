@@ -17,10 +17,11 @@ export default function TourDetailsPage() {
 
   const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
     queryKey: [`/api/tours/${tourId}/hotels`],
-    enabled: !!tourId
+    enabled: !!tourId,
+    retry: false
   });
 
-  if (tourLoading || hotelsLoading) {
+  if (tourLoading) {
     return <Skeleton className="h-[600px] w-full" />;
   }
 
@@ -89,12 +90,12 @@ export default function TourDetailsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2">
-              {hotels.map((hotel, index) => (
+              {(hotels || []).map((hotel, index) => (
                 <div key={index} className="border rounded-lg p-4 space-y-2">
                   <h4 className="font-semibold">{hotel.name}</h4>
                   <p className="text-sm text-muted-foreground">{hotel.location}</p>
                   <p className="text-sm">{hotel.description}</p>
-                  {hotel.amenities && (
+                  {hotel.amenities && Array.isArray(hotel.amenities) && (
                     <div className="flex flex-wrap gap-1 mt-2">
                       {hotel.amenities.slice(0, 3).map((amenity, idx) => (
                         <span key={idx} className="text-xs bg-gray-100 px-2 py-1 rounded">
@@ -116,22 +117,6 @@ export default function TourDetailsPage() {
         </CardHeader>
         <CardContent>
           <TourItinerary tourId={Number(tourId)} />
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Hotel className="h-5 w-5" />
-            Recommended Hotels
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc list-inside space-y-2">
-            {hotels.map((hotel) => (
-              <li key={hotel.id} className="text-lg">{hotel.name}</li>
-            ))}
-          </ul>
         </CardContent>
       </Card>
     </div>
