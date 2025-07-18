@@ -355,14 +355,14 @@ export default function HistoricalTimelineTours() {
               })}
             </div>
 
-            {/* Location Filter - Show under Civilizations */}
-            {selectedEras.length > 0 && (
+            {/* Location Filter - Show under Civilizations when filters are open OR civilizations are selected */}
+            {(showFilters || selectedEras.length > 0) && (
               <div className="mb-8">
                 <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   {Array.from(new Set(
                     (toursData || [])
-                      .filter(tour => selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
+                      .filter(tour => selectedEras.length === 0 || selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
                       .map(tour => tour.locations)
                       .filter(Boolean)
                       .flatMap(location => location.split(',').map(l => l.trim()))
