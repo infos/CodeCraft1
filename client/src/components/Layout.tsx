@@ -1,26 +1,8 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
-import { useState, useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
-  const [isExploreOpen, setIsExploreOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsExploreOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#333]">
@@ -53,46 +35,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 )}>
                   Historical Tours
                 </Link>
-
-                {/* Explore Dropdown */}
-                <div className="relative" ref={dropdownRef}>
-                  <button
-                    onClick={() => setIsExploreOpen(!isExploreOpen)}
-                    className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-600 transition-colors"
-                  >
-                    Explore
-                    <ChevronDown className={cn(
-                      "ml-1 h-4 w-4 transition-transform",
-                      isExploreOpen ? "rotate-180" : ""
-                    )} />
-                  </button>
-                  
-                  {isExploreOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                      <Link
-                        href="/historical-periods"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                        onClick={() => setIsExploreOpen(false)}
-                      >
-                        Historical Periods
-                      </Link>
-                      <Link
-                        href="/rulers"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                        onClick={() => setIsExploreOpen(false)}
-                      >
-                        Rulers
-                      </Link>
-                      <Link
-                        href="/locations"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                        onClick={() => setIsExploreOpen(false)}
-                      >
-                        Locations
-                      </Link>
-                    </div>
-                  )}
-                </div>
               </div>
             </div>
             
