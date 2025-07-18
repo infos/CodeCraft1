@@ -284,7 +284,6 @@ export default function HistoricalTimelineTours() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm">
                     Explore
-                    <ChevronDown className="h-4 w-4 ml-2" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
