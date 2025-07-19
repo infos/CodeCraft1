@@ -278,7 +278,7 @@ export default function HistoricalTimelineTours() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center space-x-3 hidden">
+            <div className="flex items-center space-x-3">
               {/* Explore Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
