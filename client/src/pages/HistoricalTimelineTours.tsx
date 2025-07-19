@@ -404,9 +404,9 @@ export default function HistoricalTimelineTours() {
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Periods</h4>
-          <div className="flex items-center justify-center space-x-2">
+          <div className="flex items-center justify-start space-x-2">
             <TooltipProvider>
-              <div className="flex space-x-1">
+              <div className="flex flex-wrap gap-3">
                 {[
                   { key: 'ancient', label: 'Ancient Times', tooltip: '3500 BCE - 500 CE' },
                   { key: 'classical', label: 'Classical Period', tooltip: '800 BCE - 500 CE' },
@@ -456,7 +456,7 @@ export default function HistoricalTimelineTours() {
             {/* Historical Civilizations Filter */}
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Civilizations</h4>
-              <div className="flex flex-wrap gap-3 justify-center">
+              <div className="flex flex-wrap gap-3 justify-start">
                 <TooltipProvider>
                   {filteredEras?.map((era: Era) => (
                     <Tooltip key={era.id}>
@@ -493,7 +493,7 @@ export default function HistoricalTimelineTours() {
             {/* Rulers Filter */}
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Famous Rulers</h4>
-              <div className="flex flex-wrap gap-3 justify-center">
+              <div className="flex flex-wrap gap-3 justify-start">
                 <TooltipProvider>
                   {(showAllRulers ? filteredRulers : filteredRulers.slice(0, 12)).map((emperor: any) => (
                     <Tooltip key={emperor.id}>
@@ -566,7 +566,7 @@ export default function HistoricalTimelineTours() {
             {selectedEras.length > 0 && (
               <div className="mb-8">
                 <h4 className="text-md font-medium text-gray-900 mb-3">Filter by Destination</h4>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 justify-start">
                   {Array.from(new Set(
                     (toursData || [])
                       .filter(tour => selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
