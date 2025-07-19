@@ -13,6 +13,7 @@ export interface IStorage {
   // Emperor operations
   getAllEmperors(): Promise<Emperor[]>;
   getEmperor(id: number): Promise<Emperor | undefined>;
+  getEmperorByName(name: string): Promise<Emperor | undefined>;
   createEmperor(emperor: InsertEmperor): Promise<Emperor>;
 
   // Tour operations
@@ -70,6 +71,11 @@ export class DatabaseStorage implements IStorage {
 
   async getEmperor(id: number): Promise<Emperor | undefined> {
     const [emperor] = await db.select().from(emperors).where(eq(emperors.id, id));
+    return emperor;
+  }
+
+  async getEmperorByName(name: string): Promise<Emperor | undefined> {
+    const [emperor] = await db.select().from(emperors).where(eq(emperors.name, name));
     return emperor;
   }
 

@@ -769,3 +769,66 @@ export async function generateMarcusAureliusVideo(
         videoPath
     );
 }
+export async function generateRulersWithGemini(era: string, context: string): Promise<any[]> {
+    try {
+        const prompt = `Generate a comprehensive list of 8-12 famous rulers from ${era}. ${context}
+        
+        For each ruler, provide:
+        - name: Full name or title
+        - startYear: Year they began ruling (as number, BCE as negative)
+        - endYear: Year they ended ruling (as number, BCE as negative)
+        - description: 2-3 sentence description of their reign and significance
+        - achievements: Array of 3-4 key achievements
+
+        Focus on the most historically significant and well-documented rulers. Include both male and female rulers where applicable.
+        
+        Return as valid JSON array with this exact format:
+        [
+          {
+            "name": "Ruler Name",
+            "startYear": -1800,
+            "endYear": -1750,
+            "description": "Brief description of their reign and historical significance.",
+            "achievements": ["Achievement 1", "Achievement 2", "Achievement 3"]
+          }
+        ]`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-pro",
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            name: { type: "string" },
+                            startYear: { type: "number" },
+                            endYear: { type: "number" },
+                            description: { type: "string" },
+                            achievements: {
+                                type: "array",
+                                items: { type: "string" }
+                            }
+                        },
+                        required: ["name", "startYear", "endYear", "description", "achievements"]
+                    }
+                }
+            },
+            contents: prompt,
+        });
+
+        const rawJson = response.text;
+        console.log(`Generated rulers JSON for ${era}:`, rawJson?.substring(0, 200) + '...');
+
+        if (rawJson) {
+            const rulers = JSON.parse(rawJson);
+            return rulers || [];
+        } else {
+            throw new Error("Empty response from Gemini");
+        }
+    } catch (error) {
+        console.error(`Failed to generate rulers for ${era}:`, error);
+        return [];
+    }
+}
