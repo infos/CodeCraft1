@@ -459,38 +459,7 @@ export default function HistoricalTimelineTours() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="w-full">
-          {/* All Civilizations - Dribbble Style */}
           <div className="mb-12">
-            <div className="mb-8">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">Choose Civilizations to Explore</h4>
-            </div>
-            {/* Horizontal Tags - Compact Dribbble Style */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-              {filteredEras?.map((era: Era) => {
-                return (
-                  <TooltipProvider key={era.id}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          onClick={() => handleEraSelect(era.name)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
-                            selectedEras.includes(era.name)
-                              ? 'bg-blue-600 text-white shadow-lg scale-105'
-                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-                          }`}
-                        >
-                          {era.name}
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{eraTimelines[era.name]?.range || 'Historical period'}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                );
-              })}
-            </div>
-
             {/* Location Filter - Show under Civilizations only when civilizations are selected */}
             {selectedEras.length > 0 && (
               <div className="mb-8">
