@@ -59,6 +59,7 @@ export default function HistoricalTimelineTours() {
   const [isGeneratingImages, setIsGeneratingImages] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [selectedRulers, setSelectedRulers] = useState<string[]>([]);
+  const [showAllRulers, setShowAllRulers] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -157,7 +158,7 @@ export default function HistoricalTimelineTours() {
       });
     }
     
-    return rulers.slice(0, 12);
+    return rulers;
   }, [emperorsData, selectedPeriod, selectedEras]);
 
   // Generate tours mutation
@@ -351,7 +352,7 @@ export default function HistoricalTimelineTours() {
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Famous Rulers</h4>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <TooltipProvider>
-                  {filteredRulers.map((emperor: any) => (
+                  {(showAllRulers ? filteredRulers : filteredRulers.slice(0, 12)).map((emperor: any) => (
                     <Tooltip key={emperor.id}>
                       <TooltipTrigger asChild>
                         <button
@@ -378,6 +379,27 @@ export default function HistoricalTimelineTours() {
                     </Tooltip>
                   ))}
                 </TooltipProvider>
+                
+                {/* Show More/Less Button */}
+                {filteredRulers.length > 12 && (
+                  <button
+                    onClick={() => setShowAllRulers(!showAllRulers)}
+                    className="px-4 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 transition-all duration-200"
+                  >
+                    {showAllRulers ? (
+                      <>
+                        <ArrowRight className="w-3 h-3 mr-1 inline rotate-90" />
+                        Show Less
+                      </>
+                    ) : (
+                      <>
+                        <ArrowRight className="w-3 h-3 mr-1 inline -rotate-90" />
+                        Show More ({filteredRulers.length - 12} more)
+                      </>
+                    )}
+                  </button>
+                )}
+                
                 {selectedRulers.length > 0 && (
                   <button
                     onClick={() => setSelectedRulers([])}
