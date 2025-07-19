@@ -1,15 +1,19 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Calendar, Hotel, Check, X, Star, Wifi, Car, Utensils, Shield } from "lucide-react";
+import { MapPin, Calendar, Hotel, Check, X, Star, Wifi, Car, Utensils, Shield, MessageCircle, BookOpen } from "lucide-react";
 import TourItinerary from "@/components/TourItinerary";
 import TourImageCarousel from "@/components/TourImageCarousel";
+import BookingInquiryModal from "@/components/BookingInquiryModal";
 import type { Tour, HotelRecommendation, TourImage } from "@shared/schema";
 
 export default function TourDetailsPage() {
   const params = useParams();
   const tourId = params.id;
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
     queryKey: [`/api/tours/${tourId}`],
@@ -72,13 +76,42 @@ export default function TourDetailsPage() {
                 Historical Era: <span className="font-medium">{tour.era}</span>
               </p>
             )}
-            <div className="flex items-center justify-between text-lg border-t pt-4">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                <span>{tour.duration || '7 days'}</span>
+            <div className="space-y-4 border-t pt-4">
+              <div className="flex items-center justify-between text-lg">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5" />
+                  <span>{tour.duration || '7'} days</span>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-primary">
+                    ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price || '2,500'}
+                  </div>
+                  <div className="text-sm text-gray-500">per person</div>
+                </div>
               </div>
-              <div className="font-bold">
-                ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price || '2,500'}
+              
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button 
+                  size="lg" 
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  onClick={() => setIsBookingModalOpen(true)}
+                >
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Book This Tour
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setIsBookingModalOpen(true)}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Make Inquiry
+                </Button>
+              </div>
+              
+              <div className="text-xs text-center text-gray-500">
+                Free cancellation up to 48 hours before departure • Best price guarantee
               </div>
             </div>
           </div>
@@ -240,6 +273,15 @@ export default function TourDetailsPage() {
           <TourItinerary tourId={Number(tourId)} />
         </CardContent>
       </Card>
+
+      {/* Booking Inquiry Modal */}
+      <BookingInquiryModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        tourTitle={tour.title}
+        tourId={Number(tourId)}
+        tourPrice={typeof tour.price === 'number' ? tour.price : parseInt(tour.price || '2500')}
+      />
     </div>
   );
 }
