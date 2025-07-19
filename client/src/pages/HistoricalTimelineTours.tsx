@@ -410,7 +410,19 @@ export default function HistoricalTimelineTours() {
               <Button 
                 variant="outline" 
                 size="sm"
-                onClick={() => setShowFilters(!showFilters)}
+                onClick={() => {
+                  const newShowFilters = !showFilters;
+                  setShowFilters(newShowFilters);
+                  
+                  // Clear all filters when hiding the filters section
+                  if (!newShowFilters) {
+                    setSelectedEras([]);
+                    setSelectedLocations([]);
+                    setSelectedRulers([]);
+                    setShowGeneratedTours(false);
+                    setGeneratedTours([]);
+                  }
+                }}
                 className={showFilters ? 'bg-blue-50 text-blue-700 border-blue-200' : ''}
               >
                 <Filter className="h-4 w-4 mr-2" />
