@@ -68,6 +68,105 @@ export async function generateEraImage(
     }
 }
 
+export async function generateTourCarouselImages(
+    tourId: number,
+    tourTitle: string,
+    tourEra: string,
+    tourDescription: string,
+    tourLocations: string
+): Promise<Array<{ imageUrl: string; description: string; imagePath: string }>> {
+    const imagePrompts = [
+        {
+            suffix: "",
+            description: `Main panoramic view of ${tourTitle}`,
+            focus: `Create a cinematic, wide panoramic view showcasing the main highlights of ${tourTitle}. Feature the most iconic architecture and landscapes from ${tourEra}. Show ${tourDescription}. Use dramatic lighting and composition suitable for a premium travel brochure.`
+        },
+        {
+            suffix: "-architecture",
+            description: `Historical architecture from ${tourTitle}`,
+            focus: `Focus on detailed historical architecture from ${tourEra}. Show authentic period buildings, monuments, and structural details. Capture the architectural style and craftsmanship typical of ${tourEra}. Include authentic architectural elements and decorative details.`
+        },
+        {
+            suffix: "-cultural",
+            description: `Cultural heritage experience from ${tourTitle}`,
+            focus: `Showcase the cultural heritage and daily life aspects of ${tourEra}. Include authentic cultural elements, traditional activities, and heritage sites. Show people in period-appropriate clothing engaging in historical activities.`
+        },
+        {
+            suffix: "-landscape",
+            description: `Scenic landscape and environment from ${tourTitle}`,
+            focus: `Feature the natural landscape and environmental setting of ${tourLocations}. Show the geographical context and natural beauty that surrounds the historical sites. Include dramatic natural lighting and scenic vistas.`
+        }
+    ];
+
+    const results = [];
+    
+    for (const [index, promptData] of imagePrompts.entries()) {
+        try {
+            const imageName = tourTitle.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+            const imagePath = `client/public/tour-images/${imageName}${promptData.suffix}.jpg`;
+            
+            const fullPrompt = `${promptData.focus}
+            
+            Historical Context: ${tourEra}
+            Tour Description: ${tourDescription}
+            Locations: ${tourLocations}
+            
+            Style: Historically accurate, cinematic, high-quality travel photography suitable for a premium heritage tourism brochure.`;
+
+            // Create directory if it doesn't exist
+            const dir = 'client/public/tour-images';
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+
+            const response = await ai.models.generateContent({
+                model: "gemini-2.0-flash-preview-image-generation",
+                contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+                config: {
+                    responseModalities: [Modality.TEXT, Modality.IMAGE],
+                },
+            });
+
+            const candidates = response.candidates;
+            if (!candidates || candidates.length === 0) {
+                continue;
+            }
+
+            const content = candidates[0].content;
+            if (!content || !content.parts) {
+                continue;
+            }
+
+            let generatedDescription = promptData.description;
+            for (const part of content.parts) {
+                if (part.text) {
+                    console.log(`Generated image description: ${part.text}`);
+                } else if (part.inlineData && part.inlineData.data) {
+                    const imageData = Buffer.from(part.inlineData.data, "base64");
+                    fs.writeFileSync(imagePath, imageData);
+                    console.log(`Tour carousel image ${index + 1} saved as ${imagePath}`);
+                    
+                    const imageUrl = imagePath.replace('client/public', '');
+                    results.push({ 
+                        imageUrl, 
+                        description: generatedDescription,
+                        imagePath: imagePath
+                    });
+                    break;
+                }
+            }
+            
+            // Small delay between generations
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+        } catch (error) {
+            console.error(`Failed to generate carousel image ${index + 1} for ${tourTitle}:`, error);
+        }
+    }
+    
+    return results;
+}
+
 export async function generateImage(
     prompt: string,
     imagePath: string
@@ -110,6 +209,75 @@ export async function generateImage(
     } catch (error) {
         console.error(`Failed to generate image:`, error);
         throw new Error(`Failed to generate image: ${error}`);
+    }
+}
+
+export async function generateTourItinerary(
+    tourId: number,
+    tourTitle: string,
+    tourEra: string,
+    tourDescription: string,
+    tourDuration: number,
+    tourLocations: string
+): Promise<any[]> {
+    try {
+        const prompt = `Generate a detailed, historically accurate ${tourDuration}-day itinerary for "${tourTitle}" in the ${tourEra} era. 
+        
+        Tour Description: ${tourDescription}
+        Locations: ${tourLocations}
+        
+        Create a comprehensive day-by-day itinerary with:
+        - Historically accurate sites and activities
+        - Real locations and landmarks from ${tourEra}
+        - Authentic cultural experiences
+        - Detailed descriptions of what visitors will see and do
+        - Educational content about the historical significance
+        - Practical information about each day's activities
+        
+        Format as a JSON array with objects containing:
+        - day (number)
+        - title (string): engaging title for the day
+        - description (string): detailed description of activities, sites, and experiences
+        
+        Focus on authentic historical content, real archaeological sites, museums, and cultural experiences that accurately represent ${tourEra}. Include specific details about architecture, artifacts, and historical context.`;
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-pro",
+            config: {
+                systemInstruction: "You are a historical tourism expert specializing in authentic travel experiences. Generate detailed, historically accurate itineraries.",
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            day: { type: "number" },
+                            title: { type: "string" },
+                            description: { type: "string" }
+                        },
+                        required: ["day", "title", "description"]
+                    }
+                }
+            },
+            contents: prompt,
+        });
+
+        const rawJson = response.text;
+        if (rawJson) {
+            const itinerary = JSON.parse(rawJson);
+            console.log(`Generated ${itinerary.length}-day itinerary for ${tourTitle}`);
+            return itinerary;
+        } else {
+            throw new Error("Empty response from Gemini");
+        }
+    } catch (error) {
+        console.error(`Failed to generate itinerary for ${tourTitle}:`, error);
+        // Fallback to basic itinerary structure
+        return Array.from({ length: tourDuration }, (_, i) => ({
+            day: i + 1,
+            title: `Day ${i + 1} - ${tourTitle}`,
+            description: `Explore the wonders of ${tourEra} with authentic historical sites and cultural experiences.`
+        }));
     }
 }
 

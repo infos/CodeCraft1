@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MapPin, Calendar, Hotel } from "lucide-react";
 import TourItinerary from "@/components/TourItinerary";
-import type { Tour, HotelRecommendation } from "@shared/schema";
+import TourImageCarousel from "@/components/TourImageCarousel";
+import type { Tour, HotelRecommendation, TourImage } from "@shared/schema";
 
 export default function TourDetailsPage() {
   const params = useParams();
@@ -17,6 +18,12 @@ export default function TourDetailsPage() {
 
   const { data: hotels, isLoading: hotelsLoading } = useQuery<HotelRecommendation[]>({
     queryKey: [`/api/tours/${tourId}/hotels`],
+    enabled: !!tourId,
+    retry: false
+  });
+
+  const { data: tourImages } = useQuery<TourImage[]>({
+    queryKey: [`/api/tour-images/${tourId}`],
     enabled: !!tourId,
     retry: false
   });
@@ -44,15 +51,14 @@ export default function TourDetailsPage() {
         </div>
       </div>
 
-      {tour.imageUrl && (
-        <div className="w-full max-w-3xl mx-auto rounded-lg overflow-hidden">
-          <img 
-            src={tour.imageUrl}
-            alt={tour.title}
-            className="w-full h-auto"
-          />
-        </div>
-      )}
+      {/* Tour Image Carousel */}
+      <div className="w-full max-w-4xl mx-auto">
+        <TourImageCarousel 
+          tourId={Number(tourId)} 
+          tourTitle={tour.title}
+          images={tourImages}
+        />
+      </div>
 
       <Card>
         <CardHeader>

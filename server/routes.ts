@@ -2159,6 +2159,160 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get carousel images for a specific tour
+  app.get("/api/tour-images/:tourId", async (req, res) => {
+    try {
+      const tourId = parseInt(req.params.tourId);
+      if (!tourId) {
+        return res.status(400).json({ message: "Invalid tour ID" });
+      }
+      
+      const images = await storage.getTourImagesByTourId(tourId);
+      res.json(images);
+    } catch (error) {
+      console.error("Failed to fetch tour images:", error);
+      res.status(500).json({ message: "Failed to fetch tour images" });
+    }
+  });
+
+  // Generate carousel images for a specific tour
+  app.post("/api/generate-tour-carousel-images", async (req, res) => {
+    try {
+      const { tourId, tourTitle, tourEra, tourDescription, tourLocations } = req.body;
+      
+      if (!tourId || !tourTitle || !tourEra) {
+        return res.status(400).json({ success: false, message: "Missing required tour information" });
+      }
+
+      console.log(`Generating carousel images for: ${tourTitle}`);
+      
+      const { generateTourCarouselImages } = await import("./gemini");
+      const carouselImages = await generateTourCarouselImages(
+        tourId,
+        tourTitle,
+        tourEra,
+        tourDescription || "",
+        tourLocations || ""
+      );
+
+      // Save each image to database
+      const savedImages = [];
+      for (const [index, imageData] of carouselImages.entries()) {
+        try {
+          const tourImage = await storage.createTourImage({
+            tourId: tourId,
+            tourTitle: tourTitle,
+            imageUrl: imageData.imageUrl,
+            imageDescription: imageData.description,
+            prompt: `Carousel image ${index + 1} for ${tourTitle}: ${imageData.description}`,
+            source: "Gemini AI",
+            attribution: "Google Gemini AI"
+          });
+          
+          savedImages.push({
+            ...tourImage,
+            imageData: imageData
+          });
+          
+        } catch (dbError) {
+          console.error(`Failed to save image ${index + 1} to database:`, dbError);
+        }
+      }
+
+      res.json({
+        success: true,
+        tourId,
+        tourTitle,
+        imagesGenerated: carouselImages.length,
+        imagesSaved: savedImages.length,
+        images: savedImages
+      });
+
+    } catch (error) {
+      console.error("Failed to generate tour carousel images:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to generate tour carousel images",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Generate comprehensive itineraries for all tours using Gemini AI
+  app.post("/api/generate-all-itineraries", async (req, res) => {
+    try {
+      const { generateTourItinerary } = await import("./gemini");
+      const tours = await storage.getAllTours();
+      const results: any[] = [];
+
+      console.log(`Starting itinerary generation for ${tours.length} tours...`);
+
+      for (const tour of tours) {
+        try {
+          // Check if tour already has itineraries
+          const existingItineraries = await storage.getItinerariesByTour(tour.id);
+          if (existingItineraries.length > 0) {
+            console.log(`Skipping ${tour.title} - already has ${existingItineraries.length} itinerary items`);
+            continue;
+          }
+
+          console.log(`Generating itinerary for: ${tour.title}`);
+          const itineraryData = await generateTourItinerary(
+            tour.id,
+            tour.title,
+            tour.era || "Historical",
+            tour.description,
+            tour.duration || 7,
+            tour.locations
+          );
+
+          // Save each day to database
+          for (const day of itineraryData) {
+            await storage.createItinerary({
+              tourId: tour.id,
+              day: day.day,
+              title: day.title,
+              description: day.description
+            });
+          }
+
+          results.push({
+            tourId: tour.id,
+            tourTitle: tour.title,
+            itineraryDays: itineraryData.length,
+            generated: true
+          });
+
+          // Add small delay to avoid rate limiting
+          await new Promise(resolve => setTimeout(resolve, 2000));
+
+        } catch (error) {
+          console.error(`Failed to generate itinerary for ${tour.title}:`, error);
+          results.push({
+            tourId: tour.id,
+            tourTitle: tour.title,
+            error: error instanceof Error ? error.message : 'Unknown error',
+            generated: false
+          });
+        }
+      }
+
+      res.json({
+        success: true,
+        message: `Generated itineraries for ${results.filter(r => r.generated).length}/${results.length} tours`,
+        results
+      });
+
+    } catch (error) {
+      console.error("Failed to generate itineraries:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to generate tour itineraries",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Get tour images by tour ID
   app.get("/api/tour-images/:tourId", async (req, res) => {
     try {
