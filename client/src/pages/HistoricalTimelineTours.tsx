@@ -113,7 +113,7 @@ export default function HistoricalTimelineTours() {
     });
   }, [erasData, selectedPeriod]);
 
-  // Filter rulers based on selected period and civilizations
+  // Filter rulers based on selected period, civilizations, and destinations
   const filteredRulers = React.useMemo(() => {
     if (!emperorsData) return [];
     
@@ -126,40 +126,61 @@ export default function HistoricalTimelineTours() {
         
         switch (selectedPeriod) {
           case 'ancient':
-            return rulerEra.includes('ancient') || rulerEra.includes('egypt') || rulerEra.includes('rome') || rulerEra.includes('greece') || rulerEra.includes('mesopotam') || rulerEra.includes('persian');
+            return rulerEra.includes('ancient') || rulerEra.includes('egypt') || rulerEra.includes('greece') || rulerEra.includes('rome') || rulerEra.includes('near eastern');
           case 'classical':
-            return rulerEra.includes('rome') || rulerEra.includes('greece') || rulerEra.includes('hellenistic') || rulerEra.includes('republic');
+            return rulerEra.includes('greece') || rulerEra.includes('rome') || rulerEra.includes('hellenistic');
           case 'medieval':
-            return rulerEra.includes('byzantine') || rulerEra.includes('medieval') || rulerEra.includes('sasanian') || rulerEra.includes('viking') || rulerEra.includes('middle ages');
+            return rulerEra.includes('byzantine') || rulerEra.includes('medieval') || rulerEra.includes('sasanian');
           case 'renaissance':
             return rulerEra.includes('renaissance');
           case 'early_modern':
-            return rulerEra.includes('exploration') || rulerEra.includes('enlightenment') || rulerEra.includes('georgian') || rulerEra.includes('early modern');
-          case 'modern':
-            return rulerEra.includes('industrial') || rulerEra.includes('modern') || rulerEra.includes('19th') || rulerEra.includes('20th');
+            return rulerEra.includes('exploration') || rulerEra.includes('enlightenment');
           default:
             return true;
         }
       });
     }
     
-    // Filter by selected civilizations if any are selected
+    // Filter by selected civilizations/eras if any selected
     if (selectedEras.length > 0) {
       rulers = rulers.filter((ruler: any) => {
         const rulerEra = ruler.era?.toLowerCase() || '';
-        return selectedEras.some(era => 
-          rulerEra.includes(era.toLowerCase()) || 
-          era.toLowerCase().includes(rulerEra.split(' ')[0]) ||
-          (era === 'Ancient Egypt' && rulerEra.includes('egypt')) ||
-          (era === 'Ancient Rome' && rulerEra.includes('rome')) ||
-          (era === 'Ancient Greece' && rulerEra.includes('greece')) ||
-          (era === 'Ancient Near Eastern' && (rulerEra.includes('mesopotam') || rulerEra.includes('persian') || rulerEra.includes('babylon')))
+        return selectedEras.some(era => {
+          const selectedEra = era.toLowerCase();
+          return rulerEra.includes(selectedEra) || selectedEra.includes(rulerEra);
+        });
+      });
+    }
+    
+    // Filter by selected destinations if any selected and if tours exist for those destinations
+    if (selectedLocations.length > 0 && toursData) {
+      const relevantEras = new Set();
+      
+      // Find eras that have tours in selected locations
+      toursData.forEach((tour: any) => {
+        if (tour.locations) {
+          const tourLocations = tour.locations.toLowerCase();
+          const hasMatchingLocation = selectedLocations.some(location => 
+            tourLocations.includes(location.toLowerCase())
+          );
+          
+          if (hasMatchingLocation && tour.era) {
+            relevantEras.add(tour.era.toLowerCase());
+          }
+        }
+      });
+      
+      // Filter rulers to only show those from eras with tours in selected locations
+      rulers = rulers.filter((ruler: any) => {
+        const rulerEra = ruler.era?.toLowerCase() || '';
+        return Array.from(relevantEras).some((era: any) => 
+          rulerEra.includes(era) || era.includes(rulerEra)
         );
       });
     }
     
     return rulers;
-  }, [emperorsData, selectedPeriod, selectedEras]);
+  }, [emperorsData, selectedPeriod, selectedEras, selectedLocations, toursData]);
 
   // Generate tours mutation
   const generateToursMutation = useMutation({
