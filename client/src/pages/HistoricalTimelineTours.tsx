@@ -309,51 +309,6 @@ export default function HistoricalTimelineTours() {
         </div>
       </div>
 
-      {/* Always Visible Historical Periods Filter */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Periods</h4>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <TooltipProvider>
-              {[
-                { key: 'ancient', label: 'Ancient Times (3500 BCE - 500 CE)', tooltip: '3500 BCE - 500 CE' },
-                { key: 'classical', label: 'Classical Period (800 BCE - 500 CE)', tooltip: '800 BCE - 500 CE' },
-                { key: 'medieval', label: 'Medieval Period (500 CE - 1500 CE)', tooltip: '500 CE - 1500 CE' },
-                { key: 'renaissance', label: 'Renaissance (1300 CE - 1650 CE)', tooltip: '1300 CE - 1650 CE' },
-                { key: 'early_modern', label: 'Early Modern (1650 CE - 1800 CE)', tooltip: '1650 CE - 1800 CE' }
-              ].map((period) => (
-                <Tooltip key={period.key}>
-                  <TooltipTrigger asChild>
-                    <button
-                      onClick={() => handlePeriodChange(period.key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
-                        selectedPeriod === period.key
-                          ? 'bg-blue-600 text-white shadow-lg scale-105'
-                          : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-                      }`}
-                    >
-                      {period.label}
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{period.tooltip}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </TooltipProvider>
-            {selectedPeriod && (
-              <button
-                onClick={() => handlePeriodChange('')}
-                className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
-              >
-                <XIcon className="w-3 h-3 mr-1 inline" />
-                Clear Period
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
       {/* Historical Civilizations Filter */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -397,9 +352,48 @@ export default function HistoricalTimelineTours() {
       {showFilters && (
         <div className="bg-white border-b border-gray-200 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-
-
+            {/* Historical Periods Filter */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Periods</h4>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <TooltipProvider>
+                  {[
+                    { key: 'ancient', label: 'Ancient Times (3500 BCE - 500 CE)', tooltip: '3500 BCE - 500 CE' },
+                    { key: 'classical', label: 'Classical Period (800 BCE - 500 CE)', tooltip: '800 BCE - 500 CE' },
+                    { key: 'medieval', label: 'Medieval Period (500 CE - 1500 CE)', tooltip: '500 CE - 1500 CE' },
+                    { key: 'renaissance', label: 'Renaissance (1300 CE - 1650 CE)', tooltip: '1300 CE - 1650 CE' },
+                    { key: 'early_modern', label: 'Early Modern (1650 CE - 1800 CE)', tooltip: '1650 CE - 1800 CE' }
+                  ].map((period) => (
+                    <Tooltip key={period.key}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => handlePeriodChange(period.key)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                            selectedPeriod === period.key
+                              ? 'bg-blue-600 text-white shadow-lg scale-105'
+                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                          }`}
+                        >
+                          {period.label}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{period.tooltip}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </TooltipProvider>
+                {selectedPeriod && (
+                  <button
+                    onClick={() => handlePeriodChange('')}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                  >
+                    <XIcon className="w-3 h-3 mr-1 inline" />
+                    Clear Period
+                  </button>
+                )}
+              </div>
+            </div>
 
             {/* Rulers Filter */}
             <div className="mb-6">
