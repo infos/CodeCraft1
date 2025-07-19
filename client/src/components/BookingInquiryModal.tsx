@@ -14,9 +14,10 @@ interface BookingInquiryModalProps {
   tourTitle: string;
   tourId: number;
   tourPrice: number;
+  selectedHotelId?: number | null;
 }
 
-export default function BookingInquiryModal({ isOpen, onClose, tourTitle, tourId, tourPrice }: BookingInquiryModalProps) {
+export default function BookingInquiryModal({ isOpen, onClose, tourTitle, tourId, tourPrice, selectedHotelId }: BookingInquiryModalProps) {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -197,12 +198,17 @@ export default function BookingInquiryModal({ isOpen, onClose, tourTitle, tourId
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg">
+          <div className="bg-gray-50 p-4 rounded-lg space-y-2">
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">Tour Starting Price:</span>
               <span className="font-semibold text-lg">${tourPrice.toLocaleString()}</span>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            {selectedHotelId && (
+              <div className="text-sm text-blue-600 font-medium">
+                ✓ Hotel selection included in inquiry
+              </div>
+            )}
+            <p className="text-xs text-gray-500">
               Final pricing depends on group size, travel dates, and customizations. Our experts will provide detailed quotes based on your requirements.
             </p>
           </div>

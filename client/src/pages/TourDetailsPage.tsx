@@ -14,6 +14,7 @@ export default function TourDetailsPage() {
   const params = useParams();
   const tourId = params.id;
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedHotel, setSelectedHotel] = useState<number | null>(null);
 
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
     queryKey: [`/api/tours/${tourId}`],
@@ -218,12 +219,16 @@ export default function TourDetailsPage() {
           <CardContent>
             <div className="grid gap-6 md:grid-cols-2">
               {(hotels || []).map((hotel, index) => (
-                <div key={index} className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <div key={index} className={`border rounded-lg overflow-hidden transition-all duration-200 ${
+                  selectedHotel === hotel.id 
+                    ? 'ring-2 ring-primary border-primary shadow-lg' 
+                    : 'hover:shadow-lg'
+                }`}>
                   <div className="p-4 space-y-3">
                     <div className="flex items-start justify-between">
                       <h4 className="font-semibold text-lg">{hotel.name}</h4>
                       <div className="flex items-center gap-1">
-                        {[...Array(4)].map((_, i) => (
+                        {[...Array(hotel.rating || 4)].map((_, i) => (
                           <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
@@ -249,13 +254,29 @@ export default function TourDetailsPage() {
                       </div>
                     )}
                     
-                    <div className="pt-3 border-t border-gray-100">
+                    <div className="pt-3 border-t border-gray-100 space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-gray-600">From</span>
                         <span className="text-lg font-semibold text-green-600">
-                          ${(180 + index * 40)} <span className="text-sm font-normal text-gray-500">/night</span>
+                          ${hotel.pricePerNight || (180 + index * 40)} <span className="text-sm font-normal text-gray-500">/night</span>
                         </span>
                       </div>
+                      
+                      <Button
+                        onClick={() => setSelectedHotel(selectedHotel === hotel.id ? null : hotel.id)}
+                        variant={selectedHotel === hotel.id ? "default" : "outline"}
+                        size="sm"
+                        className="w-full"
+                      >
+                        {selectedHotel === hotel.id ? (
+                          <>
+                            <Check className="w-4 h-4 mr-2" />
+                            Selected
+                          </>
+                        ) : (
+                          'Select Hotel'
+                        )}
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -281,6 +302,7 @@ export default function TourDetailsPage() {
         tourTitle={tour.title}
         tourId={Number(tourId)}
         tourPrice={typeof tour.price === 'number' ? tour.price : parseInt(tour.price || '2500')}
+        selectedHotelId={selectedHotel}
       />
     </div>
   );
