@@ -347,6 +347,43 @@ export default function HistoricalTimelineTours() {
               </div>
             </div>
 
+            {/* Civilizations Filter */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Civilizations</h4>
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <TooltipProvider>
+                  {filteredEras?.map((era: Era) => (
+                    <Tooltip key={era.id}>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => handleEraSelect(era.name)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                            selectedEras.includes(era.name)
+                              ? 'bg-blue-600 text-white shadow-lg scale-105'
+                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                          }`}
+                        >
+                          {era.name}
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{eraTimelines[era.name]?.range || 'Historical period'}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </TooltipProvider>
+                {selectedEras.length > 0 && (
+                  <button
+                    onClick={() => setSelectedEras([])}
+                    className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                  >
+                    <XIcon className="w-3 h-3 mr-1 inline" />
+                    Clear Civilizations
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* Rulers Filter */}
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Famous Rulers</h4>
