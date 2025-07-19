@@ -2240,6 +2240,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test and save tour images endpoint
+  app.post("/api/test-save-tour-images", async (req, res) => {
+    try {
+      const { testAndSaveTourImages } = await import("./test-tour-images");
+      const result = await testAndSaveTourImages();
+      res.json({
+        success: true,
+        ...result,
+        message: `Test completed: ${result.savedCount} saved, ${result.errorCount} errors`
+      });
+    } catch (error) {
+      console.error("Error in test-save-tour-images:", error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Save batch of images to database
   app.post("/api/tour-images/save-batch", async (req, res) => {
     try {

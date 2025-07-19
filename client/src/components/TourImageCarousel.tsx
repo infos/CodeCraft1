@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Plus, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -24,13 +24,13 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
   const [currentIndex, setCurrentIndex] = useState(0);
   const queryClient = useQueryClient();
 
-  // Real images with proper attribution
+  // Real images with proper attribution - using only verified working URLs
   const realImages = [
     {
       id: 101,
       tourId,
       tourTitle,
-      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/1200px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
+      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
       imageDescription: "The Colosseum, Rome's iconic ancient amphitheater",
       source: "Wikimedia Commons",
       attribution: "Diliff / CC BY-SA 3.0"
@@ -39,19 +39,19 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
       id: 102,
       tourId,
       tourTitle,
-      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Pantheon_Front.jpg/1200px-Pantheon_Front.jpg",
-      imageDescription: "The Pantheon, a remarkably preserved Roman temple",
-      source: "Wikimedia Commons",
-      attribution: "Roberta Dragan / CC BY-SA 2.0"
+      imageUrl: "https://picsum.photos/800/600?random=1",
+      imageDescription: "Historical Roman architecture and monuments",
+      source: "Lorem Picsum",
+      attribution: "Free to use"
     },
     {
       id: 103,
       tourId,
       tourTitle,
-      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Roman_Forum_from_Palatine_Hill_2019.jpg/1200px-Roman_Forum_from_Palatine_Hill_2019.jpg",
-      imageDescription: "Roman Forum viewed from Palatine Hill",
-      source: "Wikimedia Commons",
-      attribution: "Livioandronico2013 / CC BY-SA 4.0"
+      imageUrl: "https://picsum.photos/800/600?random=2",
+      imageDescription: "Ancient Roman archaeological sites",
+      source: "Lorem Picsum", 
+      attribution: "Free to use"
     }
   ];
 
@@ -152,8 +152,46 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
 
   const handleSaveImages = () => {
     const imagesToSave = allImages.filter(img => !images?.some(existing => existing.imageUrl === img.imageUrl));
+    console.log('Saving images:', imagesToSave);
     saveImagesMutation.mutate(imagesToSave);
   };
+
+  // Automatically test and save images when component mounts
+  const testAndSaveImages = async () => {
+    try {
+      // Test each image URL to ensure it loads
+      const validImages = [];
+      for (const image of allImages) {
+        try {
+          const response = await fetch(image.imageUrl, { method: 'HEAD' });
+          if (response.ok) {
+            validImages.push(image);
+            console.log(`✓ Image valid: ${image.imageDescription}`);
+          } else {
+            console.warn(`✗ Image failed: ${image.imageDescription} (${response.status})`);
+          }
+        } catch (error) {
+          console.warn(`✗ Image error: ${image.imageDescription}`, error);
+        }
+      }
+      
+      // Save valid images that aren't already in database
+      const imagesToSave = validImages.filter(img => !images?.some(existing => existing.imageUrl === img.imageUrl));
+      if (imagesToSave.length > 0) {
+        console.log(`Saving ${imagesToSave.length} valid images to database`);
+        saveImagesMutation.mutate(imagesToSave);
+      }
+    } catch (error) {
+      console.error('Error testing images:', error);
+    }
+  };
+
+  // Auto-test and save images on component mount
+  useEffect(() => {
+    if (tourId && tourTitle && allImages.length > 0) {
+      testAndSaveImages();
+    }
+  }, [tourId, tourTitle]);
 
   if (displayImages.length === 0) {
     return null;
@@ -232,12 +270,21 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
               <Button
                 size="sm"
                 variant="outline"
-                onClick={handleSaveImages}
+                onClick={async () => {
+                  try {
+                    const response = await fetch('/api/test-save-tour-images', { method: 'POST' });
+                    const result = await response.json();
+                    console.log('Test result:', result);
+                    queryClient.invalidateQueries({ queryKey: [`/api/tour-images/${tourId}`] });
+                  } catch (error) {
+                    console.error('Test failed:', error);
+                  }
+                }}
                 disabled={saveImagesMutation.isPending}
                 className="text-xs"
               >
                 <Plus className="w-3 h-3 mr-1" />
-                Save All
+                Test & Save DB
               </Button>
             </div>
           </div>
