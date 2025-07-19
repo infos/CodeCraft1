@@ -511,50 +511,52 @@ export default function HistoricalTimelineTours() {
               </div>
             </div>
 
-            {/* Location Filter */}
-            {selectedEras.length > 0 && (
-              <div className="mb-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
-                <div className="flex flex-wrap gap-2 justify-start">
-                  {Array.from(new Set(
-                    (toursData || [])
-                      .filter(tour => selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
-                      .map(tour => tour.locations)
-                      .filter(Boolean)
-                      .flatMap(location => location.split(',').map(l => l.trim()))
-                  )).slice(0, 12).map((location) => (
-                    <button
-                      key={location}
-                      onClick={() => {
-                        const isSelected = selectedLocations.includes(location);
-                        if (isSelected) {
-                          setSelectedLocations(prev => prev.filter(l => l !== location));
-                        } else {
-                          setSelectedLocations(prev => [...prev, location]);
-                        }
-                      }}
-                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                        selectedLocations.includes(location)
-                          ? 'bg-blue-100 text-blue-700 border border-blue-200'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
-                      }`}
-                    >
-                      <MapPin className="w-3 h-3 mr-1 inline" />
-                      {location}
-                    </button>
-                  ))}
-                  {selectedLocations.length > 0 && (
-                    <button
-                      onClick={() => setSelectedLocations([])}
-                      className="px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
-                    >
-                      <XIcon className="w-3 h-3 mr-1 inline" />
-                      Clear Locations
-                    </button>
-                  )}
-                </div>
+            {/* Location Filter - Always show when filters are open */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
+              <div className="flex flex-wrap gap-2 justify-start">
+                {Array.from(new Set(
+                  (toursData || [])
+                    .filter(tour => {
+                      // Show all locations if no eras selected, otherwise filter by selected eras
+                      if (selectedEras.length === 0) return true;
+                      return selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase()));
+                    })
+                    .map(tour => tour.locations)
+                    .filter(Boolean)
+                    .flatMap(location => location.split(',').map(l => l.trim()))
+                )).slice(0, 15).map((location) => (
+                  <button
+                    key={location}
+                    onClick={() => {
+                      const isSelected = selectedLocations.includes(location);
+                      if (isSelected) {
+                        setSelectedLocations(prev => prev.filter(l => l !== location));
+                      } else {
+                        setSelectedLocations(prev => [...prev, location]);
+                      }
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                      selectedLocations.includes(location)
+                        ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                    }`}
+                  >
+                    <MapPin className="w-3 h-3 mr-1 inline" />
+                    {location}
+                  </button>
+                ))}
+                {selectedLocations.length > 0 && (
+                  <button
+                    onClick={() => setSelectedLocations([])}
+                    className="px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
+                  >
+                    <XIcon className="w-3 h-3 mr-1 inline" />
+                    Clear Locations
+                  </button>
+                )}
               </div>
-            )}
+            </div>
 
             {/* Rulers Filter */}
             <div className="mb-6">
