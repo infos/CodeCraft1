@@ -220,10 +220,100 @@ export default function HistoricalTimelineTours() {
     }
   }, [selectedEras, selectedLocations, selectedPeriod]);
 
-  // Combine generated tours with database tours and add images
+  // Combine and filter tours based on all selected criteria
   const toursToDisplay = React.useMemo(() => {
     let tours = showGeneratedTours ? generatedTours : (toursData || []);
-    
+
+    // Filter tours based on selected civilizations
+    if (selectedEras.length > 0) {
+      tours = tours.filter((tour: any) => {
+        const tourCivilization = tour.civilization || tour.era || '';
+        return selectedEras.some(era => 
+          tourCivilization.includes(era) ||
+          era.includes(tourCivilization) ||
+          (era === 'Ancient Egypt' && tourCivilization.toLowerCase().includes('egypt')) ||
+          (era === 'Ancient Rome' && tourCivilization.toLowerCase().includes('rome')) ||
+          (era === 'Ancient Greece' && tourCivilization.toLowerCase().includes('greece')) ||
+          (era === 'Ancient Near Eastern' && (
+            tourCivilization.toLowerCase().includes('mesopotam') || 
+            tourCivilization.toLowerCase().includes('babylon') ||
+            tourCivilization.toLowerCase().includes('assyria') ||
+            tourCivilization.toLowerCase().includes('persian') ||
+            tourCivilization.toLowerCase().includes('hittite')
+          )) ||
+          (era === 'Ancient China' && tourCivilization.toLowerCase().includes('china')) ||
+          (era === 'Ancient India' && tourCivilization.toLowerCase().includes('india')) ||
+          (era === 'Maya Civilization' && tourCivilization.toLowerCase().includes('maya')) ||
+          (era === 'Inca Empire' && tourCivilization.toLowerCase().includes('inca')) ||
+          (era === 'Viking Age' && tourCivilization.toLowerCase().includes('viking')) ||
+          (era === 'Celtic Civilization' && tourCivilization.toLowerCase().includes('celtic')) ||
+          (era === 'Byzantine Empire' && tourCivilization.toLowerCase().includes('byzantine'))
+        );
+      });
+    }
+
+    // Filter by historical period if selected
+    if (selectedPeriod) {
+      tours = tours.filter((tour: any) => {
+        const tourCivilization = (tour.civilization || tour.era || '').toLowerCase();
+        
+        switch (selectedPeriod) {
+          case 'ancient':
+            return tourCivilization.includes('ancient') || 
+                   tourCivilization.includes('egypt') || 
+                   tourCivilization.includes('rome') || 
+                   tourCivilization.includes('greece') || 
+                   tourCivilization.includes('mesopotam') || 
+                   tourCivilization.includes('china') ||
+                   tourCivilization.includes('india') ||
+                   tourCivilization.includes('persian');
+          case 'classical':
+            return tourCivilization.includes('rome') || 
+                   tourCivilization.includes('greece') || 
+                   tourCivilization.includes('hellenistic');
+          case 'medieval':
+            return tourCivilization.includes('byzantine') || 
+                   tourCivilization.includes('medieval') || 
+                   tourCivilization.includes('viking') ||
+                   tourCivilization.includes('sasanian');
+          case 'renaissance':
+            return tourCivilization.includes('renaissance');
+          case 'early_modern':
+            return tourCivilization.includes('exploration') || 
+                   tourCivilization.includes('enlightenment');
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Filter by selected rulers
+    if (selectedRulers.length > 0) {
+      tours = tours.filter((tour: any) => {
+        const tourTitle = (tour.title || '').toLowerCase();
+        const tourDescription = (tour.description || '').toLowerCase();
+        const tourHighlights = (tour.highlights || []).join(' ').toLowerCase();
+        
+        return selectedRulers.some(ruler => 
+          tourTitle.includes(ruler.toLowerCase()) ||
+          tourDescription.includes(ruler.toLowerCase()) ||
+          tourHighlights.includes(ruler.toLowerCase())
+        );
+      });
+    }
+
+    // Filter by selected locations
+    if (selectedLocations.length > 0) {
+      tours = tours.filter((tour: any) => {
+        const tourLocations = (tour.locations || '').toLowerCase();
+        
+        return selectedLocations.some(location => 
+          tourLocations.includes(location.toLowerCase()) ||
+          location.toLowerCase().includes(tourLocations.split(',')[0]?.trim() || '')
+        );
+      });
+    }
+
     // Add images to tours from tour images data
     if (tourImagesData && tours) {
       tours = tours.map((tour: any) => {
@@ -238,8 +328,9 @@ export default function HistoricalTimelineTours() {
       });
     }
     
+    // Apply search query filter
     if (searchQuery.trim()) {
-      return tours.filter((tour: any) => 
+      tours = tours.filter((tour: any) => 
         tour.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tour.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         tour.era?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -248,7 +339,7 @@ export default function HistoricalTimelineTours() {
     }
     
     return tours;
-  }, [showGeneratedTours, generatedTours, toursData, searchQuery, tourImagesData]);
+  }, [showGeneratedTours, generatedTours, toursData, searchQuery, tourImagesData, selectedEras, selectedPeriod, selectedRulers, selectedLocations]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
