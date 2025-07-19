@@ -404,38 +404,40 @@ export default function HistoricalTimelineTours() {
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Periods</h4>
-          <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex items-center justify-center space-x-2">
             <TooltipProvider>
-              {[
-                { key: 'ancient', label: 'Ancient Times (3500 BCE - 500 CE)', tooltip: '3500 BCE - 500 CE' },
-                { key: 'classical', label: 'Classical Period (800 BCE - 500 CE)', tooltip: '800 BCE - 500 CE' },
-                { key: 'medieval', label: 'Medieval Period (500 CE - 1500 CE)', tooltip: '500 CE - 1500 CE' },
-                { key: 'renaissance', label: 'Renaissance (1300 CE - 1650 CE)', tooltip: '1300 CE - 1650 CE' },
-                { key: 'early_modern', label: 'Early Modern (1650 CE - 1800 CE)', tooltip: '1650 CE - 1800 CE' }
-              ].map((period) => (
-                <Tooltip key={period.key}>
-                  <TooltipTrigger asChild>
-                    <button
-                      onClick={() => handlePeriodChange(period.key)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
-                        selectedPeriod === period.key
-                          ? 'bg-blue-600 text-white shadow-lg scale-105'
-                          : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
-                      }`}
-                    >
-                      {period.label}
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{period.tooltip}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
+              <div className="flex space-x-1">
+                {[
+                  { key: 'ancient', label: 'Ancient Times', tooltip: '3500 BCE - 500 CE' },
+                  { key: 'classical', label: 'Classical Period', tooltip: '800 BCE - 500 CE' },
+                  { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1500 CE' },
+                  { key: 'renaissance', label: 'Renaissance', tooltip: '1300 CE - 1650 CE' },
+                  { key: 'early_modern', label: 'Early Modern', tooltip: '1650 CE - 1800 CE' }
+                ].map((period) => (
+                  <Tooltip key={period.key}>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => handlePeriodChange(period.key)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                          selectedPeriod === period.key
+                            ? 'bg-black text-white'
+                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                        }`}
+                      >
+                        {period.label}
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{period.tooltip}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
             </TooltipProvider>
             {selectedPeriod && (
               <button
                 onClick={() => handlePeriodChange('')}
-                className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                className="px-4 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
               >
                 <XIcon className="w-3 h-3 mr-1 inline" />
                 Clear Period
@@ -454,17 +456,17 @@ export default function HistoricalTimelineTours() {
             {/* Historical Civilizations Filter */}
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Historical Civilizations</h4>
-              <div className="flex flex-wrap items-center justify-center gap-2">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <TooltipProvider>
                   {filteredEras?.map((era: Era) => (
                     <Tooltip key={era.id}>
                       <TooltipTrigger asChild>
                         <button
                           onClick={() => handleEraSelect(era.name)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                             selectedEras.includes(era.name)
-                              ? 'bg-blue-600 text-white shadow-lg scale-105'
-                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                              ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
                           }`}
                         >
                           {era.name}
@@ -479,7 +481,7 @@ export default function HistoricalTimelineTours() {
                 {selectedEras.length > 0 && (
                   <button
                     onClick={() => setSelectedEras([])}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                    className="px-4 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
                   >
                     <XIcon className="w-3 h-3 mr-1 inline" />
                     Clear Civilizations
@@ -491,7 +493,7 @@ export default function HistoricalTimelineTours() {
             {/* Rulers Filter */}
             <div className="mb-6">
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Famous Rulers</h4>
-              <div className="flex flex-wrap items-center justify-center gap-2">
+              <div className="flex flex-wrap gap-3 justify-center">
                 <TooltipProvider>
                   {(showAllRulers ? filteredRulers : filteredRulers.slice(0, 12)).map((emperor: any) => (
                     <Tooltip key={emperor.id}>
@@ -505,10 +507,10 @@ export default function HistoricalTimelineTours() {
                               setSelectedRulers(prev => [...prev, emperor.name]);
                             }
                           }}
-                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                             selectedRulers.includes(emperor.name)
-                              ? 'bg-blue-600 text-white shadow-lg scale-105'
-                              : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                              ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                              : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
                           }`}
                         >
                           {emperor.name}
@@ -525,7 +527,7 @@ export default function HistoricalTimelineTours() {
                 {filteredRulers.length > 12 && (
                   <button
                     onClick={() => setShowAllRulers(!showAllRulers)}
-                    className="px-4 py-1.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 transition-all duration-200"
+                    className="px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200 transition-all duration-200"
                   >
                     {showAllRulers ? (
                       <>
@@ -544,7 +546,7 @@ export default function HistoricalTimelineTours() {
                 {selectedRulers.length > 0 && (
                   <button
                     onClick={() => setSelectedRulers([])}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                    className="px-4 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
                   >
                     <XIcon className="w-3 h-3 mr-1 inline" />
                     Clear Rulers
@@ -563,8 +565,8 @@ export default function HistoricalTimelineTours() {
             {/* Location Filter - Show under Civilizations only when civilizations are selected */}
             {selectedEras.length > 0 && (
               <div className="mb-8">
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
-                <div className="flex flex-wrap items-center justify-center gap-2">
+                <h4 className="text-md font-medium text-gray-900 mb-3">Filter by Destination</h4>
+                <div className="flex flex-wrap gap-2">
                   {Array.from(new Set(
                     (toursData || [])
                       .filter(tour => selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase())))
@@ -582,10 +584,10 @@ export default function HistoricalTimelineTours() {
                           setSelectedLocations(prev => [...prev, location]);
                         }
                       }}
-                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 hover:shadow-md ${
+                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                         selectedLocations.includes(location)
-                          ? 'bg-blue-600 text-white shadow-lg scale-105'
-                          : 'bg-white text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                          ? 'bg-blue-100 text-blue-700 border border-blue-200'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
                       }`}
                     >
                       <MapPin className="w-3 h-3 mr-1 inline" />
@@ -595,7 +597,7 @@ export default function HistoricalTimelineTours() {
                   {selectedLocations.length > 0 && (
                     <button
                       onClick={() => setSelectedLocations([])}
-                      className="px-3 py-1.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200"
+                      className="px-3 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
                     >
                       <XIcon className="w-3 h-3 mr-1 inline" />
                       Clear Locations
