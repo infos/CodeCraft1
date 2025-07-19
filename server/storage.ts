@@ -39,6 +39,7 @@ export interface IStorage {
   getAllTourImages(): Promise<TourImage[]>;
   getTourImage(tourId: number, tourTitle: string): Promise<TourImage | undefined>;
   getTourImagesByTourId(tourId: number): Promise<TourImage[]>;
+  getTourImageByUrl(tourId: number, imageUrl: string): Promise<TourImage | undefined>;
   createTourImage(tourImage: InsertTourImage): Promise<TourImage>;
   updateTourImage(id: number, tourImage: Partial<InsertTourImage>): Promise<TourImage>;
 
@@ -155,6 +156,13 @@ export class DatabaseStorage implements IStorage {
 
   async getTourImagesByTourId(tourId: number): Promise<TourImage[]> {
     return db.select().from(tourImages).where(eq(tourImages.tourId, tourId));
+  }
+
+  async getTourImageByUrl(tourId: number, imageUrl: string): Promise<TourImage | undefined> {
+    const [image] = await db.select().from(tourImages)
+      .where(eq(tourImages.tourId, tourId))
+      .where(eq(tourImages.imageUrl, imageUrl));
+    return image || undefined;
   }
 
   async createTourImage(insertTourImage: InsertTourImage): Promise<TourImage> {

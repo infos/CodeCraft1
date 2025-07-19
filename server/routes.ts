@@ -2053,8 +2053,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/generate-tour-images", async (req, res) => {
     try {
       console.log("Starting tour images generation...");
-      const { tours } = req.body;
+      const { tours, tourId, tourTitle, additionalImages } = req.body;
       
+      // Handle single tour additional images generation
+      if (additionalImages && tourId && tourTitle) {
+        try {
+          const imageResults = [];
+          const { generateImage } = await import('./gemini');
+          
+          // Generate 3 additional AI images with different prompts
+          const additionalPrompts = [
+            `Create a detailed architectural view of ${tourTitle} showcasing historical buildings, monuments, and urban landscapes with authentic period details`,
+            `Generate a scenic landscape image of ${tourTitle} featuring natural environments, geological formations, and atmospheric lighting that visitors would experience`,
+            `Create an artistic cultural scene from ${tourTitle} showing daily life, traditional activities, and local customs in a historically accurate setting`
+          ];
+          
+          for (let i = 0; i < additionalPrompts.length; i++) {
+            const prompt = additionalPrompts[i];
+            const imagePath = `client/public/tour-images/${tourTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}-additional-${i + 5}.jpg`;
+            const publicImagePath = `/tour-images/${tourTitle.toLowerCase().replace(/[^a-z0-9]/g, '-')}-additional-${i + 5}.jpg`;
+            
+            // Create directory if it doesn't exist
+            const dir = 'client/public/tour-images';
+            if (!fs.existsSync(dir)) {
+              fs.mkdirSync(dir, { recursive: true });
+            }
+            
+            await generateImage(prompt, imagePath);
+            
+            // Save to database
+            const savedImage = await storage.createTourImage({
+              tourId: parseInt(tourId),
+              tourTitle,
+              imageUrl: publicImagePath,
+              imageDescription: `AI-generated additional view ${i + 1} of ${tourTitle}`,
+              source: 'Gemini AI',
+              attribution: 'Google Gemini AI',
+              prompt: prompt
+            });
+            
+            imageResults.push({
+              tourId: parseInt(tourId),
+              title: tourTitle,
+              imagePath: publicImagePath,
+              prompt: prompt,
+              fromDatabase: false
+            });
+            
+            // Add delay to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 1500));
+          }
+          
+          return res.json({ 
+            success: true, 
+            images: imageResults,
+            message: "Additional images generated successfully"
+          });
+          
+        } catch (error) {
+          console.error("Error generating additional images:", error);
+          return res.status(500).json({ 
+            success: false, 
+            error: "Failed to generate additional images" 
+          });
+        }
+      }
+      
+      // Handle bulk tours generation (existing functionality)
       if (!tours || !Array.isArray(tours)) {
         return res.status(400).json({ 
           success: false, 
@@ -2172,6 +2237,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Failed to fetch tour images:", error);
       res.status(500).json({ message: "Failed to fetch tour images" });
+    }
+  });
+
+  // Save batch of images to database
+  app.post("/api/tour-images/save-batch", async (req, res) => {
+    try {
+      const { tourId, images } = req.body;
+      
+      if (!tourId || !images || !Array.isArray(images)) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Tour ID and images array are required" 
+        });
+      }
+      
+      const savedImages = [];
+      const errors = [];
+      
+      for (const image of images) {
+        try {
+          // Check if image already exists in database
+          const existing = await storage.getTourImageByUrl(tourId, image.imageUrl);
+          if (existing) {
+            console.log(`Image already exists: ${image.imageUrl}`);
+            continue;
+          }
+          
+          const savedImage = await storage.createTourImage({
+            tourId: parseInt(tourId),
+            tourTitle: image.tourTitle,
+            imageUrl: image.imageUrl,
+            imageDescription: image.imageDescription || `Image for ${image.tourTitle}`,
+            source: image.source || 'Mixed Sources',
+            attribution: image.attribution || 'Various Sources',
+            prompt: image.prompt || `Saved image for ${image.tourTitle}`
+          });
+          
+          savedImages.push(savedImage);
+          
+        } catch (imageError) {
+          console.error(`Error saving image ${image.imageUrl}:`, imageError);
+          errors.push({
+            imageUrl: image.imageUrl,
+            error: imageError instanceof Error ? imageError.message : 'Unknown error'
+          });
+        }
+      }
+      
+      res.json({
+        success: true,
+        savedCount: savedImages.length,
+        errorCount: errors.length,
+        savedImages,
+        errors: errors.length > 0 ? errors : undefined,
+        message: `Saved ${savedImages.length} images to database`
+      });
+      
+    } catch (error) {
+      console.error("Error in batch save:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to save images",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   });
 
