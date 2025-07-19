@@ -57,7 +57,7 @@ export default function TourDetailsPage() {
       </div>
 
       {/* Tour Image Carousel */}
-      <div className="w-full max-w-4xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto">
         <TourImageCarousel 
           tourId={Number(tourId)} 
           tourTitle={tour.title}

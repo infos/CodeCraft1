@@ -163,7 +163,7 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
     <Card className="overflow-hidden">
       <div className="relative">
         {/* Main Image Display */}
-        <div className="relative aspect-[16/10] overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden" style={{ maxHeight: '320px' }}>
           <img
             src={displayImages[currentIndex]?.imageUrl}
             alt={displayImages[currentIndex]?.imageDescription || tourTitle}
@@ -256,7 +256,7 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
                   <img
                     src={image.imageUrl}
                     alt={`${tourTitle} thumbnail ${index + 1}`}
-                    className="w-20 h-12 object-cover"
+                    className="w-14 h-8 object-cover"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = `/tour-images/default-tour.jpg`;
