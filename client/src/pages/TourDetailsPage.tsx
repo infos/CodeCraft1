@@ -198,10 +198,32 @@ export default function TourDetailsPage() {
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Hotels</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {hotels.slice(0, 4).map((hotel, index) => (
+                  {hotels.slice(0, 4).map((hotel, index) => {
+                    // Hotel image URLs based on luxury European hotels
+                    const hotelImages = [
+                      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop", // Luxury hotel exterior
+                      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=250&fit=crop", // Boutique hotel
+                      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&h=250&fit=crop", // Historic hotel
+                      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=250&fit=crop"  // Grand hotel
+                    ];
+                    return (
                     <div key={hotel.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                      <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                        <Hotel className="h-8 w-8 text-gray-400" />
+                      <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                        <img 
+                          src={hotelImages[index] || hotelImages[0]}
+                          alt={hotel.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const nextSibling = e.currentTarget.nextElementSibling as HTMLElement;
+                            if (nextSibling) {
+                              nextSibling.style.display = 'flex';
+                            }
+                          }}
+                        />
+                        <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center" style={{display: 'none'}}>
+                          <Hotel className="h-8 w-8 text-gray-400" />
+                        </div>
                       </div>
                       <div className="p-4">
                         <h4 className="font-semibold text-gray-900 mb-1">{hotel.name}</h4>
@@ -231,7 +253,8 @@ export default function TourDetailsPage() {
                         </Button>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -341,63 +364,67 @@ export default function TourDetailsPage() {
               <h3 className="text-base font-semibold text-gray-900 mb-3">
                 Daily Itinerary
               </h3>
-              <div className="max-h-80 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+              <div className="max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
                 {itineraries && itineraries.length > 0 ? (
-                  <div className="space-y-6">
-                    {itineraries.map((day, index) => (
-                      <div key={day.id} className="border-l-2 border-blue-200 pl-4 pb-4 last:pb-0">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold -ml-7 border-2 border-white">
+                  <div className="space-y-4">
+                    {itineraries.map((day: any, index: number) => {
+                      // Day-specific images for historical tours
+                      const dayImages = [
+                        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=300&h=200&fit=crop", // Rome Colosseum
+                        "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=300&h=200&fit=crop", // Roman Forum
+                        "https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=300&h=200&fit=crop", // Pantheon
+                        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop", // Vatican
+                        "https://images.unsplash.com/photo-1555992336-fb0c7b299ef8?w=300&h=200&fit=crop", // Trevi Fountain
+                        "https://images.unsplash.com/photo-1529260830199-42c24126f198?w=300&h=200&fit=crop", // Ancient ruins
+                        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=300&h=200&fit=crop"  // Default fallback
+                      ];
+                      
+                      return (
+                      <div key={day.id} className="flex gap-4 pb-4 border-b border-gray-100 last:border-b-0">
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md">
                             {day.day}
                           </div>
-                          <h4 className="font-semibold text-gray-900">{day.title}</h4>
                         </div>
-                        <p className="text-gray-600 text-sm leading-relaxed mb-3">
-                          {day.description}
-                        </p>
-                        {tourImages && tourImages[index] && (
-                          <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden mb-2">
-                            <img 
-                              src={tourImages[index].imageUrl} 
-                              alt={`Day ${day.day}`} 
-                              className="w-full h-full object-cover"
-                            />
+                        <div className="flex-1">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-gray-900 mb-1">Day {day.day}: {day.title}</h4>
+                              <p className="text-gray-600 text-sm mb-3">{day.description}</p>
+                            </div>
+                            <div className="ml-4 flex-shrink-0">
+                              <img 
+                                src={dayImages[index] || dayImages[0]}
+                                alt={`Day ${day.day} - ${day.title}`}
+                                className="w-20 h-16 rounded-lg object-cover shadow-sm"
+                                onError={(e) => {
+                                  e.currentTarget.src = "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=300&h=200&fit=crop";
+                                }}
+                              />
+                            </div>
                           </div>
-                        )}
-                        {day.activities && (
-                          <div className="text-xs text-gray-500">
-                            Activities: {day.activities}
-                          </div>
-                        )}
+                          {Array.isArray(day.activities) && day.activities.length > 0 && (
+                            <div className="space-y-2">
+                              <h5 className="text-sm font-medium text-gray-800">Activities:</h5>
+                              <ul className="text-sm text-gray-600 space-y-1">
+                                {day.activities.map((activity: string, actIndex: number) => (
+                                  <li key={actIndex} className="flex items-start gap-2">
+                                    <span className="text-orange-500 mt-1.5">•</span>
+                                    <span>{activity}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
-                  <div className="space-y-6">
-                    {[...Array(tour.duration)].map((_, index) => (
-                      <div key={index} className="border-l-2 border-blue-200 pl-4 pb-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold -ml-7 border-2 border-white">
-                            {index + 1}
-                          </div>
-                          <h4 className="font-semibold text-gray-900">Day {index + 1} • {cities[index % cities.length] || 'Destination'}</h4>
-                        </div>
-                        <p className="text-gray-600 text-sm leading-relaxed mb-3">
-                          {index === 0 ? "Arrival and orientation. Check into your hotel and begin your historical journey." :
-                           index === tour.duration - 1 ? "Final day exploration and departure preparations." :
-                           "Continue your fascinating journey through this historic city with guided tours of palaces, museums, and architectural wonders."}
-                        </p>
-                        {tourImages && tourImages[index + 1] && (
-                          <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden">
-                            <img 
-                              src={tourImages[index + 1].imageUrl} 
-                              alt={`Day ${index + 1}`} 
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                  <div className="text-center py-8 text-gray-500">
+                    <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <p>No itinerary available for this tour.</p>
                   </div>
                 )}
               </div>
