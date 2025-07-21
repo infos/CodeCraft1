@@ -130,66 +130,71 @@ export default function TourDetailsPage() {
                 </div>
               </div>
               
-              {/* Tour Image */}
-              <div className="aspect-[4/3] bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden mx-6 rounded-lg">
-                {tourImages && tourImages.length > 0 ? (
-                  <img 
-                    src={tourImages[0].imageUrl} 
-                    alt={tour.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <MapPin className="h-16 w-16 text-white" />
-                  </div>
-                )}
-              </div>
-
-              {/* Price and Details */}
-              <div className="p-6 space-y-4">
-                <div className="flex items-baseline gap-2">
-                  <div className="text-sm text-gray-500">Bus • Europe</div>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-gray-900">
-                    $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
-                  </span>
-                  <span className="text-gray-600">/person</span>
-                </div>
-                <div className="text-sm text-gray-600">
-                  Multiple local tour guides/drivers available throughout your tour activity
-                </div>
-
-                {/* Tour Features */}
-                <div className="space-y-3 pt-2">
-                  <div className="flex items-center gap-3 text-sm">
-                    <Calendar className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">{tour.duration} april - 3 may</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Globe className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">English only</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Car className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">Comfortable bus</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <Coffee className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">Breakfast at the hotel</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm">
-                    <BookOpen className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-700">Photo report</span>
+              {/* Tour Image and Details - Horizontal Layout */}
+              <div className="p-6 flex gap-6">
+                {/* Tour Image - 1/3 size */}
+                <div className="w-1/3 flex-shrink-0">
+                  <div className="aspect-[4/3] bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-lg">
+                    {tourImages && tourImages.length > 0 ? (
+                      <img 
+                        src={tourImages[0].imageUrl} 
+                        alt={tour.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <MapPin className="h-12 w-12 text-white" />
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <Button 
-                  onClick={() => setIsBookingModalOpen(true)}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 text-lg font-semibold rounded-lg mt-6"
-                >
-                  Book Now
-                </Button>
+                {/* Tour Details - 2/3 size */}
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-baseline gap-2">
+                    <div className="text-sm text-gray-500">Bus • Europe</div>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold text-gray-900">
+                      $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
+                    </span>
+                    <span className="text-gray-600">/person</span>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    Multiple local tour guides/drivers available throughout your tour activity
+                  </div>
+
+                  {/* Tour Features */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <div className="flex items-center gap-3 text-sm">
+                      <Calendar className="h-4 w-4 text-gray-400" />
+                      <span className="text-gray-700">{tour.duration} april - 3 may</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Globe className="h-4 w-4 text-gray-400" />
+                      <span className="text-gray-700">English only</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Car className="h-4 w-4 text-gray-400" />
+                      <span className="text-gray-700">Comfortable bus</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Coffee className="h-4 w-4 text-gray-400" />
+                      <span className="text-gray-700">Breakfast at the hotel</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <BookOpen className="h-4 w-4 text-gray-400" />
+                      <span className="text-gray-700">Photo report</span>
+                    </div>
+                  </div>
+
+                  <Button 
+                    onClick={() => setIsBookingModalOpen(true)}
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 text-lg font-semibold rounded-lg mt-6"
+                  >
+                    Book Now
+                  </Button>
+                </div>
               </div>
             </div>
 
