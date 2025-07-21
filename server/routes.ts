@@ -2259,6 +2259,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create Renaissance tours endpoint
+  app.post("/api/create-renaissance-tours", async (req, res) => {
+    try {
+      const { createRenaissanceTours } = await import("./create-renaissance-tours");
+      await createRenaissanceTours();
+      
+      // Get updated tour count
+      const allTours = await storage.getAllTours();
+      const renaissanceToursCount = allTours.filter(tour => tour.era === 'Renaissance').length;
+      
+      res.json({
+        success: true,
+        message: `Successfully created Renaissance tours. Total Renaissance tours: ${renaissanceToursCount}`,
+        renaissanceToursCount
+      });
+    } catch (error) {
+      console.error("Error creating Renaissance tours:", error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Save batch of images to database
   app.post("/api/tour-images/save-batch", async (req, res) => {
     try {
