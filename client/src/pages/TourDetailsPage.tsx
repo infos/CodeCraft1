@@ -33,6 +33,12 @@ export default function TourDetailsPage() {
     retry: false
   });
 
+  const { data: itineraries, isLoading: itinerariesLoading } = useQuery({
+    queryKey: [`/api/tours/${tourId}/itineraries`],
+    enabled: !!tourId,
+    retry: false
+  });
+
   if (tourLoading) {
     return <Skeleton className="h-[600px] w-full" />;
   }

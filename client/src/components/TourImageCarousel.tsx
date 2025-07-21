@@ -37,7 +37,7 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
     }
   ];
 
-  // AI generated images
+  // AI generated images - limited to 5 maximum
   const aiImages = [
     {
       id: 201,
@@ -71,14 +71,29 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
       tourId,
       tourTitle,
       imageUrl: `/tour-images/${tourTitle.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')}-4.jpg`,
+      imageDescription: `AI-generated architecture from ${tourTitle}`,
+      source: "Gemini AI",
+      attribution: "Google Gemini AI"
+    },
+    {
+      id: 205,
+      tourId,
+      tourTitle,
+      imageUrl: `/tour-images/${tourTitle.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')}-5.jpg`,
       imageDescription: `AI-generated landscape from ${tourTitle}`,
       source: "Gemini AI",
       attribution: "Google Gemini AI"
     }
-  ];
+  ].slice(0, 5); // Ensure maximum 5 AI images
 
-  // Combine all images (real + AI + any database images)
-  const allImages = [...(images || []), ...realImages, ...aiImages];
+  // Combine images: database images first, then real images with attribution, then AI images (max 5)
+  const databaseImages = images || [];
+  const combinedAI = aiImages.slice(0, 5); // Strict limit on AI images
+  
+  // Only show real images if they have proper attribution
+  const realImagesWithAttribution = realImages.filter(img => img.attribution && img.source);
+  
+  const allImages = [...databaseImages, ...realImagesWithAttribution, ...combinedAI];
   const displayImages = allImages.length > 0 ? allImages : [];
 
   const nextImage = () => {
@@ -152,19 +167,31 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
       const validImages = [];
       for (const image of allImages) {
         try {
-          // Skip testing local AI images as they might not exist yet
+          // Test all images including local AI images
           if (image.imageUrl.startsWith('/tour-images/')) {
-            validImages.push(image);
-            console.log(`✓ Image valid: ${image.imageDescription}`);
-            continue;
-          }
-          
-          const response = await fetch(image.imageUrl, { method: 'HEAD' });
-          if (response.ok) {
-            validImages.push(image);
-            console.log(`✓ Image valid: ${image.imageDescription}`);
+            // For local AI images, check if they render properly
+            try {
+              const img = new Image();
+              img.src = image.imageUrl;
+              await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+                setTimeout(reject, 5000); // 5 second timeout
+              });
+              validImages.push(image);
+              console.log(`✓ AI image renders: ${image.imageDescription}`);
+            } catch (error) {
+              console.warn(`✗ AI image failed to render: ${image.imageDescription}`);
+            }
           } else {
-            console.warn(`✗ Image failed: ${image.imageDescription} (${response.status})`);
+            // Test external images
+            const response = await fetch(image.imageUrl, { method: 'HEAD' });
+            if (response.ok) {
+              validImages.push(image);
+              console.log(`✓ External image valid: ${image.imageDescription}`);
+            } else {
+              console.warn(`✗ External image failed: ${image.imageDescription} (${response.status})`);
+            }
           }
         } catch (error) {
           console.warn(`✗ Image error: ${image.imageDescription}`, error);
@@ -225,10 +252,11 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
             }}
           />
           
-          {/* Image Attribution Overlay */}
-          {displayImages[currentIndex]?.source && (
-            <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-              {displayImages[currentIndex]?.attribution || displayImages[currentIndex]?.source}
+          {/* Image Attribution Overlay - Always show for real images with proper attribution */}
+          {displayImages[currentIndex]?.source && displayImages[currentIndex]?.attribution && (
+            <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded max-w-[200px]">
+              <div className="font-semibold">{displayImages[currentIndex]?.source}</div>
+              <div className="text-[10px] opacity-90">{displayImages[currentIndex]?.attribution}</div>
             </div>
           )}
         </div>
@@ -283,20 +311,25 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
                 size="sm"
                 variant="outline"
                 onClick={async () => {
+                  console.log(`Testing images for tour: ${tourTitle} (ID: ${tourId})`);
+                  console.log(`Total images to test: ${allImages.length}`);
+                  console.log(`Database images: ${databaseImages.length}`);
+                  console.log(`Real images with attribution: ${realImagesWithAttribution.length}`);
+                  console.log(`AI images (max 5): ${combinedAI.length}`);
+                  
                   try {
-                    const response = await fetch('/api/test-save-tour-images', { method: 'POST' });
-                    const result = await response.json();
-                    console.log('Test result:', result);
+                    await testAndSaveImages();
                     queryClient.invalidateQueries({ queryKey: [`/api/tour-images/${tourId}`] });
+                    console.log('✓ Image test completed successfully');
                   } catch (error) {
-                    console.error('Test failed:', error);
+                    console.error('✗ Image test failed:', error);
                   }
                 }}
                 disabled={saveImagesMutation.isPending}
                 className="text-xs"
               >
                 <Plus className="w-3 h-3 mr-1" />
-                Test & Save DB
+                Test Images ({allImages.length})
               </Button>
             </div>
           </div>
