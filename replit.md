@@ -140,6 +140,8 @@ Changelog:
 - January 21, 2025. **EARLY MODERN FILTERING FIX**: Fixed Early Modern tour display issue by updating tour era classification from "Early Modern" to "Enlightenment" and enhanced filtering logic to recognize enlightenment, colonial, scientific revolution, and baroque terms. All 7 Early Modern/Enlightenment tours now display correctly when Early Modern period is selected in Timeline Tours page.
 - January 21, 2025. **TOUR THUMBNAILS COMPLETED**: Generated missing thumbnail images for all tours using Gemini AI. Created images for 11 tours (6 Renaissance + 5 Early Modern). All 33 tours now have complete thumbnail coverage for homepage display with AI-generated images stored in database.
 - January 21, 2025. **CLEAR PERIOD BUTTON REMOVED**: Removed "Clear Period" button from Timeline Tours page historical periods filter. Users can now click on selected period buttons to deselect them directly, providing cleaner interface without separate clear button.
+- January 21, 2025. **DESTINATION FILTERING FIX**: Fixed destination filter logic to properly work with historical period selection. Destinations now correctly filter when Classical or any other period is selected, showing only relevant locations from tours of that period.
+- January 21, 2025. **UI TEXT UPDATE**: Updated destination filter title from "Filter by Destination" to "Destinations" for cleaner, more concise labeling.
 ```
 
 ## User Preferences

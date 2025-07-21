@@ -521,7 +521,7 @@ export default function HistoricalTimelineTours() {
 
             {/* Location Filter - Always show when filters are open */}
             <div className="mb-6">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">Filter by Destination</h4>
+              <h4 className="text-lg font-semibold text-gray-900 mb-4">Destinations</h4>
               <div className="flex flex-wrap gap-2 justify-start">
                 {Array.from(new Set(
                   (toursData || [])
