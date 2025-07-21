@@ -251,17 +251,88 @@ export default function TourDetailsPage() {
                 ))}
               </div>
               
-              {/* Real Map - OpenStreetMap embed */}
-              <div className="aspect-[3/2] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-                <iframe
-                  src={`https://www.openstreetmap.org/export/embed.html?bbox=-2.5,41.0,15.0,47.0&layer=mapnik&marker=41.9028,12.4964`}
-                  className="w-full h-full"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Tour Route Map"
-                />
+              {/* Interactive Map with Journey Route */}
+              <div className="aspect-[3/2] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg relative overflow-hidden border border-gray-200">
+                {/* Map Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-blue-50 to-blue-100"></div>
+                
+                {/* Geographic Features */}
+                <div className="absolute inset-0">
+                  {/* Mediterranean Sea */}
+                  <div className="absolute bottom-0 left-0 w-full h-1/3 bg-blue-200 opacity-60"></div>
+                  
+                  {/* Italy Peninsula */}
+                  <div className="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-200 rounded-t-full transform rotate-12 opacity-80"></div>
+                  
+                  {/* Alps */}
+                  <div className="absolute top-1/4 left-1/3 w-20 h-6 bg-gray-300 rounded-full opacity-70"></div>
+                </div>
+
+                {/* Journey Route Line */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path
+                    d="M15,35 Q25,30 35,40 Q45,35 55,45 Q65,40 75,50"
+                    stroke="#3b82f6"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="2,2"
+                    className="animate-pulse"
+                  />
+                </svg>
+
+                {/* City Markers with Names */}
+                {cities.slice(0, 4).map((city, index) => {
+                  const positions = [
+                    { top: '35%', left: '15%' }, // Paris
+                    { top: '30%', left: '35%' }, // Zurich  
+                    { top: '45%', left: '55%' }, // Florence
+                    { top: '50%', left: '75%' }  // Rome
+                  ];
+                  const position = positions[index] || positions[0];
+                  
+                  return (
+                    <div 
+                      key={index}
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                      style={{ top: position.top, left: position.left }}
+                    >
+                      {/* City Marker */}
+                      <div className="relative">
+                        <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center animate-pulse">
+                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                        {/* City Label */}
+                        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-gray-200">
+                          <span className="text-xs font-medium text-gray-800">{city}</span>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Journey Direction Arrows */}
+                <div className="absolute top-1/3 left-1/4 text-blue-600 animate-bounce">
+                  <div className="w-3 h-3 border-t-2 border-r-2 border-blue-600 transform rotate-45"></div>
+                </div>
+                <div className="absolute top-2/5 left-2/5 text-blue-600 animate-bounce" style={{ animationDelay: '0.5s' }}>
+                  <div className="w-3 h-3 border-t-2 border-r-2 border-blue-600 transform rotate-45"></div>
+                </div>
+                <div className="absolute top-1/2 left-3/5 text-blue-600 animate-bounce" style={{ animationDelay: '1s' }}>
+                  <div className="w-3 h-3 border-t-2 border-r-2 border-blue-600 transform rotate-45"></div>
+                </div>
+
+                {/* Legend */}
+                <div className="absolute bottom-2 left-2 bg-white bg-opacity-90 p-2 rounded text-xs">
+                  <div className="flex items-center gap-1 mb-1">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span>Cities</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-0.5 bg-blue-600 border-dashed"></div>
+                    <span>Route</span>
+                  </div>
+                </div>
               </div>
             </div>
 
