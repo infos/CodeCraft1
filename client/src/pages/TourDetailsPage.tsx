@@ -120,10 +120,10 @@ export default function TourDetailsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Main Content - Tour Package and Hotels - Reduced by 20% */}
-          <div className="lg:col-span-3 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content - Tour Package and Hotels */}
+          <div className="lg:col-span-2 space-y-8">
             {/* Tour Package */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               {/* Title and Rating */}
@@ -139,11 +139,11 @@ export default function TourDetailsPage() {
                 </div>
               </div>
               
-              {/* Tour Image and Details - Reference Layout */}
-              <div className="px-8 pb-8 flex gap-8">
-                {/* Tour Image - Reduced by 10% */}
-                <div className="w-72 flex-shrink-0">
-                  <div className="aspect-square bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-2xl">
+              {/* Tour Image and Details - Exact Reference Layout */}
+              <div className="px-8 pb-8 flex gap-6">
+                {/* Tour Image - Matching reference proportions */}
+                <div className="w-80 flex-shrink-0">
+                  <div className="aspect-[4/3] bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-lg">
                     {tourImages && tourImages.length > 0 ? (
                       <img 
                         src={tourImages[0].imageUrl} 
@@ -158,48 +158,49 @@ export default function TourDetailsPage() {
                   </div>
                 </div>
 
-                {/* Tour Details - Right side like reference */}
-                <div className="flex-1 space-y-6">
-                  <div className="text-orange-500 font-medium">Bus • Europe</div>
+                {/* Tour Details - Matching reference spacing */}
+                <div className="flex-1 space-y-4">
+                  <div className="text-orange-500 font-medium text-sm">Bus • Europe</div>
                   
                   <div className="flex items-baseline gap-2">
-                    <span className="text-base font-semibold text-gray-900">
+                    <span className="text-3xl font-bold text-gray-900">
                       $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
                     </span>
-                    <span className="text-gray-600 text-sm">/ person</span>
+                    <span className="text-gray-600 text-lg">/ person</span>
                   </div>
                   
-                  <div className="text-gray-600 text-sm leading-relaxed">
-                    Multiple local tour guides/drivers available throughout your tour/activity
+                  <div className="text-gray-600 text-sm">
+                    Multiple local tour guides/drivers available<br />
+                    throughout your tour/activity
                   </div>
 
-                  {/* Tour Features - 2 column grid like reference */}
-                  <div className="grid grid-cols-2 gap-4 py-4">
-                    <div className="flex items-center gap-3">
-                      <Calendar className="h-5 w-5 text-blue-500" />
-                      <span className="text-gray-700">24 april - 3 may</span>
+                  {/* Tour Features - 2 column grid matching reference */}
+                  <div className="grid grid-cols-2 gap-3 py-2">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-purple-500" />
+                      <span className="text-gray-700 text-sm">24 april - 3 may</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Coffee className="h-5 w-5 text-gray-500" />
-                      <span className="text-gray-700">Breakfast at the hotel</span>
+                    <div className="flex items-center gap-2">
+                      <Coffee className="h-4 w-4 text-gray-500" />
+                      <span className="text-gray-700 text-sm">Breakfast at the hotel</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Globe className="h-5 w-5 text-gray-500" />
-                      <span className="text-gray-700">English only</span>
+                    <div className="flex items-center gap-2">
+                      <Globe className="h-4 w-4 text-purple-500" />
+                      <span className="text-gray-700 text-sm">English only</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Car className="h-5 w-5 text-gray-500" />
-                      <span className="text-gray-700">Comfortable bus</span>
+                    <div className="flex items-center gap-2">
+                      <Car className="h-4 w-4 text-gray-500" />
+                      <span className="text-gray-700 text-sm">Comfortable bus</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="h-5 w-5 text-gray-500" />
-                      <span className="text-gray-700">Photo report</span>
+                    <div className="flex items-center gap-2 col-span-1">
+                      <BookOpen className="h-4 w-4 text-purple-500" />
+                      <span className="text-gray-700 text-sm">Photo report</span>
                     </div>
                   </div>
 
                   <Button 
                     onClick={() => setIsBookingModalOpen(true)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-12 py-4 text-lg font-semibold rounded-full w-64"
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg font-semibold rounded-full mt-4"
                   >
                     Book Now
                   </Button>
@@ -268,7 +269,7 @@ export default function TourDetailsPage() {
           </div>
 
           {/* Right Sidebar - Cities and Day Itinerary */}
-          <div className="lg:col-span-2 space-y-4 flex flex-col">
+          <div className="lg:col-span-1 space-y-4 flex flex-col">
             {/* Cities we will visit - Compact */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex-shrink-0">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
