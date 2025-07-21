@@ -285,8 +285,10 @@ export default function TourDetailsPage() {
           setIsBookingModalOpen(false);
           setSelectedHotel(null);
         }}
-        tour={tour}
-        selectedHotel={selectedHotel ? hotels?.find(h => h.id === selectedHotel) : undefined}
+        tourTitle={tour.title}
+        tourId={tour.id}
+        tourPrice={typeof tour.price === 'number' ? tour.price : parseInt(tour.price || '1400')}
+        selectedHotelId={selectedHotel}
       />
     </div>
   );
