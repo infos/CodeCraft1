@@ -284,73 +284,74 @@ export default function TourDetailsPage() {
                 <div className="absolute top-1 left-0 right-0 h-0.5 bg-blue-300 opacity-60" style={{zIndex: 1}}></div>
               </div>
               
-              {/* Interactive Map with OpenStreetMap */}
-              <div className="aspect-[3/2] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-                {/* Using MapTiler as a free alternative */}
-                <iframe
-                  src="https://api.maptiler.com/maps/streets/static/2.3522,48.8566,12.4964,41.9028,11.2558,43.7696,9.1900,45.4642/300x200.png?key=get_your_own_OpIi9ZULNHzrESv6T2vL"
-                  className="w-full h-full"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  title="Tour Route Map"
-                  onError={(e) => {
-                    // Fallback to custom visual map
-                    const target = e.target as HTMLIFrameElement;
-                    if (target.parentElement) {
-                      target.parentElement.innerHTML = `
-                        <div class="w-full h-full bg-gradient-to-br from-blue-50 via-green-50 to-blue-100 relative overflow-hidden">
-                          <div class="absolute inset-0">
-                            <!-- Mediterranean Sea -->
-                            <div class="absolute bottom-0 left-0 w-full h-1/3 bg-blue-200 opacity-60"></div>
-                            
-                            <!-- Italy Peninsula -->
-                            <div class="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-200 rounded-t-full transform rotate-12 opacity-80"></div>
-                            
-                            <!-- Alps -->
-                            <div class="absolute top-1/4 left-1/3 w-20 h-6 bg-gray-300 rounded-full opacity-70"></div>
-                          </div>
+              {/* Working Map View */}
+              <div className="aspect-[3/2] bg-gradient-to-br from-blue-50 via-green-50 to-blue-100 relative overflow-hidden rounded-lg border border-gray-200">
+                <div className="absolute inset-0">
+                  {/* Mediterranean Sea */}
+                  <div className="absolute bottom-0 left-0 w-full h-1/3 bg-blue-200 opacity-60"></div>
+                  
+                  {/* Italy Peninsula */}
+                  <div className="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-200 rounded-t-full transform rotate-12 opacity-80"></div>
+                  
+                  {/* France outline */}
+                  <div className="absolute top-1/3 left-1/4 w-12 h-10 bg-green-100 rounded-lg opacity-70"></div>
+                  
+                  {/* Alps */}
+                  <div className="absolute top-1/4 left-1/3 w-20 h-6 bg-gray-300 rounded-full opacity-70"></div>
+                </div>
 
-                          <!-- Journey Route Line -->
-                          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                            <path
-                              d="M15,35 Q25,30 35,40 Q45,35 55,45 Q65,40 75,50"
-                              stroke="#3b82f6"
-                              stroke-width="2"
-                              fill="none"
-                              stroke-dasharray="2,2"
-                              class="animate-pulse"
-                            />
-                          </svg>
+                {/* Journey Route Line */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path
+                    d="M15,35 Q25,30 35,40 Q45,35 55,45 Q65,40 75,50"
+                    stroke="#3b82f6"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="3,2"
+                    className="animate-pulse"
+                  />
+                </svg>
 
-                          <!-- City Markers -->
-                          ${cities.slice(0, 4).map((city, index) => {
-                            const positions = [
-                              { top: '35%', left: '15%' },
-                              { top: '30%', left: '35%' }, 
-                              { top: '45%', left: '55%' },
-                              { top: '50%', left: '75%' }
-                            ];
-                            const position = positions[index] || positions[0];
-                            
-                            return `
-                              <div class="absolute transform -translate-x-1/2 -translate-y-1/2" style="top: ${position.top}; left: ${position.left}">
-                                <div class="relative">
-                                  <div class="w-3 h-3 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
-                                    <div class="w-1 h-1 bg-white rounded-full"></div>
-                                  </div>
-                                  <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white px-1 py-0.5 rounded text-xs font-medium text-gray-800 shadow-sm whitespace-nowrap">
-                                    ${city}
-                                  </div>
-                                </div>
-                              </div>
-                            `;
-                          }).join('')}
+                {/* City Markers with actual tour cities */}
+                {cities.slice(0, 4).map((city, index) => {
+                  const positions = [
+                    { top: '35%', left: '15%' }, // First city
+                    { top: '30%', left: '35%' }, // Second city 
+                    { top: '45%', left: '55%' }, // Third city
+                    { top: '50%', left: '75%' }  // Fourth city
+                  ];
+                  const position = positions[index] || positions[0];
+                  
+                  return (
+                    <div 
+                      key={index}
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                      style={{ top: position.top, left: position.left }}
+                    >
+                      <div className="relative">
+                        <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center animate-bounce">
+                          <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                         </div>
-                      `;
-                    }
-                  }}
-                />
+                        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-gray-200">
+                          <span className="text-xs font-medium text-gray-800 whitespace-nowrap">{city}</span>
+                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Map Legend */}
+                <div className="absolute bottom-2 left-2 bg-white bg-opacity-90 p-2 rounded text-xs shadow-sm">
+                  <div className="flex items-center gap-1 mb-1">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span className="text-gray-700">Tour Cities</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-0.5 bg-blue-600 border-dashed"></div>
+                    <span className="text-gray-700">Route</span>
+                  </div>
+                </div>
               </div>
             </div>
 
