@@ -90,9 +90,9 @@ export default function TourDetailsPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
           {/* Main Content - Tour Package and Hotels */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-6 space-y-8">
             {/* Tour Package */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               {/* Title and Rating */}
@@ -343,7 +343,7 @@ export default function TourDetailsPage() {
           </div>
 
           {/* Right Sidebar - Cities and Day Itinerary */}
-          <div className="lg:col-span-1 space-y-4 flex flex-col">
+          <div className="lg:col-span-4 space-y-4 flex flex-col">
             {/* Cities we will visit - Compact */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex-shrink-0">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
