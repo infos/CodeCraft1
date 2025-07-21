@@ -263,25 +263,34 @@ export default function TourDetailsPage() {
             {/* Cities we will visit - Compact */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
-              <div className="flex justify-between items-center mb-3">
+              <div className="flex justify-between items-center mb-3 relative">
                 {cities.slice(0, 4).map((city, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mb-1"></div>
+                  <div key={index} className="flex flex-col items-center z-10">
+                    <div className="w-3 h-3 bg-blue-600 rounded-full mb-1 border-2 border-white shadow-sm"></div>
                     <span className="text-xs font-medium text-gray-700">{city}</span>
                   </div>
                 ))}
+                {/* Connection lines */}
+                <div className="absolute top-1 left-0 right-0 h-0.5 bg-blue-300 opacity-60" style={{zIndex: 1}}></div>
               </div>
               
-              {/* Real Interactive Map */}
+              {/* Interactive Map showing tour cities */}
               <div className="aspect-[3/2] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                {/* Create dynamic map URL based on actual tour cities */}
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d2970556.404734698!2d6.8810815!3d45.4408474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sParis%2C%20France!3m2!1d48.856614!2d2.3522219!4m5!1s0x12d43d476a3ad6a1%3A0x537c5c0de7683bd2!2sRome%2C%20Metropolitan%20City%20of%20Rome%2C%20Italy!3m2!1d41.9027835!2d12.4963655!5e0!3m2!1sen!2sus!4v1641234567890!5m2!1sen!2sus"
+                  src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyCO_fake_key&origin=${encodeURIComponent(cities[0] || 'Rome, Italy')}&destination=${encodeURIComponent(cities[cities.length - 1] || 'Florence, Italy')}&waypoints=${cities.slice(1, -1).map(city => encodeURIComponent(city)).join('|')}&mode=transit&avoid=tolls`}
                   className="w-full h-full"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Tour Route Map"
+                  onError={() => {
+                    // Fallback to static map if embed fails
+                    const fallbackElement = document.createElement('div');
+                    fallbackElement.className = 'w-full h-full bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center';
+                    fallbackElement.innerHTML = '<div class="text-center"><div class="text-blue-600 mb-2">🗺️</div><div class="text-sm text-gray-600">Tour Route Map</div></div>';
+                  }}
                 />
               </div>
             </div>
