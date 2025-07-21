@@ -2283,6 +2283,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create Early Modern tours endpoint
+  app.post("/api/create-early-modern-tours", async (req, res) => {
+    try {
+      const { createEarlyModernTours } = await import("./create-early-modern-tours");
+      await createEarlyModernTours();
+      
+      // Get updated tour count
+      const allTours = await storage.getAllTours();
+      const earlyModernToursCount = allTours.filter(tour => tour.era === 'Early Modern').length;
+      
+      res.json({
+        success: true,
+        message: `Successfully created Early Modern tours. Total Early Modern tours: ${earlyModernToursCount}`,
+        earlyModernToursCount
+      });
+    } catch (error) {
+      console.error("Error creating Early Modern tours:", error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Save batch of images to database
   app.post("/api/tour-images/save-batch", async (req, res) => {
     try {
