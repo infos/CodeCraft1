@@ -113,9 +113,9 @@ export default function TourDetailsPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
           {/* Left Column - Tour Package and Hotels */}
-          <div className="lg:col-span-1 space-y-8">
+          <div className="lg:col-span-3 space-y-8">
             {/* Tour Package */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <div className="p-6 pb-0">
@@ -238,54 +238,39 @@ export default function TourDetailsPage() {
           </div>
 
           {/* Right Column - Cities and Day Itinerary */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Cities we will visit */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Cities we will visit</h3>
-              <div className="flex justify-between items-center mb-6">
+          <div className="lg:col-span-2 space-y-4">
+            {/* Cities we will visit - Compact */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
+              <div className="flex justify-between items-center mb-3">
                 {cities.slice(0, 4).map((city, index) => (
                   <div key={index} className="flex flex-col items-center">
-                    <div className="w-3 h-3 bg-blue-600 rounded-full mb-2"></div>
-                    <span className="text-sm font-medium text-gray-700">{city}</span>
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mb-1"></div>
+                    <span className="text-xs font-medium text-gray-700">{city}</span>
                   </div>
                 ))}
               </div>
               
-              {/* Map */}
-              <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg relative overflow-hidden border border-blue-200">
-                <div className="w-full h-full bg-blue-50 flex items-center justify-center relative">
-                  {/* Mock map background */}
-                  <div className="absolute inset-4 bg-blue-100 rounded-lg opacity-60"></div>
-                  <MapPin className="h-12 w-12 text-blue-600 relative z-10" />
-                  
-                  {/* Mock route line */}
-                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path
-                      d="M20,30 Q40,20 60,40 T80,60"
-                      stroke="#2563eb"
-                      strokeWidth="3"
-                      fill="none"
-                      className="opacity-80"
-                    />
-                  </svg>
-                  
-                  {/* Mock city markers */}
-                  <div className="absolute top-1/4 left-1/4 w-6 h-6 bg-purple-600 rounded-full border-3 border-white shadow-lg flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">8</span>
-                  </div>
-                  <div className="absolute bottom-1/3 right-1/4 w-6 h-6 bg-purple-600 rounded-full border-3 border-white shadow-lg flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">9</span>
-                  </div>
-                </div>
+              {/* Real Map - OpenStreetMap embed */}
+              <div className="aspect-[3/2] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                <iframe
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=-2.5,41.0,15.0,47.0&layer=mapnik&marker=41.9028,12.4964`}
+                  className="w-full h-full"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Tour Route Map"
+                />
               </div>
             </div>
 
             {/* Daily Itinerary */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+              <h3 className="text-base font-semibold text-gray-900 mb-3">
                 Daily Itinerary
               </h3>
-              <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+              <div className="max-h-80 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
                 {itineraries && itineraries.length > 0 ? (
                   <div className="space-y-6">
                     {itineraries.map((day, index) => (
