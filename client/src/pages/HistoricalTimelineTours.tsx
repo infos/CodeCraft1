@@ -471,15 +471,7 @@ export default function HistoricalTimelineTours() {
                 ))}
               </div>
             </TooltipProvider>
-            {selectedPeriod && (
-              <button
-                onClick={() => handlePeriodChange('')}
-                className="px-4 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 border border-red-200 hover:bg-red-200 transition-all duration-200"
-              >
-                <XIcon className="w-3 h-3 mr-1 inline" />
-                Clear Period
-              </button>
-            )}
+
           </div>
         </div>
       </div>
