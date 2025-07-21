@@ -34,24 +34,6 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
       imageDescription: "The Colosseum, Rome's iconic ancient amphitheater",
       source: "Wikimedia Commons",
       attribution: "Diliff / CC BY-SA 3.0"
-    },
-    {
-      id: 102,
-      tourId,
-      tourTitle,
-      imageUrl: "https://picsum.photos/800/600?random=1",
-      imageDescription: "Historical Roman architecture and monuments",
-      source: "Lorem Picsum",
-      attribution: "Free to use"
-    },
-    {
-      id: 103,
-      tourId,
-      tourTitle,
-      imageUrl: "https://picsum.photos/800/600?random=2",
-      imageDescription: "Ancient Roman archaeological sites",
-      source: "Lorem Picsum", 
-      attribution: "Free to use"
     }
   ];
 
@@ -142,11 +124,18 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
           images: imagesToSave 
         }),
       });
-      if (!response.ok) throw new Error('Failed to save images');
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to save images: ${response.status} ${errorText}`);
+      }
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('Images saved successfully:', data);
       queryClient.invalidateQueries({ queryKey: [`/api/tour-images/${tourId}`] });
+    },
+    onError: (error) => {
+      console.error('Failed to save images to database:', error);
     }
   });
 
@@ -163,6 +152,13 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
       const validImages = [];
       for (const image of allImages) {
         try {
+          // Skip testing local AI images as they might not exist yet
+          if (image.imageUrl.startsWith('/tour-images/')) {
+            validImages.push(image);
+            console.log(`✓ Image valid: ${image.imageDescription}`);
+            continue;
+          }
+          
           const response = await fetch(image.imageUrl, { method: 'HEAD' });
           if (response.ok) {
             validImages.push(image);
@@ -179,7 +175,18 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
       const imagesToSave = validImages.filter(img => !images?.some(existing => existing.imageUrl === img.imageUrl));
       if (imagesToSave.length > 0) {
         console.log(`Saving ${imagesToSave.length} valid images to database`);
-        saveImagesMutation.mutate(imagesToSave);
+        return new Promise((resolve, reject) => {
+          saveImagesMutation.mutate(imagesToSave, {
+            onSuccess: (data) => {
+              console.log('Images saved successfully:', data);
+              resolve(data);
+            },
+            onError: (error) => {
+              console.error('Failed to save images:', error);
+              reject(error);
+            }
+          });
+        });
       }
     } catch (error) {
       console.error('Error testing images:', error);
@@ -189,9 +196,14 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
   // Auto-test and save images on component mount
   useEffect(() => {
     if (tourId && tourTitle && allImages.length > 0) {
-      testAndSaveImages();
+      // Only auto-test if we don't have existing images in database
+      if (!images || images.length === 0) {
+        testAndSaveImages().catch(error => {
+          console.error('Failed to auto-test images:', error);
+        });
+      }
     }
-  }, [tourId, tourTitle]);
+  }, [tourId, tourTitle, images]);
 
   if (displayImages.length === 0) {
     return null;

@@ -61,7 +61,14 @@ export default function TourDetailsPage() {
         <TourImageCarousel 
           tourId={Number(tourId)} 
           tourTitle={tour.title}
-          images={tourImages}
+          images={tourImages?.map(img => ({
+            ...img,
+            source: img.source || undefined,
+            imageDescription: img.imageDescription || undefined,
+            prompt: img.prompt || undefined,
+            attribution: img.attribution || undefined,
+            generatedAt: img.generatedAt || undefined
+          }))}
         />
       </div>
 
