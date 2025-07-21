@@ -169,7 +169,7 @@ export default function TourDetailsPage() {
                     <span className="text-gray-600 text-sm">/ person</span>
                   </div>
                   
-                  <div className="text-gray-600">
+                  <div className="text-gray-600 text-sm leading-relaxed">
                     Multiple local tour guides/drivers available throughout your tour/activity
                   </div>
 
@@ -268,9 +268,9 @@ export default function TourDetailsPage() {
           </div>
 
           {/* Right Sidebar - Cities and Day Itinerary */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-4 flex flex-col">
             {/* Cities we will visit - Compact */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex-shrink-0">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
               <div className="flex justify-between items-center mb-3 relative">
                 {cities.slice(0, 4).map((city, index) => (
@@ -353,12 +353,12 @@ export default function TourDetailsPage() {
               </div>
             </div>
 
-            {/* Daily Itinerary */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            {/* Daily Itinerary - Extended height to match hotel panel */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 h-full min-h-[600px]">
               <h3 className="text-base font-semibold text-gray-900 mb-3">
                 Daily Itinerary
               </h3>
-              <div className="max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+              <div className="max-h-[550px] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
                 {itineraries && itineraries.length > 0 ? (
                   <div className="space-y-4">
                     {itineraries.map((day: any, index: number) => {
