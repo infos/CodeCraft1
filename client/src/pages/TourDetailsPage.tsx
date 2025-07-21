@@ -121,9 +121,9 @@ export default function TourDetailsPage() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content - Tour Package and Hotels */}
-          <div className="lg:col-span-2 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          {/* Main Content - Tour Package and Hotels - Reduced by 20% */}
+          <div className="lg:col-span-3 space-y-8">
             {/* Tour Package */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               {/* Title and Rating */}
@@ -141,8 +141,8 @@ export default function TourDetailsPage() {
               
               {/* Tour Image and Details - Reference Layout */}
               <div className="px-8 pb-8 flex gap-8">
-                {/* Tour Image - Square format like reference */}
-                <div className="w-80 flex-shrink-0">
+                {/* Tour Image - Reduced by 10% */}
+                <div className="w-72 flex-shrink-0">
                   <div className="aspect-square bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-2xl">
                     {tourImages && tourImages.length > 0 ? (
                       <img 
@@ -163,10 +163,10 @@ export default function TourDetailsPage() {
                   <div className="text-orange-500 font-medium">Bus • Europe</div>
                   
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-bold text-gray-900">
+                    <span className="text-base font-semibold text-gray-900">
                       $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
                     </span>
-                    <span className="text-gray-600 text-lg">/ person</span>
+                    <span className="text-gray-600 text-sm">/ person</span>
                   </div>
                   
                   <div className="text-gray-600">
@@ -241,7 +241,16 @@ export default function TourDetailsPage() {
                         </div>
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900 mb-1">{hotel.name}</h4>
+                        <h4 className="font-semibold text-gray-900 mb-1">
+                          <a 
+                            href={`https://www.google.com/search?q=${encodeURIComponent(hotel.name + " " + (hotel.location || cities[index % cities.length]))}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 hover:underline"
+                          >
+                            {hotel.name}
+                          </a>
+                        </h4>
                         <p className="text-sm text-gray-600 mb-2">{hotel.location || cities[index % cities.length]}</p>
                         <div className="flex items-center gap-2">
                           <div className="flex items-center gap-1">
@@ -259,7 +268,7 @@ export default function TourDetailsPage() {
           </div>
 
           {/* Right Sidebar - Cities and Day Itinerary */}
-          <div className="lg:col-span-1 space-y-4">
+          <div className="lg:col-span-2 space-y-4">
             {/* Cities we will visit - Compact */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
