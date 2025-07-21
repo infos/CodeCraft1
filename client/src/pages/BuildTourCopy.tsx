@@ -37,7 +37,7 @@ export default function BuildTourCopy() {
   const [selectedDurations, setSelectedDurations] = useState<Record<string, string>>({});
   const [eraImages, setEraImages] = useState<Record<string, string>>({});
   const [isGeneratingImages, setIsGeneratingImages] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('all');
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('ancient');
 
   const queryClient = useQueryClient();
 
@@ -201,7 +201,6 @@ export default function BuildTourCopy() {
 
   // Filter eras based on selected period with proper chronological boundaries
   const filteredEras = sortedEras.filter(era => {
-    if (selectedPeriod === 'all') return true;
     
     const startYear = era.startYear || 0;
     const eraName = era.name || '';
@@ -287,7 +286,6 @@ export default function BuildTourCopy() {
               <TooltipProvider>
                 <div className="flex space-x-1">
                   {[
-                    { key: 'all', label: 'All Periods', tooltip: 'All historical eras' },
                     { key: 'ancient', label: 'Ancient Times', tooltip: 'Before 500 BCE' },
                     { key: 'classical', label: 'Classical Period', tooltip: '500 BCE - 500 CE' },
                     { key: 'medieval', label: 'Medieval Period', tooltip: '500 CE - 1500 CE' },
@@ -338,8 +336,7 @@ export default function BuildTourCopy() {
         <div className="mb-12">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-semibold text-gray-900">
-              {selectedPeriod === 'all' ? 'All Historical Eras' : 
-               selectedPeriod === 'ancient' ? 'Ancient Times' :
+              {selectedPeriod === 'ancient' ? 'Ancient Times' :
                selectedPeriod === 'classical' ? 'Classical Period' :
                selectedPeriod === 'medieval' ? 'Medieval Period' :
                selectedPeriod === 'renaissance' ? 'Renaissance' :
