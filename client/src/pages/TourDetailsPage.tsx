@@ -163,10 +163,10 @@ export default function TourDetailsPage() {
                   <div className="text-orange-500 font-medium text-sm">Bus • Europe</div>
                   
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-gray-900">
+                    <span className="text-xl font-bold text-gray-900">
                       $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
                     </span>
-                    <span className="text-gray-600 text-lg">/ person</span>
+                    <span className="text-gray-600 text-base">/ person</span>
                   </div>
                   
                   <div className="text-gray-600 text-sm">
