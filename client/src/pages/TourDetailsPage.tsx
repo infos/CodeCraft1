@@ -4,7 +4,7 @@ import { useParams } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Calendar, Hotel, Check, X, Star, Wifi, Car, Utensils, Shield, MessageCircle, BookOpen } from "lucide-react";
+import { MapPin, Calendar, Hotel, Check, X, Star, Wifi, Car, Utensils, Shield, MessageCircle, BookOpen, Users, Globe, Coffee } from "lucide-react";
 import TourItinerary from "@/components/TourItinerary";
 import TourImageCarousel from "@/components/TourImageCarousel";
 import BookingInquiryModal from "@/components/BookingInquiryModal";
@@ -52,290 +52,242 @@ export default function TourDetailsPage() {
     </div>;
   }
 
+  // Extract city names from locations
+  const cities = tour.locations ? tour.locations.split(',').map(city => city.trim()) : [];
+  
   return (
-    <div className="container mx-auto px-4 py-8 space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">{tour.title}</h2>
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          <span>{tour.locations}</span>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Navigation */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-8">
+              <div className="text-2xl font-bold text-blue-600">Travel</div>
+              <nav className="flex gap-6">
+                <span className="text-gray-600 hover:text-gray-900 cursor-pointer">Home</span>
+                <span className="text-gray-600 hover:text-gray-900 cursor-pointer">Reserved</span>
+                <span className="text-gray-900 font-medium cursor-pointer border-b-2 border-blue-600 pb-4">Tours</span>
+                <span className="text-gray-600 hover:text-gray-900 cursor-pointer">Favourites</span>
+              </nav>
+            </div>
+            <div className="flex items-center gap-4">
+              <button className="text-gray-600 hover:text-gray-900">Register</button>
+              <button className="bg-orange-500 text-white px-4 py-2 rounded-full hover:bg-orange-600">Sign in</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Tour Image Carousel */}
-      <div className="w-full max-w-2xl mx-auto">
-        <TourImageCarousel 
-          tourId={Number(tourId)} 
-          tourTitle={tour.title}
-          images={tourImages?.map(img => ({
-            ...img,
-            source: img.source || undefined,
-            imageDescription: img.imageDescription || undefined,
-            prompt: img.prompt || undefined,
-            attribution: img.attribution || undefined,
-            generatedAt: img.generatedAt || undefined
-          }))}
-        />
+      {/* Search Bar */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-600">
+              <MapPin className="h-4 w-4" />
+              <span>{tour.locations}</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-600 px-4 py-2 bg-gray-100 rounded">
+              <Calendar className="h-4 w-4" />
+              <span>24.04.2020 - 04.05.2020</span>
+            </div>
+            <div className="ml-auto">
+              <button className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                <MapPin className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Tour Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <p className="text-lg leading-relaxed">{tour.description}</p>
-            {tour.era && (
-              <p className="text-muted-foreground">
-                Historical Era: <span className="font-medium">{tour.era}</span>
-              </p>
-            )}
-            <div className="space-y-4 border-t pt-4">
-              <div className="flex items-center justify-between text-lg">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-5 w-5" />
-                  <span>{tour.duration || '7'} days</span>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* Left Column - Tour Package */}
+          <div className="lg:col-span-1">
+            <div className="space-y-6">
+              {/* Package Header */}
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">Holiday Package: {tour.title}</h1>
+                <div className="flex items-center gap-2 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-orange-400 text-orange-400" />
+                  ))}
+                  <span className="text-sm text-gray-600">(89 Reviews)</span>
                 </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">
-                    ${typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price || '2,500'}
+              </div>
+
+              {/* Tour Image */}
+              <div className="relative">
+                <TourImageCarousel 
+                  tourId={Number(tourId)} 
+                  tourTitle={tour.title}
+                  images={tourImages?.map(img => ({
+                    ...img,
+                    source: img.source || undefined,
+                    imageDescription: img.imageDescription || undefined,
+                    prompt: img.prompt || undefined,
+                    attribution: img.attribution || undefined,
+                    generatedAt: img.generatedAt || undefined
+                  }))}
+                />
+              </div>
+
+              {/* Price and Details */}
+              <div className="bg-white rounded-lg p-6 border border-gray-200">
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm text-gray-600">{tour.era} • Europe</div>
+                    <div className="text-3xl font-bold text-gray-900">
+                      $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price || '1,400'}.00
+                      <span className="text-lg font-normal text-gray-600"> /person</span>
+                    </div>
+                    <div className="text-sm text-gray-600">Multiple local tour guides/drivers available throughout your tour activity</div>
                   </div>
-                  <div className="text-sm text-gray-500">per person</div>
+
+                  {/* Inclusions */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm">{tour.duration || '7'} days • 3 may</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Users className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm">English only</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Car className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm">Comfortable bus</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Coffee className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm">Breakfast at the hotel</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="h-4 w-4 text-gray-400" />
+                      <span className="text-sm">Photo report</span>
+                    </div>
+                  </div>
+
+                  <Button 
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium"
+                    onClick={() => setIsBookingModalOpen(true)}
+                  >
+                    Book Now
+                  </Button>
                 </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button 
-                  size="lg" 
-                  className="flex-1 bg-primary hover:bg-primary/90"
-                  onClick={() => setIsBookingModalOpen(true)}
-                >
-                  <BookOpen className="w-4 h-4 mr-2" />
-                  Book This Tour
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="flex-1"
-                  onClick={() => setIsBookingModalOpen(true)}
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Make Inquiry
-                </Button>
-              </div>
-              
-              <div className="text-xs text-center text-gray-500">
-                Free cancellation up to 48 hours before departure • Best price guarantee
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* What's Included / What's Not Included Section */}
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-green-700">
-              <Check className="h-5 w-5" />
-              What's Included
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Professional licensed tour guide with historical expertise</span>
+          {/* Middle Column - Cities We Visit + Map */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg p-6 border border-gray-200 h-fit">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Cities we will visit</h3>
+              
+              {/* City List */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {cities.map((city, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                    <span className="text-sm text-gray-600">{city}</span>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">All entrance fees to museums, archaeological sites, and monuments</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Transportation between destinations in air-conditioned vehicles</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">{tour.duration || 7}-day accommodation in carefully selected heritage hotels</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Daily breakfast and selected cultural dining experiences</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Small group size (maximum 16 travelers) for personalized experience</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Comprehensive travel insurance and emergency support</span>
+
+              {/* Mock Map */}
+              <div className="relative h-64 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg mb-6 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-100 via-blue-100 to-blue-200"></div>
+                
+                {/* Mock route line */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 200">
+                  <path 
+                    d="M50,150 Q100,100 150,120 T250,80" 
+                    stroke="#1d4ed8" 
+                    strokeWidth="3" 
+                    fill="none"
+                    strokeDasharray="5,5"
+                  />
+                  {/* Mock city markers */}
+                  <circle cx="80" cy="140" r="6" fill="#1d4ed8" stroke="white" strokeWidth="2"/>
+                  <circle cx="180" cy="100" r="6" fill="#1d4ed8" stroke="white" strokeWidth="2"/>
+                  <circle cx="220" cy="90" r="6" fill="#1d4ed8" stroke="white" strokeWidth="2"/>
+                </svg>
+                
+                {/* Italy label */}
+                <div className="absolute bottom-4 right-4 text-xs text-gray-600 font-medium">
+                  {tour.locations?.includes('Italy') ? 'Italy' : 
+                   tour.locations?.includes('Egypt') ? 'Egypt' :
+                   tour.locations?.includes('Greece') ? 'Greece' : 'Map'}
+                </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-red-700">
-              <X className="h-5 w-5" />
-              What's Not Included
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">International flights to and from departure city</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Personal expenses (souvenirs, additional meals, drinks)</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Optional activities and excursions not mentioned in itinerary</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Tips and gratuities for guides and hotel staff</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Visa fees and passport processing costs</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Single room supplement (additional $450)</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <X className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Travel insurance upgrades and medical coverage extensions</span>
+          {/* Right Column - Day Itinerary */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Day 9 - Rome</h3>
+              
+              <div className="space-y-4">
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  After breakfast, we'll take you through this fascinating city of ornate palaces, lyrical waterways, captivating churches and impressive architecture.
+                </p>
+                
+                {/* Sample images for the day */}
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="aspect-square bg-gradient-to-br from-amber-100 to-orange-200 rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-gray-600">Colosseum</span>
+                  </div>
+                  <div className="aspect-square bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-gray-600">Vatican</span>
+                  </div>
+                  <div className="aspect-square bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-gray-600">Forum</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Enhanced Hotel Recommendations Section */}
-      {hotels && hotels.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Hotel className="h-5 w-5" />
-              Carefully Selected Heritage Hotels
-            </CardTitle>
-            <p className="text-sm text-muted-foreground mt-2">
-              Experience authentic local hospitality in thoughtfully chosen accommodations that reflect the historical character of each destination.
-            </p>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-6 md:grid-cols-2">
-              {(hotels || []).map((hotel, index) => (
-                <div key={index} className={`border rounded-lg overflow-hidden transition-all duration-200 ${
-                  selectedHotel === hotel.id 
-                    ? 'ring-2 ring-primary border-primary shadow-lg' 
-                    : 'hover:shadow-lg'
-                }`}>
-                  <div className="p-4 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <h4 className="font-semibold text-lg">{hotel.name}</h4>
-                      <div className="flex items-center gap-1">
-                        {[...Array(hotel.rating || 4)].map((_, i) => (
-                          <Star key={i} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                        ))}
-                      </div>
+          </div>
+        </div>
+        
+        {/* Hotels Section */}
+        {hotels && hotels.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Hotels</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {hotels.slice(0, 4).map((hotel) => (
+                <div key={hotel.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                    <Hotel className="h-8 w-8 text-gray-400" />
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-semibold text-gray-900 mb-1">{hotel.name}</h4>
+                    <div className="flex items-center gap-1 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`h-3 w-3 ${i < 4 ? 'fill-orange-400 text-orange-400' : 'text-gray-300'}`} />
+                      ))}
+                      <span className="text-sm text-gray-600 ml-1">4.2</span>
                     </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="h-4 w-4" />
-                      <span className="text-sm">{hotel.location}</span>
-                    </div>
-                    <p className="text-sm text-gray-700 leading-relaxed">{hotel.description}</p>
-                    
-                    {/* Hotel Amenities */}
-                    {hotel.amenities && Array.isArray(hotel.amenities) && (
-                      <div className="mt-4">
-                        <h5 className="text-sm font-medium text-gray-900 mb-2">Hotel Amenities</h5>
-                        <div className="grid grid-cols-2 gap-2">
-                          {hotel.amenities.slice(0, 6).map((amenity, idx) => (
-                            <div key={idx} className="flex items-center gap-2">
-                              {getAmenityIcon(amenity)}
-                              <span className="text-xs text-gray-600">{amenity}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="pt-3 border-t border-gray-100 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">From</span>
-                        <span className="text-lg font-semibold text-green-600">
-                          ${hotel.pricePerNight || (180 + index * 40)} <span className="text-sm font-normal text-gray-500">/night</span>
-                        </span>
-                      </div>
-                      
-                      <Button
-                        onClick={() => setSelectedHotel(selectedHotel === hotel.id ? null : hotel.id)}
-                        variant={selectedHotel === hotel.id ? "default" : "outline"}
-                        size="sm"
-                        className="w-full"
-                      >
-                        {selectedHotel === hotel.id ? (
-                          <>
-                            <Check className="w-4 h-4 mr-2" />
-                            Selected
-                          </>
-                        ) : (
-                          'Select Hotel'
-                        )}
-                      </Button>
-                    </div>
+                    <p className="text-xs text-gray-600">{hotel.location || tour.locations}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        )}
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Daily Itinerary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <TourItinerary tourId={Number(tourId)} />
-        </CardContent>
-      </Card>
-
-      {/* Booking Inquiry Modal */}
+      {/* Booking Modal */}
       <BookingInquiryModal
         isOpen={isBookingModalOpen}
-        onClose={() => setIsBookingModalOpen(false)}
-        tourTitle={tour.title}
-        tourId={Number(tourId)}
-        tourPrice={typeof tour.price === 'number' ? tour.price : parseInt(tour.price || '2500')}
-        selectedHotelId={selectedHotel}
+        onClose={() => {
+          setIsBookingModalOpen(false);
+          setSelectedHotel(null);
+        }}
+        tour={tour}
+        selectedHotel={selectedHotel ? hotels?.find(h => h.id === selectedHotel) : undefined}
       />
     </div>
   );
-}
-
-// Helper function to get appropriate icon for hotel amenities
-function getAmenityIcon(amenity: string) {
-  const amenityLower = amenity.toLowerCase();
-  
-  if (amenityLower.includes('wifi') || amenityLower.includes('internet')) {
-    return <Wifi className="h-3 w-3 text-blue-500" />;
-  } else if (amenityLower.includes('restaurant') || amenityLower.includes('dining') || amenityLower.includes('breakfast')) {
-    return <Utensils className="h-3 w-3 text-orange-500" />;
-  } else if (amenityLower.includes('parking') || amenityLower.includes('valet')) {
-    return <Car className="h-3 w-3 text-gray-500" />;
-  } else if (amenityLower.includes('security') || amenityLower.includes('safe')) {
-    return <Shield className="h-3 w-3 text-green-500" />;
-  } else if (amenityLower.includes('spa') || amenityLower.includes('fitness')) {
-    return <Star className="h-3 w-3 text-purple-500" />;
-  } else {
-    return <Check className="h-3 w-3 text-gray-500" />;
-  }
 }
