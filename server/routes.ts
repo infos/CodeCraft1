@@ -2307,6 +2307,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Generate missing tour images endpoint
+  app.post("/api/generate-missing-tour-images", async (req, res) => {
+    try {
+      const { generateMissingTourImages } = await import("./generate-missing-tour-images");
+      await generateMissingTourImages();
+      
+      res.json({
+        success: true,
+        message: 'Successfully generated missing tour images'
+      });
+    } catch (error) {
+      console.error("Error generating missing tour images:", error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // Save batch of images to database
   app.post("/api/tour-images/save-batch", async (req, res) => {
     try {
