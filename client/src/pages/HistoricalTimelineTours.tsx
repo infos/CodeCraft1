@@ -301,7 +301,11 @@ export default function HistoricalTimelineTours() {
             return tourCivilization.includes('renaissance');
           case 'early_modern':
             return tourCivilization.includes('exploration') || 
-                   tourCivilization.includes('enlightenment');
+                   tourCivilization.includes('enlightenment') ||
+                   tourCivilization.includes('early modern') ||
+                   tourCivilization.includes('colonial') ||
+                   tourCivilization.includes('scientific revolution') ||
+                   tourCivilization.includes('baroque');
           default:
             return true;
         }
