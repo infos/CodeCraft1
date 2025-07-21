@@ -100,7 +100,15 @@ export default function TourDetailsPage() {
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <Calendar className="h-4 w-4" />
-              <span>24.04.2020 - 04.05.2020</span>
+              <select className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                <option>24.04.2024 - 04.05.2024</option>
+                <option>15.05.2024 - 25.05.2024</option>
+                <option>01.06.2024 - 11.06.2024</option>
+                <option>20.06.2024 - 30.06.2024</option>
+                <option>15.07.2024 - 25.07.2024</option>
+                <option>01.08.2024 - 11.08.2024</option>
+                <option>15.09.2024 - 25.09.2024</option>
+              </select>
             </div>
             <div className="ml-auto flex items-center gap-2">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700">
@@ -132,8 +140,8 @@ export default function TourDetailsPage() {
               
               {/* Tour Image and Details - Horizontal Layout */}
               <div className="p-6 flex gap-6">
-                {/* Tour Image - 1/3 size */}
-                <div className="w-1/3 flex-shrink-0">
+                {/* Tour Image - Increased size */}
+                <div className="w-2/5 flex-shrink-0">
                   <div className="aspect-[4/3] bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-lg">
                     {tourImages && tourImages.length > 0 ? (
                       <img 
@@ -155,13 +163,16 @@ export default function TourDetailsPage() {
                     <div className="text-sm text-gray-500">Bus • Europe</div>
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-gray-900">
+                    <span className="text-2xl font-bold text-gray-900">
                       $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
                     </span>
                     <span className="text-gray-600">/person</span>
                   </div>
+                  <div className="text-sm text-gray-600 mb-2">
+                    Duration: {tour.duration} • Multiple local tour guides available
+                  </div>
                   <div className="text-sm text-gray-600">
-                    Multiple local tour guides/drivers available throughout your tour activity
+                    Professional guided tours throughout your historical journey
                   </div>
 
                   {/* Tour Features */}
@@ -190,7 +201,7 @@ export default function TourDetailsPage() {
 
                   <Button 
                     onClick={() => setIsBookingModalOpen(true)}
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 text-lg font-semibold rounded-lg mt-6"
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 text-base font-semibold rounded-lg mt-6"
                   >
                     Book Now
                   </Button>
@@ -279,88 +290,17 @@ export default function TourDetailsPage() {
                 ))}
               </div>
               
-              {/* Interactive Map with Journey Route */}
-              <div className="aspect-[3/2] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg relative overflow-hidden border border-gray-200">
-                {/* Map Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-blue-50 to-blue-100"></div>
-                
-                {/* Geographic Features */}
-                <div className="absolute inset-0">
-                  {/* Mediterranean Sea */}
-                  <div className="absolute bottom-0 left-0 w-full h-1/3 bg-blue-200 opacity-60"></div>
-                  
-                  {/* Italy Peninsula */}
-                  <div className="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-200 rounded-t-full transform rotate-12 opacity-80"></div>
-                  
-                  {/* Alps */}
-                  <div className="absolute top-1/4 left-1/3 w-20 h-6 bg-gray-300 rounded-full opacity-70"></div>
-                </div>
-
-                {/* Journey Route Line */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <path
-                    d="M15,35 Q25,30 35,40 Q45,35 55,45 Q65,40 75,50"
-                    stroke="#3b82f6"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="2,2"
-                    className="animate-pulse"
-                  />
-                </svg>
-
-                {/* City Markers with Names */}
-                {cities.slice(0, 4).map((city, index) => {
-                  const positions = [
-                    { top: '35%', left: '15%' }, // Paris
-                    { top: '30%', left: '35%' }, // Zurich  
-                    { top: '45%', left: '55%' }, // Florence
-                    { top: '50%', left: '75%' }  // Rome
-                  ];
-                  const position = positions[index] || positions[0];
-                  
-                  return (
-                    <div 
-                      key={index}
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2"
-                      style={{ top: position.top, left: position.left }}
-                    >
-                      {/* City Marker */}
-                      <div className="relative">
-                        <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center animate-pulse">
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        </div>
-                        {/* City Label */}
-                        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-gray-200">
-                          <span className="text-xs font-medium text-gray-800">{city}</span>
-                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {/* Journey Direction Arrows */}
-                <div className="absolute top-1/3 left-1/4 text-blue-600 animate-bounce">
-                  <div className="w-3 h-3 border-t-2 border-r-2 border-blue-600 transform rotate-45"></div>
-                </div>
-                <div className="absolute top-2/5 left-2/5 text-blue-600 animate-bounce" style={{ animationDelay: '0.5s' }}>
-                  <div className="w-3 h-3 border-t-2 border-r-2 border-blue-600 transform rotate-45"></div>
-                </div>
-                <div className="absolute top-1/2 left-3/5 text-blue-600 animate-bounce" style={{ animationDelay: '1s' }}>
-                  <div className="w-3 h-3 border-t-2 border-r-2 border-blue-600 transform rotate-45"></div>
-                </div>
-
-                {/* Legend */}
-                <div className="absolute bottom-2 left-2 bg-white bg-opacity-90 p-2 rounded text-xs">
-                  <div className="flex items-center gap-1 mb-1">
-                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <span>Cities</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-4 h-0.5 bg-blue-600 border-dashed"></div>
-                    <span>Route</span>
-                  </div>
-                </div>
+              {/* Real Interactive Map */}
+              <div className="aspect-[3/2] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d2970556.404734698!2d6.8810815!3d45.4408474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sParis%2C%20France!3m2!1d48.856614!2d2.3522219!4m5!1s0x12d43d476a3ad6a1%3A0x537c5c0de7683bd2!2sRome%2C%20Metropolitan%20City%20of%20Rome%2C%20Italy!3m2!1d41.9027835!2d12.4963655!5e0!3m2!1sen!2sus!4v1641234567890!5m2!1sen!2sus"
+                  className="w-full h-full"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Tour Route Map"
+                />
               </div>
             </div>
 
