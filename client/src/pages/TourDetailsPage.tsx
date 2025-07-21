@@ -120,29 +120,30 @@ export default function TourDetailsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Left Column - Tour Package and Hotels */}
-          <div className="lg:col-span-3 space-y-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content - Tour Package and Hotels */}
+          <div className="lg:col-span-2 space-y-8">
             {/* Tour Package */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="p-6 pb-0">
-                <h1 className="text-2xl font-bold text-gray-900 mb-3">
+              {/* Title and Rating */}
+              <div className="p-8 pb-6">
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">
                   Holiday Package: {tour.title}
                 </h1>
                 <div className="flex items-center gap-2 mb-6">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                   ))}
-                  <span className="text-sm text-gray-600 ml-1">(89 Reviews)</span>
+                  <span className="text-gray-600 ml-2">(89 Reviews)</span>
                 </div>
               </div>
               
-              {/* Tour Image and Details - Horizontal Layout */}
-              <div className="p-6 flex gap-6">
-                {/* Tour Image - Increased size */}
-                <div className="w-2/5 flex-shrink-0">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-lg">
+              {/* Tour Image and Details - Reference Layout */}
+              <div className="px-8 pb-8 flex gap-8">
+                {/* Tour Image - Square format like reference */}
+                <div className="w-80 flex-shrink-0">
+                  <div className="aspect-square bg-gradient-to-br from-orange-400 to-orange-600 relative overflow-hidden rounded-2xl">
                     {tourImages && tourImages.length > 0 ? (
                       <img 
                         src={tourImages[0].imageUrl} 
@@ -151,57 +152,54 @@ export default function TourDetailsPage() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <MapPin className="h-12 w-12 text-white" />
+                        <MapPin className="h-16 w-16 text-white" />
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Tour Details - 2/3 size */}
-                <div className="flex-1 space-y-4">
+                {/* Tour Details - Right side like reference */}
+                <div className="flex-1 space-y-6">
+                  <div className="text-orange-500 font-medium">Bus • Europe</div>
+                  
                   <div className="flex items-baseline gap-2">
-                    <div className="text-sm text-gray-500">Bus • Europe</div>
-                  </div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-gray-900">
+                    <span className="text-4xl font-bold text-gray-900">
                       $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
                     </span>
-                    <span className="text-gray-600">/person</span>
+                    <span className="text-gray-600 text-lg">/ person</span>
                   </div>
-                  <div className="text-sm text-gray-600 mb-2">
-                    Duration: {tour.duration} • Multiple local tour guides available
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    Professional guided tours throughout your historical journey
+                  
+                  <div className="text-gray-600">
+                    Multiple local tour guides/drivers available throughout your tour/activity
                   </div>
 
-                  {/* Tour Features */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <div className="flex items-center gap-3 text-sm">
-                      <Calendar className="h-4 w-4 text-gray-400" />
-                      <span className="text-gray-700">{tour.duration} april - 3 may</span>
+                  {/* Tour Features - 2 column grid like reference */}
+                  <div className="grid grid-cols-2 gap-4 py-4">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="h-5 w-5 text-blue-500" />
+                      <span className="text-gray-700">24 april - 3 may</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Globe className="h-4 w-4 text-gray-400" />
-                      <span className="text-gray-700">English only</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Car className="h-4 w-4 text-gray-400" />
-                      <span className="text-gray-700">Comfortable bus</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Coffee className="h-4 w-4 text-gray-400" />
+                    <div className="flex items-center gap-3">
+                      <Coffee className="h-5 w-5 text-gray-500" />
                       <span className="text-gray-700">Breakfast at the hotel</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <BookOpen className="h-4 w-4 text-gray-400" />
+                    <div className="flex items-center gap-3">
+                      <Globe className="h-5 w-5 text-gray-500" />
+                      <span className="text-gray-700">English only</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Car className="h-5 w-5 text-gray-500" />
+                      <span className="text-gray-700">Comfortable bus</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="h-5 w-5 text-gray-500" />
                       <span className="text-gray-700">Photo report</span>
                     </div>
                   </div>
 
                   <Button 
                     onClick={() => setIsBookingModalOpen(true)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 text-base font-semibold rounded-lg mt-6"
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-12 py-4 text-lg font-semibold rounded-full w-64"
                   >
                     Book Now
                   </Button>
@@ -209,11 +207,11 @@ export default function TourDetailsPage() {
               </div>
             </div>
 
-            {/* Hotels Section */}
+            {/* Hotels Section - Matching reference layout */}
             {hotels && hotels.length > 0 && (
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Hotels</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Hotels</h2>
+                <div className="grid grid-cols-2 gap-6">
                   {hotels.slice(0, 4).map((hotel, index) => {
                     // Hotel image URLs based on luxury European hotels
                     const hotelImages = [
@@ -222,9 +220,10 @@ export default function TourDetailsPage() {
                       "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&h=250&fit=crop", // Historic hotel
                       "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&h=250&fit=crop"  // Grand hotel
                     ];
+                    const ratings = [4.2, 5.0, 4.8, 4.0];
                     return (
-                    <div key={hotel.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                      <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                    <div key={hotel.id} className="flex gap-4 items-center">
+                      <div className="w-20 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                         <img 
                           src={hotelImages[index] || hotelImages[0]}
                           alt={hotel.name}
@@ -238,35 +237,18 @@ export default function TourDetailsPage() {
                           }}
                         />
                         <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center" style={{display: 'none'}}>
-                          <Hotel className="h-8 w-8 text-gray-400" />
+                          <Hotel className="h-6 w-6 text-gray-400" />
                         </div>
                       </div>
-                      <div className="p-4">
+                      <div className="flex-1">
                         <h4 className="font-semibold text-gray-900 mb-1">{hotel.name}</h4>
-                        <div className="flex items-center gap-1 mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`h-3 w-3 ${i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
-                          ))}
-                          <span className="text-xs text-gray-600 ml-1">
-                            {index === 0 ? '4.2' : index === 1 ? '5.0' : index === 2 ? '4.8' : '4.0'}
-                          </span>
+                        <p className="text-sm text-gray-600 mb-2">{hotel.location || cities[index % cities.length]}</p>
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1">
+                            <Star className="h-4 w-4 fill-orange-400 text-orange-400" />
+                            <span className="font-semibold text-gray-900">{ratings[index]}</span>
+                          </div>
                         </div>
-                        <p className="text-xs text-gray-600 mb-3">{hotel.location || tour.locations}</p>
-                        <Button
-                          variant={selectedHotel === hotel.id ? "default" : "outline"}
-                          size="sm"
-                          className="w-full"
-                          onClick={() => setSelectedHotel(selectedHotel === hotel.id ? null : hotel.id)}
-                        >
-                          {selectedHotel === hotel.id ? (
-                            <>
-                              <Check className="w-4 h-4 mr-2" />
-                              Selected
-                            </>
-                          ) : (
-                            'Select Hotel'
-                          )}
-                        </Button>
                       </div>
                     </div>
                     );
@@ -276,8 +258,8 @@ export default function TourDetailsPage() {
             )}
           </div>
 
-          {/* Right Column - Cities and Day Itinerary */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Right Sidebar - Cities and Day Itinerary */}
+          <div className="lg:col-span-1 space-y-4">
             {/* Cities we will visit - Compact */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
