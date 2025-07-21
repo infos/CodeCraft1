@@ -113,9 +113,10 @@ export default function TourDetailsPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Tour Package */}
-          <div className="lg:col-span-1">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column - Tour Package and Hotels */}
+          <div className="lg:col-span-1 space-y-8">
+            {/* Tour Package */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <div className="p-6 pb-0">
                 <h1 className="text-2xl font-bold text-gray-900 mb-3">
@@ -191,49 +192,49 @@ export default function TourDetailsPage() {
                 </Button>
               </div>
             </div>
-          </div>
 
-          {/* Center Column - Cities Map */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Cities we will visit</h3>
-              <div className="space-y-4 mb-6">
-                {cities.slice(0, 4).map((city, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-blue-600 rounded-full flex-shrink-0"></div>
-                    <span className="text-gray-700 font-medium">{city}</span>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Map Placeholder */}
-              <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg relative overflow-hidden border border-blue-200">
-                <div className="w-full h-full bg-blue-50 flex items-center justify-center relative">
-                  {/* Mock map background */}
-                  <div className="absolute inset-4 bg-blue-100 rounded-lg opacity-60"></div>
-                  <MapPin className="h-12 w-12 text-blue-600 relative z-10" />
-                  
-                  {/* Mock route line */}
-                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <path
-                      d="M20,30 Q40,20 60,40 T80,60"
-                      stroke="#2563eb"
-                      strokeWidth="2"
-                      fill="none"
-                      className="opacity-80"
-                    />
-                  </svg>
-                  
-                  {/* Mock city markers */}
-                  <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-purple-600 rounded-full border-2 border-white shadow-md flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">1</span>
-                  </div>
-                  <div className="absolute bottom-1/3 right-1/4 w-4 h-4 bg-purple-600 rounded-full border-2 border-white shadow-md flex items-center justify-center">
-                    <span className="text-white text-xs font-bold">2</span>
-                  </div>
+            {/* Hotels Section */}
+            {hotels && hotels.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6">Hotels</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {hotels.slice(0, 4).map((hotel, index) => (
+                    <div key={hotel.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                      <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <Hotel className="h-8 w-8 text-gray-400" />
+                      </div>
+                      <div className="p-4">
+                        <h4 className="font-semibold text-gray-900 mb-1">{hotel.name}</h4>
+                        <div className="flex items-center gap-1 mb-2">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`h-3 w-3 ${i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+                          ))}
+                          <span className="text-xs text-gray-600 ml-1">
+                            {index === 0 ? '4.2' : index === 1 ? '5.0' : index === 2 ? '4.8' : '4.0'}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600 mb-3">{hotel.location || tour.locations}</p>
+                        <Button
+                          variant={selectedHotel === hotel.id ? "default" : "outline"}
+                          size="sm"
+                          className="w-full"
+                          onClick={() => setSelectedHotel(selectedHotel === hotel.id ? null : hotel.id)}
+                        >
+                          {selectedHotel === hotel.id ? (
+                            <>
+                              <Check className="w-4 h-4 mr-2" />
+                              Selected
+                            </>
+                          ) : (
+                            'Select Hotel'
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Right Column - Day Itinerary */}
@@ -305,49 +306,6 @@ export default function TourDetailsPage() {
             </div>
           </div>
         </div>
-
-        {/* Hotels Section */}
-        {hotels && hotels.length > 0 && (
-          <div className="mt-12 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Hotels</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {hotels.slice(0, 4).map((hotel, index) => (
-                <div key={hotel.id} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                    <Hotel className="h-8 w-8 text-gray-400" />
-                  </div>
-                  <div className="p-4">
-                    <h4 className="font-semibold text-gray-900 mb-1">{hotel.name}</h4>
-                    <div className="flex items-center gap-1 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className={`h-3 w-3 ${i < 4 ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
-                      ))}
-                      <span className="text-xs text-gray-600 ml-1">
-                        {index === 0 ? '4.2' : index === 1 ? '5.0' : index === 2 ? '4.8' : '4.0'}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-600 mb-3">{hotel.location || tour.locations}</p>
-                    <Button
-                      variant={selectedHotel === hotel.id ? "default" : "outline"}
-                      size="sm"
-                      className="w-full"
-                      onClick={() => setSelectedHotel(selectedHotel === hotel.id ? null : hotel.id)}
-                    >
-                      {selectedHotel === hotel.id ? (
-                        <>
-                          <Check className="w-4 h-4 mr-2" />
-                          Selected
-                        </>
-                      ) : (
-                        'Select Hotel'
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Booking Modal */}
