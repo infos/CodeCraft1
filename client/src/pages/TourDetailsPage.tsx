@@ -240,29 +240,67 @@ export default function TourDetailsPage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Day {tour.duration} • {cities[0] || 'Destination'}
+                Daily Itinerary
               </h3>
-              <div className="space-y-4">
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  After breakfast, we'll take you through this fascinating city of ornate palaces, lyrical waterways, captivating churches and impressive architecture.
-                </p>
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="aspect-square bg-gradient-to-br from-orange-200 to-orange-300 rounded-lg overflow-hidden">
-                    {tourImages && tourImages[1] ? (
-                      <img src={tourImages[1].imageUrl} alt="" className="w-full h-full object-cover" />
-                    ) : null}
+              <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+                {itineraries && itineraries.length > 0 ? (
+                  <div className="space-y-6">
+                    {itineraries.map((day, index) => (
+                      <div key={day.id} className="border-l-2 border-blue-200 pl-4 pb-4 last:pb-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold -ml-7 border-2 border-white">
+                            {day.day}
+                          </div>
+                          <h4 className="font-semibold text-gray-900">{day.title}</h4>
+                        </div>
+                        <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                          {day.description}
+                        </p>
+                        {tourImages && tourImages[index] && (
+                          <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden mb-2">
+                            <img 
+                              src={tourImages[index].imageUrl} 
+                              alt={`Day ${day.day}`} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                        {day.activities && (
+                          <div className="text-xs text-gray-500">
+                            Activities: {day.activities}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                  <div className="aspect-square bg-gradient-to-br from-blue-200 to-blue-300 rounded-lg overflow-hidden">
-                    {tourImages && tourImages[2] ? (
-                      <img src={tourImages[2].imageUrl} alt="" className="w-full h-full object-cover" />
-                    ) : null}
+                ) : (
+                  <div className="space-y-6">
+                    {[...Array(tour.duration)].map((_, index) => (
+                      <div key={index} className="border-l-2 border-blue-200 pl-4 pb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold -ml-7 border-2 border-white">
+                            {index + 1}
+                          </div>
+                          <h4 className="font-semibold text-gray-900">Day {index + 1} • {cities[index % cities.length] || 'Destination'}</h4>
+                        </div>
+                        <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                          {index === 0 ? "Arrival and orientation. Check into your hotel and begin your historical journey." :
+                           index === tour.duration - 1 ? "Final day exploration and departure preparations." :
+                           "Continue your fascinating journey through this historic city with guided tours of palaces, museums, and architectural wonders."}
+                        </p>
+                        {tourImages && tourImages[index + 1] && (
+                          <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg overflow-hidden">
+                            <img 
+                              src={tourImages[index + 1].imageUrl} 
+                              alt={`Day ${index + 1}`} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                  <div className="aspect-square bg-gradient-to-br from-purple-200 to-purple-300 rounded-lg overflow-hidden">
-                    {tourImages && tourImages[3] ? (
-                      <img src={tourImages[3].imageUrl} alt="" className="w-full h-full object-cover" />
-                    ) : null}
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
