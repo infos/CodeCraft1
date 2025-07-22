@@ -52,8 +52,12 @@ export default function TourDetailsPage() {
     </div>;
   }
 
-  // Extract city names from locations
-  const cities = tour.locations ? tour.locations.split(',').map(city => city.trim()) : [];
+  // Extract city names from locations, filtering out countries
+  const cities = tour.locations ? tour.locations.split(',').map(city => city.trim()).filter(location => {
+    // Filter out standalone countries (common country names that shouldn't be shown as cities)
+    const countries = ['Italy', 'Greece', 'Egypt', 'Iraq', 'France', 'Spain', 'Turkey', 'China', 'India', 'Germany', 'UK', 'England'];
+    return !countries.includes(location);
+  }) : [];
   
   return (
     <div className="min-h-screen bg-gray-50">
@@ -366,17 +370,16 @@ export default function TourDetailsPage() {
                 
                 {/* Show countries only if tour spans multiple countries */}
                 {(() => {
-                  // Extract unique countries from city names (assuming format like "Rome, Italy")
-                  const countries = [...new Set(cities.map(city => {
-                    const parts = city.split(',');
-                    return parts.length > 1 ? parts[parts.length - 1].trim() : null;
-                  }).filter(Boolean))];
+                  // Extract unique countries from the original locations string
+                  const allLocations = tour.locations ? tour.locations.split(',').map(loc => loc.trim()) : [];
+                  const countries = ['Italy', 'Greece', 'Egypt', 'Iraq', 'France', 'Spain', 'Turkey', 'China', 'India', 'Germany', 'UK', 'England'];
+                  const tourCountries = [...new Set(allLocations.filter(location => countries.includes(location)))];
                   
-                  return countries.length > 1 && (
+                  return tourCountries.length > 1 && (
                     <div className="pt-2 border-t border-gray-100">
                       <div className="text-xs text-gray-500 mb-1">Countries:</div>
                       <div className="flex flex-wrap gap-1">
-                        {countries.map((country, index) => (
+                        {tourCountries.map((country, index) => (
                           <span key={index} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
                             {country}
                           </span>
