@@ -60,6 +60,7 @@ export default function HistoricalTimelineTours() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedRulers, setSelectedRulers] = useState<string[]>([]);
   const [showAllRulers, setShowAllRulers] = useState(false);
+  const [showAllDestinations, setShowAllDestinations] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -575,7 +576,7 @@ export default function HistoricalTimelineTours() {
                     .map(tour => tour.locations)
                     .filter(Boolean)
                     .flatMap(location => location.split(',').map(l => l.trim()))
-                )).slice(0, 15).map((location) => (
+                )).slice(0, showAllDestinations ? undefined : 8).map((location) => (
                   <button
                     key={location}
                     onClick={() => {
@@ -596,6 +597,68 @@ export default function HistoricalTimelineTours() {
                     {location}
                   </button>
                 ))}
+                
+                {/* Show More/Less Button for Destinations */}
+                {Array.from(new Set(
+                  (toursData || [])
+                    .filter(tour => {
+                      // Apply same filtering logic as above
+                      if (selectedPeriod) {
+                        const tourCivilization = (tour.civilization || tour.era || '').toLowerCase();
+                        
+                        switch (selectedPeriod) {
+                          case 'ancient':
+                            if (!(tourCivilization.includes('ancient') || 
+                                  tourCivilization.includes('egypt') || 
+                                  tourCivilization.includes('rome') || 
+                                  tourCivilization.includes('greece') || 
+                                  tourCivilization.includes('mesopotam') || 
+                                  tourCivilization.includes('china') ||
+                                  tourCivilization.includes('india') ||
+                                  tourCivilization.includes('persian'))) return false;
+                            break;
+                          case 'classical':
+                            if (!(tourCivilization.includes('rome') || 
+                                  tourCivilization.includes('greece') || 
+                                  tourCivilization.includes('hellenistic'))) return false;
+                            break;
+                          case 'medieval':
+                            if (!(tourCivilization.includes('byzantine') || 
+                                  tourCivilization.includes('medieval') || 
+                                  tourCivilization.includes('viking') ||
+                                  tourCivilization.includes('sasanian'))) return false;
+                            break;
+                          case 'renaissance':
+                            if (!tourCivilization.includes('renaissance')) return false;
+                            break;
+                          case 'early_modern':
+                            if (!(tourCivilization.includes('exploration') || 
+                                  tourCivilization.includes('enlightenment') ||
+                                  tourCivilization.includes('colonial') ||
+                                  tourCivilization.includes('scientific revolution') ||
+                                  tourCivilization.includes('baroque'))) return false;
+                            break;
+                        }
+                      }
+                      
+                      if (selectedEras.length > 0) {
+                        return selectedEras.some(era => tour.era?.toLowerCase().includes(era.toLowerCase()));
+                      }
+                      
+                      return true;
+                    })
+                    .map(tour => tour.locations)
+                    .filter(Boolean)
+                    .flatMap(location => location.split(',').map(l => l.trim()))
+                )).length > 8 && (
+                  <button
+                    onClick={() => setShowAllDestinations(!showAllDestinations)}
+                    className="px-3 py-1.5 rounded-full text-sm font-medium bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200 transition-all duration-200"
+                  >
+                    {showAllDestinations ? 'Show Less' : 'Show More'}
+                  </button>
+                )}
+                
                 {selectedLocations.length > 0 && (
                   <button
                     onClick={() => setSelectedLocations([])}
