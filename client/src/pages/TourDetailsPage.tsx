@@ -353,15 +353,38 @@ export default function TourDetailsPage() {
             {/* Cities we will visit - Compact */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex-shrink-0">
               <h3 className="text-base font-semibold text-gray-900 mb-3">Cities we will visit</h3>
-              <div className="flex justify-between items-center mb-3 relative">
-                {cities.slice(0, 4).map((city, index) => (
-                  <div key={index} className="flex flex-col items-center z-10">
-                    <div className="w-3 h-3 bg-blue-600 rounded-full mb-1 border-2 border-white shadow-sm"></div>
-                    <span className="text-xs font-medium text-gray-700">{city}</span>
-                  </div>
-                ))}
-                {/* Connection lines */}
-                <div className="absolute top-1 left-0 right-0 h-0.5 bg-blue-300 opacity-60" style={{zIndex: 1}}></div>
+              <div className="space-y-3 mb-4">
+                {/* Display all cities in a grid format */}
+                <div className="grid grid-cols-2 gap-2">
+                  {cities.map((city, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                      <span className="text-sm text-gray-700 font-medium">{city}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Show countries only if tour spans multiple countries */}
+                {(() => {
+                  // Extract unique countries from city names (assuming format like "Rome, Italy")
+                  const countries = [...new Set(cities.map(city => {
+                    const parts = city.split(',');
+                    return parts.length > 1 ? parts[parts.length - 1].trim() : null;
+                  }).filter(Boolean))];
+                  
+                  return countries.length > 1 && (
+                    <div className="pt-2 border-t border-gray-100">
+                      <div className="text-xs text-gray-500 mb-1">Countries:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {countries.map((country, index) => (
+                          <span key={index} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                            {country}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
               
               {/* Working Map View */}
