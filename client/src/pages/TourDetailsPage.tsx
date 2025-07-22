@@ -132,6 +132,21 @@ export default function TourDetailsPage() {
                       </div>
                     )}
                   </div>
+                  
+                  {/* Availability Months */}
+                  <div className="mt-4 space-y-2">
+                    <h4 className="text-sm font-semibold text-gray-900">Available Months</h4>
+                    <div className="grid grid-cols-4 gap-2">
+                      {['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'].map((month) => (
+                        <div key={month} className="bg-green-50 border border-green-200 rounded-md py-1 px-2 text-center">
+                          <span className="text-xs font-medium text-green-800">{month}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Best weather conditions for historical site visits
+                    </p>
+                  </div>
                 </div>
 
                 {/* Tour Details - Matching reference spacing */}
