@@ -429,12 +429,12 @@ export default function TourDetailsPage() {
               </div>
             </div>
 
-            {/* Daily Itinerary - Extended height to match hotel panel */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 h-full min-h-[600px]">
+            {/* Daily Itinerary - Extended height to fill remaining space */}
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex-1 min-h-[800px]">
               <h3 className="text-base font-semibold text-gray-900 mb-3">
                 Daily Itinerary
               </h3>
-              <div className="max-h-[550px] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+              <div className="h-[calc(100%-3rem)] overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
                 {itineraries && itineraries.length > 0 ? (
                   <div className="space-y-4">
                     {itineraries.map((day: any, index: number) => {
