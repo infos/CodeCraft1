@@ -15,6 +15,7 @@ export default function TourDetailsPage() {
   const tourId = params.id;
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState<number | null>(null);
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
 
   const { data: tour, isLoading: tourLoading } = useQuery<Tour>({
     queryKey: [`/api/tours/${tourId}`],
@@ -409,9 +410,135 @@ export default function TourDetailsPage() {
               </div>
               
               {/* Topographic Travel Map */}
-              <div className="aspect-[3/2] bg-gray-100 relative overflow-hidden rounded-lg border border-gray-200">
+              <div 
+                className={`${isMapExpanded ? 'fixed inset-0 z-50 bg-white' : 'aspect-[3/2]'} bg-gray-100 relative overflow-hidden rounded-lg border border-gray-200 cursor-pointer`}
+                onClick={() => setIsMapExpanded(!isMapExpanded)}
+              >
+                {isMapExpanded && (
+                  <div className="absolute top-4 right-4 z-10">
+                    <button 
+                      className="bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsMapExpanded(false);
+                      }}
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+                
+                {!isMapExpanded && (
+                  <div className="absolute top-2 right-2 z-10 bg-white/80 backdrop-blur-sm rounded px-2 py-1">
+                    <span className="text-xs text-gray-600 flex items-center gap-1">
+                      <Globe className="w-3 h-3" />
+                      Click to expand
+                    </span>
+                  </div>
+                )}
+                {/* Country boundary background */}
+                {(() => {
+                  const getCountryOutline = () => {
+                    const allLocations = tour.locations ? tour.locations.toLowerCase() : '';
+                    
+                    // Italy outline
+                    if (allLocations.includes('italy') || allLocations.includes('rome') || allLocations.includes('florence') || allLocations.includes('venice')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M35,25 C40,20 50,18 58,22 L62,26 C65,30 68,35 65,40 L70,45 C72,50 70,60 68,65 L65,70 C60,75 55,80 50,78 L45,75 C40,70 38,65 35,60 L32,55 C30,50 32,45 35,40 L30,35 C28,30 30,25 35,25 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // Greece outline
+                    if (allLocations.includes('greece') || allLocations.includes('athens') || allLocations.includes('delphi')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M45,35 C50,30 55,32 58,36 L60,40 C62,45 60,50 58,55 L55,60 C50,65 45,67 40,65 L35,62 C32,58 30,52 32,48 L35,44 C38,40 42,37 45,35 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                          <circle cx="65" cy="45" r="3" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.3"/>
+                          <circle cx="68" cy="52" r="2" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.3"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // Egypt outline
+                    if (allLocations.includes('egypt') || allLocations.includes('cairo') || allLocations.includes('luxor')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M40,20 L60,20 L62,25 C65,30 68,40 70,50 L72,60 C70,70 65,75 60,78 L50,80 L40,78 C35,75 30,70 32,60 L34,50 C36,40 38,30 40,25 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // France outline
+                    if (allLocations.includes('france') || allLocations.includes('paris') || allLocations.includes('versailles')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M30,25 C40,22 50,25 58,28 L65,35 C68,40 66,50 62,55 L58,65 C50,70 40,68 35,65 L28,58 C25,50 26,40 30,35 L28,30 C26,25 28,22 30,25 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // England outline
+                    if (allLocations.includes('england') || allLocations.includes('london') || allLocations.includes('cambridge')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M35,20 C42,18 48,22 52,28 L55,35 C58,42 56,50 52,56 L48,62 C42,68 36,66 32,62 L28,56 C25,50 26,42 30,36 L32,28 C34,22 35,20 35,20 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // USA outline (for Colonial America tours)
+                    if (allLocations.includes('usa') || allLocations.includes('philadelphia') || allLocations.includes('boston')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M15,35 C25,30 40,32 55,35 L70,38 C80,42 85,48 82,55 L78,62 C70,68 60,70 50,68 L35,65 C25,62 18,55 15,48 L12,42 C10,38 12,32 15,35 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // Netherlands outline
+                    if (allLocations.includes('netherlands') || allLocations.includes('amsterdam')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M42,35 C48,32 54,35 58,40 L60,45 C62,52 58,58 54,62 L48,65 C42,68 36,66 32,62 L30,56 C28,50 30,44 34,40 L36,36 C38,32 40,32 42,35 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // Russia outline
+                    if (allLocations.includes('russia') || allLocations.includes('st. petersburg') || allLocations.includes('moscow')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M20,25 C35,20 50,22 65,25 L80,30 C85,35 88,45 85,55 L80,65 C70,70 55,72 40,70 L25,68 C15,65 10,55 12,45 L15,35 C17,30 18,25 20,25 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // Austria outline
+                    if (allLocations.includes('austria') || allLocations.includes('vienna')) {
+                      return (
+                        <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                          <path d="M30,40 C45,38 60,42 68,48 L70,55 C68,62 62,68 55,70 L40,72 C30,70 25,62 28,55 L30,48 C32,42 30,40 30,40 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                        </svg>
+                      );
+                    }
+                    
+                    // Default generic map outline
+                    return (
+                      <svg className="absolute inset-0 w-full h-full opacity-15" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                        <path d="M20,30 C35,25 50,28 65,32 L75,40 C78,50 75,60 70,68 L60,75 C45,78 30,75 20,68 L15,58 C12,48 15,38 20,30 Z" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5"/>
+                      </svg>
+                    );
+                  };
+                  
+                  return getCountryOutline();
+                })()}
+
                 {/* Topographic base map with terrain styling */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50/80 via-gray-100/60 to-gray-200/80">
                   {/* Topographic texture overlay */}
                   <div className="absolute inset-0 opacity-30" style={{
                     backgroundImage: `
