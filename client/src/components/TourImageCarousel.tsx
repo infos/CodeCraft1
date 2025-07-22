@@ -24,18 +24,8 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
   const [currentIndex, setCurrentIndex] = useState(0);
   const queryClient = useQueryClient();
 
-  // Real images with proper attribution - using only verified working URLs
-  const realImages = [
-    {
-      id: 101,
-      tourId,
-      tourTitle,
-      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
-      imageDescription: "The Colosseum, Rome's iconic ancient amphitheater",
-      source: "Wikimedia Commons",
-      attribution: "Diliff / CC BY-SA 3.0"
-    }
-  ];
+  // No hardcoded real images - only show database images specific to each tour
+  const realImages: TourImage[] = [];
 
   // AI generated images - limited to 5 maximum
   const aiImages = [
@@ -86,15 +76,11 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
     }
   ].slice(0, 5); // Ensure maximum 5 AI images
 
-  // Combine images: database images first, then real images with attribution, then AI images (max 5)
+  // Only use database images specific to this tour - no hardcoded fallbacks
   const databaseImages = images || [];
-  const combinedAI = aiImages.slice(0, 5); // Strict limit on AI images
   
-  // Only show real images if they have proper attribution
-  const realImagesWithAttribution = realImages.filter(img => img.attribution && img.source);
-  
-  const allImages = [...databaseImages, ...realImagesWithAttribution, ...combinedAI];
-  const displayImages = allImages.length > 0 ? allImages : [];
+  // Only use database images to prevent mixing up tours
+  const displayImages = databaseImages.length > 0 ? databaseImages : [];
 
   const nextImage = () => {
     setCurrentIndex((prev) => (prev + 1) % displayImages.length);
@@ -160,77 +146,24 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
     saveImagesMutation.mutate(imagesToSave);
   };
 
-  // Automatically test and save images when component mounts
+  // Simplified image testing - only for database images
   const testAndSaveImages = async () => {
     try {
-      // Test each image URL to ensure it loads
-      const validImages = [];
-      for (const image of allImages) {
-        try {
-          // Test all images including local AI images
-          if (image.imageUrl.startsWith('/tour-images/')) {
-            // For local AI images, check if they render properly
-            try {
-              const img = new Image();
-              img.src = image.imageUrl;
-              await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = reject;
-                setTimeout(reject, 5000); // 5 second timeout
-              });
-              validImages.push(image);
-              console.log(`✓ AI image renders: ${image.imageDescription}`);
-            } catch (error) {
-              console.warn(`✗ AI image failed to render: ${image.imageDescription}`);
-            }
-          } else {
-            // Test external images
-            const response = await fetch(image.imageUrl, { method: 'HEAD' });
-            if (response.ok) {
-              validImages.push(image);
-              console.log(`✓ External image valid: ${image.imageDescription}`);
-            } else {
-              console.warn(`✗ External image failed: ${image.imageDescription} (${response.status})`);
-            }
-          }
-        } catch (error) {
-          console.warn(`✗ Image error: ${image.imageDescription}`, error);
-        }
-      }
-      
-      // Save valid images that aren't already in database
-      const imagesToSave = validImages.filter(img => !images?.some(existing => existing.imageUrl === img.imageUrl));
-      if (imagesToSave.length > 0) {
-        console.log(`Saving ${imagesToSave.length} valid images to database`);
-        return new Promise((resolve, reject) => {
-          saveImagesMutation.mutate(imagesToSave, {
-            onSuccess: (data) => {
-              console.log('Images saved successfully:', data);
-              resolve(data);
-            },
-            onError: (error) => {
-              console.error('Failed to save images:', error);
-              reject(error);
-            }
-          });
-        });
-      }
+      console.log(`Testing ${databaseImages.length} database images for tour: ${tourTitle}`);
+      // For now, just refresh the query to reload images
+      queryClient.invalidateQueries({ queryKey: [`/api/tour-images/${tourId}`] });
     } catch (error) {
       console.error('Error testing images:', error);
     }
   };
 
-  // Auto-test and save images on component mount
+  // Remove auto-test functionality to prevent issues
   useEffect(() => {
-    if (tourId && tourTitle && allImages.length > 0) {
-      // Only auto-test if we don't have existing images in database
-      if (!images || images.length === 0) {
-        testAndSaveImages().catch(error => {
-          console.error('Failed to auto-test images:', error);
-        });
-      }
+    // Only log that component has mounted
+    if (tourId && tourTitle) {
+      console.log(`TourImageCarousel mounted for: ${tourTitle} (ID: ${tourId}), showing ${databaseImages.length} images`);
     }
-  }, [tourId, tourTitle, images]);
+  }, [tourId, tourTitle, databaseImages.length]);
 
   if (displayImages.length === 0) {
     return null;
@@ -312,10 +245,7 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
                 variant="outline"
                 onClick={async () => {
                   console.log(`Testing images for tour: ${tourTitle} (ID: ${tourId})`);
-                  console.log(`Total images to test: ${allImages.length}`);
                   console.log(`Database images: ${databaseImages.length}`);
-                  console.log(`Real images with attribution: ${realImagesWithAttribution.length}`);
-                  console.log(`AI images (max 5): ${combinedAI.length}`);
                   
                   try {
                     await testAndSaveImages();
@@ -329,7 +259,7 @@ export default function TourImageCarousel({ tourId, tourTitle, images = [] }: To
                 className="text-xs"
               >
                 <Plus className="w-3 h-3 mr-1" />
-                Test Images ({allImages.length})
+                Test Images ({databaseImages.length})
               </Button>
             </div>
           </div>
