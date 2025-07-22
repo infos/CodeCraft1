@@ -18,7 +18,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Layout>
         <Switch>
-          <Route path="/" component={BuildTourCopy} />
+          <Route path="/" component={HistoricalTimelineTours} />
           <Route path="/heritage-tours" component={BuildTourCopy} />
           <Route path="/timeline-tours" component={HistoricalTimelineTours} />
           <Route path="/historical-tours" component={CopyOfEras} />

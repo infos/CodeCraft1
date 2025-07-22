@@ -17,16 +17,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="hidden md:flex items-center space-x-6">
                 <Link href="/" className={cn(
                   "text-sm font-medium transition-colors hover:text-gray-600",
-                  location === "/" ? "text-gray-900" : "text-gray-500"
-                )}>
-                  Tour Builder
-                </Link>
-                
-                <Link href="/timeline-tours" className={cn(
-                  "text-sm font-medium transition-colors hover:text-gray-600",
-                  location === "/timeline-tours" ? "text-gray-900" : "text-gray-500"
+                  (location === "/" || location === "/timeline-tours") ? "text-gray-900" : "text-gray-500"
                 )}>
                   Timeline Tours
+                </Link>
+                
+                <Link href="/heritage-tours" className={cn(
+                  "text-sm font-medium transition-colors hover:text-gray-600",
+                  location === "/heritage-tours" ? "text-gray-900" : "text-gray-500"
+                )}>
+                  Tour Builder
                 </Link>
                 
                 <Link href="/historical-tours" className={cn(
