@@ -576,6 +576,11 @@ export default function HistoricalTimelineTours() {
                     .map(tour => tour.locations)
                     .filter(Boolean)
                     .flatMap(location => location.split(',').map(l => l.trim()))
+                    .filter(location => {
+                      // Filter to show only countries, not cities
+                      const countries = ['Italy', 'Greece', 'Egypt', 'Iraq', 'France', 'Spain', 'Turkey', 'China', 'India', 'Germany', 'UK', 'England', 'Scotland', 'Ireland', 'Peru', 'Mexico', 'Guatemala', 'Russia', 'Austria', 'Netherlands', 'United States', 'USA'];
+                      return countries.some(country => location.includes(country));
+                    })
                 )).slice(0, showAllDestinations ? undefined : 8).map((location) => (
                   <button
                     key={location}
@@ -650,6 +655,11 @@ export default function HistoricalTimelineTours() {
                     .map(tour => tour.locations)
                     .filter(Boolean)
                     .flatMap(location => location.split(',').map(l => l.trim()))
+                    .filter(location => {
+                      // Filter to show only countries, not cities
+                      const countries = ['Italy', 'Greece', 'Egypt', 'Iraq', 'France', 'Spain', 'Turkey', 'China', 'India', 'Germany', 'UK', 'England', 'Scotland', 'Ireland', 'Peru', 'Mexico', 'Guatemala', 'Russia', 'Austria', 'Netherlands', 'United States', 'USA'];
+                      return countries.some(country => location.includes(country));
+                    })
                 )).length > 8 && (
                   <button
                     onClick={() => setShowAllDestinations(!showAllDestinations)}
