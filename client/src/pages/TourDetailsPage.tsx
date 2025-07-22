@@ -390,20 +390,33 @@ export default function TourDetailsPage() {
                 })()}
               </div>
               
-              {/* Working Map View */}
-              <div className="aspect-[3/2] bg-gradient-to-br from-blue-50 via-green-50 to-blue-100 relative overflow-hidden rounded-lg border border-gray-200">
-                <div className="absolute inset-0">
-                  {/* Mediterranean Sea */}
-                  <div className="absolute bottom-0 left-0 w-full h-1/3 bg-blue-200 opacity-60"></div>
+              {/* Satellite Map View */}
+              <div className="aspect-[3/2] bg-slate-800 relative overflow-hidden rounded-lg border border-gray-200">
+                {/* Satellite-style terrain background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-700 via-slate-600 to-slate-800">
+                  {/* Terrain texture overlay */}
+                  <div className="absolute inset-0 opacity-40" style={{
+                    backgroundImage: `radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.3) 0%, transparent 50%), 
+                                     radial-gradient(circle at 70% 60%, rgba(101, 163, 13, 0.3) 0%, transparent 50%),
+                                     radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.4) 0%, transparent 40%)`,
+                  }}></div>
                   
-                  {/* Italy Peninsula */}
-                  <div className="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-200 rounded-t-full transform rotate-12 opacity-80"></div>
+                  {/* Water bodies - darker blue for satellite look */}
+                  <div className="absolute bottom-0 left-0 w-full h-1/3 bg-blue-900 opacity-70"></div>
                   
-                  {/* France outline */}
-                  <div className="absolute top-1/3 left-1/4 w-12 h-10 bg-green-100 rounded-lg opacity-70"></div>
+                  {/* Landmasses with satellite coloring */}
+                  <div className="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-800 rounded-t-full transform rotate-12 opacity-90"></div>
+                  <div className="absolute top-1/3 left-1/4 w-12 h-10 bg-green-700 rounded-lg opacity-80"></div>
                   
-                  {/* Alps */}
-                  <div className="absolute top-1/4 left-1/3 w-20 h-6 bg-gray-300 rounded-full opacity-70"></div>
+                  {/* Mountain ranges - brown/gray for satellite view */}
+                  <div className="absolute top-1/4 left-1/3 w-20 h-6 bg-amber-900 rounded-full opacity-80"></div>
+                  
+                  {/* Desert areas */}
+                  <div className="absolute top-1/2 right-1/3 w-16 h-12 bg-yellow-800 rounded-lg opacity-60"></div>
+                  
+                  {/* Urban areas - lighter spots */}
+                  <div className="absolute top-1/3 left-1/2 w-2 h-2 bg-gray-300 rounded-full opacity-90"></div>
+                  <div className="absolute bottom-1/2 right-1/2 w-2 h-2 bg-gray-300 rounded-full opacity-90"></div>
                 </div>
 
                 {/* Journey Route Line */}
@@ -418,7 +431,7 @@ export default function TourDetailsPage() {
                   />
                 </svg>
 
-                {/* City Markers with actual tour cities */}
+                {/* City Markers with satellite-style pins */}
                 {cities.slice(0, 4).map((city, index) => {
                   const positions = [
                     { top: '35%', left: '15%' }, // First city
@@ -435,10 +448,13 @@ export default function TourDetailsPage() {
                       style={{ top: position.top, left: position.left }}
                     >
                       <div className="relative">
-                        <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center animate-bounce">
-                          <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                        {/* Satellite-style location pin */}
+                        <div className="w-5 h-5 bg-yellow-400 rounded-full border-2 border-yellow-200 shadow-lg flex items-center justify-center animate-pulse">
+                          <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
                         </div>
-                        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-gray-200">
+                        {/* Glowing effect for satellite view */}
+                        <div className="absolute inset-0 w-5 h-5 bg-yellow-400 rounded-full opacity-30 animate-ping"></div>
+                        <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-2 py-1 rounded text-xs shadow-lg border border-gray-600">
                           <span className="text-xs font-medium text-gray-800 whitespace-nowrap">{city}</span>
                           <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
                         </div>
