@@ -129,8 +129,6 @@ export default function TourDetailsPage() {
 
                 {/* Tour Details - Matching reference spacing */}
                 <div className="flex-1 space-y-4">
-                  <div className="text-orange-500 font-medium text-sm">Bus • Europe</div>
-                  
                   <div className="flex items-baseline gap-2">
                     <span className="text-xl font-bold text-gray-900">
                       $ {typeof tour.price === 'number' ? tour.price.toLocaleString() : tour.price}.00
@@ -139,32 +137,40 @@ export default function TourDetailsPage() {
                   </div>
                   
                   <div className="text-gray-600 text-sm">
-                    Multiple local tour guides/drivers available<br />
-                    throughout your tour/activity
+                    Explore ancient civilizations with expert historians<br />
+                    and visit world-renowned historical sites
                   </div>
 
-                  {/* Tour Features - 2 column grid matching reference */}
-                  <div className="grid grid-cols-2 gap-3 py-2">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-purple-500" />
-                      <span className="text-gray-700 text-sm">24 april - 3 may</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Coffee className="h-4 w-4 text-gray-500" />
-                      <span className="text-gray-700 text-sm">Breakfast at the hotel</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Globe className="h-4 w-4 text-purple-500" />
-                      <span className="text-gray-700 text-sm">English only</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Car className="h-4 w-4 text-gray-500" />
-                      <span className="text-gray-700 text-sm">Comfortable bus</span>
-                    </div>
-                    <div className="flex items-center gap-2 col-span-1">
-                      <BookOpen className="h-4 w-4 text-purple-500" />
-                      <span className="text-gray-700 text-sm">Photo report</span>
-                    </div>
+                  {/* Dynamic Tour Tags - Based on tour content */}
+                  <div className="flex flex-wrap gap-2 py-2">
+                    {/* Generate tags based on tour title and description */}
+                    {tour.title.toLowerCase().includes('rome') && (
+                      <>
+                        <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">Roman Empire</span>
+                        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Julius Caesar</span>
+                        <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Ancient Ruins</span>
+                      </>
+                    )}
+                    {tour.title.toLowerCase().includes('egypt') && (
+                      <>
+                        <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Pharaohs</span>
+                        <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">Pyramids</span>
+                        <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">Hieroglyphics</span>
+                      </>
+                    )}
+                    {tour.title.toLowerCase().includes('greek') && (
+                      <>
+                        <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">Greek Mythology</span>
+                        <span className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm font-medium">Ancient Philosophy</span>
+                      </>
+                    )}
+                    {/* Default historical tags */}
+                    <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Historical Sites</span>
+                    <span className="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-medium">Cultural Heritage</span>
+                    <span className="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-sm font-medium">Museums</span>
+                    {cities.length > 2 && (
+                      <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium">Multi-City</span>
+                    )}
                   </div>
 
                   <Button 
