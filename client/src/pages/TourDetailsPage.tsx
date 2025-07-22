@@ -59,6 +59,9 @@ export default function TourDetailsPage() {
     return !countries.includes(location);
   }) : [];
   
+  // Calculate number of days from itineraries
+  const numberOfDays = itineraries ? Math.max(...itineraries.map(item => item.day)) : 0;
+  
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -141,7 +144,7 @@ export default function TourDetailsPage() {
                   </div>
                   
                   <div className="text-gray-600 text-sm">
-                    Explore ancient civilizations with expert historians<br />
+                    {numberOfDays > 0 ? `${numberOfDays} Days` : 'Multi-day'} • Explore ancient civilizations with expert historians<br />
                     and visit world-renowned historical sites
                   </div>
 
