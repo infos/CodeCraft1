@@ -143,6 +143,7 @@ Changelog:
 - January 21, 2025. **DESTINATION FILTERING FIX**: Fixed destination filter logic to properly work with historical period selection. Destinations now correctly filter when Classical or any other period is selected, showing only relevant locations from tours of that period.
 - January 21, 2025. **UI TEXT UPDATE**: Updated destination filter title from "Filter by Destination" to "Destinations" for cleaner, more concise labeling.
 - January 21, 2025. **TOUR DETAILS PAGE REDESIGN**: Complete redesign of tour details page to match reference images. Adjusted left panel sizing (2:1 ratio), changed tour image to 4:3 aspect ratio, reduced pricing font size, added Google links to hotel descriptions, increased right panel height to match hotel section, fixed map view with working OpenStreetMap alternative featuring geographical elements and animated city markers, added comprehensive "What's Included/Not Included" section, and removed top navigation header for cleaner layout.
+- January 22, 2025. **NAVIGATION CHANGES**: Set Timeline Tours as home page (/) while maintaining all navigation options. Fixed image mixing issue where hardcoded Rome images appeared in all tours - now each tour shows only its specific database images. Removed entire top navigation header for clean, headerless layout focused on tour content only.
 ```
 
 ## User Preferences
