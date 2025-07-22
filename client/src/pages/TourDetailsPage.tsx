@@ -455,25 +455,14 @@ export default function TourDetailsPage() {
                         {/* Glowing effect for satellite view */}
                         <div className="absolute inset-0 w-5 h-5 bg-yellow-400 rounded-full opacity-30 animate-ping"></div>
                         <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white px-2 py-1 rounded text-xs shadow-lg border border-gray-600">
-                          <span className="text-xs font-medium text-gray-800 whitespace-nowrap">{city}</span>
-                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
+                          <span className="text-white font-medium">{city}</span>
                         </div>
                       </div>
                     </div>
                   );
                 })}
 
-                {/* Map Legend */}
-                <div className="absolute bottom-2 left-2 bg-white bg-opacity-90 p-2 rounded text-xs shadow-sm">
-                  <div className="flex items-center gap-1 mb-1">
-                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <span className="text-gray-700">Tour Cities</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-4 h-0.5 bg-blue-600 border-dashed"></div>
-                    <span className="text-gray-700">Route</span>
-                  </div>
-                </div>
+
               </div>
             </div>
 
