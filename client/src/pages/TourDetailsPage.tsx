@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "wouter";
+import { useParams, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -71,10 +71,12 @@ export default function TourDetailsPage() {
           <div className="flex items-center justify-between h-16">
             {/* Logo/Title */}
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Globe className="h-8 w-8 text-blue-600" />
-                <h1 className="text-xl font-bold text-gray-900">Heritage Timeline</h1>
-              </div>
+              <Link href="/">
+                <div className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity">
+                  <Globe className="h-8 w-8 text-blue-600" />
+                  <h1 className="text-xl font-bold text-gray-900">Heritage Timeline</h1>
+                </div>
+              </Link>
             </div>
 
             {/* Search Bar */}
