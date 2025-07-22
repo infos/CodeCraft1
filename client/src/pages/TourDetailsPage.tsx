@@ -4,7 +4,7 @@ import { useParams } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Calendar, Hotel, Check, Star, Home, Bookmark, Heart, Search, Globe, Coffee, BookOpen, Car, Users } from "lucide-react";
+import { MapPin, Calendar, Hotel, Check, Star, Home, Bookmark, Heart, Search, Globe, Coffee, BookOpen, Car, Users, ChevronDown } from "lucide-react";
 import TourItinerary from "@/components/TourItinerary";
 import TourImageCarousel from "@/components/TourImageCarousel";
 import BookingInquiryModal from "@/components/BookingInquiryModal";
@@ -65,31 +65,41 @@ export default function TourDetailsPage() {
   
   return (
     <div className="min-h-screen bg-gray-50">
-
-
-      {/* Search Bar */}
-      <div className="bg-white border-b border-gray-200 py-4">
+      {/* Home Page Header */}
+      <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-gray-400" />
-              <span className="text-gray-700">{cities[0] || tour.locations}</span>
+          <div className="flex items-center justify-between h-16">
+            {/* Logo/Title */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <Globe className="h-8 w-8 text-blue-600" />
+                <h1 className="text-xl font-bold text-gray-900">Heritage Timeline</h1>
+              </div>
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-              <Calendar className="h-4 w-4" />
-              <select className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500">
-                <option>24.04.2024 - 04.05.2024</option>
-                <option>15.05.2024 - 25.05.2024</option>
-                <option>01.06.2024 - 11.06.2024</option>
-                <option>20.06.2024 - 30.06.2024</option>
-                <option>15.07.2024 - 25.07.2024</option>
-                <option>01.08.2024 - 11.08.2024</option>
-                <option>15.09.2024 - 25.09.2024</option>
-              </select>
+
+            {/* Search Bar */}
+            <div className="flex-1 max-w-2xl mx-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  type="text"
+                  placeholder="Search historical tours, eras, or destinations..."
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+                />
+              </div>
             </div>
-            <div className="ml-auto flex items-center gap-2">
-              <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700">
-                <Search className="h-4 w-4" />
+
+            {/* Actions */}
+            <div className="flex items-center space-x-3">
+              {/* Location indicator */}
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <MapPin className="h-4 w-4 text-gray-400" />
+                <span className="text-gray-700">{cities[0] || tour.locations}</span>
+              </div>
+              
+              <Button variant="outline" size="sm">
+                Explore
+                <ChevronDown className="h-4 w-4 ml-2" />
               </Button>
             </div>
           </div>
