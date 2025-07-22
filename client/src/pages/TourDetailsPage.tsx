@@ -393,64 +393,134 @@ export default function TourDetailsPage() {
                 })()}
               </div>
               
-              {/* Interactive Map View */}
-              <div className="aspect-[3/2] bg-blue-50 relative overflow-hidden rounded-lg border border-gray-200">
-                {/* Base map background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-blue-50 to-green-100">
-                  {/* Water bodies */}
-                  <div className="absolute bottom-0 left-0 w-full h-1/3 bg-blue-200 opacity-80"></div>
+              {/* Topographic Travel Map */}
+              <div className="aspect-[3/2] bg-gray-100 relative overflow-hidden rounded-lg border border-gray-200">
+                {/* Topographic base map with terrain styling */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200">
+                  {/* Topographic texture overlay */}
+                  <div className="absolute inset-0 opacity-30" style={{
+                    backgroundImage: `
+                      radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 60% 30%, rgba(34, 139, 34, 0.1) 0%, transparent 40%),
+                      radial-gradient(circle at 80% 70%, rgba(70, 130, 180, 0.2) 0%, transparent 30%),
+                      linear-gradient(45deg, rgba(160, 160, 160, 0.1) 25%, transparent 25%),
+                      linear-gradient(-45deg, rgba(160, 160, 160, 0.1) 25%, transparent 25%)
+                    `,
+                    backgroundSize: '40px 40px, 60px 60px, 50px 50px, 20px 20px, 20px 20px'
+                  }}></div>
                   
-                  {/* Landmasses */}
-                  <div className="absolute bottom-1/4 right-1/4 w-8 h-16 bg-green-300 rounded-t-full transform rotate-12"></div>
-                  <div className="absolute top-1/3 left-1/4 w-12 h-10 bg-green-200 rounded-lg"></div>
+                  {/* Water bodies - rivers and coastlines */}
+                  <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-blue-100 to-transparent opacity-60"></div>
+                  <div className="absolute top-1/3 right-0 w-1/3 h-2 bg-blue-200 opacity-50 rounded-full transform rotate-12"></div>
                   
-                  {/* Geographic features */}
-                  <div className="absolute top-1/4 left-1/3 w-20 h-6 bg-gray-400 rounded-full opacity-70"></div>
-                  <div className="absolute top-1/2 right-1/3 w-16 h-12 bg-yellow-200 rounded-lg opacity-60"></div>
+                  {/* Mountain ranges - topographic style */}
+                  <div className="absolute top-1/4 left-1/4 w-24 h-8 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full opacity-70 transform -rotate-12"></div>
+                  <div className="absolute top-1/2 right-1/4 w-20 h-6 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full opacity-60 transform rotate-6"></div>
+                  
+                  {/* Forest areas */}
+                  <div className="absolute bottom-1/3 left-1/3 w-16 h-12 bg-gradient-to-br from-green-100 to-green-200 rounded-lg opacity-50"></div>
                 </div>
 
-                {/* Journey Route Line */}
+                {/* Curved dotted route path */}
                 <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <defs>
+                    <pattern id="dots" patternUnits="userSpaceOnUse" width="4" height="4">
+                      <circle cx="2" cy="2" r="1" fill="#22c55e" />
+                    </pattern>
+                  </defs>
                   <path
-                    d="M15,35 Q25,30 35,40 Q45,35 55,45 Q65,40 75,50"
-                    stroke="#3b82f6"
-                    strokeWidth="2"
+                    d="M15,70 Q30,45 50,60 Q70,40 85,55"
+                    stroke="url(#dots)"
+                    strokeWidth="3"
                     fill="none"
-                    strokeDasharray="3,2"
-                    className="animate-pulse"
+                    strokeDasharray="4,6"
+                    className="opacity-80"
                   />
                 </svg>
 
-                {/* City Markers with satellite-style pins */}
+                {/* Flight paths for longer distances */}
+                {cities.length > 2 && (
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path
+                      d="M15,70 Q50,20 85,55"
+                      stroke="#22c55e"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeDasharray="8,4"
+                      opacity="0.6"
+                    />
+                  </svg>
+                )}
+
+                {/* City markers with different styles */}
                 {cities.slice(0, 4).map((city, index) => {
                   const positions = [
-                    { top: '35%', left: '15%' }, // First city
-                    { top: '30%', left: '35%' }, // Second city 
-                    { top: '45%', left: '55%' }, // Third city
-                    { top: '50%', left: '75%' }  // Fourth city
+                    { top: '70%', left: '15%' }, // Starting city - green pin
+                    { top: '60%', left: '50%' }, // Middle city - green circle 
+                    { top: '55%', left: '85%' }, // End city - red pin
+                    { top: '45%', left: '70%' }  // Optional 4th city
                   ];
                   const position = positions[index] || positions[0];
+                  const isStart = index === 0;
+                  const isEnd = index === cities.length - 1 && cities.length > 1;
+                  const isMiddle = !isStart && !isEnd;
                   
                   return (
                     <div 
                       key={index}
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2"
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2 z-10"
                       style={{ top: position.top, left: position.left }}
                     >
-                      <div className="relative">
-                        {/* Location pin */}
-                        <div className="w-4 h-4 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center animate-bounce">
-                          <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
-                        </div>
-                        {/* City label */}
-                        <div className="absolute top-5 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-gray-200">
-                          <span className="text-xs font-medium text-gray-800 whitespace-nowrap">{city}</span>
-                          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-white border-l border-t border-gray-200 rotate-45"></div>
+                      <div className="relative flex flex-col items-center">
+                        {/* Different marker styles based on position */}
+                        {isStart && (
+                          <div className="w-6 h-6 bg-green-500 rounded-full border-3 border-white shadow-lg flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                        )}
+                        {isEnd && (
+                          <div className="w-6 h-6 bg-red-500 rounded-full border-3 border-white shadow-lg flex items-center justify-center relative">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 rounded-full text-white text-xs flex items-center justify-center font-bold">H</div>
+                          </div>
+                        )}
+                        {isMiddle && (
+                          <div className="w-5 h-5 bg-green-400 border-2 border-white shadow-md flex items-center justify-center">
+                            <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+                          </div>
+                        )}
+                        
+                        {/* City label with better styling */}
+                        <div className="mt-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md shadow-sm border border-gray-200">
+                          <span className="text-xs font-semibold text-gray-800 whitespace-nowrap">{city}</span>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+
+                {/* Flight icons for air travel segments */}
+                {cities.length > 2 && (
+                  <>
+                    <div className="absolute top-[35%] left-[32%] transform -translate-x-1/2 -translate-y-1/2 text-blue-600">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                      </svg>
+                    </div>
+                    <div className="absolute top-[42%] left-[67%] transform -translate-x-1/2 -translate-y-1/2 text-blue-600">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                      </svg>
+                    </div>
+                  </>
+                )}
+
+                {/* Bus/ground transport icons */}
+                <div className="absolute top-[65%] left-[32%] transform -translate-x-1/2 -translate-y-1/2 text-purple-600">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/>
+                  </svg>
+                </div>
 
 
               </div>
